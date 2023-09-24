@@ -24,6 +24,10 @@ const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
 const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
 
+// ORDER
+const OrderListPage = lazy(() => import('src/pages/dashboard/order/list'));
+const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'));
+
 // ----------------------------------------------------------------------
 
 export const dashboardRoutes = [
@@ -41,7 +45,8 @@ export const dashboardRoutes = [
     children: [
       { element: <DashBoardPage />, index: true },
       { path: 'reserve', element: <PageReserve /> },
-      { path: 'waitinglist', element: <PageWaitinglist /> },
+      // { path: 'waitinglist', element: <PageWaitinglist /> },
+      { path: 'waitinglist', element: <OrderListPage /> },
       {
         path: 'management',
         children: [
@@ -61,6 +66,14 @@ export const dashboardRoutes = [
       //     { path: 'new', element: <UserCreatePage /> },
       //     // { path: ':id/edit', element: <UserEditPage /> },
       //     // { path: 'account', element: <UserAccountPage /> },
+      //   ],
+      // },
+      // {
+      //   path: 'order',
+      //   children: [
+      //     { element: <OrderListPage />, index: true },
+      //     { path: 'list', element: <OrderListPage /> },
+      //     // { path: ':id', element: <OrderDetailsPage /> },
       //   ],
       // },
     ],

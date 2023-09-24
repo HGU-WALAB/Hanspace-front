@@ -40,5 +40,12 @@ export const paths = {
     //   //   edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
     //   // },
     // },
+    // order: {
+    //   root: `${ROOTS.DASHBOARD}/order`,
+    //   details: (id: string) => `${ROOTS.DASHBOARD}/order/${id}`,
+    //   // demo: {
+    //   //   details: `${ROOTS.DASHBOARD}/order/${MOCK_ID}`,
+    //   // },
+    // },
   },
 };

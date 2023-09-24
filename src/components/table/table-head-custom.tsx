@@ -74,7 +74,6 @@ export default function TableHeadCustom({
                 onClick={() => onSort(headCell.id)}
               >
                 {headCell.label}
-
                 {orderBy === headCell.id ? (
                   <Box sx={{ ...visuallyHidden }}>
                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
