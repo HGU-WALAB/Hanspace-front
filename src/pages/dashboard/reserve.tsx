@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import ReserveView from 'src/sections/reserve/view';
+import { CalendarView } from 'src/sections/calendar/view';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function Page() {
         <title> RESERVE </title>
       </Helmet>
 
-      <ReserveView />
+      <CalendarView />
     </>
   );
 }
