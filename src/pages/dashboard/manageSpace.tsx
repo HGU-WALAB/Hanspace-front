@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import { CalendarView } from 'src/sections/calendar/view';
+import ManageSpaceView from 'src/sections/manageSpace/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> RESERVE </title>
+        <title> Dashboard: Four</title>
       </Helmet>
 
-      <CalendarView />
+      <ManageSpaceView />
     </>
   );
 }

@@ -9,12 +9,12 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/one'));
-const PageTwo = lazy(() => import('src/pages/dashboard/two'));
-const PageThree = lazy(() => import('src/pages/dashboard/three'));
-const PageFour = lazy(() => import('src/pages/dashboard/four'));
-const PageFive = lazy(() => import('src/pages/dashboard/five'));
-const PageSix = lazy(() => import('src/pages/dashboard/six'));
+const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
+const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
+const PageWaitinglist = lazy(() => import('src/pages/dashboard/waitinglist'));
+const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
+const PageManageUser = lazy(() => import('src/pages/dashboard/manageUser'));
+const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
 
 // ----------------------------------------------------------------------
 
@@ -31,15 +31,15 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
+      { element: <DashBoardPage />, index: true },
+      { path: 'reserve', element: <PageReserve /> },
+      { path: 'waitinglist', element: <PageWaitinglist /> },
       {
-        path: 'group',
+        path: 'management',
         children: [
-          { element: <PageFour />, index: true },
-          { path: 'five', element: <PageFive /> },
-          { path: 'six', element: <PageSix /> },
+          { element: <PageManageSpace />, index: true },
+          { path: 'manageUser', element: <PageManageUser /> },
+          { path: 'manageSite', element: <PageManageSite /> },
         ],
       },
     ],

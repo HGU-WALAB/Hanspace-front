@@ -49,31 +49,46 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'overview v5.5.0',
+        subheader: '',
         items: [
-          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
+          { title: '대시보드', path: paths.dashboard.root, icon: ICONS.dashboard },
+          { title: '조회 및 예약', path: paths.dashboard.reserve, icon: ICONS.calendar },
           {
-            title: 'three',
-            path: paths.dashboard.three,
-            icon: ICONS.analytics,
+            title: '승인 대기 현황',
+            path: paths.dashboard.waitinglist,
+            icon: ICONS.banking,
           },
+          // {
+          //   title: '장소 관리',
+          //   path: paths.dashboard.three,
+          //   icon: ICONS.analytics,
+          // },
+          // {
+          //   title: '사용자 관리',
+          //   path: paths.dashboard.three,
+          //   icon: ICONS.analytics,
+          // },
+          // {
+          //   title: '사이트 관리',
+          //   path: paths.dashboard.three,
+          //   icon: ICONS.analytics,
+          // },
         ],
       },
 
       // MANAGEMENT
       // ----------------------------------------------------------------------
       {
-        subheader: 'management',
+        subheader: '', // 'management',
         items: [
           {
-            title: 'user',
-            path: paths.dashboard.group.root,
+            title: '관리',
+            path: paths.dashboard.management.root,
             icon: ICONS.user,
             children: [
-              { title: 'four', path: paths.dashboard.group.root },
-              { title: 'five', path: paths.dashboard.group.five },
-              { title: 'six', path: paths.dashboard.group.six },
+              { title: '장소 관리', path: paths.dashboard.management.root },
+              { title: '사용자 관리', path: paths.dashboard.management.manageUser },
+              { title: '사이트 관리', path: paths.dashboard.management.manageSite },
             ],
           },
         ],
