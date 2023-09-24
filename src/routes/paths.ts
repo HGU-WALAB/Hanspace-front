@@ -21,11 +21,24 @@ export const paths = {
     root: ROOTS.DASHBOARD,
     one: `${ROOTS.DASHBOARD}/one`,
     reserve: `${ROOTS.DASHBOARD}/reserve`,
-    waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+    // waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+    list: `${ROOTS.DASHBOARD}/list`,
     management: {
       root: `${ROOTS.DASHBOARD}/management`,
       manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,
       manageSite: `${ROOTS.DASHBOARD}/management/manageSite`,
     },
+    // user: {
+    //   root: `${ROOTS.DASHBOARD}/user`,
+    //   new: `${ROOTS.DASHBOARD}/user/new`,
+    //   list: `${ROOTS.DASHBOARD}/user/list`,
+    //   cards: `${ROOTS.DASHBOARD}/user/cards`,
+    //   profile: `${ROOTS.DASHBOARD}/user/profile`,
+    //   // account: `${ROOTS.DASHBOARD}/user/account`,
+    //   // edit: (id: string) => `${ROOTS.DASHBOARD}/user/${id}/edit`,
+    //   // demo: {
+    //   //   edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
+    //   // },
+    // },
   },
 };

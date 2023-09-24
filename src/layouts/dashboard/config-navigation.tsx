@@ -53,11 +53,12 @@ export function useNavData() {
         items: [
           { title: '대시보드', path: paths.dashboard.root, icon: ICONS.dashboard },
           { title: '조회 및 예약', path: paths.dashboard.reserve, icon: ICONS.calendar },
-          {
-            title: '승인 대기 현황',
-            path: paths.dashboard.waitinglist,
-            icon: ICONS.banking,
-          },
+          // {
+          //   title: '승인 대기 현황',
+          //   path: paths.dashboard.waitinglist,
+          //   icon: ICONS.banking,
+          // },
+          { title: '승인 대기 현황', path: paths.dashboard.list, icon: ICONS.banking },
           // {
           //   title: '장소 관리',
           //   path: paths.dashboard.three,
@@ -93,6 +94,26 @@ export function useNavData() {
           },
         ],
       },
+
+      // // USER
+      // {
+      //   subheader: '', // 'management',
+      //   items: [
+      //     {
+      //       title: 'user',
+      //       path: paths.dashboard.user.root,
+      //       icon: ICONS.user,
+      //       children: [
+      //         { title: 'profile', path: paths.dashboard.user.root },
+      //         { title: 'cards', path: paths.dashboard.user.cards },
+      //         { title: 'list', path: paths.dashboard.user.list },
+      //         { title: 'create', path: paths.dashboard.user.new },
+      //         // { title: 'edit', path: paths.dashboard.user.demo.edit },
+      //         // { title: t('account'), path: paths.dashboard.user.account },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
     []
   );
