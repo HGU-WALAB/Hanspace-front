@@ -20,12 +20,12 @@ export const paths = {
   dashboard: {
     root: ROOTS.DASHBOARD,
     one: `${ROOTS.DASHBOARD}/one`,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+    reserve: `${ROOTS.DASHBOARD}/reserve`,
+    waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+    management: {
+      root: `${ROOTS.DASHBOARD}/management`,
+      manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,
+      manageSite: `${ROOTS.DASHBOARD}/management/manageSite`,
     },
   },
 };

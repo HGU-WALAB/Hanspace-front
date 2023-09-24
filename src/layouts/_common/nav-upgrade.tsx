@@ -40,7 +40,7 @@ export default function NavUpgrade() {
               borderBottomLeftRadius: 2,
             }}
           >
-            Free
+            Hello
           </Label>
         </Box>
 
@@ -55,7 +55,7 @@ export default function NavUpgrade() {
         </Stack>
 
         <Button variant="contained" href={paths.minimalUI} target="_blank" rel="noopener">
-          Upgrade to Pro
+          My Page
         </Button>
       </Stack>
     </Stack>
