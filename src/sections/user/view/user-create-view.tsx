@@ -24,7 +24,7 @@ export default function UserCreateView() {
           },
           {
             name: 'User',
-            href: paths.dashboard.list,
+            href: paths.dashboard.management.manageUser,
           },
           { name: 'New user' },
         ]}

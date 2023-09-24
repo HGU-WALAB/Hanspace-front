@@ -21,8 +21,8 @@ export const paths = {
     root: ROOTS.DASHBOARD,
     one: `${ROOTS.DASHBOARD}/one`,
     reserve: `${ROOTS.DASHBOARD}/reserve`,
-    // waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
-    list: `${ROOTS.DASHBOARD}/list`,
+    waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+    // list: `${ROOTS.DASHBOARD}/list`,
     management: {
       root: `${ROOTS.DASHBOARD}/management`,
       manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,

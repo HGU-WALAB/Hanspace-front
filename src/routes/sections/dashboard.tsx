@@ -41,12 +41,13 @@ export const dashboardRoutes = [
     children: [
       { element: <DashBoardPage />, index: true },
       { path: 'reserve', element: <PageReserve /> },
-      { path: 'list', element: <UserListPage /> },
+      { path: 'waitinglist', element: <PageWaitinglist /> },
       {
         path: 'management',
         children: [
           { element: <PageManageSpace />, index: true },
-          { path: 'manageUser', element: <PageManageUser /> },
+          // { path: 'manageUser', element: <PageManageUser /> },
+          { path: 'manageUser', element: <UserListPage /> },
           { path: 'manageSite', element: <PageManageSite /> },
         ],
       },

@@ -32,7 +32,7 @@ export default function UserEditView({ id }: Props) {
           },
           {
             name: 'User',
-            href: paths.dashboard.list,
+            href: paths.dashboard.management.manageUser,
           },
           { name: currentUser?.name },
         ]}
