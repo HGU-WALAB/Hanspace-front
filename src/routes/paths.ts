@@ -20,12 +20,32 @@ export const paths = {
   dashboard: {
     root: ROOTS.DASHBOARD,
     one: `${ROOTS.DASHBOARD}/one`,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+    reserve: `${ROOTS.DASHBOARD}/reserve`,
+    waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+    // list: `${ROOTS.DASHBOARD}/list`,
+    management: {
+      root: `${ROOTS.DASHBOARD}/management`,
+      manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,
+      manageSite: `${ROOTS.DASHBOARD}/management/manageSite`,
     },
+    // user: {
+    //   root: `${ROOTS.DASHBOARD}/user`,
+    //   new: `${ROOTS.DASHBOARD}/user/new`,
+    //   list: `${ROOTS.DASHBOARD}/user/list`,
+    //   cards: `${ROOTS.DASHBOARD}/user/cards`,
+    //   profile: `${ROOTS.DASHBOARD}/user/profile`,
+    //   // account: `${ROOTS.DASHBOARD}/user/account`,
+    //   // edit: (id: string) => `${ROOTS.DASHBOARD}/user/${id}/edit`,
+    //   // demo: {
+    //   //   edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
+    //   // },
+    // },
+    // order: {
+    //   root: `${ROOTS.DASHBOARD}/order`,
+    //   details: (id: string) => `${ROOTS.DASHBOARD}/order/${id}`,
+    //   // demo: {
+    //   //   details: `${ROOTS.DASHBOARD}/order/${MOCK_ID}`,
+    //   // },
+    // },
   },
 };

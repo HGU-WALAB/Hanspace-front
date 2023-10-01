@@ -9,12 +9,24 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/one'));
-const PageTwo = lazy(() => import('src/pages/dashboard/two'));
-const PageThree = lazy(() => import('src/pages/dashboard/three'));
-const PageFour = lazy(() => import('src/pages/dashboard/four'));
-const PageFive = lazy(() => import('src/pages/dashboard/five'));
-const PageSix = lazy(() => import('src/pages/dashboard/six'));
+const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
+const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
+const PageWaitinglist = lazy(() => import('src/pages/dashboard/waitinglist'));
+const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
+const PageManageUser = lazy(() => import('src/pages/dashboard/manageUser'));
+const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
+
+// USER
+const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
+const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
+const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
+// const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
+const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
+const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
+
+// ORDER
+const OrderListPage = lazy(() => import('src/pages/dashboard/order/list'));
+const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'));
 
 // ----------------------------------------------------------------------
 
@@ -31,17 +43,39 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
+      { element: <DashBoardPage />, index: true },
+      { path: 'reserve', element: <PageReserve /> },
+      // { path: 'waitinglist', element: <PageWaitinglist /> },
+      { path: 'waitinglist', element: <OrderListPage /> },
       {
-        path: 'group',
+        path: 'management',
         children: [
-          { element: <PageFour />, index: true },
-          { path: 'five', element: <PageFive /> },
-          { path: 'six', element: <PageSix /> },
+          { element: <PageManageSpace />, index: true },
+          // { path: 'manageUser', element: <PageManageUser /> },
+          { path: 'manageUser', element: <UserListPage /> },
+          { path: 'manageSite', element: <PageManageSite /> },
         ],
       },
+      // {
+      //   path: 'user',
+      //   children: [
+      //     { element: <UserProfilePage />, index: true },
+      //     { path: 'profile', element: <UserProfilePage /> },
+      //     { path: 'cards', element: <UserCardsPage /> },
+      //     { path: 'list', element: <UserListPage /> },
+      //     { path: 'new', element: <UserCreatePage /> },
+      //     // { path: ':id/edit', element: <UserEditPage /> },
+      //     // { path: 'account', element: <UserAccountPage /> },
+      //   ],
+      // },
+      // {
+      //   path: 'order',
+      //   children: [
+      //     { element: <OrderListPage />, index: true },
+      //     { path: 'list', element: <OrderListPage /> },
+      //     // { path: ':id', element: <OrderDetailsPage /> },
+      //   ],
+      // },
     ],
   },
 ];
