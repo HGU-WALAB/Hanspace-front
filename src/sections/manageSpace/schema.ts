@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 // ----------------------------------------------------------------------
 
 export const FormSchema = Yup.object().shape({
+  spaceName: Yup.string().required('Space name is required'), // TODO: 에러 메시지 수정
+  headCount: Yup.number().required('Head count is required'), // TODO: 에러 메시지 수정
   fullName: Yup.string()
     .required('Full name is required')
     .min(6, 'Mininum 6 characters')

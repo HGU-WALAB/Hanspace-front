@@ -26,10 +26,15 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
+import { LoadingButton } from '@mui/lab';
+import { Backdrop, CircularProgress } from '@mui/material';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
 export const defaultValues = {
+  spaceName: '',
+  headCount: 0,
+  //
   age: 0,
   email: '',
   fullName: '',
@@ -67,17 +72,21 @@ export default function FormDialog() {
   });
 
   const {
-    watch,
+    // watch,
     reset,
-    control,
+    // control,
     setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
+  // const values = watch();
+
   const onSubmit = handleSubmit(async (data) => {
+    console.info('click~?1');
+    // console.info('click~ DATA', data);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       console.info('DATA', data);
     } catch (error) {
@@ -101,21 +110,28 @@ export default function FormDialog() {
   );
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
-        + 장소 추가
-      </Button>
+    <>
+      {isSubmitting && (
+        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
 
-      <Dialog open={dialog.value} onClose={dialog.onFalse}>
-        <DialogTitle>장소 추가</DialogTitle>
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
+          + 장소 추가
+        </Button>
 
-        <DialogContent>
-          {/* <Typography sx={{ mb: 3 }}>
+        <Dialog open={dialog.value} onClose={dialog.onFalse}>
+          <DialogTitle>장소 추가</DialogTitle>
+
+          <DialogContent>
+            {/* <Typography sx={{ mb: 3 }}>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
           </Typography> */}
 
-          {/* <TextField
+            {/* <TextField
             autoFocus
             fullWidth
             type="email"
@@ -124,40 +140,58 @@ export default function FormDialog() {
             label="Email Address"
           /> */}
 
-          <Stack spacing={2}>
-            {/* <Block> */}
-            <RHFTextField name="fullName" label="장소명" />
-            {/* </Block> */}
+            <Stack spacing={2}>
+              {/* <Block> */}
+              <RHFTextField name="spaceName" label="장소명" />
+              {/* </Block> */}
 
-            {/* <Block> */}
-            <RHFTextField name="email" label="수용 가능 인원" type="number" />
-            {/* </Block> */}
+              {/* <Block> */}
+              <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
+              {/* </Block> */}
 
-            {/* <Block> */}
-            {/* <RHFTextField name="age" label="etc" /> */}
-            {/* </Block> */}
+              {/* <Block> */}
+              {/* <RHFTextField name="age" label="etc" /> */}
+              {/* </Block> */}
 
-            {/* <Block label="RHFUpload"> */}
-            <RHFUpload
-              name="singleUpload"
-              // maxSize={3145728}
-              onDrop={handleDropSingleFile}
-              onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
-            />
-            {/* </Block> */}
-          </Stack>
-        </DialogContent>
+              {/* <Block label="RHFUpload"> */}
+              <RHFUpload
+                name="singleUpload"
+                // maxSize={3145728}
+                onDrop={handleDropSingleFile}
+                onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
+              />
+              {/* </Block> */}
+            </Stack>
+          </DialogContent>
 
-        <DialogActions>
-          <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
-            Cancel
-          </Button>
-          <Button onClick={dialog.onFalse} variant="contained">
+          <DialogActions>
+            <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
+              Cancel
+            </Button>
+            {/* <Button
+            onClick={() => {
+              // dialog.onFalse(); // Close the dialog
+              console.info('click?????');
+              onSubmit(); // Submit the form
+            }}
+            variant="contained"
+          >
             Subscribe
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </FormProvider>
+          </Button> */}
+            <LoadingButton
+              fullWidth
+              color="info"
+              size="large"
+              type="submit"
+              variant="soft"
+              loading={isSubmitting}
+            >
+              Submit to Check
+            </LoadingButton>
+          </DialogActions>
+        </Dialog>
+      </FormProvider>
+    </>
   );
 }
 
