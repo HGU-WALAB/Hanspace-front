@@ -6,21 +6,26 @@ import Typography from '@mui/material/Typography';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { applyFilter } from 'src/layouts/_common/searchbar/utils';
+import { GetSpace } from 'src/api/spaceApi';
+import { useQuery } from 'react-query';
 import FormDialog from './form-dialog';
 //
-import TourList from './tour-list';
+import SpaceList from './space-list';
 
 // ----------------------------------------------------------------------
 
 export default function ManageSpaceView() {
   const settings = useSettingsContext();
 
-  // const dataFiltered = applyFilter({
-  //   // inputData: _tours,
-  //   // filters,
-  //   // sortBy,
-  //   // dateError,
-  // });
+  const { data: spaces } = useQuery(
+    ['GetSpace', GetSpace],
+    () => GetSpace().then((response) => response.data),
+    {
+      onSuccess: (data) => {
+        console.log('GetMyCategory', data);
+      },
+    }
+  );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -39,7 +44,7 @@ export default function ManageSpaceView() {
         {/* <ComponentBlock title="Form"> */}
         <FormDialog />
         {/* </ComponentBlock> */}
-        <TourList tours={tours} />
+        <SpaceList spaces={spaces} />
       </Box>
     </Container>
   );
