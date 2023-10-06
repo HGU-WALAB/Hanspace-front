@@ -5,19 +5,19 @@ import Pagination, { paginationClasses } from '@mui/material/Pagination';
 // routes
 import { paths } from 'src/routes/paths';
 // types
-import { ITourItem } from 'src/types/tour';
-// components
+import { ISpaceItem } from 'src/types/space';
 import { useRouter } from 'src/routes/hooks';
+import SpaceItem from './space-item';
+// components
 //
-import TourItem from './tour-item';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  tours: ITourItem[];
+  spaces: ISpaceItem[];
 };
 
-export default function TourList({ tours }: Props) {
+export default function SpaceList({ spaces }: Props) {
   const router = useRouter();
 
   // const handleView = useCallback(
@@ -49,18 +49,18 @@ export default function TourList({ tours }: Props) {
           md: 'repeat(3, 1fr)',
         }}
       >
-        {tours.map((tour) => (
-          <TourItem
-            key={tour.id}
-            tour={tour}
+        {spaces?.map((space) => (
+          <SpaceItem
+            key={space?.id}
+            space={space}
             onView={() => {}} // handleView(tour.id)}
             onEdit={() => {}} // handleEdit(tour.id)}
-            onDelete={() => handleDelete(tour.id)}
+            onDelete={() => handleDelete(space?.id)}
           />
         ))}
       </Box>
 
-      {tours.length > 8 && (
+      {spaces?.length > 8 && (
         <Pagination
           count={8}
           sx={{
