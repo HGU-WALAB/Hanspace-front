@@ -26,41 +26,24 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { DesktopTimePicker } from '@mui/x-date-pickers';
+import axios from 'axios';
+import { BASE_URL } from 'src/config-global';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
 export const defaultValues = {
-  spaceName: '',
+  deptId: 0,
+  name: '',
   headCount: 0,
+  availableStart: '',
+  availableEnd: '',
+  detail: '',
+  availability: true,
+  // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
   //
-  age: 0,
-  email: '',
-  fullName: '',
-  //
-  editor: '',
-  switch: false,
-  radioGroup: '',
-  autocomplete: null,
-  //
-  password: '',
-  confirmPassword: '',
-  //
-  startDate: null,
-  endDate: null,
-  //
-  singleUpload: null,
-  multiUpload: [],
-  //
-  singleSelect: '',
-  multiSelect: [],
-  //
-  checkbox: false,
-  multiCheckbox: [],
-  //
-  slider: 8,
-  sliderRange: [15, 80],
 };
 
 export default function FormDialog() {
@@ -83,115 +66,121 @@ export default function FormDialog() {
   // const values = watch();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.info('click~?1');
-    // console.info('click~ DATA', data);
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
       console.info('DATA', data);
+
+      const response = await axios
+        .post(`${BASE_URL}/space`, data)
+        .then((log) => console.log('log', log));
+
+      dialog.onFalse();
     } catch (error) {
       console.error(error);
     }
   });
 
-  const handleDropSingleFile = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
+  // const handleDropSingleFile = useCallback(
+  //   (acceptedFiles: File[]) => {
+  //     const file = acceptedFiles[0];
 
-      const newFile = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
+  //     const newFile = Object.assign(file, {
+  //       preview: URL.createObjectURL(file),
+  //     });
 
-      if (newFile) {
-        setValue('singleUpload', newFile, { shouldValidate: true });
-      }
-    },
-    [setValue]
-  );
+  //     if (newFile) {
+  //       setValue('image', newFile, { shouldValidate: true });
+  //     }
+  //   },
+  //   [setValue]
+  // );
 
   return (
-    <>
-      {isSubmitting && (
-        <Backdrop open sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
-      )}
+    <FormProvider methods={methods} onSubmit={onSubmit}>
+      <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
+        + 장소 추가
+      </Button>
 
-      <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
-          + 장소 추가
-        </Button>
+      <Dialog open={dialog.value} onClose={dialog.onFalse}>
+        <DialogTitle>장소 추가</DialogTitle>
 
-        <Dialog open={dialog.value} onClose={dialog.onFalse}>
-          <DialogTitle>장소 추가</DialogTitle>
-
-          <DialogContent>
-            {/* <Typography sx={{ mb: 3 }}>
+        <DialogContent>
+          <Typography sx={{ mb: 3 }}>
             To subscribe to this website, please enter your email address here. We will send updates
             occasionally.
-          </Typography> */}
+          </Typography>
 
-            {/* <TextField
-            autoFocus
-            fullWidth
-            type="email"
-            margin="dense"
-            variant="outlined"
-            label="Email Address"
-          /> */}
+          <Stack spacing={2}>
+            {/* 지워야함 이거  */}
+            <RHFTextField name="deptId" label="deptId" type="number" />
 
-            <Stack spacing={2}>
-              {/* <Block> */}
-              <RHFTextField name="spaceName" label="장소명" />
-              {/* </Block> */}
+            <RHFTextField name="name" label="장소명" />
 
-              {/* <Block> */}
-              <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
-              {/* </Block> */}
+            <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
 
-              {/* <Block> */}
-              {/* <RHFTextField name="age" label="etc" /> */}
-              {/* </Block> */}
+            <DesktopTimePicker
+              label="예약가능 시작시간"
+              value={methods.watch('availableStart')}
+              onChange={(newValue) => {
+                if (newValue !== null) {
+                  const dateObject = new Date(newValue);
+                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  });
+                  setValue('availableStart', formattedTime);
+                  console.log(formattedTime);
+                }
+              }}
+            />
+            <DesktopTimePicker
+              label="예약가능 끝시간"
+              value={methods.watch('availableEnd')}
+              onChange={(newValue) => {
+                if (newValue !== null) {
+                  const dateObject = new Date(newValue);
+                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  });
+                  setValue('availableEnd', formattedTime);
+                  console.log(formattedTime);
+                }
+              }}
+            />
 
-              {/* <Block label="RHFUpload"> */}
-              <RHFUpload
-                name="singleUpload"
-                // maxSize={3145728}
-                onDrop={handleDropSingleFile}
-                onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
-              />
-              {/* </Block> */}
-            </Stack>
-          </DialogContent>
+            <RHFTextField name="detail" label="detail" />
 
-          <DialogActions>
-            <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
-              Cancel
-            </Button>
-            {/* <Button
+            <RHFSwitch name="availability" label="availability" />
+
+            {/* <Block label="RHFUpload"> */}
+            {/* <RHFUpload
+              name="singleUpload"
+              // maxSize={3145728}
+              onDrop={handleDropSingleFile}
+              onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
+            /> */}
+            {/* </Block> */}
+          </Stack>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
+            취소
+          </Button>
+          <Button
             onClick={() => {
-              // dialog.onFalse(); // Close the dialog
-              console.info('click?????');
               onSubmit(); // Submit the form
             }}
             variant="contained"
           >
-            Subscribe
-          </Button> */}
-            <LoadingButton
-              fullWidth
-              color="info"
-              size="large"
-              type="submit"
-              variant="soft"
-              loading={isSubmitting}
-            >
-              Submit to Check
-            </LoadingButton>
-          </DialogActions>
-        </Dialog>
-      </FormProvider>
-    </>
+            추가하기
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </FormProvider>
   );
 }
 
