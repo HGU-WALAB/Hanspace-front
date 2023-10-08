@@ -32,8 +32,11 @@ export const defaultValues = {
   // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
   //
 };
+interface ReserveForm1Props {
+  onNextClick: () => void; // Specify the type of onNextClick as a function with no arguments
+}
 
-export default function ReserveForm1() {
+export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
     const settings = useSettingsContext();
   
     const dialog = useBoolean();
@@ -41,6 +44,7 @@ export default function ReserveForm1() {
     const methods = useForm({
       defaultValues
     });
+
   
     const {
       // watch,
@@ -60,6 +64,17 @@ const handlePersonneleChange = (event: SelectChangeEvent) => {
 };
 const handleSpaceChange = (event: SelectChangeEvent) => {
   setSpace(event.target.value as string);
+};
+
+const formData = {
+  date,
+  personnele,
+  space,
+};
+
+const handleNextClick = () => {
+  // 다음 페이지로 이동
+  onNextClick();
 };
 
   return (
@@ -139,7 +154,7 @@ const handleSpaceChange = (event: SelectChangeEvent) => {
             </FormControl>
         </Box>
 
-        <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
+        <Button onClick={handleNextClick} variant="outlined" color="inherit">
           다음
         </Button>
         <Button variant="contained">

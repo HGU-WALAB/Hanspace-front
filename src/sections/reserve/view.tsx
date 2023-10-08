@@ -9,7 +9,7 @@ import { CalendarView } from 'src/sections/calendar/view';
 import { useSettingsContext } from 'src/components/settings';
 
 import ReserveForm1 from './reserve-form1';
-
+import ReserveForm2 from './reserve-form2';
 
 export default function ReserveView() {
   const settings = useSettingsContext();
@@ -17,6 +17,15 @@ export default function ReserveView() {
 
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const goToNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  const goToPrevPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
   return (
@@ -28,8 +37,9 @@ export default function ReserveView() {
       </Typography>
       {showCalendar && <CalendarView />}
 
-    <ReserveForm1 />
+      {currentPage === 1 && <ReserveForm1 onNextClick = {goToNextPage} />}
+      {currentPage === 2 && <ReserveForm2 onPrevClick = {goToPrevPage} />}
     </Container>
-     </>
+    </>
   );
 }

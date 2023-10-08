@@ -8,7 +8,19 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider from 'src/components/hook-form';
+import FormProvider , {
+  RHFEditor,
+  RHFSelect,
+  RHFUpload,
+  RHFSwitch,
+  RHFSlider,
+  RHFCheckbox,
+  RHFTextField,
+  RHFRadioGroup,
+  RHFMultiSelect,
+  RHFAutocomplete,
+  RHFMultiCheckbox,
+} from 'src/components/hook-form';
 
 // ———————————————————————————————————
 export const defaultValues = {
@@ -22,8 +34,11 @@ export const defaultValues = {
   // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
   //
 };
+interface ReserveForm2Props {
+  onPrevClick: () => void; // Specify the type of onNextClick as a function with no arguments
+}
 
-export default function ReserveForm2() {
+export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {
     const settings = useSettingsContext();
   
     const dialog = useBoolean();
@@ -41,12 +56,24 @@ export default function ReserveForm2() {
       formState: { isSubmitting },
     } = methods;
 
+    const handlePrevClick = () => {
+      // 다음 페이지로 이동
+      onPrevClick();
+    };
+
   return (
     <>
     <FormProvider methods={methods}>
+      <p>장소</p>
+      <p>예약 날짜</p>
+      <p>신청인</p>
+      <p>시작 시간</p>
+      <p>끝 시간</p>
+      <RHFTextField name="name" label="모임명" />
+      <RHFTextField name="name" label="목적" />
+      <RHFTextField name="name" label="연락처" />
 
-
-        <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
+        <Button onClick={handlePrevClick} variant="outlined" color="inherit">
           이전
         </Button>
         <Button variant="contained">
