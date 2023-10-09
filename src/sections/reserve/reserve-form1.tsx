@@ -1,6 +1,5 @@
 // react
-import * as React from 'react';
-// @mui
+import { useState } from "react";// @mui
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
@@ -44,7 +43,6 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
     const methods = useForm({
       defaultValues
     });
-
   
     const {
       // watch,
@@ -55,27 +53,21 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
       formState: { isSubmitting },
     } = methods;
 
-const [date, setDate] = React.useState<Dayjs | null>(dayjs('2023-10-08'));
-const [personnele, setPersonnel] = React.useState('');
-const [space, setSpace] = React.useState('');
+    const [date, setDate] = useState<Dayjs | null>(dayjs());
+    const [personnele, setPersonnel] = useState('');
+    const [space, setSpace] = useState('');
 
-const handlePersonneleChange = (event: SelectChangeEvent) => {
-  setPersonnel(event.target.value as string);
-};
-const handleSpaceChange = (event: SelectChangeEvent) => {
-  setSpace(event.target.value as string);
-};
+    const handlePersonneleChange = (event: SelectChangeEvent) => {
+      setPersonnel(event.target.value as string);
+    };
+    const handleSpaceChange = (event: SelectChangeEvent) => {
+      setSpace(event.target.value as string);
+    };
 
-const formData = {
-  date,
-  personnele,
-  space,
-};
-
-const handleNextClick = () => {
-  // 다음 페이지로 이동
-  onNextClick();
-};
+    const handleNextClick = () => {
+      // 다음 페이지로 이동
+      onNextClick();
+    };
 
   return (
     <>

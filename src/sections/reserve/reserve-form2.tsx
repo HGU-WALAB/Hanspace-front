@@ -1,10 +1,10 @@
 // react
-import * as React from 'react';
+import { useState } from "react";
 // @mui
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
@@ -22,6 +22,7 @@ import FormProvider , {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 
+
 // ———————————————————————————————————
 export const defaultValues = {
   deptId: 0,
@@ -38,11 +39,7 @@ interface ReserveForm2Props {
   onPrevClick: () => void; // Specify the type of onNextClick as a function with no arguments
 }
 
-export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {
-    const settings = useSettingsContext();
-  
-    const dialog = useBoolean();
-  
+export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {  
     const methods = useForm({
       defaultValues
     });
@@ -57,10 +54,20 @@ export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {
     } = methods;
 
     const handlePrevClick = () => {
-      // 다음 페이지로 이동
+      // 이전 페이지로 이동
       onPrevClick();
     };
 
+    const [fields, setFields] = useState([""]);
+
+    const handleAddField = () => {
+      setFields([...fields, ""]);
+    };
+  
+    const handleRemoveField = (index: number) => {
+      const filteredFields = fields.filter((_, i) => i !== index);
+      setFields(filteredFields);
+    };
   return (
     <>
     <FormProvider methods={methods}>
@@ -72,13 +79,33 @@ export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {
       <RHFTextField name="name" label="모임명" />
       <RHFTextField name="name" label="목적" />
       <RHFTextField name="name" label="연락처" />
-
-        <Button onClick={handlePrevClick} variant="outlined" color="inherit">
-          이전
+      <p>추가 정보</p>
+        {fields.map((field, index) => (
+          <div key={index}>
+            <TextField
+              value={field}
+              onChange={(e) => {
+                const updatedFields = [...fields];
+                updatedFields[index] = e.target.value;
+                setFields(updatedFields);
+              }}
+            />
+            <IconButton onClick={() => handleRemoveField(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        ))}
+        <Button variant="contained" onClick={handleAddField} sx={{ mt: 2 }}>
+          정보 추가하기
         </Button>
-        <Button variant="contained">
-          예약하기
-        </Button>
+      <div style={{ marginTop: '100px' }}>
+      <Button onClick={handlePrevClick} variant="outlined" color="inherit">
+        이전
+      </Button>
+      <Button variant="contained">
+        예약하기
+      </Button>
+      </div>
     </FormProvider>
     </>
   );
