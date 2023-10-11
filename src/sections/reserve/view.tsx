@@ -14,6 +14,13 @@ import ReserveForm2 from './reserve-form2';
 export default function ReserveView() {
   const settings = useSettingsContext();
   const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedData, setSelectedData] = useState({
+    date: null,
+    availableStart: null,
+    availableEnd: null,
+    personnele: null,
+    space: null,
+  });
 
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);
@@ -21,7 +28,8 @@ export default function ReserveView() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const goToNextPage = () => {
+  const handleNextClick = (data: any) => {
+    setSelectedData(data);
     setCurrentPage(currentPage + 1);
   };
   const goToPrevPage = () => {
@@ -37,8 +45,8 @@ export default function ReserveView() {
       </Typography>
       {showCalendar && <CalendarView />}
 
-      {currentPage === 1 && <ReserveForm1 onNextClick = {goToNextPage} />}
-      {currentPage === 2 && <ReserveForm2 onPrevClick = {goToPrevPage} />}
+      {currentPage === 1 && <ReserveForm1 onNextClick={handleNextClick} />}
+      {currentPage === 2 && <ReserveForm2 onPrevClick = {goToPrevPage} selectedData={selectedData}/>}
     </Container>
     </>
   );

@@ -36,10 +36,17 @@ export const defaultValues = {
   //
 };
 interface ReserveForm2Props {
-  onPrevClick: () => void; // Specify the type of onNextClick as a function with no arguments
+  onPrevClick: () => void;
+  selectedData: {
+    date: Date | null;
+    availableStart: Date | null;
+    availableEnd: Date | null;
+    personnele: number | null; // 예상되는 데이터 타입에 따라 수정
+    space: string | null; // 예상되는 데이터 타입에 따라 수정
+  };
 }
 
-export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {  
+export default function ReserveForm2({ onPrevClick, selectedData }: ReserveForm2Props) {  
     const methods = useForm({
       defaultValues
     });
@@ -71,14 +78,14 @@ export default function ReserveForm2({ onPrevClick }: ReserveForm2Props) {
   return (
     <>
     <FormProvider methods={methods}>
-      <p>장소</p>
-      <p>예약 날짜</p>
-      <p>신청인</p>
-      <p>시작 시간</p>
-      <p>끝 시간</p>
-      <RHFTextField name="name" label="모임명" />
-      <RHFTextField name="name" label="목적" />
-      <RHFTextField name="name" label="연락처" />
+    <p>예약 날짜: {selectedData.date ? selectedData.date.toLocaleString() : '날짜가 선택되지 않았습니다.'}</p>
+    <p>예약 시작 시간: {selectedData.availableStart ? selectedData.availableStart.toLocaleString() : '시간이 선택되지 않았습니다.'}</p>
+    <p>예약 끝 시간: {selectedData.availableEnd ? selectedData.availableEnd.toLocaleString() : '시간이 선택되지 않았습니다.'}</p>
+    <p>선택한 수용 인원: {selectedData.personnele}명 이상</p>
+    <p>선택한 이용 공간: {selectedData.space || '공간이 선택되지 않았습니다.'}</p>
+      <RHFTextField name="grouping" label="모임명" />
+      <RHFTextField name="purpose" label="목적" />
+      <RHFTextField name="phonenumber" label="연락처" />
       <p>추가 정보</p>
         {fields.map((field, index) => (
           <div key={index}>

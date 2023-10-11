@@ -32,7 +32,7 @@ export const defaultValues = {
   //
 };
 interface ReserveForm1Props {
-  onNextClick: () => void; // Specify the type of onNextClick as a function with no arguments
+  onNextClick: (data: any) => void;
 }
 
 export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
@@ -54,8 +54,10 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
     } = methods;
 
     const [date, setDate] = useState<Dayjs | null>(dayjs());
+    const [availableStart, setAvailableStart] = useState(defaultValues.availableStart);
+    const [availableEnd, setAvailableEnd] = useState(defaultValues.availableEnd);
     const [personnele, setPersonnel] = useState('');
-    const [space, setSpace] = useState('');
+    const [space, setSpace] = useState<string>('');
 
     const handlePersonneleChange = (event: SelectChangeEvent) => {
       setPersonnel(event.target.value as string);
@@ -63,10 +65,26 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
     const handleSpaceChange = (event: SelectChangeEvent) => {
       setSpace(event.target.value as string);
     };
+    const handleResetClick = () => {
+      // 입력값을 초기화
+      setDate(dayjs());
+      setAvailableStart(defaultValues.availableStart);
+      setAvailableEnd(defaultValues.availableEnd);
+      setPersonnel('');
+      setSpace('');
+    };
 
     const handleNextClick = () => {
-      // 다음 페이지로 이동
-      onNextClick();
+      // Assuming you have all the selected data in this object
+      const selectedData = {
+        date,
+        availableStart,
+        availableEnd,
+        personnele,
+        space,
+      };
+  
+      onNextClick(selectedData);
     };
 
   return (
@@ -92,7 +110,8 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                     minute: '2-digit',
                     hour12: false,
                   });
-                  setValue('availableStart', formattedTime);
+                  // setValue('availableStart', formattedTime);
+                  setAvailableStart(formattedTime);
                   console.log(formattedTime);
                 }
               }}
@@ -108,7 +127,8 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                     minute: '2-digit',
                     hour12: false,
                   });
-                  setValue('availableEnd', formattedTime);
+                  // setValue('availableEnd', formattedTime);
+                  setAvailableEnd(formattedTime);
                   console.log(formattedTime);
                 }
               }}
@@ -139,9 +159,9 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
              label="Space"
              onChange={handleSpaceChange}
            >
-              <MenuItem value={1}>장소 1</MenuItem>
-              <MenuItem value={2}>장소 2</MenuItem>
-              <MenuItem value={3}>장소 3</MenuItem>
+              <MenuItem value='장소 1'>장소 1</MenuItem>
+              <MenuItem value='장소 2'>장소 2</MenuItem>
+              <MenuItem value='장소 3'>장소 3</MenuItem>
             </Select>
             </FormControl>
         </Box>
@@ -149,9 +169,18 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
         <Button onClick={handleNextClick} variant="outlined" color="inherit">
           다음
         </Button>
-        <Button variant="contained">
+        <Button onClick={handleResetClick} variant="contained">
           초기화
         </Button>
+        
+      {/* 선택한 값들을 표시하는 부분 */}
+      <div>
+        <p>예약 날짜: {date ? date.format('YYYY-MM-DD') : '날짜가 선택되지 않았습니다.'}</p>
+        <p>예약 시작 시간: {availableStart}</p>
+        <p>예약 끝 시간: {availableEnd}</p>
+        <p>선택한 수용 인원: {personnele}명 이상</p>
+        <p>선택한 이용 공간: {space}</p>
+      </div>
     </FormProvider>
     </>
   );
