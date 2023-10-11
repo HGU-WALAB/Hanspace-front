@@ -21,13 +21,16 @@ import dayjs, { Dayjs } from 'dayjs';
 
 // ———————————————————————————————————
 export const defaultValues = {
-  deptId: 0,
-  name: '',
+  id: 1,
+  reserveDate: '',
+  startTime: '',
+  endTime: '',
   headCount: 0,
-  availableStart: '',
-  availableEnd: '',
-  detail: '',
-  availability: true,
+  // groupName: '',
+  // purpose: '',
+  // phoneNumber: '',
+  // approve: '미승인',
+  // extraInfoAns: '',
   // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
   //
 };
@@ -53,35 +56,35 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
       formState: { isSubmitting },
     } = methods;
 
-    const [date, setDate] = useState<Dayjs | null>(dayjs());
-    const [availableStart, setAvailableStart] = useState(defaultValues.availableStart);
-    const [availableEnd, setAvailableEnd] = useState(defaultValues.availableEnd);
-    const [personnele, setPersonnel] = useState('');
-    const [space, setSpace] = useState<string>('');
+    const [reserveDate, setDate] = useState<Dayjs | null>(dayjs());
+    const [startTime, setstartTime] = useState(defaultValues.startTime);
+    const [endTime, setendTime] = useState(defaultValues.endTime);
+    const [headCount, setheadCount] = useState('');
+    const [spaceId, setSpaceId] = useState<string>('');
 
     const handlePersonneleChange = (event: SelectChangeEvent) => {
-      setPersonnel(event.target.value as string);
+      setheadCount(event.target.value as string);
     };
     const handleSpaceChange = (event: SelectChangeEvent) => {
-      setSpace(event.target.value as string);
+      setSpaceId(event.target.value as string);
     };
     const handleResetClick = () => {
       // 입력값을 초기화
       setDate(dayjs());
-      setAvailableStart(defaultValues.availableStart);
-      setAvailableEnd(defaultValues.availableEnd);
-      setPersonnel('');
-      setSpace('');
+      setstartTime(defaultValues.startTime);
+      setendTime(defaultValues.endTime);
+      setheadCount('');
+      setSpaceId('');
     };
 
     const handleNextClick = () => {
       // Assuming you have all the selected data in this object
       const selectedData = {
-        date,
-        availableStart,
-        availableEnd,
-        personnele,
-        space,
+        reserveDate,
+        startTime,
+        endTime,
+        headCount,
+        spaceId,
       };
   
       onNextClick(selectedData);
@@ -94,14 +97,14 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
           <DemoContainer components={['DatePicker', 'DatePicker']}>
             <DatePicker
               label="이용 가능 날짜"
-              value={date}
+              value={reserveDate}
               onChange={(newValue) => setDate(newValue)}
             />
           </DemoContainer>
         </LocalizationProvider>
         <DesktopTimePicker
               label="예약 시작 시간"
-              value={methods.watch('availableStart')}
+              value={methods.watch('startTime')}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);
@@ -111,14 +114,14 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                     hour12: false,
                   });
                   // setValue('availableStart', formattedTime);
-                  setAvailableStart(formattedTime);
+                  setstartTime(formattedTime);
                   console.log(formattedTime);
                 }
               }}
             />
         <DesktopTimePicker
               label="예약 끝 시간"
-              value={methods.watch('availableEnd')}
+              value={methods.watch('endTime')}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);
@@ -128,7 +131,7 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                     hour12: false,
                   });
                   // setValue('availableEnd', formattedTime);
-                  setAvailableEnd(formattedTime);
+                  setendTime(formattedTime);
                   console.log(formattedTime);
                 }
               }}
@@ -139,8 +142,8 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={personnele}
-            label="Personnele"
+            name="headCount"
+            label="headCount"
             onChange={handlePersonneleChange}
           >
             <MenuItem value={10}>10명 이상</MenuItem>
@@ -155,13 +158,13 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
             <Select
              labelId="demo-simple-select-label"
              id="demo-simple-select"
-             value={space}
-             label="Space"
+             name="spaceId"
+             label="spaceId"
              onChange={handleSpaceChange}
            >
-              <MenuItem value='장소 1'>장소 1</MenuItem>
-              <MenuItem value='장소 2'>장소 2</MenuItem>
-              <MenuItem value='장소 3'>장소 3</MenuItem>
+              <MenuItem value={1}>장소 1</MenuItem>
+              <MenuItem value={2}>장소 2</MenuItem>
+              <MenuItem value={3}>장소 3</MenuItem>
             </Select>
             </FormControl>
         </Box>
@@ -175,11 +178,11 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
         
       {/* 선택한 값들을 표시하는 부분 */}
       <div>
-        <p>예약 날짜: {date ? date.format('YYYY-MM-DD') : '날짜가 선택되지 않았습니다.'}</p>
-        <p>예약 시작 시간: {availableStart}</p>
-        <p>예약 끝 시간: {availableEnd}</p>
-        <p>선택한 수용 인원: {personnele}명 이상</p>
-        <p>선택한 이용 공간: {space}</p>
+        <p>예약 날짜: {reserveDate ? reserveDate.format('YYYY-MM-DD') : '날짜가 선택되지 않았습니다.'}</p>
+        <p>예약 시작 시간: {startTime}</p>
+        <p>예약 끝 시간: {endTime}</p>
+        <p>선택한 수용 인원: {headCount}명 이상</p>
+        <p>선택한 이용 공간: {spaceId}</p>
       </div>
     </FormProvider>
     </>

@@ -15,11 +15,11 @@ export default function ReserveView() {
   const settings = useSettingsContext();
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedData, setSelectedData] = useState({
-    date: null,
-    availableStart: null,
-    availableEnd: null,
-    personnele: null,
-    space: null,
+    reserveDate: null,
+    startTime: null,
+    endTime: null,
+    headCount: null,
+    spaceId: null,
   });
 
   const toggleCalendar = () => {
