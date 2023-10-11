@@ -13,7 +13,7 @@ import { RouterLink } from 'src/routes/components';
 import { fDateTime } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 // types
-import { ITourItem } from 'src/types/tour';
+import { ISpaceItem } from 'src/types/space';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
@@ -23,27 +23,28 @@ import { shortDateLabel } from 'src/components/custom-date-range-picker';
 // ----------------------------------------------------------------------
 
 type Props = {
-  tour: ITourItem;
+  space: ISpaceItem;
   onView: VoidFunction;
   onEdit: VoidFunction;
   onDelete: VoidFunction;
 };
 
-export default function TourItem({ tour, onView, onEdit, onDelete }: Props) {
+export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
   const popover = usePopover();
 
   const {
     id,
     name,
-    // price,
-    images,
-    // bookers,
-    // createdAt,
-    // available,
-    // priceSale,
-    // destination,
-    // ratingNumber,
-  } = tour;
+    headCount,
+    availableStart,
+    availableEnd,
+    detail,
+    // lableColor,
+    availability,
+    image,
+    // regDate,
+    // modDate,
+  } = space;
 
   //   const shortLabel = shortDateLabel(available.startDate, available.endDate);
 
@@ -102,7 +103,7 @@ export default function TourItem({ tour, onView, onEdit, onDelete }: Props) {
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
         {/* {renderPrice}
         {renderRating} */}
-        <Image alt={images} src={images} sx={{ borderRadius: 1, height: 164, width: 1 }} />
+        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 164, width: 1 }} />
       </Stack>
       {/* <Stack spacing={0.5}>
         <Image alt={images[1]} src={images[1]} ratio="1/1" sx={{ borderRadius: 1, width: 80 }} />
