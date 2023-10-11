@@ -21,8 +21,10 @@ import { SettingsProvider, SettingsDrawer } from 'src/components/settings';
 // auth
 import { AuthProvider, AuthConsumer } from 'src/auth/context/jwt';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 // ----------------------------------------------------------------------
+const queryClient = new QueryClient();
 
 export default function App() {
   const charAt = `
@@ -40,31 +42,33 @@ export default function App() {
   useScrollToTop();
 
   return (
-    <AuthProvider>
-      <RecoilRoot>
-        <LocalizationProvider>
-          <SettingsProvider
-            defaultSettings={{
-              themeMode: 'light', // 'light' | 'dark'
-              themeDirection: 'ltr', //  'rtl' | 'ltr'
-              themeContrast: 'default', // 'default' | 'bold'
-              themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-              themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-              themeStretch: false,
-            }}
-          >
-            <ThemeProvider>
-              <MotionLazy>
-                <SettingsDrawer />
-                <ProgressBar />
-                <AuthConsumer>
-                  <Router />
-                </AuthConsumer>
-              </MotionLazy>
-            </ThemeProvider>
-          </SettingsProvider>
-        </LocalizationProvider>
-      </RecoilRoot>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RecoilRoot>
+          <LocalizationProvider>
+            <SettingsProvider
+              defaultSettings={{
+                themeMode: 'light', // 'light' | 'dark'
+                themeDirection: 'ltr', //  'rtl' | 'ltr'
+                themeContrast: 'default', // 'default' | 'bold'
+                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                themeStretch: false,
+              }}
+            >
+              <ThemeProvider>
+                <MotionLazy>
+                  <SettingsDrawer />
+                  <ProgressBar />
+                  <AuthConsumer>
+                    <Router />
+                  </AuthConsumer>
+                </MotionLazy>
+              </ThemeProvider>
+            </SettingsProvider>
+          </LocalizationProvider>
+        </RecoilRoot>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
