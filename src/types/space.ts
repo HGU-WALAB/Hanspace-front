@@ -33,25 +33,6 @@ export type ISpaceItem = {
   availableStart: Date;
   availableEnd: Date;
   detail: string;
-  lableColor: string;
   availability: boolean;
   image: string;
-  regDate: Date;
-  modDate: Date;
-  department: {
-    regDate: Date;
-    modDate: Date;
-    deptId: string;
-    siteName: string;
-    deptName: string;
-    logo: string;
-    color: string;
-    userAccept: boolean;
-    maxRserveCount: number;
-    link: string;
-    firstInfo: string;
-    secondInfo: string;
-    siteInfoTitle: string;
-    siteInfoDetail: string;
-  };
 };

@@ -7,7 +7,7 @@ import { paths } from 'src/routes/paths';
 // types
 import { ISpaceItem } from 'src/types/space';
 import { useRouter } from 'src/routes/hooks';
-import SpaceItem from './space-item';
+import SpaceItem from 'src/sections/manageSpace/space-item';
 // components
 //
 

@@ -39,11 +39,11 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
     availableStart,
     availableEnd,
     detail,
-    lableColor,
+    // lableColor,
     availability,
     image,
-    regDate,
-    modDate,
+    // regDate,
+    // modDate,
   } = space;
 
   //   const shortLabel = shortDateLabel(available.startDate, available.endDate);

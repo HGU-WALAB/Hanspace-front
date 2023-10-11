@@ -29,7 +29,7 @@ export default function ManageSpaceView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> manageSpace </Typography>
+      <Typography variant="h4"> manageSpace !!! </Typography>
 
       <Box
         sx={{
