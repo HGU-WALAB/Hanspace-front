@@ -2,9 +2,6 @@
 import { useState } from "react";
 // @mui
 import Button from '@mui/material/Button';
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
@@ -100,16 +97,7 @@ export default function ReserveForm2({ onPrevClick, selectedData }: ReserveForm2
       onPrevClick();
     };
 
-    const [fields, setFields] = useState([""]);
 
-    const handleAddField = () => {
-      setFields([...fields, ""]);
-    };
-  
-    const handleRemoveField = (index: number) => {
-      const filteredFields = fields.filter((_, i) => i !== index);
-      setFields(filteredFields);
-    };
 
   return (
     <>
@@ -122,26 +110,6 @@ export default function ReserveForm2({ onPrevClick, selectedData }: ReserveForm2
       <RHFTextField name="groupName" label="모임명" />
       <RHFTextField name="purpose" label="목적" />
       <RHFTextField name="phoneNumber" label="연락처" />
-      <p>추가 정보</p>
-        {fields.map((field, index) => (
-          <div key={index}>
-            <TextField
-              name="extraInfoAns"
-              value={field}
-              onChange={(e) => {
-                const updatedFields = [...fields];
-                updatedFields[index] = e.target.value;
-                setFields(updatedFields);
-              }}
-            />
-            <IconButton onClick={() => handleRemoveField(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ))}
-        <Button variant="contained" onClick={handleAddField} sx={{ mt: 2 }}>
-          정보 추가하기
-        </Button>
       <div style={{ marginTop: '100px' }}>
       <Button onClick={handlePrevClick} variant="outlined" color="inherit">
         이전
