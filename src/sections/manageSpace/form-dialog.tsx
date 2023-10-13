@@ -97,7 +97,7 @@ export default function FormDialog() {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
+      <Button variant="outlined" color="primary" onClick={dialog.onTrue}>
         + 장소 추가
       </Button>
 
@@ -105,10 +105,7 @@ export default function FormDialog() {
         <DialogTitle>장소 추가</DialogTitle>
 
         <DialogContent>
-          <Typography sx={{ mb: 3 }}>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </Typography>
+          <Typography sx={{ mb: 3 }}>추가 할 장소의 정보를 입력해주세요.</Typography>
 
           <Stack spacing={2}>
             {/* 지워야함 이거  */}
