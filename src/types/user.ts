@@ -105,7 +105,7 @@ export type IUserItem = {
   zipCode: string;
   company: string;
   avatarUrl: string;
-  phoneNumber: string;
+  // phoneNumber: string;
   isVerified: boolean;
 };
 

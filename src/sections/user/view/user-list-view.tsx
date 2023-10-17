@@ -50,11 +50,11 @@ const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone Number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
+  { id: 'email', label: 'email', width: 500 },
+  // { id: 'company', label: 'Company', width: 220 },
   { id: 'role', label: 'Role', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
-  { id: '', width: 88 },
+  // { id: 'status', label: 'Status', width: 100 },
+  { id: '', width: 100 },
 ];
 
 const defaultFilters: IUserTableFilters = {
@@ -172,7 +172,7 @@ export default function UserListView() {
 
         <Card>
           <Tabs
-            value={filters.status}
+            value={filters.role}
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
@@ -191,22 +191,22 @@ export default function UserListView() {
                       ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'active' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
+                      (tab.value === 'admin' && 'success') ||
+                      (tab.value === 'user' && 'warning') ||
                       (tab.value === 'banned' && 'error') ||
                       'default'
                     }
                   >
                     {tab.value === 'all' && _userList.length}
-                    {tab.value === 'active' &&
-                      _userList.filter((user) => user.status === 'active').length}
+                    {tab.value === 'admin' &&
+                      _userList.filter((user) => user.role === 'Admin').length}
 
-                    {tab.value === 'pending' &&
-                      _userList.filter((user) => user.status === 'pending').length}
+                    {tab.value === 'user' &&
+                      _userList.filter((user) => user.role === 'User').length}
                     {tab.value === 'banned' &&
-                      _userList.filter((user) => user.status === 'banned').length}
-                    {tab.value === 'rejected' &&
-                      _userList.filter((user) => user.status === 'rejected').length}
+                      _userList.filter((user) => user.role === 'Banned').length}
+                    {tab.value === 'blacklist' &&
+                      _userList.filter((user) => user.role === 'Blacklist').length}
                   </Label>
                 }
               />
@@ -369,9 +369,9 @@ function applyFilter({
     inputData = inputData.filter((user) => user.status === status);
   }
 
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
-  }
+  // if (role.length) {
+  //   inputData = inputData.filter((user) => role.includes(user.role));
+  // }
 
   return inputData;
 }
