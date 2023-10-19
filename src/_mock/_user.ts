@@ -5,11 +5,11 @@ import { _mock } from './_mock';
 
 // ----------------------------------------------------------------------
 
-export const USER_STATUS_OPTIONS = [
-  { value: 'admin', label: 'Admin' },
-  { value: 'user', label: 'User' },
-  { value: 'banned', label: 'Banned' },
-  { value: 'blacklist', label: 'Blacklist' },
+export const USER_ROLE_OPTIONS = [
+  { value: 'Admin', label: 'Admin' },
+  { value: 'User', label: 'User' },
+  { value: 'Banned', label: 'Banned' },
+  { value: 'Blacklist', label: 'Blacklist' },
 ];
 
 export const _userAbout = {

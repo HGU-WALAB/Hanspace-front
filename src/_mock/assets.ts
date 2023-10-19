@@ -239,7 +239,7 @@ export const _phoneNumbers = [
 // ----------------------------------------------------------------------
 
 export const _roles = [
-  'Admin',
+  'admin',
   'User',
   'Blacklist',
   'Banned',

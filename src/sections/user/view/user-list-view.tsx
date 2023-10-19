@@ -17,7 +17,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // _mock
-import { _userList, _roles, USER_STATUS_OPTIONS } from 'src/_mock';
+import { _userList, _roles, USER_ROLE_OPTIONS } from 'src/_mock';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -46,7 +46,7 @@ import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
+const ROLE_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_ROLE_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
@@ -59,8 +59,8 @@ const TABLE_HEAD = [
 
 const defaultFilters: IUserTableFilters = {
   name: '',
-  role: [],
-  status: 'all',
+  // role: [],
+  role: 'all',
 };
 
 // ----------------------------------------------------------------------
@@ -97,6 +97,7 @@ export default function UserListView() {
 
   const handleFilters = useCallback(
     (name: string, value: IUserTableFilterValue) => {
+      console.log('name', value);
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -141,6 +142,14 @@ export default function UserListView() {
     [handleFilters]
   );
 
+  const handleFilterRole = useCallback(
+    (event: React.SyntheticEvent, newValue: string) => {
+      handleFilters('role', newValue);
+      console.log('newValue', newValue);
+    },
+    [handleFilters]
+  );
+
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
   }, []);
@@ -173,13 +182,13 @@ export default function UserListView() {
         <Card>
           <Tabs
             value={filters.role}
-            onChange={handleFilterStatus}
+            onChange={handleFilterRole}
             sx={{
               px: 2.5,
               boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
             }}
           >
-            {STATUS_OPTIONS.map((tab) => (
+            {ROLE_OPTIONS.map((tab) => (
               <Tab
                 key={tab.value}
                 iconPosition="end"
@@ -188,24 +197,24 @@ export default function UserListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === 'all' || tab.value === filters.role) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'admin' && 'success') ||
-                      (tab.value === 'user' && 'warning') ||
-                      (tab.value === 'banned' && 'error') ||
+                      (tab.value === 'Admin' && 'success') ||
+                      (tab.value === 'User' && 'warning') ||
+                      (tab.value === 'Banned' && 'error') ||
                       'default'
                     }
                   >
                     {tab.value === 'all' && _userList.length}
-                    {tab.value === 'admin' &&
+                    {tab.value === 'Admin' &&
                       _userList.filter((user) => user.role === 'Admin').length}
 
-                    {tab.value === 'user' &&
+                    {tab.value === 'User' &&
                       _userList.filter((user) => user.role === 'User').length}
-                    {tab.value === 'banned' &&
+                    {tab.value === 'Banned' &&
                       _userList.filter((user) => user.role === 'Banned').length}
-                    {tab.value === 'blacklist' &&
+                    {tab.value === 'Blacklist' &&
                       _userList.filter((user) => user.role === 'Blacklist').length}
                   </Label>
                 }
@@ -347,7 +356,7 @@ function applyFilter({
   comparator: (a: any, b: any) => number;
   filters: IUserTableFilters;
 }) {
-  const { name, status, role } = filters;
+  const { name, role } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
@@ -365,8 +374,8 @@ function applyFilter({
     );
   }
 
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
+  if (role !== 'all') {
+    inputData = inputData.filter((user) => user.role === role);
   }
 
   // if (role.length) {

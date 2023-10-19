@@ -68,7 +68,7 @@ export default function UserTableRow({
 
         {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell> */}
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{company}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{email}</TableCell>
 
         {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell> */}
 

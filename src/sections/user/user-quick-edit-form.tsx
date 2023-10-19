@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // _mock
-import { USER_STATUS_OPTIONS } from 'src/_mock';
+import { USER_ROLE_OPTIONS } from 'src/_mock';
 // types
 import { IUserItem } from 'src/types/user';
 // assets
@@ -114,9 +114,9 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
             }}
           >
             <RHFSelect name="status" label="Status">
-              {USER_STATUS_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
+              {USER_ROLE_OPTIONS.map((role) => (
+                <MenuItem key={role.value} value={role.value}>
+                  {role.label}
                 </MenuItem>
               ))}
             </RHFSelect>
