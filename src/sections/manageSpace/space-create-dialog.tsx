@@ -46,7 +46,7 @@ export const defaultValues = {
   //
 };
 
-export default function FormDialog() {
+export default function SpaceCreateDialog() {
   const dialog = useBoolean();
 
   const methods = useForm({
@@ -94,6 +94,8 @@ export default function FormDialog() {
   //   },
   //   [setValue]
   // );
+  const defaultDate = new Date();
+  defaultDate.setHours(0, 0, 0, 0);
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -105,7 +107,9 @@ export default function FormDialog() {
         <DialogTitle>장소 추가</DialogTitle>
 
         <DialogContent>
-          <Typography sx={{ mb: 3 }}>추가 할 장소의 정보를 입력해주세요.</Typography>
+          <Typography sx={{ width: '500px', marginBottom: '10px' }}>
+            추가 할 장소의 정보를 입력해주세요.
+          </Typography>
 
           <Stack spacing={2}>
             {/* 지워야함 이거  */}
@@ -117,7 +121,7 @@ export default function FormDialog() {
 
             <DesktopTimePicker
               label="예약가능 시작시간"
-              value={methods.watch('availableStart')}
+              value={methods.watch('availableStart') || defaultDate}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);
@@ -133,7 +137,7 @@ export default function FormDialog() {
             />
             <DesktopTimePicker
               label="예약가능 끝시간"
-              value={methods.watch('availableEnd')}
+              value={methods.watch('availableEnd') || defaultDate}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);

@@ -8,7 +8,7 @@ import { useSettingsContext } from 'src/components/settings';
 import { applyFilter } from 'src/layouts/_common/searchbar/utils';
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
-import FormDialog from './form-dialog';
+import SpaceCreateDialog from './space-create-dialog';
 //
 import SpaceList from './space-list';
 
@@ -32,7 +32,7 @@ export default function ManageSpaceView() {
       <Typography variant="h4"> manageSpace </Typography>
 
       <div style={{ margin: '50px', display: 'flex', justifyContent: 'flex-end' }}>
-        <FormDialog />
+        <SpaceCreateDialog />
       </div>
       <SpaceList spaces={spaces} />
     </Container>
