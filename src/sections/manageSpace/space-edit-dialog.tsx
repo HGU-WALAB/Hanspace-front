@@ -113,7 +113,9 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
         <DialogTitle>장소 정보 수정</DialogTitle>
 
         <DialogContent>
-          <Typography sx={{ mb: 3 }}>수정 할 장소의 정보를 수정 후 저장해주세요.</Typography>
+          <Typography sx={{ width: '500px', marginBottom: '10px' }}>
+            수정 할 장소의 정보를 수정 후 저장해주세요.
+          </Typography>
 
           <Stack spacing={2}>
             {/* 지워야함 이거  */}
