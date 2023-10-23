@@ -12,7 +12,7 @@ import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
 import styled from 'styled-components';
 import { useState } from 'react';
-
+// api
 import SpacingGrid from './reserve-time';
 
 
@@ -56,7 +56,6 @@ export default function SpaceCardList({ space }: Props) {
   const popover = usePopover();
   const [isClicked, setIsClicked] = useState(false);
 
-
   const {
     id,
     name,
@@ -70,7 +69,8 @@ export default function SpaceCardList({ space }: Props) {
     // regDate,
     // modDate,
   } = space;
-
+  const availableStartTime = space.availableStart.toLocaleString();
+  const availableEndTime = space.availableEnd.toLocaleString();
 
   return (
     <>
@@ -83,15 +83,13 @@ export default function SpaceCardList({ space }: Props) {
           <SpaceName>{space.name}</SpaceName>
           <p>참가 인원: {space.headCount}</p>
           <p>추가 요청: {space.detail}</p>
-          <p>이용 가능 시간 {space.availableStart.toLocaleString()} {space.availableEnd.toLocaleString()}</p>
-          <SpacingGrid />
+          <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime}/>
         </div>
       ) : (
         <div>
           <SpaceName>{space.name}</SpaceName>
           <Image alt={image} src={image} sx={{ height: 130, width: 280}} />
-          <p>이용 가능 시간 {space.availableStart.toLocaleString()} {space.availableEnd.toLocaleString()}</p>
-          <SpacingGrid />
+          <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
         </div>
       )}
     </Card>
