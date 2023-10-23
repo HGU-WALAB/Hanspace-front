@@ -1,23 +1,42 @@
 // react
-import { useState } from "react";// @mui
+import { useState } from "react";
+import styled from 'styled-components';
+// @mui
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 // hooks
-import { useBoolean } from 'src/hooks/use-boolean';
+// import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/hook-form';
 import dayjs, { Dayjs } from 'dayjs';
+// api
+import { GetSpace } from 'src/api/spaceApi';
+import { useQuery } from 'react-query';
+
+const Text = styled.p`
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+`;
 
 // ———————————————————————————————————
 export const defaultValues = {
@@ -26,22 +45,24 @@ export const defaultValues = {
   startTime: '',
   endTime: '',
   headCount: 0,
-  // groupName: '',
-  // purpose: '',
-  // phoneNumber: '',
-  // approve: '미승인',
-  // extraInfoAns: '',
-  // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
-  //
+  spaceId: 0,
 };
 interface ReserveForm1Props {
   onNextClick: (data: any) => void;
 }
 
-export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
-    const settings = useSettingsContext();
-  
-    const dialog = useBoolean();
+export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
+    // const settings = useSettingsContext();
+
+    const { data: spaces } = useQuery(
+      ['GetSpace', GetSpace],
+      () => GetSpace().then((response) => response.data),
+      {
+        onSuccess: (data) => {
+          console.log('GetSpace', data);
+        },
+      }
+    );
   
     const methods = useForm({
       defaultValues
@@ -68,40 +89,41 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
     const handleSpaceChange = (event: SelectChangeEvent) => {
       setSpaceId(event.target.value as string);
     };
-    const handleResetClick = () => {
-      // 입력값을 초기화
-      setDate(dayjs());
-      setstartTime(defaultValues.startTime);
-      setendTime(defaultValues.endTime);
-      setheadCount('');
-      setSpaceId('');
-    };
 
     const handleNextClick = () => {
-      // Assuming you have all the selected data in this object
-      const selectedData = {
-        reserveDate,
-        startTime,
-        endTime,
-        headCount,
-        spaceId,
-      };
-  
-      onNextClick(selectedData);
+      if (reserveDate && startTime && endTime && headCount && spaceId) {
+        const selectedData = {
+          reserveDate,
+          startTime,
+          endTime,
+          headCount,
+          spaceId,
+        };
+
+        onNextClick(selectedData);
+      } else {
+        // Handle the case where not all fields are filled, e.g., show an error message.
+        alert('모든 필수 필드를 입력하세요.');
+      }
     };
 
   return (
-    <>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
+    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
+      Make a Reservation
+    </Typography>
     <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Text>이용 날짜 *</Text>
           <DemoContainer components={['DatePicker', 'DatePicker']}>
             <DatePicker
-              label="이용 가능 날짜"
               value={reserveDate}
               onChange={(newValue) => setDate(newValue)}
+              sx={{ width: '280px'}}
             />
           </DemoContainer>
         </LocalizationProvider>
+        <Text>이용 시간 *</Text>
         <DesktopTimePicker
               label="예약 시작 시간"
               value={methods.watch('startTime')}
@@ -118,6 +140,7 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                   console.log(formattedTime);
                 }
               }}
+              sx={{ marginBottom: '20px', width: '280px'}}
             />
         <DesktopTimePicker
               label="예약 끝 시간"
@@ -135,16 +158,19 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
                   console.log(formattedTime);
                 }
               }}
+              sx={{ width: '280px'}}
             />
         <Box sx={{ minWidth: 120 }}>
+        <Text>수용 인원 *</Text>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">수용 인원</InputLabel>
+          <InputLabel>수용 인원</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            // labelId="demo-simple-select-label"
+            // id="demo-simple-select"
             name="headCount"
             label="headCount"
             onChange={handlePersonneleChange}
+            sx={{ width: '280px'}}
           >
             <MenuItem value={10}>10명 이상</MenuItem>
             <MenuItem value={20}>20명 이상</MenuItem>
@@ -153,38 +179,28 @@ export default function ReserveForm1({ onNextClick }: ReserveForm1Props) {
         </FormControl>
         </Box>
         <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-       <InputLabel id="demo-simple-select-label">이용 공간</InputLabel>
+        <Text>이용 공간 *</Text>
+        <FormControl fullWidth>
+          <InputLabel>이용 공간</InputLabel>
             <Select
-             labelId="demo-simple-select-label"
-             id="demo-simple-select"
-             name="spaceId"
-             label="spaceId"
-             onChange={handleSpaceChange}
-           >
-              <MenuItem value={1}>장소 1</MenuItem>
-              <MenuItem value={2}>장소 2</MenuItem>
-              <MenuItem value={3}>장소 3</MenuItem>
+              name="spaceId"
+              label="spaceId"
+              onChange={handleSpaceChange}
+              sx={{ width: '280px'}}
+            > 
+            {spaces && spaces.map((space: any) => (
+              <MenuItem key={space?.spaceId} value={space?.spaceId}>
+                {space?.name}
+              </MenuItem>
+            ))}
             </Select>
-            </FormControl>
+          </FormControl>
         </Box>
 
-        <Button onClick={handleNextClick} variant="outlined" color="inherit">
+        <Button onClick={handleNextClick} variant="outlined" color="inherit" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
           다음
         </Button>
-        <Button onClick={handleResetClick} variant="contained">
-          초기화
-        </Button>
-        
-      {/* 선택한 값들을 표시하는 부분 */}
-      <div>
-        <p>예약 날짜: {reserveDate ? reserveDate.format('YYYY-MM-DD') : '날짜가 선택되지 않았습니다.'}</p>
-        <p>예약 시작 시간: {startTime}</p>
-        <p>예약 끝 시간: {endTime}</p>
-        <p>선택한 수용 인원: {headCount}명 이상</p>
-        <p>선택한 이용 공간: {spaceId}</p>
-      </div>
     </FormProvider>
-    </>
+    </Box>
   );
 }
