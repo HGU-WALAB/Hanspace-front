@@ -37,7 +37,7 @@ export default function UserTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+  const { name, avatarUrl, company, role, status, email } = row;
 
   const confirm = useBoolean();
 
@@ -66,23 +66,23 @@ export default function UserTableRow({
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell> */}
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{company}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{email}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell> */}
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (status === 'active' && 'success') ||
-              (status === 'pending' && 'warning') ||
-              (status === 'banned' && 'error') ||
+              (role === 'Admin' && 'success') ||
+              (role === 'User' && 'warning') ||
+              (role === 'Blacklist' && 'error') ||
               'default'
             }
           >
-            {status}
+            {role}
           </Label>
         </TableCell>
 

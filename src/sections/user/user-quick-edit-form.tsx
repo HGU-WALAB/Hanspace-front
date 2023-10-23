@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // _mock
-import { USER_STATUS_OPTIONS } from 'src/_mock';
+import { USER_ROLE_OPTIONS } from 'src/_mock';
 // types
 import { IUserItem } from 'src/types/user';
 // assets
@@ -37,7 +37,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
   const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    phoneNumber: Yup.string().required('Phone number is required'),
+    // phoneNumber: Yup.string().required('Phone number is required'),
     address: Yup.string().required('Address is required'),
     country: Yup.string().required('Country is required'),
     company: Yup.string().required('Company is required'),
@@ -50,7 +50,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
     () => ({
       name: currentUser?.name || '',
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
+      // phoneNumber: currentUser?.phoneNumber || '',
       address: currentUser?.address || '',
       country: currentUser?.country || '',
       state: currentUser?.state || '',
@@ -114,9 +114,9 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
             }}
           >
             <RHFSelect name="status" label="Status">
-              {USER_STATUS_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
+              {USER_ROLE_OPTIONS.map((role) => (
+                <MenuItem key={role.value} value={role.value}>
+                  {role.label}
                 </MenuItem>
               ))}
             </RHFSelect>

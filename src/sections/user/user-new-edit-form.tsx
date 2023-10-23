@@ -46,13 +46,13 @@ export default function UserNewEditForm({ currentUser }: Props) {
   const NewUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    phoneNumber: Yup.string().required('Phone number is required'),
+    // phoneNumber: Yup.string().required('Phone number is required'),
     address: Yup.string().required('Address is required'),
     country: Yup.string().required('Country is required'),
     company: Yup.string().required('Company is required'),
     state: Yup.string().required('State is required'),
     city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role is required'),
+    // role: Yup.string().required('Role is required'),
     zipCode: Yup.string().required('Zip code is required'),
     avatarUrl: Yup.mixed<any>().nullable().required('Avatar is required'),
     // not required
@@ -73,7 +73,7 @@ export default function UserNewEditForm({ currentUser }: Props) {
       zipCode: currentUser?.zipCode || '',
       company: currentUser?.company || '',
       avatarUrl: currentUser?.avatarUrl || null,
-      phoneNumber: currentUser?.phoneNumber || '',
+      // phoneNumber: currentUser?.phoneNumber || '',
       isVerified: currentUser?.isVerified || true,
     }),
     [currentUser]
