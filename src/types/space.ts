@@ -27,6 +27,7 @@ export type ISpaceGuide = {
 // };
 
 export type ISpaceItem = {
+  spaceId: any;
   id: string;
   name: string;
   headCount: number;

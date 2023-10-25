@@ -54,12 +54,6 @@ interface ReserveRegularyForm2Props {
     }
 };
 
-interface DepartmentData {
-  deptName: string;
-  deptId: number;
-  extraInfo: string;
-  // Add other properties as needed
-}
 interface InputField {
   value: string;
 }
@@ -157,15 +151,15 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
       onPrevClick();
     };
 
-    const [departmentData, setDepartmentData] = useState<DepartmentData | null>(null);
+    const [extraData, setextraData] = useState<string | null>(null);
     useEffect(() => {
       // 데이터를 가져오는 함수 정의
       const fetchData = async () => {
         try {
           // API생성되면 department id 받아서 그 id를 가지고 해당 dept/id로 호출해서 정보 받아오기
-          const response = await axios.get(`${BASE_URL}/dept/list`);
-          setDepartmentData(response.data[0]); // 데이터 설정
-          console.log(response.data[0]);
+          const response = await axios.get(`${BASE_URL}/dept/deptId/1`);
+          setextraData(response.data.extraInfo); // 데이터 설정
+          console.log(response.data.extraInfo);
         } catch (error) {
           console.log("error");
         }
@@ -177,15 +171,13 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
     const [inputFields, setInputFields] = useState<InputField[]>([]);
     const [words, setWords] = useState<string[]>([]);
     useEffect(() => {
-      if (departmentData) {
-        const word = departmentData.extraInfo.split(',');
+      if (extraData) {
+        const word = extraData.split(',');
         const initialFields = word.map(() => ({ value: '' }));
         setInputFields(initialFields);
         setWords(word);
       }
-    }, [departmentData, words]);
-  
-
+    }, [extraData, words]);
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 // components
 import { CalendarView } from 'src/sections/calendar/view';
 import { useSettingsContext } from 'src/components/settings';
@@ -88,11 +89,21 @@ export default function ReserveView() {
 
     <div style={{ display: 'flex' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', flex: 2.5 }}>
+        <Box
+          gap={3}
+          display="grid"
+          gridTemplateColumns={{
+            xs: 'repeat(1, 1fr)',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(2, 1fr)',
+          }}
+        >
         {spaces && spaces.map((space: any) => (
-          <div key={space.id} style={{ flex: '50%' }}>
+          <div key={space.id}>
             <SpaceCardList space={space} />
           </div>
         ))}
+        </Box>
       </div>
       <div style={{ flex: 1 }}>
         <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
