@@ -15,7 +15,7 @@ interface SpacingGridProps {
 const Table = styled.table`
   border-collapse: collapse;
   border: 1px solid #000;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 `;
 const TimeOverlay = styled.div`
   text-align: center;
@@ -60,31 +60,24 @@ export default function SpacingGrid({ availableStart, availableEnd }: SpacingGri
   const [availableStartHour, availableStartMinute] = availableStart.split(':').map(Number);
   const [availableEndHour, availableEndMinute] = availableEnd.split(':').map(Number);
 
-
-  
+  const isTimeDisabled = (hour: number, minute: number, startHour: number, startMinute: number, endHour: number, endMinute: number) =>
+  (
+    (hour < startHour ||
+      (hour === startHour && minute < startMinute) ||
+      hour > endHour ||
+      (hour === endHour && minute > endMinute)
+    )
+  );
 
   return (
     <>
-    <p>
-      {availableStartHour}, {availableStartMinute}, 
-      {availableEndHour}, {availableEndMinute}
-    </p>
     <Table>
       <tbody>
         <TableRow key={numRows}>
           {Array.from({ length: numColumns }, (_, column) => {
             const hour = Math.floor(column / 2); // 시간 계산
             const minute = (column % 2) * 30; // 분 계산
-
-
-
-            const isDisabled =
-            (hour < availableStartHour ||
-              (hour === availableStartHour && minute < availableStartMinute) ||
-              hour > availableEndHour ||
-              (hour === availableEndHour && minute > availableEndMinute));
-
-
+            const isDisabled = isTimeDisabled(hour, minute, availableStartHour, availableStartMinute, availableEndHour, availableEndMinute);
             const hourStr = hour < 10 ? `0${hour}` : `${hour}`;
             const minuteStr = minute === 0 ? '00' : `${minute}`;
             const timeId = `${hourStr}:${minuteStr}`; // 고유 ID 생성
@@ -105,24 +98,13 @@ export default function SpacingGrid({ availableStart, availableEnd }: SpacingGri
         </TableRow>
       </tbody>
     </Table>
-    <Table>
+    <Table style={{marginBottom: '20px'}}>
       <tbody>
         <TableRow key={numRows}>
           {Array.from({ length: numColumns }, (_, column) => {
             const hour = Math.floor(column / 2) + 12; // 시간 계산
             const minute = (column % 2) * 30; // 분 계산
-
-
-
-            const isDisabled =
-            (hour < availableStartHour ||
-              (hour === availableStartHour && minute < availableStartMinute) ||
-              hour > availableEndHour ||
-              (hour === availableEndHour && minute > availableEndMinute));
-
-
-
-
+            const isDisabled = isTimeDisabled(hour, minute, availableStartHour, availableStartMinute, availableEndHour, availableEndMinute);
             const hourStr = hour < 10 ? `0${hour}` : `${hour}`;
             const minuteStr = minute === 0 ? '00' : `${minute}`;
             const timeId = `${hourStr}:${minuteStr}`; // 고유 ID 생성

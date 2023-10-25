@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
+import Card from '@mui/material/Card';
 // types
 import { ISpaceItem } from 'src/types/space';
 // components
@@ -17,23 +18,6 @@ import SpacingGrid from './reserve-time';
 
 
 // ----------------------------------------------------------------------
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 12.637px;
-  border: 0.632px solid #F2F1FA;
-  background: #F2F1FA;
-  width: 371px;
-  height: 385px;
-  cursor: pointer;
-
-  transition: transform 0.2s;
-  
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
 const SpaceName = styled.p`
   color: var(--neutral-colors-headings-black, #5D5A88);
   text-align: center;
@@ -44,8 +28,10 @@ const SpaceName = styled.p`
   margin-top: 40px;
   margin-bottom: 40px;
 `;
-const TimeBox = styled.div`
-
+const InfoText = styled.div`
+  color: #9A98BC;
+  font-family: Pretendard;
+  font-size: 13px;
 `;
 
 type Props = {
@@ -72,24 +58,88 @@ export default function SpaceCardList({ space }: Props) {
   const availableStartTime = space.availableStart.toLocaleString();
   const availableEndTime = space.availableEnd.toLocaleString();
 
+
+  const renderImages = (
+    <Stack
+      spacing={0.5}
+      direction="row"
+      sx={{
+        p: (theme) => theme.spacing(0, 4, 3, 4),
+      }}
+    >
+      <Stack flexGrow={1} sx={{ position: 'relative' }}>
+        <Image alt={image} src={image} sx={{ borderRadius: 0.1, height: 110, width: 1 }} />
+      </Stack>
+    </Stack>
+  );
+
+  const renderInfo = (
+    <Stack
+      spacing={2}
+      sx={{
+        position: 'relative',
+        p: (theme) => theme.spacing(0, 4, 5, 4),
+        height: 134,
+      }}
+    >
+      {[
+        {
+          label: `참가 인원 : ${headCount}`,
+        },
+        {
+          label: `추가 요청 : ${detail}`,
+        },
+      ].map((item) => (
+        <Stack
+          key={item.label}
+          spacing={1}
+          direction="row"
+          alignItems="center"
+          sx={{ typography: 'body1' }}
+        >
+          <InfoText style={{fontSize: '16px'}}>{item.label}</InfoText>
+        </Stack>
+      ))}
+    </Stack>
+  );
+
+  const renderTimeTable = (
+    <Stack
+      spacing={3}
+      sx={{
+        position: 'relative',
+        p: (theme) => theme.spacing(0, 2.5, 2.5, 2.5),
+      }}
+    >
+      <Stack flexGrow={1} sx={{ position: 'relative' }}>
+        <InfoText>이용 가능 시간</InfoText>
+        <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
+      </Stack>
+    </Stack>
+  );
+
   return (
     <>
     <Card
       onClick={() => setIsClicked(!isClicked)}
-      style={{ background: isClicked ? 'white' : '#F2F1FA' }}
+      style={{
+        background: isClicked ? '#F2F1FA' : 'white',
+        display: 'flex', // 가로 방향으로 정렬
+        justifyContent: 'center', // 가운데 정렬
+        cursor: 'pointer',
+      }}
     >
       {isClicked ? (
         <div>
           <SpaceName>{space.name}</SpaceName>
-          <p>참가 인원: {space.headCount}</p>
-          <p>추가 요청: {space.detail}</p>
-          <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime}/>
+          {renderInfo}
+          {renderTimeTable}
         </div>
       ) : (
         <div>
           <SpaceName>{space.name}</SpaceName>
-          <Image alt={image} src={image} sx={{ height: 130, width: 280}} />
-          <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
+          {renderImages}
+          {renderTimeTable}
         </div>
       )}
     </Card>
