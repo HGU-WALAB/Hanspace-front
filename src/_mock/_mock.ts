@@ -27,6 +27,7 @@ import {
   _productNames,
   _descriptions,
   _phoneNumbers,
+  _sid,
 } from './assets';
 
 // ----------------------------------------------------------------------
@@ -53,6 +54,8 @@ export const _mock = {
   lastName: (index: number) => _lastNames[index],
   fullName: (index: number) => _fullNames[index],
   companyName: (index: number) => _companyNames[index],
+  // sid
+  sid: (index: number) => _sid[index],
   // Number
   number: {
     percent: (index: number) => _percents[index],

@@ -95,14 +95,14 @@ export default function UserTableRow({
           </Tooltip>
 
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
+            {/* <Iconify icon="eva:more-vertical-fill" /> */}
           </IconButton>
         </TableCell>
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
 
-      <CustomPopover
+      {/* <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
@@ -128,9 +128,9 @@ export default function UserTableRow({
           <Iconify icon="solar:pen-bold" />
           Edit
         </MenuItem>
-      </CustomPopover>
+      </CustomPopover> */}
 
-      <ConfirmDialog
+      {/* <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
         title="Delete"
@@ -140,7 +140,7 @@ export default function UserTableRow({
             Delete
           </Button>
         }
-      />
+      /> */}
     </>
   );
 }
