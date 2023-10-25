@@ -22,6 +22,9 @@ import { countries } from 'src/assets/data';
 import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/components/hook-form';
+import axios from 'axios';
+import { endpoints } from 'src/utils/axios';
+import { en } from '@fullcalendar/core/internal-common';
 
 // ----------------------------------------------------------------------
 
@@ -35,30 +38,34 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    // name: Yup.string().required('Name is required'),
+    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     // phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('Country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
+    // address: Yup.string().required('Address is required'),
+    // country: Yup.string().required('Country is required'),
+    // company: Yup.string().required('Company is required'),
+    // state: Yup.string().required('State is required'),
+    // city: Yup.string().required('City is required'),
     role: Yup.string().required('Role is required'),
+    // sid: Yup.string().required('SID is required'),
+    // deptName: Yup.string().required('Department is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
-      name: currentUser?.name || '',
-      email: currentUser?.email || '',
+      // name: currentUser?.name || '',
+      // email: currentUser?.email || '',
       // phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      status: currentUser?.status,
-      company: currentUser?.company || '',
+      // address: currentUser?.address || '',
+      // country: currentUser?.country || '',
+      // state: currentUser?.state || '',
+      // city: currentUser?.city || '',
+      // zipCode: currentUser?.zipCode || '',
+      // status: currentUser?.status,
+      // company: currentUser?.company || '',
       role: currentUser?.role || '',
+      // sid: currentUser?.sid || '',
+      // deptName: currentUser?.deptName || '',
     }),
     [currentUser]
   );
@@ -80,6 +87,9 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
       reset();
       onClose();
       enqueueSnackbar('Update success!');
+
+      // await axios.patch(endpoints.user.update, { data });
+
       console.info('DATA', data);
     } catch (error) {
       console.error(error);
@@ -93,16 +103,16 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
       open={open}
       onClose={onClose}
       PaperProps={{
-        sx: { maxWidth: 720 },
+        sx: { maxWidth: 500 },
       }}
     >
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Quick Update</DialogTitle>
+        <DialogTitle>권한 수정</DialogTitle>
 
         <DialogContent>
-          <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
+          {/* <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
             Account is waiting for confirmation
-          </Alert>
+          </Alert> */}
 
           <Box
             rowGap={3}
@@ -113,7 +123,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
               sm: 'repeat(2, 1fr)',
             }}
           >
-            <RHFSelect name="status" label="Status">
+            <RHFSelect name="role" label={currentUser?.role}>
               {USER_ROLE_OPTIONS.map((role) => (
                 <MenuItem key={role.value} value={role.value}>
                   {role.label}
@@ -121,13 +131,13 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
               ))}
             </RHFSelect>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
+            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }} /> */}
 
-            <RHFTextField name="name" label="Full Name" />
+            {/* <RHFTextField name="name" label="Full Name" />
             <RHFTextField name="email" label="Email Address" />
-            <RHFTextField name="phoneNumber" label="Phone Number" />
+            <RHFTextField name="phoneNumber" label="Phone Number" /> */}
 
-            <RHFAutocomplete
+            {/* <RHFAutocomplete
               name="country"
               label="Country"
               options={countries.map((country) => country.label)}
@@ -153,24 +163,24 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
                   </li>
                 );
               }}
-            />
+            /> */}
 
-            <RHFTextField name="state" label="State/Region" />
+            {/* <RHFTextField name="state" label="State/Region" />
             <RHFTextField name="city" label="City" />
             <RHFTextField name="address" label="Address" />
             <RHFTextField name="zipCode" label="Zip/Code" />
             <RHFTextField name="company" label="Company" />
-            <RHFTextField name="role" label="Role" />
+            <RHFTextField name="role" label="Role" /> */}
           </Box>
         </DialogContent>
 
         <DialogActions>
           <Button variant="outlined" onClick={onClose}>
-            Cancel
+            취소하기
           </Button>
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-            Update
+            수정하기
           </LoadingButton>
         </DialogActions>
       </FormProvider>

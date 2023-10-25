@@ -40,6 +40,8 @@ import {
 // types
 import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 //
+import { useQuery } from 'react-query';
+import { GetUser } from 'src/api/userApi';
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
@@ -49,10 +51,11 @@ import UserTableFiltersResult from '../user-table-filters-result';
 const ROLE_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_ROLE_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'email', label: 'email', width: 500 },
+  { id: 'name', label: '이름', width: 300 },
+  { id: 'deptName', label: '학부', width: 300 },
+  { id: 'email', label: '이메일', width: 300 },
   // { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
+  { id: 'role', label: '권한', width: 180 },
   // { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 100 },
 ];
@@ -75,6 +78,14 @@ export default function UserListView() {
   const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(_userList);
+  // const [tableData, setTableData] = useQuery<IUserItem[]>(['GetUser', Getuser], () => {
+  //   GetUser().then((res) => res.data),
+  //     {
+  //       onSuccess: (data) => {
+  //         console.log('GetSpace', data);
+  //       },
+  //     };
+  // });
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -202,7 +213,7 @@ export default function UserListView() {
                     color={
                       (tab.value === 'Admin' && 'success') ||
                       (tab.value === 'User' && 'warning') ||
-                      (tab.value === 'Banned' && 'error') ||
+                      // (tab.value === 'Banned' && 'error') ||
                       'default'
                     }
                   >
@@ -212,8 +223,8 @@ export default function UserListView() {
 
                     {tab.value === 'User' &&
                       _userList.filter((user) => user.role === 'User').length}
-                    {tab.value === 'Banned' &&
-                      _userList.filter((user) => user.role === 'Banned').length}
+                    {/* {tab.value === 'Banned' &&
+                      _userList.filter((user) => user.role === 'Banned').length} */}
                     {tab.value === 'Blacklist' &&
                       _userList.filter((user) => user.role === 'Blacklist').length}
                   </Label>
