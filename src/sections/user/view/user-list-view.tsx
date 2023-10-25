@@ -40,6 +40,8 @@ import {
 // types
 import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 //
+import { useQuery } from 'react-query';
+import { GetUser } from 'src/api/userApi';
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
@@ -76,6 +78,14 @@ export default function UserListView() {
   const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(_userList);
+  // const [tableData, setTableData] = useQuery<IUserItem[]>(['GetUser', Getuser], () => {
+  //   GetUser().then((res) => res.data),
+  //     {
+  //       onSuccess: (data) => {
+  //         console.log('GetSpace', data);
+  //       },
+  //     };
+  // });
 
   const [filters, setFilters] = useState(defaultFilters);
 

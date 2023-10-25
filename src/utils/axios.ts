@@ -1,10 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
 // config
-import { HOST_API } from 'src/config-global';
+import { HOST_API, BASE_URL } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({ baseURL: HOST_API });
+// const axiosInstance = axios.create({ baseURL: BASE_URL });
+
+const deptId = localStorage.getItem('deptId');
+const UserId = localStorage.getItem('userId');
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -49,5 +53,12 @@ export const endpoints = {
     list: '/api/product/list',
     details: '/api/product/details',
     search: '/api/product/search',
+  },
+  space: {
+    list: `/space/list/${deptId}`,
+  },
+  user: {
+    list: `/deptMember/list/${deptId}`,
+    update: `/deptMember/${UserId}`,
   },
 };
