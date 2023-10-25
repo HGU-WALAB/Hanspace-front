@@ -38,7 +38,7 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 // types
-import { IOrderItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { IReserveItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
 //
 import OrderTableRow from '../order-table-row';
 import OrderTableToolbar from '../order-table-toolbar';
@@ -165,10 +165,10 @@ export default function OrderListView() {
               href: paths.dashboard.root,
             },
             {
-              name: 'Order',
+              name: 'Reserve List',
               href: paths.dashboard.waitinglist,
             },
-            { name: 'List' },
+            // { name: 'List' },
           ]}
           sx={{
             mb: { xs: 3, md: 5 },
@@ -196,17 +196,17 @@ export default function OrderListView() {
                       ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
+                      (tab.value === '승인' && 'success') ||
+                      (tab.value === '미승인' && 'warning') ||
                       (tab.value === 'cancelled' && 'error') ||
                       'default'
                     }
                   >
                     {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === '승인' &&
+                      _orders.filter((order) => order.status === '승인').length}
 
-                    {tab.value === 'pending' &&
+                    {tab.value === '미승인' &&
                       _orders.filter((order) => order.status === 'pending').length}
                     {tab.value === 'cancelled' &&
                       _orders.filter((order) => order.status === 'cancelled').length}
@@ -350,7 +350,7 @@ function applyFilter({
   filters,
   dateError,
 }: {
-  inputData: IOrderItem[];
+  inputData: IReserveItem[];
   comparator: (a: any, b: any) => number;
   filters: IOrderTableFilters;
   dateError: boolean;
@@ -367,14 +367,14 @@ function applyFilter({
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if (name) {
-    inputData = inputData.filter(
-      (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    );
-  }
+  // if (name) {
+  //   inputData = inputData.filter(
+  //     (order) =>
+  //       order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+  //       order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+  //       order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  //   );
+  // }
 
   if (status !== 'all') {
     inputData = inputData.filter((order) => order.status === status);
