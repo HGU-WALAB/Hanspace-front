@@ -55,19 +55,35 @@ export type IOrderProductItem = {
   quantity: number;
 };
 
-export type IOrderItem = {
+// export type IOrderItem = {
+//   id: string;
+//   taxes: number;
+//   status: string;
+//   shipping: number;
+//   discount: number;
+//   subTotal: number;
+//   orderNumber: string;
+//   totalAmount: number;
+//   totalQuantity: number;
+//   history: IOrderHistory;
+//   customer: IOrderCustomer;
+//   delivery: IOrderDelivery;
+//   items: IOrderProductItem[];
+//   createdAt: Date;
+// };
+
+export type IReserveItem = {
   id: string;
-  taxes: number;
-  status: string;
-  shipping: number;
-  discount: number;
-  subTotal: number;
-  orderNumber: string;
-  totalAmount: number;
-  totalQuantity: number;
-  history: IOrderHistory;
-  customer: IOrderCustomer;
-  delivery: IOrderDelivery;
-  items: IOrderProductItem[];
+  spaceName: string;
+  reserveDate: string;
   createdAt: Date;
+  startTime: string;
+  endTime: string;
+  name: string;
+  purpose: string;
+  detail: string;
+  status: string;
+  headCount: number;
+  extraInfoAns: string;
+  extraInfo: string;
 };

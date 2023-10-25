@@ -17,7 +17,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // utils
 import { fCurrency } from 'src/utils/format-number';
 // types
-import { IOrderItem } from 'src/types/order';
+import { IReserveItem } from 'src/types/order';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -27,7 +27,7 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: IOrderItem;
+  row: IReserveItem;
   selected: boolean;
   onViewRow: VoidFunction;
   onSelectRow: VoidFunction;
@@ -41,7 +41,8 @@ export default function OrderTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  // const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  const { id, spaceName, reserveDate, createdAt, startTime, endTime, name, purpose, status } = row;
 
   const confirm = useBoolean();
 
@@ -65,14 +66,14 @@ export default function OrderTableRow({
             },
           }}
         >
-          {orderNumber}
+          {id}
         </Box>
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
         {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
 
-        <ListItemText
+        {/* <ListItemText
           primary={customer.name}
           secondary={customer.email}
           primaryTypographyProps={{ typography: 'body2' }}
@@ -80,7 +81,7 @@ export default function OrderTableRow({
             component: 'span',
             color: 'text.disabled',
           }}
-        />
+        /> */}
       </TableCell>
 
       <TableCell>
@@ -96,9 +97,9 @@ export default function OrderTableRow({
         />
       </TableCell>
 
-      <TableCell align="center"> {totalQuantity} </TableCell>
+      {/* <TableCell align="center"> {totalQuantity} </TableCell>
 
-      <TableCell> {fCurrency(subTotal)} </TableCell>
+      <TableCell> {fCurrency(subTotal)} </TableCell> */}
 
       <TableCell>
         <Label
@@ -143,7 +144,7 @@ export default function OrderTableRow({
           unmountOnExit
           sx={{ bgcolor: 'background.neutral' }}
         >
-          <Stack component={Paper} sx={{ m: 1.5 }}>
+          {/* <Stack component={Paper} sx={{ m: 1.5 }}>
             {items.map((item) => (
               <Stack
                 key={item.id}
@@ -180,7 +181,7 @@ export default function OrderTableRow({
                 <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
               </Stack>
             ))}
-          </Stack>
+          </Stack> */}
         </Collapse>
       </TableCell>
     </TableRow>
