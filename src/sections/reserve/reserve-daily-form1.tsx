@@ -19,8 +19,20 @@ import MenuItem from '@mui/material/MenuItem';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider from 'src/components/hook-form';
 import dayjs, { Dayjs } from 'dayjs';
+import FormProvider , {
+  RHFEditor,
+  RHFSelect,
+  RHFUpload,
+  RHFSwitch,
+  RHFSlider,
+  RHFCheckbox,
+  RHFTextField,
+  RHFRadioGroup,
+  RHFMultiSelect,
+  RHFAutocomplete,
+  RHFMultiCheckbox,
+} from 'src/components/hook-form';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
@@ -81,28 +93,31 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
     const [headCount, setheadCount] = useState('');
-    const [spaceId, setSpaceId] = useState<string>('');
+    const [spaceId, setSpaceId] = useState('');
 
-    const handlePersonneleChange = (event: SelectChangeEvent) => {
-      setheadCount(event.target.value as string);
+    const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+      setheadCount(numericValue);
     };
     const handleSpaceChange = (event: SelectChangeEvent) => {
-      setSpaceId(event.target.value as string);
+      const value = event.target.value;
+      setSpaceId(value);
     };
 
     const handleNextClick = () => {
+      const headCountNumber = parseInt(headCount, 10);
+      const spaceIdNumber = parseInt(spaceId, 10);
       if (reserveDate && startTime && endTime && headCount && spaceId) {
         const selectedData = {
           reserveDate,
           startTime,
           endTime,
-          headCount,
-          spaceId,
+          headCount: headCountNumber,
+          spaceId: spaceIdNumber,
         };
 
         onNextClick(selectedData);
       } else {
-        // Handle the case where not all fields are filled, e.g., show an error message.
         alert('모든 필수 필드를 입력하세요.');
       }
     };
@@ -161,8 +176,9 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
               sx={{ width: '280px'}}
             />
         <Box sx={{ minWidth: 120 }}>
-        <Text>수용 인원 *</Text>
-        <FormControl fullWidth>
+        <Text>사용 인원 *</Text>
+        <RHFTextField name="headCount" label="사용 인원을 입력해주세요." sx={{ width: '280px'}} value={headCount} onChange={handleHeadCountChange} />
+        {/* <FormControl fullWidth>
           <InputLabel>수용 인원</InputLabel>
           <Select
             // labelId="demo-simple-select-label"
@@ -176,9 +192,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
             <MenuItem value={20}>20명 이상</MenuItem>
             <MenuItem value={30}>30명 이상</MenuItem>
           </Select>
-        </FormControl>
-        </Box>
-        <Box sx={{ minWidth: 120 }}>
+        </FormControl> */}
         <Text>이용 공간 *</Text>
         <FormControl fullWidth>
           <InputLabel>이용 공간</InputLabel>

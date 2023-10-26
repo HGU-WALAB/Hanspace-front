@@ -19,7 +19,19 @@ import MenuItem from '@mui/material/MenuItem';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider from 'src/components/hook-form';
+import FormProvider , {
+  RHFEditor,
+  RHFSelect,
+  RHFUpload,
+  RHFSwitch,
+  RHFSlider,
+  RHFCheckbox,
+  RHFTextField,
+  RHFRadioGroup,
+  RHFMultiSelect,
+  RHFAutocomplete,
+  RHFMultiCheckbox,
+} from 'src/components/hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 // api
 import { GetSpace } from 'src/api/spaceApi';
@@ -92,16 +104,21 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
     const [headCount, setheadCount] = useState('');
-    const [spaceId, setSpaceId] = useState<string>('');
+    const [spaceId, setSpaceId] = useState('');
 
-    const handlePersonneleChange = (event: SelectChangeEvent) => {
-      setheadCount(event.target.value as string);
+    const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+      setheadCount(numericValue);
     };
     const handleSpaceChange = (event: SelectChangeEvent) => {
-      setSpaceId(event.target.value as string);
+      const value = event.target.value;
+      setSpaceId(value);
     };
 
+
     const handleNextClick = () => {
+      const headCountNumber = parseInt(headCount, 10);
+      const spaceIdNumber = parseInt(spaceId, 10);
       if (startDate && endDate && week && headCount && spaceId) {
         const selectedData = {
             startDate,
@@ -109,8 +126,8 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
             week,
             startTime,
             endTime,
-            headCount,
-            spaceId,
+            headCount: headCountNumber,
+            spaceId: spaceIdNumber,
         };
         onNextClick(selectedData);
       } else {
@@ -223,22 +240,23 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
                 sx={{ width: '280px' }}
                 />
             <Box sx={{ minWidth: 120 }}>
-            <Text>수용 인원 *</Text>
-            <FormControl fullWidth>
-            <InputLabel>수용 인원</InputLabel>
-            <Select
-                // labelId="demo-simple-select-label"
-                // id="demo-simple-select"
-                name="headCount"
-                label="headCount"
-                onChange={handlePersonneleChange}
-                sx={{ width: '280px'}}
-            >
-                <MenuItem value={10}>10명 이상</MenuItem> 
-                <MenuItem value={20}>20명 이상</MenuItem>
-                <MenuItem value={30}>30명 이상</MenuItem>
-            </Select>
-            </FormControl>
+            <Text>사용 인원 *</Text>
+            <RHFTextField name="headCount" label="사용 인원을 입력해주세요." sx={{ width: '280px'}} value={headCount} onChange={handleHeadCountChange} />
+        {/* <FormControl fullWidth>
+          <InputLabel>수용 인원</InputLabel>
+          <Select
+            // labelId="demo-simple-select-label"
+            // id="demo-simple-select"
+            name="headCount"
+            label="headCount"
+            onChange={handlePersonneleChange}
+            sx={{ width: '280px'}}
+          >
+            <MenuItem value={10}>10명 이상</MenuItem>
+            <MenuItem value={20}>20명 이상</MenuItem>
+            <MenuItem value={30}>30명 이상</MenuItem>
+          </Select>
+        </FormControl> */}
             </Box>
             <Box sx={{ minWidth: 120 }}>
             <Text>이용 공간 *</Text>

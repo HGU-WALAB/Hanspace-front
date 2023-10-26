@@ -5,13 +5,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+// types
+import { ISpaceItem } from 'src/types/space';
+import { DailyReserveForm, RegularyReserveForm } from 'src/types/reserve';
 // components
-import { CalendarView } from 'src/sections/calendar/view';
 import { useSettingsContext } from 'src/components/settings';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
-
 import ReserveDailyForm1 from './reserve-daily-form1';
 import ReserveDailyForm2 from './reserve-daily-form2';
 import SpaceCardList from './reserve-space';
@@ -21,29 +22,25 @@ import ReserveRegularyForm2 from './reserve-regularly-form2';
 import ReserveCSVForm from './reserve-csv';
 
 
+
 export default function ReserveView() {
   const settings = useSettingsContext();
-  const [showCalendar, setShowCalendar] = useState(false);
   const [selectedData1, setSelected1Data1] = useState({
-    reserveDate: null,
-    startTime: null,
-    endTime: null,
-    headCount: null,
-    spaceId: null,
+    reserveDate: new Date(),
+    startTime: '',
+    endTime: '',
+    headCount: 0,
+    spaceId: 0,
   });
   const [selectedData2, setSelected1Data2] = useState({
-    startDate: null,
-    endDate: null,
-    week: null,
-    startTime: null,
-    endTime: null,
-    headCount: null,
-    spaceId: null,
+    startDate: new Date(),
+    endDate: new Date(),
+    week: '',
+    startTime: '',
+    endTime: '',
+    headCount: 0,
+    spaceId: 0,
   });
-
-  const toggleCalendar = () => {
-    setShowCalendar(!showCalendar);
-  };
 
   const { data: spaces } = useQuery(
     ['GetSpace', GetSpace],
@@ -58,11 +55,11 @@ export default function ReserveView() {
   const [currentPage1, setCurrentPage1] = useState(1);
   const [currentPage2, setCurrentPage2] = useState(1);
 
-  const handleNextClick1 = (data: any) => {
+  const handleNextClick1 = (data: DailyReserveForm) => {
     setSelected1Data1(data);
     setCurrentPage1(currentPage1 + 1);
   };
-  const handleNextClick2 = (data: any) => {
+  const handleNextClick2 = (data: RegularyReserveForm) => {
     setSelected1Data2(data);
     setCurrentPage2(currentPage2 + 1);
   };
@@ -80,15 +77,10 @@ export default function ReserveView() {
   };
 
   return (
-    <>
-      <Typography variant="h4" style={{ marginBottom: '30px' }}> 
-          Page Reserve 
-          <Button onClick={toggleCalendar} variant="outlined"> Calendar</Button>
-      </Typography>
-      {showCalendar && <CalendarView />}
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
 
-    <div style={{ display: 'flex' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', flex: 2.5 }}>
+    <Box style={{ display: 'flex' }}>
+      <Box style={{ display: 'flex', flexWrap: 'wrap', flex: 2.5 }}>
         <Box
           gap={3}
           display="grid"
@@ -98,14 +90,14 @@ export default function ReserveView() {
             md: 'repeat(2, 1fr)',
           }}
         >
-        {spaces && spaces.map((space: any) => (
-          <div key={space.id}>
+        {spaces && spaces.map((space: ISpaceItem) => (
+          <Box key={space.id}>
             <SpaceCardList space={space} />
-          </div>
+          </Box>
         ))}
         </Box>
-      </div>
-      <div style={{ flex: 1 }}>
+      </Box>
+      <Box style={{ flex: 1 }}>
         <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
         {selectedValue === 'daily' && currentPage1 === 1 &&
           <ReserveDailyForm1 onNextClick={handleNextClick1} />
@@ -122,9 +114,9 @@ export default function ReserveView() {
         {selectedValue === 'csv' && 
           <ReserveCSVForm />
         }
-      </div>
-    </div>
-    </>
+      </Box>
+    </Box>
+    </Container>
   );
 
 }
