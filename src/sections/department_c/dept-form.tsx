@@ -132,6 +132,7 @@ export default function DepartmentForm() {
         </FormControl>
 
         <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>사용자 즉시 입장 여부 *</Typography>
+        <DeptPopover />
         <FormControlLabel 
             control={ <RHFSwitch name="userAccept" label={null} sx={{ m: 0 }} />}
             label="허가없이 사용자 기관 가입"
