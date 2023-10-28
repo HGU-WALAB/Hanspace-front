@@ -54,16 +54,16 @@ export default function ReserveCSVForm() {
     } = methods;
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
+    <Box color="primary" sx={{ minHeight: '100vh', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
+    <Typography variant="h4" color="inherit" style={{ padding: '20px 0 20px 0'}}> 
       Make a CSV Reservation
     </Typography>
     <FormProvider methods={methods}>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Button variant="outlined" color="inherit" sx={{ width: '300px', height: '55px', marginBottom: '16px'}}>
+      <Button variant="outlined" color="primary" sx={{ width: '300px', height: '55px', marginBottom: '16px'}}>
         업로드 양식 다운로드하기
       </Button>
-      <Button variant="outlined" color="inherit" sx={{ width: '300px', height: '55px', marginBottom: '40px', borderRadius: '50px'}}>
+      <Button variant="outlined" color="primary" sx={{ width: '300px', height: '55px', marginBottom: '40px', borderRadius: '50px'}}>
         파일 선택
       </Button>
       <Button variant="outlined" color="primary" sx={{ width: '300px', height: '55px', borderRadius: '50px'}}>

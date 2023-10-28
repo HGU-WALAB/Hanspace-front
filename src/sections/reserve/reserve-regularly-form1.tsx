@@ -157,8 +157,8 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
     };
 
     return (
-        <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-        <Typography variant="h5" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
+        <Box sx={{ minHeight: '100vh', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
+        <Typography variant="h5" color="inherit" style={{ padding: '20px 0 20px 0' }}> 
         Make a Regulary Reservation
         </Typography>
         <FormProvider methods={methods}>

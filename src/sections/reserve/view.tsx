@@ -5,6 +5,11 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+// routes
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
+
 // types
 import { ISpaceItem } from 'src/types/space';
 import { DailyReserveForm, RegularyReserveForm } from 'src/types/reserve';
@@ -78,7 +83,12 @@ export default function ReserveView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-
+      {/* <Link to={paths.dashboard.department.root} color="inherit">
+        <Button disableRipple color="inherit">기관 등록하기</Button>
+      </Link> */}
+      <Link component={RouterLink} href={paths.dashboard.department.root} color="inherit" variant="subtitle2" noWrap>
+        <Button disableRipple color="inherit">기관 등록하기</Button>
+      </Link>
     <Box style={{ display: 'flex' }}>
       <Box style={{ display: 'flex', flexWrap: 'wrap', flex: 2.5 }}>
         <Box

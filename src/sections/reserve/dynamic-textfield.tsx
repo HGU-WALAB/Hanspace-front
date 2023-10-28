@@ -1,28 +1,37 @@
 // react
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // @mui
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from '@mui/material/Button';
 
+interface DynamicTextFieldProps {
+    onUpdateExtraInfo: (newExtraInfo: string) => void;
+}
 
-export default function DynamicTextField() {
+export default function DynamicTextField({ onUpdateExtraInfo }: DynamicTextFieldProps) {
     const [fields, setFields] = useState([""]);
 
     const handleAddField = () => {
-    setFields([...fields, ""]);
+        setFields([...fields, ""]);
     };
 
     const handleRemoveField = (index: number) => {
-    const filteredFields = fields.filter((_, i) => i !== index);
-    setFields(filteredFields);
+        const filteredFields = fields.filter((_, i) => i !== index);
+        setFields(filteredFields);
     };
+
+    useEffect(() => {
+        onUpdateExtraInfo(fields.join(', '));
+    }, [fields, onUpdateExtraInfo]);
 
 
     return(
         <>
-        <p>추가 정보</p>
+        <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mt: 1, mb: 1 }}>
+            +
+        </Button>
             {fields.map((field, index) => (
             <div key={index}>
                 <TextField
@@ -34,14 +43,11 @@ export default function DynamicTextField() {
                     setFields(updatedFields);
                 }}
                 />
-                <IconButton onClick={() => handleRemoveField(index)}>
+                <IconButton onClick={() => handleRemoveField(index)} color="primary">
                 <DeleteIcon />
                 </IconButton>
             </div>
             ))}
-            <Button variant="contained" onClick={handleAddField} sx={{ mt: 2 }}>
-            정보 추가하기
-            </Button>
         </>
     );
 }

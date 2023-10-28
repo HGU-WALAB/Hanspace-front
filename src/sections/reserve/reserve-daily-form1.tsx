@@ -123,8 +123,8 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     };
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
+    <Box color="primary" sx={{ minHeight: '100vh', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
+    <Typography color="inherit" variant="h4" style={{ padding: '20px 0 20px 0' }}> 
       Make a Reservation
     </Typography>
     <FormProvider methods={methods}>
@@ -152,7 +152,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
                   });
                   // setValue('availableStart', formattedTime);
                   setstartTime(formattedTime);
-                  console.log(formattedTime);
+                  // console.log(formattedTime);
                 }
               }}
               sx={{ marginBottom: '20px', width: '280px'}}
@@ -170,7 +170,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
                   });
                   // setValue('availableEnd', formattedTime);
                   setendTime(formattedTime);
-                  console.log(formattedTime);
+                  // console.log(formattedTime);
                 }
               }}
               sx={{ width: '280px'}}
@@ -211,7 +211,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
           </FormControl>
         </Box>
 
-        <Button onClick={handleNextClick} variant="outlined" color="inherit" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
+        <Button onClick={handleNextClick} variant="outlined" color="primary" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
           다음
         </Button>
     </FormProvider>

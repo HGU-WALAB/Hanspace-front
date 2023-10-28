@@ -28,6 +28,9 @@ export const paths = {
       manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,
       manageSite: `${ROOTS.DASHBOARD}/management/manageSite`,
     },
+    department:{
+      root: `${ROOTS.DASHBOARD}/department`,
+    }
     // user: {
     //   root: `${ROOTS.DASHBOARD}/user`,
     //   new: `${ROOTS.DASHBOARD}/user/new`,
