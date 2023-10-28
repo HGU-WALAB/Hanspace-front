@@ -277,7 +277,7 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
             </FormControl>
             </Box>
 
-            <Button onClick={handleNextClick} variant="outlined" color="inherit" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
+            <Button onClick={handleNextClick} variant="outlined" color="primary" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
             다음
             </Button>
         </FormProvider>

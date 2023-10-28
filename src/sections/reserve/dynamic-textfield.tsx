@@ -30,7 +30,7 @@ export default function DynamicTextField({ onUpdateExtraInfo }: DynamicTextField
     return(
         <>
         <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mt: 1, mb: 1 }}>
-            +
+            추가 정보 더 등록하기
         </Button>
             {fields.map((field, index) => (
             <div key={index}>
