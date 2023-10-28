@@ -15,11 +15,15 @@ import Button from '@mui/material/Button';
 import FormProvider , {
     RHFTextField,
     RHFSwitch,
+    RHFUploadAvatar,
     RHFSelect,
+    RHFUploadBox,
+    RHFUpload,
   } from 'src/components/hook-form';
   import { useForm } from 'react-hook-form';
 import DynamicTextField from "../reserve/dynamic-textfield";
 import DeptPopover from "./dept-popover";
+import DepartmentCreateSuccessModal from "./dept-modal";
 
 // ———————————————————————————————————
 export const defaultValues = {
@@ -50,9 +54,9 @@ export default function DepartmentForm() {
         formState: { isSubmitting },
     } = methods;
 
-    const [logo, setLogo] = useState('');
     const [maxRserveCount, setMaxRserveCount] = useState(30);
     const [extraInfo, setExtraInfo] = useState('');
+    const [open, setOpen] = useState<boolean>(false);
 
     const updateExtraInfo = (newExtraInfo: string) => {
         setExtraInfo(newExtraInfo);
@@ -63,14 +67,15 @@ export default function DepartmentForm() {
         setMaxRserveCount(parsedValue);
     };
 
-
     const onSubmit = handleSubmit(async (data) => {
         try {
             data.maxRserveCount = maxRserveCount;
-            data.logo = logo;
             data.extraInfo = extraInfo;
             reset();
             console.log('넘어오는 data', data);
+
+            // modal
+            setOpen(true);
         } catch (error) {
             console.error(error);
         }
@@ -78,12 +83,16 @@ export default function DepartmentForm() {
 
   return (
     <Box>
+    <DepartmentCreateSuccessModal open={open} onClose={() => setOpen(false)} />
     <FormProvider methods={methods} onSubmit={onSubmit}>
         <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>사이트 이름 *</Typography>
         <RHFTextField name="siteName" label="사이트 이름을 입력해주세요." sx={{ width: '280px'}}/>
+
         <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>기관 이름 *</Typography>
         <RHFTextField name="deptName" label="기관 이름을 입력해주세요." sx={{ width: '280px'}}/>
-        <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>로고 *</Typography>
+
+        <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>로고 사진 *</Typography>
+        
 
         <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>테마 색상 *</Typography>
         <FormControl fullWidth>
@@ -118,9 +127,9 @@ export default function DepartmentForm() {
         <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>추가 정보</Typography>
         <DynamicTextField onUpdateExtraInfo={updateExtraInfo}/>
 
-        <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
-        대여하기
-      </Button>
+        <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px', marginTop: '10px'}}>
+            대여하기
+        </Button>
     </FormProvider>
     </Box>
   );
