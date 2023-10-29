@@ -19,7 +19,7 @@ import SpacingGrid from './reserve-time';
 
 // ----------------------------------------------------------------------
 const SpaceName = styled.p`
-  color: var(--neutral-colors-headings-black, #5D5A88);
+  color: var(--neutral-colors-headings-black, #383838);
   text-align: center;
   font-size: 23px;
   font-style: normal;
@@ -29,7 +29,7 @@ const SpaceName = styled.p`
   margin-bottom: 40px;
 `;
 const InfoText = styled.div`
-  color: #9A98BC;
+  color: #212121;
   font-family: Pretendard;
   font-size: 13px;
 `;
@@ -58,7 +58,6 @@ export default function SpaceCardList({ space }: Props) {
   const availableStartTime = space.availableStart.toLocaleString();
   const availableEndTime = space.availableEnd.toLocaleString();
 
-
   const renderImages = (
     <Stack
       spacing={0.5}
@@ -84,7 +83,7 @@ export default function SpaceCardList({ space }: Props) {
     >
       {[
         {
-          label: `참가 인원 : ${headCount}`,
+          label: `최대 인원 : ${headCount}`,
         },
         {
           label: `추가 요청 : ${detail}`,
@@ -122,8 +121,8 @@ export default function SpaceCardList({ space }: Props) {
     <>
     <Card
       onClick={() => setIsClicked(!isClicked)}
+      color={isClicked ? 'primary' : 'white'}
       style={{
-        background: isClicked ? '#F2F1FA' : 'white',
         display: 'flex', // 가로 방향으로 정렬
         justifyContent: 'center', // 가운데 정렬
         cursor: 'pointer',

@@ -8,19 +8,7 @@ import Button from '@mui/material/Button';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider , {
-  RHFEditor,
-  RHFSelect,
-  RHFUpload,
-  RHFSwitch,
-  RHFSlider,
-  RHFCheckbox,
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
-} from 'src/components/hook-form';
+import FormProvider from 'src/components/hook-form';
 
 // ———————————————————————————————————
 
@@ -54,9 +42,9 @@ export default function ReserveCSVForm() {
     } = methods;
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-      Make a CSV Reservation
+    <Box>
+    <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+      CSV 파일로 예약하기
     </Typography>
     <FormProvider methods={methods}>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

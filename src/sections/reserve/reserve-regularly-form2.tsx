@@ -179,9 +179,9 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
     }, [extraData, words]);
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-      Make a Regulary Reservation
+    <Box>
+    <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+      정기 예약 하기
     </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {/* <Text>모임명 *</Text>
@@ -200,7 +200,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
       <Button onClick={handlePrevClick} variant="outlined" color="inherit" sx={{ width: '100px', marginRight: '10px'}}>
         이전
       </Button>
-      <Button variant="contained" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
+      <Button variant="contained" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
         대여하기
       </Button>
       </div>

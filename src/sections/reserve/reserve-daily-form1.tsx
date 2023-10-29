@@ -93,27 +93,27 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
     const [headCount, setheadCount] = useState('');
-    const [spaceId, setSpaceId] = useState('');
+    // const [spaceId, setSpaceId] = useState('');
 
     const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
       setheadCount(numericValue);
     };
-    const handleSpaceChange = (event: SelectChangeEvent) => {
-      const value = event.target.value;
-      setSpaceId(value);
-    };
+    // const handleSpaceChange = (event: SelectChangeEvent) => {
+    //   const value = event.target.value;
+    //   setSpaceId(value);
+    // };
 
     const handleNextClick = () => {
       const headCountNumber = parseInt(headCount, 10);
-      const spaceIdNumber = parseInt(spaceId, 10);
-      if (reserveDate && startTime && endTime && headCount && spaceId) {
+      // const spaceIdNumber = parseInt(spaceId, 10);
+      if (reserveDate && startTime && endTime && headCount) {
         const selectedData = {
           reserveDate,
           startTime,
           endTime,
           headCount: headCountNumber,
-          spaceId: spaceIdNumber,
+          // spaceId: spaceIdNumber,
         };
 
         onNextClick(selectedData);
@@ -123,98 +123,111 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     };
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-      Make a Reservation
-    </Typography>
-    <FormProvider methods={methods}>
+    <Box>
+      <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+        일일 예약 하기
+      </Typography>
+      <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Text>이용 날짜 *</Text>
-          <DemoContainer components={['DatePicker', 'DatePicker']}>
-            <DatePicker
-              value={reserveDate}
-              onChange={(newValue) => setDate(newValue)}
-              sx={{ width: '280px'}}
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <div style={{ flexGrow: 1, marginRight: '10px' }}>
+            <Typography variant="subtitle1" >이용 날짜 *</Typography>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker
+                  value={reserveDate}
+                  onChange={(newValue) => setDate(newValue)}
+                  sx={{ width: '200px'}}
+                />
+              </DemoContainer>
+            </div>
+          <div style={{ flexGrow: 1, marginRight: '10px' }}>
+            <Typography variant="subtitle1">이용 시간 *</Typography>
+              <DesktopTimePicker
+                    label="예약 시작 시간"
+                    value={methods.watch('startTime')}
+                    onChange={(newValue) => {
+                      if (newValue !== null) {
+                        const dateObject = new Date(newValue);
+                        const formattedTime = dateObject.toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false,
+                        });
+                        // setValue('availableStart', formattedTime);
+                        setstartTime(formattedTime);
+                        console.log(formattedTime);
+                      }
+                    }}
+                    sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
+                  />
+              <DesktopTimePicker
+                    label="예약 끝 시간"
+                    value={methods.watch('endTime')}
+                    onChange={(newValue) => {
+                      if (newValue !== null) {
+                        const dateObject = new Date(newValue);
+                        const formattedTime = dateObject.toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false,
+                        });
+                        // setValue('availableEnd', formattedTime);
+                        setendTime(formattedTime);
+                        console.log(formattedTime);
+                      }
+                    }}
+                    sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
+                  />
+          </div>
+          <div style={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1">사용 인원 *</Typography>
+            <RHFTextField 
+              name="headCount" 
+              label="사용 인원을 입력해주세요." 
+              sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
+              value={headCount} 
+              onChange={handleHeadCountChange} 
             />
-          </DemoContainer>
+            {/* <FormControl fullWidth>
+              <InputLabel>수용 인원</InputLabel>
+              <Select
+                // labelId="demo-simple-select-label"
+                // id="demo-simple-select"
+                name="headCount"
+                label="headCount"
+                onChange={handlePersonneleChange}
+                sx={{ width: '280px'}}
+              >
+                <MenuItem value={10}>10명 이상</MenuItem>
+                <MenuItem value={20}>20명 이상</MenuItem>
+                <MenuItem value={30}>30명 이상</MenuItem>
+              </Select>
+            </FormControl> */}
+            {/* <Text>이용 공간 *</Text>
+            <FormControl fullWidth>
+              <InputLabel>이용 공간</InputLabel>
+                <Select
+                  name="spaceId"
+                  label="spaceId"
+                  onChange={handleSpaceChange}
+                  sx={{ width: '280px'}}
+                > 
+                {spaces && spaces.map((space: any) => (
+                  <MenuItem key={space?.spaceId} value={space?.spaceId}>
+                    {space?.name}
+                  </MenuItem>
+                ))}
+                </Select>
+              </FormControl> */}
+          </div>
+          <div style={{ flexGrow: 1 }}>
+            <Button onClick={handleNextClick} variant="contained" color="primary" disabled={isSubmitting} sx={{ marginTop: '40px' }}>
+              장소 찾기
+            </Button>
+          </div>
+        </div>
         </LocalizationProvider>
-        <Text>이용 시간 *</Text>
-        <DesktopTimePicker
-              label="예약 시작 시간"
-              value={methods.watch('startTime')}
-              onChange={(newValue) => {
-                if (newValue !== null) {
-                  const dateObject = new Date(newValue);
-                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  });
-                  // setValue('availableStart', formattedTime);
-                  setstartTime(formattedTime);
-                  console.log(formattedTime);
-                }
-              }}
-              sx={{ marginBottom: '20px', width: '280px'}}
-            />
-        <DesktopTimePicker
-              label="예약 끝 시간"
-              value={methods.watch('endTime')}
-              onChange={(newValue) => {
-                if (newValue !== null) {
-                  const dateObject = new Date(newValue);
-                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  });
-                  // setValue('availableEnd', formattedTime);
-                  setendTime(formattedTime);
-                  console.log(formattedTime);
-                }
-              }}
-              sx={{ width: '280px'}}
-            />
-        <Box sx={{ minWidth: 120 }}>
-        <Text>사용 인원 *</Text>
-        <RHFTextField name="headCount" label="사용 인원을 입력해주세요." sx={{ width: '280px'}} value={headCount} onChange={handleHeadCountChange} />
-        {/* <FormControl fullWidth>
-          <InputLabel>수용 인원</InputLabel>
-          <Select
-            // labelId="demo-simple-select-label"
-            // id="demo-simple-select"
-            name="headCount"
-            label="headCount"
-            onChange={handlePersonneleChange}
-            sx={{ width: '280px'}}
-          >
-            <MenuItem value={10}>10명 이상</MenuItem>
-            <MenuItem value={20}>20명 이상</MenuItem>
-            <MenuItem value={30}>30명 이상</MenuItem>
-          </Select>
-        </FormControl> */}
-        <Text>이용 공간 *</Text>
-        <FormControl fullWidth>
-          <InputLabel>이용 공간</InputLabel>
-            <Select
-              name="spaceId"
-              label="spaceId"
-              onChange={handleSpaceChange}
-              sx={{ width: '280px'}}
-            > 
-            {spaces && spaces.map((space: any) => (
-              <MenuItem key={space?.spaceId} value={space?.spaceId}>
-                {space?.name}
-              </MenuItem>
-            ))}
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Button onClick={handleNextClick} variant="outlined" color="inherit" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
-          다음
-        </Button>
-    </FormProvider>
+      </FormProvider>
     </Box>
   );
 }
