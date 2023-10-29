@@ -42,6 +42,7 @@ export default function DynamicTextField({ onUpdateExtraInfo }: DynamicTextField
                     updatedFields[index] = e.target.value;
                     setFields(updatedFields);
                 }}
+                sx={{mt: 1}}
                 />
                 <IconButton onClick={() => handleRemoveField(index)} color="primary">
                 <DeleteIcon />

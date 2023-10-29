@@ -8,7 +8,7 @@ export default function DepartmentView() {
   return (
     <>
     <p>기관 등록 폼 페이지</p>
-    <Box style={{ display: 'flex' }}>
+    <Box display="flex" flexDirection="column" alignItems="center">
         <DepartmentForm />
     </Box>
     </>

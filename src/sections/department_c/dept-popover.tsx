@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
 
 
 interface DeptPopoverProps {
@@ -40,9 +41,10 @@ export default function DeptPopover({ filed }: DeptPopoverProps) {
 
   return (
     <div>
-      <Button aria-describedby={id} variant="outlined" color="primary" onClick={handleClick}>
+      <Fab size="small" color="primary" onClick={handleClick} > ? </Fab>
+      {/* <Button aria-describedby={id} variant="outlined" color="primary" onClick={handleClick} >
         ?
-      </Button>
+      </Button> */}
       <Popover
         id={id}
         open={open}

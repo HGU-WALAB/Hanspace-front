@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 // routes
 import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,14 +21,14 @@ const style = {
 };
 
 export default function DepartmentCreateSuccessModal({ open, onClose }: {open: boolean, onClose: () => void }) {
-    // const navigate = useNavigate();
+  const router = useRouter();
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
     
         if (open) {
           timer = setTimeout(() => {
-            // Navigate('/');
+            router.push(paths.dashboard.root);
             onClose();
           }, 1000);
         }
@@ -37,7 +38,7 @@ export default function DepartmentCreateSuccessModal({ open, onClose }: {open: b
             clearTimeout(timer);
           }
         };
-      }, [open, onClose]);
+      }, [open, onClose, router]);
     
 
     return (
