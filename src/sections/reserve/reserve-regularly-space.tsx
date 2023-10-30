@@ -6,15 +6,18 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 // types
 import { ISpaceItem } from 'src/types/space';
 // components
 import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // api
 import SpacingGrid from './reserve-time';
+
 
 
 // ----------------------------------------------------------------------
@@ -34,11 +37,24 @@ const InfoText = styled.div`
   font-size: 13px;
 `;
 
-type Props = {
+interface Props {
+  selectedData: {
+    startDate: Date,
+    endDate: Date,
+    week: string,
+    startTime: string,
+    endTime: string,
+    headCount: number,
+  };
   space: ISpaceItem;
+  onNextClick: (data: any) => void;
 };
 
-export default function SpaceCardList({ space }: Props) {
+export default function RegularlySpaceCardList({ space, selectedData, onNextClick }: Props) {
+  useEffect(() => {
+    console.log('space data', selectedData);
+  }, [selectedData]);
+  
   const popover = usePopover();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -63,11 +79,11 @@ export default function SpaceCardList({ space }: Props) {
       spacing={0.5}
       direction="row"
       sx={{
-        p: (theme) => theme.spacing(0, 4, 3, 4),
+        p: (theme) => theme.spacing(0, 0, 0, 0),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ borderRadius: 0.1, height: 110, width: 1 }} />
+        <Image alt={image} src={image} sx={{ height: 250 }} />
       </Stack>
     </Stack>
   );
@@ -77,8 +93,8 @@ export default function SpaceCardList({ space }: Props) {
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 4, 5, 4),
-        height: 134,
+        p: (theme) => theme.spacing(0, 0, 0, 0),
+        height: 250,
       }}
     >
       {[
@@ -94,9 +110,8 @@ export default function SpaceCardList({ space }: Props) {
           spacing={1}
           direction="row"
           alignItems="center"
-          sx={{ typography: 'body1' }}
         >
-          <InfoText style={{fontSize: '16px'}}>{item.label}</InfoText>
+          <Typography variant="h5" color="black" sx={{m: 2}}>{item.label}</Typography>
         </Stack>
       ))}
     </Stack>
@@ -117,6 +132,20 @@ export default function SpaceCardList({ space }: Props) {
     </Stack>
   );
 
+  const handleNextClick = () => {
+    const sendSelectedData = {
+        startDate: selectedData.startDate,
+        endDate: selectedData.endDate,
+        startTime: selectedData.startTime,
+        endTime: selectedData.endTime,
+        week: selectedData.week,
+        headCount: selectedData.headCount,
+        spaceId: space.spaceId,
+        spaceName: space.name,
+    };
+    onNextClick(sendSelectedData);
+  };
+
   return (
     <>
     <Card
@@ -130,15 +159,39 @@ export default function SpaceCardList({ space }: Props) {
     >
       {isClicked ? (
         <div>
-          <SpaceName>{space.name}</SpaceName>
           {renderInfo}
+          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
+          <Button variant="contained" color="primary" 
+            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+            disabled={
+              !selectedData.startDate ||
+              !selectedData.endDate ||
+              !selectedData.week ||
+              !selectedData.startTime ||
+              !selectedData.endTime ||
+              !selectedData.headCount
+          }>
+            장소선택
+          </Button> 
         </div>
       ) : (
         <div>
-          <SpaceName>{space.name}</SpaceName>
           {renderImages}
+          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
+          <Button variant="contained" color="primary" 
+            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+            disabled={
+              !selectedData.startDate ||
+              !selectedData.endDate ||
+              !selectedData.week ||
+              !selectedData.startTime ||
+              !selectedData.endTime ||
+              !selectedData.headCount
+          }>
+            장소선택
+          </Button> 
         </div>
       )}
     </Card>

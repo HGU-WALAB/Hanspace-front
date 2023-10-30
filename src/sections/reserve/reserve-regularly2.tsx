@@ -31,6 +31,7 @@ interface ReserveRegulary2Props {
         endTime: string;
         headCount: number;
         spaceId: number;
+        spaceName: string;
     }
 }
 
@@ -44,13 +45,14 @@ export default function ReserveRegularly2({ selectedData }: ReserveRegulary2Prop
         <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
             예약 선택 정보
         </Typography>
-        <Typography variant="subtitle1">{selectedData.startDate.toISOString()}</Typography>
-        <Typography variant="subtitle1">{selectedData.endDate.toISOString()}</Typography>
+        <Typography variant="subtitle1">{selectedData.startDate.toISOString().split('T')[0]}</Typography>
+        <Typography variant="subtitle1">{selectedData.endDate.toISOString().split('T')[0]}</Typography>
         <Typography variant="subtitle1">{selectedData.week}</Typography>
         <Typography variant="subtitle1">{selectedData.startTime}</Typography>
         <Typography variant="subtitle1">{selectedData.endTime}</Typography>
         <Typography variant="subtitle1">{selectedData.headCount}</Typography>
         <Typography variant="subtitle1">{selectedData.spaceId}</Typography>
+        <Typography variant="subtitle1">{selectedData.spaceName}</Typography>
     </Box>
   );
 }

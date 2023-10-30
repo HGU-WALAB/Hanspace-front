@@ -37,18 +37,6 @@ import FormProvider , {
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
 
-const Text = styled.p`
-  color: #000;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px;
-  margin: 0px;
-  padding: 0px;
-  margin-top: 20px;
-  margin-bottom: 8px;
-`;
 
 // ———————————————————————————————————
 export const defaultValues = {
@@ -57,13 +45,13 @@ export const defaultValues = {
   startTime: '',
   endTime: '',
   headCount: 0,
-  spaceId: 0,
+  // spaceId: 0,
 };
 interface ReserveForm1Props {
-  onNextClick: (data: any) => void;
+  handleDailyReserveInfo: (data: any) => void;
 }
 
-export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
+export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
     const { data: spaces } = useQuery(
@@ -98,6 +86,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
       setheadCount(numericValue);
+      handleNextClick();
     };
     // const handleSpaceChange = (event: SelectChangeEvent) => {
     //   const value = event.target.value;
@@ -107,7 +96,6 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
     const handleNextClick = () => {
       const headCountNumber = parseInt(headCount, 10);
       // const spaceIdNumber = parseInt(spaceId, 10);
-      if (reserveDate && startTime && endTime && headCount) {
         const selectedData = {
           reserveDate,
           startTime,
@@ -115,11 +103,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
           headCount: headCountNumber,
           // spaceId: spaceIdNumber,
         };
-
-        onNextClick(selectedData);
-      } else {
-        alert('모든 필수 필드를 입력하세요.');
-      }
+        handleDailyReserveInfo(selectedData);
     };
 
   return (
@@ -130,18 +114,21 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <div style={{ flexGrow: 1, marginRight: '10px' }}>
-            <Typography variant="subtitle1" >이용 날짜 *</Typography>
+          <div style={{ marginRight: '10px' }}>
+            {/* <Typography variant="subtitle1" >이용 날짜 *</Typography> */}
               <DemoContainer components={['DatePicker', 'DatePicker']}>
                 <DatePicker
                   value={reserveDate}
-                  onChange={(newValue) => setDate(newValue)}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                    handleNextClick();
+                  }}
                   sx={{ width: '200px'}}
                 />
               </DemoContainer>
             </div>
-          <div style={{ flexGrow: 1, marginRight: '10px' }}>
-            <Typography variant="subtitle1">이용 시간 *</Typography>
+          <div style={{ marginRight: '10px' }}>
+            {/* <Typography variant="subtitle1">이용 시간 *</Typography> */}
               <DesktopTimePicker
                     label="예약 시작 시간"
                     value={methods.watch('startTime')}
@@ -156,6 +143,7 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
                         // setValue('availableStart', formattedTime);
                         setstartTime(formattedTime);
                         console.log(formattedTime);
+                        handleNextClick();
                       }
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
@@ -174,13 +162,14 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
                         // setValue('availableEnd', formattedTime);
                         setendTime(formattedTime);
                         console.log(formattedTime);
+                        handleNextClick();
                       }
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
                   />
           </div>
-          <div style={{ flexGrow: 1 }}>
-            <Typography variant="subtitle1">사용 인원 *</Typography>
+          {/* <div style={{ flexGrow: 1 }}> */}
+            {/* <Typography variant="subtitle1">사용 인원 *</Typography> */}
             <RHFTextField 
               name="headCount" 
               label="사용 인원을 입력해주세요." 
@@ -219,12 +208,12 @@ export default function ReserveDailyForm1({ onNextClick }: ReserveForm1Props) {
                 ))}
                 </Select>
               </FormControl> */}
-          </div>
-          <div style={{ flexGrow: 1 }}>
+          {/* </div> */}
+          {/* <div style={{ flexGrow: 1 }}>
             <Button onClick={handleNextClick} variant="contained" color="primary" disabled={isSubmitting} sx={{ marginTop: '40px' }}>
               장소 찾기
             </Button>
-          </div>
+          </div> */}
         </div>
         </LocalizationProvider>
       </FormProvider>

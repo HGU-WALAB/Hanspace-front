@@ -29,6 +29,7 @@ interface ReserveDailyForm2Props {
     endTime: string;
     headCount: number; // 예상되는 데이터 타입에 따라 수정
     spaceId: number; // 예상되는 데이터 타입에 따라 수정
+    spaceName: string;
   };
 }
 
@@ -42,10 +43,11 @@ export default function ReserveDaily2({ selectedData }: ReserveDailyForm2Props) 
         <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
             예약 선택 정보
         </Typography>
-        <Typography variant="subtitle1">{selectedData.reserveDate.toISOString()}</Typography>
+        <Typography variant="subtitle1">{selectedData.reserveDate.toISOString().split('T')[0]}</Typography>
         <Typography variant="subtitle1">{selectedData.startTime}</Typography>
         <Typography variant="subtitle1">{selectedData.endTime}</Typography>
         <Typography variant="subtitle1">{selectedData.spaceId}</Typography>
+        <Typography variant="subtitle1">{selectedData.spaceName}</Typography>
         <Typography variant="subtitle1">{selectedData.headCount}</Typography>
     </Box>
   );
