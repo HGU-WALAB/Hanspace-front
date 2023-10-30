@@ -19,13 +19,13 @@ export default function Router() {
     // Auth routes
     ...authRoutes,
 
-    // Dashboard routes
-    ...dashboardRoutes,
-
     // Main routes
     ...mainRoutes,
 
+    // Dashboard routes
+    ...dashboardRoutes,
+
     // No match 404
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <Navigate to="/hanspace/404" replace /> },
   ]);
 }

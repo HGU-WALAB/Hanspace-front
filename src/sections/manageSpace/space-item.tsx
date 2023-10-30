@@ -119,7 +119,7 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
       }}
       //   primary={`Posted date: ${fDateTime(createdAt)}`}
       secondary={
-        <Link component={RouterLink} href={paths.dashboard.root} color="inherit">
+        <Link component={RouterLink} href={paths.hanspace.root} color="inherit">
           {name}
         </Link>
       }
