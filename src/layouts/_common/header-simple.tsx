@@ -12,12 +12,21 @@ import { RouterLink } from 'src/routes/components';
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 // components
 import Logo from 'src/components/logo';
+import DeptHeaderButton from 'src/sections/home/dept-button';
 //
+import styled from 'styled-components';
 import { HEADER } from '../config-layout';
 import HeaderShadow from './header-shadow';
 import SettingsButton from './settings-button';
 
 // ----------------------------------------------------------------------
+
+const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+`;
 
 export default function HeaderSimple() {
   const theme = useTheme();
@@ -47,7 +56,10 @@ export default function HeaderSimple() {
           }),
         }}
       >
-        <Logo />
+        <Rows>
+          <Logo />
+          <DeptHeaderButton />
+        </Rows>
 
         <Stack direction="row" alignItems="center" spacing={1}>
           <SettingsButton />
