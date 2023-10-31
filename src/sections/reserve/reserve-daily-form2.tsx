@@ -153,7 +153,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
 
   return (
     <Box>
-      <Typography variant="h4" color="primary" sx={{mb: 5}}> 
+      <Typography variant="h6" color="primary" sx={{mb: 5}}> 
         일일 예약 하기
       </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>
