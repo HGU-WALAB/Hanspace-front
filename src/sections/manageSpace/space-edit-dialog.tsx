@@ -31,6 +31,7 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
+import { ISpaceItem } from 'src/types/space';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
@@ -46,7 +47,13 @@ export const defaultValues = {
   //
 };
 
-export default function FormDialog() {
+type SpaceEditDialogProps = {
+  open: boolean;
+  onClose: () => void;
+  space?: ISpaceItem | null; // if you want to pass the space being edited
+};
+
+export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialogProps) {
   const dialog = useBoolean();
 
   const methods = useForm({
@@ -97,26 +104,31 @@ export default function FormDialog() {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Button variant="outlined" color="warning" onClick={dialog.onTrue}>
+      {/* <Button variant="outlined" color="primary" onClick={dialog.onTrue}>
         + 장소 추가
-      </Button>
+      </Button> */}
 
-      <Dialog open={dialog.value} onClose={dialog.onFalse}>
-        <DialogTitle>장소 추가</DialogTitle>
+      {/* <Dialog open={dialog.value} onClose={dialog.onFalse}> */}
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>장소 정보 수정</DialogTitle>
 
         <DialogContent>
-          <Typography sx={{ mb: 3 }}>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+          <Typography sx={{ width: '500px', marginBottom: '10px' }}>
+            수정 할 장소의 정보를 수정 후 저장해주세요.
           </Typography>
 
           <Stack spacing={2}>
             {/* 지워야함 이거  */}
             <RHFTextField name="deptId" label="deptId" type="number" />
 
-            <RHFTextField name="name" label="장소명" />
+            <RHFTextField name="name" label="장소명" value={space?.name} />
 
-            <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
+            <RHFTextField
+              name="headCount"
+              label="수용 가능 인원"
+              type="number"
+              value={space?.headCount}
+            />
 
             <DesktopTimePicker
               label="예약가능 시작시간"
@@ -151,7 +163,7 @@ export default function FormDialog() {
               }}
             />
 
-            <RHFTextField name="detail" label="detail" />
+            <RHFTextField name="detail" label="detail" value={space?.detail} />
 
             <RHFSwitch name="availability" label="availability" />
 
@@ -167,7 +179,7 @@ export default function FormDialog() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={dialog.onFalse} variant="outlined" color="inherit">
+          <Button onClick={onClose} variant="outlined" color="inherit">
             취소
           </Button>
           <Button

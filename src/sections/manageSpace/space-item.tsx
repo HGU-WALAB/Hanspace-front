@@ -149,18 +149,18 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
 
-      {/* {[
+      {[
         {
-          label: destination,
-          icon: <Iconify icon="mingcute:location-fill" sx={{ color: 'error.main' }} />,
+          label: `${headCount}명 수용가능`,
+          icon: <Iconify icon="solar:users-group-rounded-bold" sx={{ color: 'primary.main' }} />,
         },
         {
-          label: shortLabel,
+          label: `${availableStart} ~ ${availableEnd}`,
           icon: <Iconify icon="solar:clock-circle-bold" sx={{ color: 'info.main' }} />,
         },
         {
-          label: `${bookers.length} Booked`,
-          icon: <Iconify icon="solar:users-group-rounded-bold" sx={{ color: 'primary.main' }} />,
+          label: `${detail}`,
+          icon: <Iconify icon="mingcute:location-fill" sx={{ color: 'error.main' }} />,
         },
       ].map((item) => (
         <Stack
@@ -173,7 +173,7 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
           {item.icon}
           {item.label}
         </Stack>
-      ))} */}
+      ))}
     </Stack>
   );
 
@@ -184,7 +184,7 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
 
         {renderTexts}
 
-        {/* {renderInfo} */}
+        {renderInfo}
       </Card>
 
       <CustomPopover

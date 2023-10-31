@@ -152,10 +152,10 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
     }, [extraData, words]);
 
   return (
-    <Box sx={{ minHeight: '100vh', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography color="inherit" variant="h4" style={{ padding: '20px 0 20px 0'}}> 
-      Make a Reservation
-    </Typography>
+    <Box>
+      <Typography variant="h4" color="primary" sx={{mb: 5}}> 
+        일일 예약 하기
+      </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {/* <Text>모임명 *</Text>
         <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/> */}

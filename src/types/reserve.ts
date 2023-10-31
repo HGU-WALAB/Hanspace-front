@@ -1,13 +1,30 @@
-export type DailyReserveForm = {
-  spaceId: number;
+export type DailyReserveForm1 = {
   regularReserveId: number | null;
   reserveDate: Date;
   startTime: string;
   endTime: string;
   headCount: number;
 };
+export type DailyReserveForm2 = {
+  spaceId: number;
+  regularReserveId: number | null;
+  reserveDate: Date;
+  startTime: string;
+  endTime: string;
+  headCount: number;
+  spaceName: string;
+};
 
-export type RegularyReserveForm = {
+export type RegularyReserveForm1 = {
+  regularReserveId: number | null;
+  startDate: Date;
+  endDate: Date;
+  week: string;
+  startTime: string,
+  endTime: string,
+  headCount: number;
+};
+export type RegularyReserveForm2 = {
     regularReserveId: number | null;
     startDate: Date;
     endDate: Date;
@@ -16,6 +33,7 @@ export type RegularyReserveForm = {
     endTime: string,
     headCount: number;
     spaceId: number;
+    spaceName: string;
   };
 
 export type RegularlyReserveItem = {
