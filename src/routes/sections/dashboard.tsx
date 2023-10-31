@@ -15,6 +15,7 @@ const PageWaitinglist = lazy(() => import('src/pages/dashboard/waitinglist'));
 const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
 const PageManageUser = lazy(() => import('src/pages/dashboard/manageUser'));
 const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
+const DepartmentView = lazy(() => import('src/pages/dashboard/department'));
 
 // USER
 const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
@@ -56,6 +57,10 @@ export const dashboardRoutes = [
           { path: 'manageSite', element: <PageManageSite /> },
         ],
       },
+      {
+        path: 'department',
+        element: <DepartmentView />,
+      }
       // {
       //   path: 'user',
       //   children: [

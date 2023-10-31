@@ -151,6 +151,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
         <Box>
         <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
           정기 예약 하기
+
         </Typography>
         <FormProvider methods={methods}>
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
