@@ -197,18 +197,20 @@ export default function ReserveView() {
         <>
           <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} />
           <Box
-          gap={3}
-          display="grid"
-          gridTemplateColumns={{
-            xs: 'repeat(2, 1fr)',
-            sm: 'repeat(3, 1fr)',
-            md: 'repeat(3, 1fr)',
-          }}
-          sx={{marginTop: '50px'}}
-        >
-        {spaces && spaces.map((space: EXSpaceItem) => (
-          <Box key={space.id}>
-            <DailySpaceCardList space={space} selectedData={selectedDailyData1} onNextClick={handleNextClick1}/>
+            gap={3}
+            display="grid"
+            gridTemplateColumns={{
+              xs: 'repeat(2, 1fr)',
+              sm: 'repeat(3, 1fr)',
+              md: 'repeat(3, 1fr)',
+            }}
+            sx={{ marginTop: '50px' }}
+          >
+            {spaces && spaces.map((space: EXSpaceItem) => (
+              <Box key={space.id}>
+                <DailySpaceCardList space={space} selectedData={selectedDailyData1} onNextClick={handleNextClick1} />
+              </Box>
+            ))}
           </Box>
         </>
       )}
@@ -233,11 +235,13 @@ export default function ReserveView() {
               sm: 'repeat(3, 1fr)',
               md: 'repeat(3, 1fr)',
             }}
-            sx={{marginTop: '50px'}}
-        >
-        {spaces && spaces.map((space: EXSpaceItem) => (
-          <Box key={space.id}>
-            <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} onNextClick={handleNextClick2}/>
+            sx={{ marginTop: '50px' }}
+          >
+            {spaces && spaces.map((space: EXSpaceItem) => (
+              <Box key={space.id}>
+                <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} onNextClick={handleNextClick2} />
+              </Box>
+            ))}
           </Box>
         </>
       )}
