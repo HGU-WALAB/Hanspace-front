@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: One</title>
+        <title> HANSPACE </title>
       </Helmet>
 
       <HomeView />

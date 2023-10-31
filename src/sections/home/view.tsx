@@ -8,7 +8,7 @@ import { useSettingsContext } from 'src/components/settings';
 import { paths } from 'src/routes/paths';
 import { useSetRecoilState } from 'recoil';
 import { DeptNameState } from 'src/stores/atom';
-import DeptHeaderButton from './dept-button';
+import DeptList from './dept-list';
 
 // ----------------------------------------------------------------------
 
@@ -20,15 +20,14 @@ export default function HomeView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> HOME </Typography>
-
-      <Button>
+      {/* <Button>
         <Link href={paths.dept.dashboard(url)} color="inherit">
           dashboard
         </Link>
-      </Button>
+      </Button> */}
 
-      <DeptHeaderButton />
+      <Typography variant="h4"> 입장 가능한 기관들 보기 </Typography>
+      <DeptList />
     </Container>
   );
 }
