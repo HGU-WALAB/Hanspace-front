@@ -145,7 +145,6 @@ export default function DepartmentForm() {
         <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0 20px 0'}}>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, width: '300px' }}>URL 이름 *</Typography>
             <RHFTextField name="link" label="URL 이름을 입력해주세요." sx={{ width: '280px'}}/>
-            {/* url 중복 체크하기 */}
         </div>
         <Typography variant="subtitle1" sx={{ flexGrow: 1, width: '300px' }}>추가 정보</Typography>
         <DynamicTextField onUpdateExtraInfo={updateExtraInfo}/>
