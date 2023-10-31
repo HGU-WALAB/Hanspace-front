@@ -42,7 +42,7 @@ interface InputField {
 export default function ReserveRegularly2({ selectedData }: ReserveRegulary2Props) {  
   return (
     <Box>
-        <Typography variant="h4" color="primary" sx={{mb: 8}}> 
+        <Typography variant="h6" color="primary" sx={{mb: 8}}> 
             예약 선택 정보
         </Typography>
         <Typography variant="subtitle1" sx={{mb: 7}}>

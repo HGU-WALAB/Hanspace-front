@@ -179,7 +179,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
 
   return (
     <Box>
-    <Typography variant="h4" color="primary" sx={{mb: 5}}> 
+    <Typography variant="h6" color="primary" sx={{mb: 5}}> 
       정기 예약 하기
     </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>

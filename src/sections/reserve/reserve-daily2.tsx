@@ -40,7 +40,7 @@ interface InputField {
 export default function ReserveDaily2({ selectedData }: ReserveDailyForm2Props) {  
   return (
     <Box>
-        <Typography variant="h4" color="primary" sx={{mb: 10}}> 
+        <Typography variant="h6" color="primary" sx={{mb: 10}}> 
           예약 선택 정보
         </Typography>
         <Typography variant="subtitle1" sx={{mb: 8}}>

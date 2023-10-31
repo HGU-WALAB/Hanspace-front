@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // types
-import { ISpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 // components
 import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
@@ -28,7 +28,7 @@ interface Props {
     endTime: string;
     headCount: number;
   };
-  space: ISpaceItem;
+  space: EXSpaceItem;
   onNextClick: (data: any) => void;
 };
 
@@ -223,9 +223,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
         </div>
       )}
     </Card>
-    ) : (
-      <></>
-    )}
+    ) : null }
     </>
   );
 }

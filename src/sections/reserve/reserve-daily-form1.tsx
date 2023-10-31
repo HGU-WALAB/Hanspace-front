@@ -64,6 +64,9 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     //   }
     // );
   
+  const defaultDate = new Date();
+  defaultDate.setHours(0, 0, 0, 0);
+  
     const methods = useForm({
       defaultValues
     });
@@ -112,8 +115,8 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     
   return (
     <Box>
-      <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
-        일일 예약 하기
+      <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
+        일일 예약 장소 찾기
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -122,6 +125,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
             {/* <Typography variant="subtitle1" >이용 날짜 *</Typography> */}
               <DemoContainer components={['DatePicker', 'DatePicker']}>
                 <DatePicker
+                  label="예약 날짜"
                   value={reserveDate}
                   onChange={(newValue) => {
                     setDate(newValue);
