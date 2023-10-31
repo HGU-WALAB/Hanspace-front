@@ -46,9 +46,9 @@ interface ReserveRegularyForm2Props {
     selectedData: {
         startDate: Date | null;
         endDate: Date | null;
-        week: String | null;
-        startTime: Date | null;
-        endTime: Date | null;
+        week: string | null;
+        startTime: string | null;
+        endTime: string | null;
         headCount: number | null;
         spaceId: number | null;
     }
@@ -68,10 +68,9 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
     endTime: selectedData.endTime,
     headCount: selectedData.headCount,
     spaceId: selectedData.spaceId,
-    groupName: '',
     purpose: '',
-    phoneNumber: '',
-    approve: '미승인',
+    // phoneNumber: '',
+    status: '미승인',
     extraInfoAns: [ ],
     reserveCount: 0,
     reserveDate: [ ],
@@ -126,10 +125,8 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
             endTime: selectedData.endTime,
             headCount: selectedData.headCount,
             spaceId: selectedData.spaceId,
-            groupName: data.groupName,
             purpose: data.purpose,
-            phoneNumber: data.phoneNumber,
-            approve: '미승인',
+            status: '미승인',
             extraInfoAns: extraInfoAns1,
             reserveCount: defaultValues.reserveCount,
             reserveDate: reserve_Date,
@@ -144,6 +141,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
       } catch (error) {
         console.error(error);
       }
+      onPrevClick();
     });
 
     const handlePrevClick = () => {
@@ -180,17 +178,17 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
     }, [extraData, words]);
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-      Make a Regulary Reservation
+    <Box>
+    <Typography variant="h4" color="primary" sx={{mb: 5}}> 
+      정기 예약 하기
     </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Text>모임명 *</Text>
-        <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/>
+      {/* <Text>모임명 *</Text>
+        <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/> */}
       <Text>목적 *</Text>
         <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px'}}/>
-      <Text>연락처 *</Text>
-        <RHFTextField name="phoneNumber" label="연락처를 입력해주세요." sx={{ width: '280px'}}/>
+      {/* <Text>연락처 *</Text>
+        <RHFTextField name="phoneNumber" label="연락처를 입력해주세요." sx={{ width: '280px'}}/> */}
       {inputFields.map((field, index) => (
         <div key={index}>
         <Text>{words[index]} *</Text>
@@ -201,7 +199,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
       <Button onClick={handlePrevClick} variant="outlined" color="inherit" sx={{ width: '100px', marginRight: '10px'}}>
         이전
       </Button>
-      <Button variant="contained" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
+      <Button variant="contained" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
         대여하기
       </Button>
       </div>

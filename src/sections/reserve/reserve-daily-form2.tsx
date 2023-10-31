@@ -24,6 +24,7 @@ import dayjs from 'dayjs';
 
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
+import { SpaceBar } from "@mui/icons-material";
 
 const Text = styled.p`
   color: #000;
@@ -42,11 +43,11 @@ const Text = styled.p`
 interface ReserveDailyForm2Props {
   onPrevClick: () => void;
   selectedData: {
-    reserveDate: Date | null;
-    startTime: Date | null;
-    endTime: Date | null;
-    headCount: number | null; // 예상되는 데이터 타입에 따라 수정
-    spaceId: number | null; // 예상되는 데이터 타입에 따라 수정
+    reserveDate: Date;
+    startTime: string;
+    endTime: string;
+    headCount: number; // 예상되는 데이터 타입에 따라 수정
+    spaceId: number; // 예상되는 데이터 타입에 따라 수정
   };
 }
 
@@ -63,9 +64,8 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
     startTime: selectedData.startTime,
     endTime: selectedData.endTime,
     headCount: selectedData.headCount,
-    groupName: '',
     purpose: '',
-    phoneNumber: '',
+    // phoneNumber: '',
     approve: '미승인',
     extraInfoAns: [ ],
     // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
@@ -94,17 +94,16 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
         const reserve_day = reserve_date.date();
         const reserveDate = new Date(reserve_year, reserve_month, reserve_day);
         const dataToSend = {
-          spaceId: 1,
+          spaceId: selectedData.spaceId,
           memberId: 1,
           regularReserveId: null,
           reserveDate: reserveDate.toISOString().split('T')[0],
           startTime: selectedData.startTime,
           endTime: selectedData.endTime,
           headCount: selectedData.headCount,
-          groupName: data.groupName,
           purpose: data.purpose,
-          phoneNumber: data.phoneNumber,
-          approve: '미승인',
+          // phoneNumber: data.phoneNumber,
+          status: '미승인',
           extraInfoAns: extraInfoAns1,
         };
         
@@ -116,6 +115,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
       } catch (error) {
         console.error(error);
       }
+      onPrevClick();
     });
 
     const handlePrevClick = () => {
@@ -152,17 +152,17 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
     }, [extraData, words]);
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-    <Typography variant="h4" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-      Make a Reservation
-    </Typography>
+    <Box>
+      <Typography variant="h4" color="primary" sx={{mb: 5}}> 
+        일일 예약 하기
+      </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Text>모임명 *</Text>
-        <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/>
+      {/* <Text>모임명 *</Text>
+        <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/> */}
       <Text>목적 *</Text>
         <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px'}}/>
-      <Text>연락처 *</Text>
-        <RHFTextField name="phoneNumber" label="연락처를 입력해주세요." sx={{ width: '280px'}}/>
+      {/* <Text>연락처 *</Text>
+        <RHFTextField name="phoneNumber" label="연락처를 입력해주세요." sx={{ width: '280px'}}/> */}
       {inputFields.map((field, index) => (
         <div key={index}>
         <Text>{words[index]} *</Text>
@@ -173,7 +173,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
       <Button onClick={handlePrevClick} variant="outlined" color="inherit" sx={{ width: '100px', marginRight: '10px'}}>
         이전
       </Button>
-      <Button variant="contained" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
+      <Button variant="contained" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
         대여하기
       </Button>
       </div>

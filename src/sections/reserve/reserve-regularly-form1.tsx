@@ -1,5 +1,5 @@
 // react
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
@@ -19,30 +19,31 @@ import MenuItem from '@mui/material/MenuItem';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider from 'src/components/hook-form';
+import FormProvider , {
+  RHFEditor,
+  RHFSelect,
+  RHFUpload,
+  RHFSwitch,
+  RHFSlider,
+  RHFCheckbox,
+  RHFTextField,
+  RHFRadioGroup,
+  RHFMultiSelect,
+  RHFAutocomplete,
+  RHFMultiCheckbox,
+} from 'src/components/hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
 
-const Text = styled.p`
-    color: #000;
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
-    margin: 0px;
-    padding: 0px;
-    margin-top: 10px;
-`;
 const DayButton = styled.button`
     width: 31px;
     height: 42px;
     border-radius: 7px;
     margin-right: 7px;
-    border-color: #C0C0C0;
     border-width: 2px;
+    background: white;
 `;
 
 // ———————————————————————————————————
@@ -57,10 +58,10 @@ export const defaultValues = {
   spaceId: 0,
 };
 interface ReserveForm1Props {
-  onNextClick: (data: any) => void;
+  handleRegularlyReserveInfo: (data: any) => void;
 }
 
-export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props) {
+export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
     const { data: spaces } = useQuery(
@@ -91,18 +92,23 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
     const [week, setweek] = useState<string[]>([]);
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState('');
-    const [spaceId, setSpaceId] = useState<string>('');
+    const [headCount, setheadCount] = useState(0);
+    // const [spaceId, setSpaceId] = useState('');
 
-    const handlePersonneleChange = (event: SelectChangeEvent) => {
-      setheadCount(event.target.value as string);
-    };
-    const handleSpaceChange = (event: SelectChangeEvent) => {
-      setSpaceId(event.target.value as string);
-    };
+    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+    //   setheadCount(numericValue);
+    //   handleNextClick();
+    // };
+    // const handleSpaceChange = (event: SelectChangeEvent) => {
+    //   const value = event.target.value;
+    //   setSpaceId(value);
+    // };
 
-    const handleNextClick = () => {
-      if (startDate && endDate && week && headCount && spaceId) {
+
+    const handleNextClick = useCallback(() => {
+      // const headCountNumber = parseInt(headCount, 10);
+      // const spaceIdNumber = parseInt(spaceId, 10);
         const selectedData = {
             startDate,
             endDate,
@@ -110,13 +116,15 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
             startTime,
             endTime,
             headCount,
-            spaceId,
+            // spaceId: spaceIdNumber,
         };
-        onNextClick(selectedData);
-      } else {
-        alert('모든 필수 필드를 입력하세요.');
-      }
-    };
+        handleRegularlyReserveInfo(selectedData);
+      }, [startDate, endDate, week, startTime, endTime, headCount, handleRegularlyReserveInfo]);
+      
+      useEffect(() => {
+        handleNextClick();
+      }, [handleNextClick]);
+
 
     const days: string[] = ['월', '화', '수', '목', '금', '토', '일'];
     const toggleDay = (day: string) => {
@@ -140,52 +148,68 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
     };
 
     return (
-        <Box sx={{ minHeight: '100vh', backgroundColor: '#F2F1FA', borderRadius: '20px 0 0 0', paddingLeft: '20px'}}>
-        <Typography variant="h5" style={{ padding: '20px 0 20px 0', color: '#5D5A88'}}> 
-        Make a Regulary Reservation
+        <Box>
+        <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+          정기 예약 하기
         </Typography>
         <FormProvider methods={methods}>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text>시작 일 *</Text>
-                <DemoContainer components={['DatePicker', 'DatePicker']}>
-                    <DatePicker
-                    value={startDate}
-                    onChange={(newValue) => setstartDate(newValue)}
-                    sx={{ width: '240px', marginLeft: '10px'}}
-                    />
-                </DemoContainer>
+            <div style={{ marginRight: '10px' }}>
+              {/* <Typography variant="subtitle2">시작 일 *</Typography> */}
+              <DemoContainer components={['DatePicker', 'DatePicker']} >
+                <DatePicker
+                  value={startDate}
+                  onChange={(newValue) => {
+                    setstartDate(newValue);
+                  }}
+                  sx={{ width: '200px'}}
+                  label='시작 일'
+                />
+              </DemoContainer>
             </div>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Text>종료 일 *</Text>
+              <div style={{ marginRight: '10px' }}>
+                {/* <Typography variant="subtitle2">종료 일 *</Typography> */}
                 <DemoContainer components={['DatePicker', 'DatePicker']}>
-                    <DatePicker
+                  <DatePicker
                     value={endDate}
-                    onChange={(newValue) => setendDate(newValue)}
-                    sx={{ width: '240px', marginLeft: '10px' }}
-                    />
+                    onChange={(newValue) => {
+                      setendDate(newValue);
+                    }}
+                    sx={{ width: '200px'}}
+                    label='종료 일'
+                  />
                 </DemoContainer>
-            </div>
+              </div>
             </LocalizationProvider>
-            <Text>요일 *</Text>
+          </div>
+          <div style={{ marginRight: '10px', marginTop: '12px'}}>
+            {/* <Typography variant="subtitle2" sx={{ margin: '0 0 12px 0' }}>요일 *</Typography> */}
+            <DayButton type="button" onClick={toggleAllDays} style={{ width: '40px' }}>
+                전체
+            </DayButton>
             {days.map((day) => (
                 <DayButton
                 key={day}
-                onClick={() => toggleDay(day)}
+                onClick={() => {
+                  toggleDay(day);
+                }}
                 style={{
-                    background: week.includes(day) ? '#8F8CC2' : 'transparent',
+                    background: week.includes(day) ? '#FFECF6' : 'white',
                 }}
                 type="button"
                 >
                 {day}
                 </DayButton>
             ))}
-            <DayButton type="button" onClick={toggleAllDays} style={{ width: '40px' }}>
-                전체
-            </DayButton>
-            <Text>이용 시간 *</Text>
+          </div>
+          {/* </div>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}> */}
+          <div style={{ marginRight: '10px' }}>
+            {/* <Typography variant="subtitle2">이용 시간 *</Typography> */}
             <DesktopTimePicker
                 label="예약 시작 시간"
                 value={methods.watch('startTime')}
@@ -199,11 +223,11 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
                     });
                     // setValue('availableStart', formattedTime);
                     setstartTime(formattedTime);
-                    console.log(formattedTime);
+                    // console.log(formattedTime);
                     }
                 }}
-                sx={{ marginTop: '10px', marginBottom: '10px', width: '280px'}}
-                />
+                sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
+            />
             <DesktopTimePicker
                 label="예약 끝 시간"
                 value={methods.watch('endTime')}
@@ -217,30 +241,42 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
                     });
                     // setValue('availableEnd', formattedTime);
                     setendTime(formattedTime);
-                    console.log(formattedTime);
+                    // console.log(formattedTime);
                     }
                 }}
-                sx={{ width: '280px' }}
+                sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
                 />
-            <Box sx={{ minWidth: 120 }}>
-            <Text>수용 인원 *</Text>
-            <FormControl fullWidth>
-            <InputLabel>수용 인원</InputLabel>
-            <Select
-                // labelId="demo-simple-select-label"
-                // id="demo-simple-select"
-                name="headCount"
-                label="headCount"
-                onChange={handlePersonneleChange}
-                sx={{ width: '280px'}}
-            >
-                <MenuItem value={10}>10명 이상</MenuItem> 
-                <MenuItem value={20}>20명 이상</MenuItem>
-                <MenuItem value={30}>30명 이상</MenuItem>
-            </Select>
-            </FormControl>
-            </Box>
-            <Box sx={{ minWidth: 120 }}>
+          </div>
+          <div style={{ marginRight: '10px' }}>
+            {/* <Typography variant="subtitle2">사용 인원 *</Typography> */}
+            <RHFTextField 
+              name="headCount" 
+              label="사용 인원을 입력해주세요." 
+              sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
+              type="number"
+              onChange={(newValue) => {
+                const numericValue = parseFloat(newValue.target.value);
+                setheadCount(numericValue);
+              }}
+              value={headCount}
+            />
+          </div>
+        {/* <FormControl fullWidth>
+          <InputLabel>수용 인원</InputLabel>
+          <Select
+            // labelId="demo-simple-select-label"
+            // id="demo-simple-select"
+            name="headCount"
+            label="headCount"
+            onChange={handlePersonneleChange}
+            sx={{ width: '280px'}}
+          >
+            <MenuItem value={10}>10명 이상</MenuItem>
+            <MenuItem value={20}>20명 이상</MenuItem>
+            <MenuItem value={30}>30명 이상</MenuItem>
+          </Select>
+        </FormControl> */}
+            {/* <Box sx={{ minWidth: 120 }}>
             <Text>이용 공간 *</Text>
             <FormControl fullWidth>
             <InputLabel>이용 공간</InputLabel>
@@ -257,12 +293,14 @@ export default function ReserveRegularyForm1({ onNextClick }: ReserveForm1Props)
                 ))}
                 </Select>
             </FormControl>
-            </Box>
-
-            <Button onClick={handleNextClick} variant="outlined" color="inherit" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
-            다음
-            </Button>
+            </Box> */}
+            {/* <div style={{ flexGrow: 0.5 }}>
+              <Button onClick={handleNextClick} variant="contained" color="primary" disabled={isSubmitting} sx={{ marginTop: '40px' }}>
+                장소 찾기
+              </Button>
+            </div> */}
+        </div>
         </FormProvider>
-        </Box>
+      </Box>
     );
 }
