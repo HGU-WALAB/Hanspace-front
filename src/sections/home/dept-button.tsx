@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // TODO: API 연결해야함
 
 // @mui
@@ -14,12 +15,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
-import { useSetRecoilState } from 'recoil';
-import { DeptNameState } from 'src/stores/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { DeptUrlState, selectedIndexState } from 'src/stores/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
-import ComponentBlock from './component-block';
+import { paths } from 'src/routes/paths';
 // ----------------------------------------------------------------------
 
 const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
@@ -44,11 +45,10 @@ const Rows = styled.div`
 
 export default function DeptHeaderButton() {
   const settings = useSettingsContext();
-  const setUrl = useSetRecoilState(DeptNameState);
-  setUrl('CSEE');
-  const url = 'CSEE';
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const setDeptUrl = useSetRecoilState(DeptUrlState);
+
+  const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
 
   const [isOpen, setOpen] = useState<null | HTMLElement>(null);
 
@@ -58,20 +58,21 @@ export default function DeptHeaderButton() {
     setOpenList(event.currentTarget);
   }, []);
 
-  const handleMenuItemClick = useCallback((event: React.MouseEvent<HTMLElement>, index: number) => {
-    setSelectedIndex(index);
-    setOpenList(null);
-  }, []);
-
-  const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(event.currentTarget);
-  }, []);
+  const handleMenuItemClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>, index: number) => {
+      console.log('index', index);
+      setSelectedIndex(index);
+      setDeptUrl(OPTIONS[index]);
+      setOpenList(null);
+      window.location.href = paths.dept.dashboard(OPTIONS[index]);
+    },
+    [setDeptUrl, setSelectedIndex]
+  );
 
   const handleClose = useCallback(() => {
     setOpen(null);
   }, []);
   return (
-    // <ComponentBlock title="Selected">
     <>
       <List component="nav" aria-label="Device settings">
         <ListItemButton
@@ -122,7 +123,6 @@ export default function DeptHeaderButton() {
           </MenuItem>
         ))}
       </Menu>
-      {/* </ComponentBlock> */}
     </>
   );
 }

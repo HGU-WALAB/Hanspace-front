@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import { paths } from 'src/routes/paths';
 // components
 import SvgColor from 'src/components/svg-color';
-import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
-import { DeptNameState } from 'src/stores/atom';
+import { useRecoilValue } from 'recoil';
+import { DeptUrlState } from 'src/stores/atom';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
-  const { url } = useRecoilValue(DeptNameState);
+  const { url } = useRecoilValue(DeptUrlState);
 
   const data = useMemo(
     () => [
