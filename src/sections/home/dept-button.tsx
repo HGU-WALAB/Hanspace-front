@@ -31,7 +31,7 @@ const DeptButton = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  width: 200px;
+  width: 175px;
   justify-content: space-between;
 `;
 

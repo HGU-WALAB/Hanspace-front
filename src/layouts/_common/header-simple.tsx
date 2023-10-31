@@ -18,6 +18,8 @@ import styled from 'styled-components';
 import { HEADER } from '../config-layout';
 import HeaderShadow from './header-shadow';
 import SettingsButton from './settings-button';
+import NotificationsPopover from './notifications-popover/notifications-popover';
+import AccountPopover from './account-popover';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +27,7 @@ const Rows = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 `;
 
@@ -38,6 +41,7 @@ export default function HeaderSimple() {
       <Toolbar
         sx={{
           justifyContent: 'space-between',
+          px: { lg: 5 },
           height: {
             xs: HEADER.H_MOBILE,
             md: HEADER.H_DESKTOP,
@@ -61,12 +65,23 @@ export default function HeaderSimple() {
           <DeptHeaderButton />
         </Rows>
 
-        <Stack direction="row" alignItems="center" spacing={1}>
+        {/* <Stack direction="row" alignItems="center" spacing={1}> */}
+        <Stack
+          flexGrow={1}
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={{ xs: 0.5, sm: 1 }}
+        >
           <SettingsButton />
 
-          <Link href="/" component={RouterLink} color="inherit" sx={{ typography: 'subtitle2' }}>
+          <NotificationsPopover />
+
+          <AccountPopover />
+
+          {/* <Link href="/" component={RouterLink} color="inherit" sx={{ typography: 'subtitle2' }}>
             Need help?
-          </Link>
+          </Link> */}
         </Stack>
       </Toolbar>
 
