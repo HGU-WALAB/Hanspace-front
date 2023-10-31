@@ -126,7 +126,6 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
             headCount: selectedData.headCount,
             spaceId: selectedData.spaceId,
             purpose: data.purpose,
-            // phoneNumber: data.phoneNumber,
             status: '미승인',
             extraInfoAns: extraInfoAns1,
             reserveCount: defaultValues.reserveCount,
@@ -180,7 +179,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
 
   return (
     <Box>
-    <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+    <Typography variant="h4" color="primary" sx={{mb: 5}}> 
       정기 예약 하기
     </Typography>
     <FormProvider methods={methods} onSubmit={onSubmit}>

@@ -1,5 +1,5 @@
 // react
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
@@ -54,15 +54,15 @@ interface ReserveForm1Props {
 export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
-    const { data: spaces } = useQuery(
-      ['GetSpace', GetSpace],
-      () => GetSpace().then((response) => response.data),
-      {
-        onSuccess: (data) => {
-          console.log('GetSpace', data);
-        },
-      }
-    );
+    // const { data: spaces } = useQuery(
+    //   ['GetSpace', GetSpace],
+    //   () => GetSpace().then((response) => response.data),
+    //   {
+    //     onSuccess: (data) => {
+    //       console.log('GetSpace', data);
+    //     },
+    //   }
+    // );
   
     const methods = useForm({
       defaultValues
@@ -80,32 +80,36 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     const [reserveDate, setDate] = useState<Dayjs | null>(dayjs());
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState('');
+    const [headCount, setheadCount] = useState(defaultValues.headCount);
     // const [spaceId, setSpaceId] = useState('');
 
-    const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-      setheadCount(numericValue);
-      handleNextClick();
-    };
+    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+    //   setheadCount(numericValue);
+    //   console.log(numericValue);
+    //   handleNextClick();
+    // };
     // const handleSpaceChange = (event: SelectChangeEvent) => {
     //   const value = event.target.value;
     //   setSpaceId(value);
     // };
 
-    const handleNextClick = () => {
-      const headCountNumber = parseInt(headCount, 10);
-      // const spaceIdNumber = parseInt(spaceId, 10);
-        const selectedData = {
-          reserveDate,
-          startTime,
-          endTime,
-          headCount: headCountNumber,
-          // spaceId: spaceIdNumber,
-        };
-        handleDailyReserveInfo(selectedData);
-    };
-
+    const handleNextClick = useCallback(() => {
+      const selectedData = {
+        reserveDate,
+        startTime,
+        endTime,
+        headCount,
+        // spaceId: spaceIdNumber,
+      };
+      handleDailyReserveInfo(selectedData);
+  }, [reserveDate, startTime, endTime, headCount, handleDailyReserveInfo]);
+  
+  useEffect(() => {
+    handleNextClick();
+  }, [handleNextClick]);
+  
+    
   return (
     <Box>
       <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
@@ -121,7 +125,6 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                   value={reserveDate}
                   onChange={(newValue) => {
                     setDate(newValue);
-                    handleNextClick();
                   }}
                   sx={{ width: '200px'}}
                 />
@@ -140,10 +143,8 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                           minute: '2-digit',
                           hour12: false,
                         });
-                        // setValue('availableStart', formattedTime);
                         setstartTime(formattedTime);
-                        console.log(formattedTime);
-                        handleNextClick();
+                        // console.log(formattedTime);
                       }
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
@@ -161,8 +162,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                         });
                         // setValue('availableEnd', formattedTime);
                         setendTime(formattedTime);
-                        console.log(formattedTime);
-                        handleNextClick();
+                        // console.log(formattedTime);
                       }
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
@@ -174,8 +174,12 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
               name="headCount" 
               label="사용 인원을 입력해주세요." 
               sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
-              value={headCount} 
-              onChange={handleHeadCountChange} 
+              type="number"
+              onChange={(newValue) => {
+                const numericValue = parseFloat(newValue.target.value);
+                setheadCount(numericValue);
+              }}
+              value={headCount}
             />
             {/* <FormControl fullWidth>
               <InputLabel>수용 인원</InputLabel>

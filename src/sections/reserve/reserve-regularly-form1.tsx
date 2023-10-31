@@ -1,5 +1,5 @@
 // react
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
@@ -92,22 +92,22 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     const [week, setweek] = useState<string[]>([]);
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState('');
+    const [headCount, setheadCount] = useState(0);
     // const [spaceId, setSpaceId] = useState('');
 
-    const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-      setheadCount(numericValue);
-      handleNextClick();
-    };
+    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+    //   setheadCount(numericValue);
+    //   handleNextClick();
+    // };
     // const handleSpaceChange = (event: SelectChangeEvent) => {
     //   const value = event.target.value;
     //   setSpaceId(value);
     // };
 
 
-    const handleNextClick = () => {
-      const headCountNumber = parseInt(headCount, 10);
+    const handleNextClick = useCallback(() => {
+      // const headCountNumber = parseInt(headCount, 10);
       // const spaceIdNumber = parseInt(spaceId, 10);
         const selectedData = {
             startDate,
@@ -115,11 +115,16 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
             week,
             startTime,
             endTime,
-            headCount: headCountNumber,
+            headCount,
             // spaceId: spaceIdNumber,
         };
         handleRegularlyReserveInfo(selectedData);
-    };
+      }, [startDate, endDate, week, startTime, endTime, headCount, handleRegularlyReserveInfo]);
+      
+      useEffect(() => {
+        handleNextClick();
+      }, [handleNextClick]);
+
 
     const days: string[] = ['월', '화', '수', '목', '금', '토', '일'];
     const toggleDay = (day: string) => {
@@ -145,7 +150,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     return (
         <Box>
         <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
-          장기 예약 하기
+          정기 예약 하기
         </Typography>
         <FormProvider methods={methods}>
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -158,7 +163,6 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                   value={startDate}
                   onChange={(newValue) => {
                     setstartDate(newValue);
-                    handleNextClick();
                   }}
                   sx={{ width: '200px'}}
                   label='시작 일'
@@ -174,7 +178,6 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     value={endDate}
                     onChange={(newValue) => {
                       setendDate(newValue);
-                      handleNextClick();
                     }}
                     sx={{ width: '200px'}}
                     label='종료 일'
@@ -193,7 +196,6 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                 key={day}
                 onClick={() => {
                   toggleDay(day);
-                  handleNextClick();
                 }}
                 style={{
                     background: week.includes(day) ? '#FFECF6' : 'white',
@@ -221,8 +223,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     });
                     // setValue('availableStart', formattedTime);
                     setstartTime(formattedTime);
-                    console.log(formattedTime);
-                    handleNextClick();
+                    // console.log(formattedTime);
                     }
                 }}
                 sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
@@ -240,8 +241,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     });
                     // setValue('availableEnd', formattedTime);
                     setendTime(formattedTime);
-                    console.log(formattedTime);
-                    handleNextClick();
+                    // console.log(formattedTime);
                     }
                 }}
                 sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
@@ -249,7 +249,17 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
           </div>
           <div style={{ marginRight: '10px' }}>
             {/* <Typography variant="subtitle2">사용 인원 *</Typography> */}
-            <RHFTextField name="headCount" label="사용 인원을 입력해주세요." sx={{ margin: '8.5px 10px 0 0', width: '200px'}} value={headCount} onChange={handleHeadCountChange} />
+            <RHFTextField 
+              name="headCount" 
+              label="사용 인원을 입력해주세요." 
+              sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
+              type="number"
+              onChange={(newValue) => {
+                const numericValue = parseFloat(newValue.target.value);
+                setheadCount(numericValue);
+              }}
+              value={headCount}
+            />
           </div>
         {/* <FormControl fullWidth>
           <InputLabel>수용 인원</InputLabel>

@@ -36,27 +36,26 @@ interface Props {
 function timeToMinutes(time: string) {
   const [hours, minutes] = time.split(":");
   const totaltime = parseInt(hours, 10)*60 + parseInt(minutes, 10);
-  // console.log(totaltime);
   return totaltime;
 }
-function isStartTimeRangeValid(st1: number, st2: number ) {
+function isStartTimeRangeValid(selectST: number, availST: number, availET: number) {
   let pass = false;
-  if(Number.isNaN(st1) || Number.isNaN(st2)) pass = true;
-  else if (st1 >= st2) pass = true;
+  if(Number.isNaN(selectST) || Number.isNaN(availST)) pass = true;
+  else if (selectST >= availST && selectST <= availET) pass = true;
+  else pass = false; 
+  return (pass);
+}
+function isEndTimeRangeValid(selectST: number, availST: number, selectET: number, availET: number ) {
+  let pass = false;
+  if(Number.isNaN(selectET) || Number.isNaN(availET)) pass = true;
+  else if (selectST >= availST && selectET >= selectST && selectET <= availET) pass = true;
   else pass = false;
   return (pass);
 }
-function isEndTimeRangeValid(st2: number, et1: number, et2: number ) {
+function isHeadCountVaild(selectHC: number, availHC: number){
   let pass = false;
-  if(Number.isNaN(et1) || Number.isNaN(et2)) pass = true;
-  else if (et1 >= st2 && et1 <= et2) pass = true;
-  else pass = false;
-  return (pass);
-}
-function isHeadCountVaild(hd1: number, hd2: number){
-  let pass = false;
-  if(Number.isNaN(hd1) || Number.isNaN(hd2) ) pass = true;
-  else if (hd1 <= hd2) pass = true;
+  if(Number.isNaN(selectHC) || Number.isNaN(availHC) ) pass = true;
+  else if (selectHC <= availHC) pass = true;
   else pass = false;
   return pass;
 }
@@ -84,16 +83,28 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
   const [selectedEndMinutes, setSelectedEndMinutes] = useState(timeToMinutes(selectedData.endTime));
   const [availableStartMinutes, setAvailableStartMinutes] = useState(timeToMinutes(availableStartTime));
   const [availableEndMinutes, setAvailableEndMinutes] = useState(timeToMinutes(availableEndTime));
+  const [isStartTimeWithinRange, setIsStartTimeWithinRange] = useState(true);
+  const [isEndimeWithinRange, setIsEndimeWithinRange] = useState(true);
+  const [isHeadCountWithRange, setIsHeadCountWithRange] = useState(true);
+
   useEffect(() => {
     setSelectedStartMinutes(timeToMinutes(selectedData.startTime));
     setSelectedEndMinutes(timeToMinutes(selectedData.endTime));
     setAvailableStartMinutes(timeToMinutes(availableStartTime));
     setAvailableEndMinutes(timeToMinutes(availableEndTime));
-  }, [selectedData.startTime, selectedData.endTime, availableStartTime, availableEndTime]);
-
-  const isStartTimeWithinRange = isStartTimeRangeValid(selectedStartMinutes, availableStartMinutes);
-  const isEndimeWithinRange = isEndTimeRangeValid(availableStartMinutes, selectedEndMinutes, availableEndMinutes);
-  const isHeadCountWithRange = isHeadCountVaild(selectedData.headCount, headCount);
+    setIsStartTimeWithinRange(isStartTimeRangeValid(selectedStartMinutes, availableStartMinutes, availableEndMinutes));
+    setIsEndimeWithinRange(isEndTimeRangeValid(selectedStartMinutes, availableStartMinutes, selectedEndMinutes, availableEndMinutes));
+    setIsHeadCountWithRange(isHeadCountVaild(selectedData.headCount, headCount));
+  }, [  selectedData.startTime,
+    selectedData.endTime,
+    availableStartTime,
+    availableEndTime,
+    availableEndMinutes,
+    availableStartMinutes,
+    headCount,
+    selectedData.headCount,
+    selectedEndMinutes,
+    selectedStartMinutes,]);
 
   const renderImages = (
     <Stack
@@ -155,12 +166,12 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
 
   const handleNextClick = () => {
     const sendSelectedData = {
-        reserveDate: selectedData.reserveDate,
-        startTime: selectedData.startTime,
-        endTime: selectedData.endTime,
-        headCount: selectedData.headCount,
-        spaceId: space.spaceId,
-        spaceName: space.name,
+      reserveDate: selectedData.reserveDate,
+      startTime: selectedData.startTime,
+      endTime: selectedData.endTime,
+      headCount: selectedData.headCount,
+      spaceId: space.spaceId,
+      spaceName: space.name,
     };
     // console.log('sendSelectedData', sendSelectedData);
     onNextClick(sendSelectedData);
@@ -168,7 +179,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
 
   return (
     <>
-    {isStartTimeWithinRange && isEndimeWithinRange && isHeadCountWithRange ? (
+    {isStartTimeWithinRange  && isEndimeWithinRange && isHeadCountWithRange ? (
     <Card
       onClick={() => setIsClicked(!isClicked)}
       color={isClicked ? 'primary' : 'white'}
@@ -206,12 +217,13 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
               !selectedData.startTime ||
               !selectedData.endTime ||
               !selectedData.headCount
-          }>
+            }>
             장소선택
           </Button> 
         </div>
       )}
-    </Card>) : (
+    </Card>
+    ) : (
       <></>
     )}
     </>

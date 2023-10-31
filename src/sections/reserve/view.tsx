@@ -145,8 +145,8 @@ export default function ReserveView() {
               xs: 'repeat(2, 1fr)',
               sm: 'repeat(4, 1fr)',
               md: 'repeat(4, 1fr)',
-          }}
-          sx={{marginTop: '50px'}}
+            }}
+            sx={{marginTop: '50px'}}
         >
         {spaces && spaces.map((space: ISpaceItem) => (
           <Box key={space.id}>

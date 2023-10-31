@@ -52,7 +52,7 @@ interface Props {
 
 export default function RegularlySpaceCardList({ space, selectedData, onNextClick }: Props) {
   useEffect(() => {
-    console.log('space data', selectedData);
+    // console.log('space data', selectedData);
   }, [selectedData]);
   
   const popover = usePopover();
