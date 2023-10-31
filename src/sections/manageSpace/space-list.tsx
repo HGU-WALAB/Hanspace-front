@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 // @mui
 import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
@@ -8,6 +8,7 @@ import { paths } from 'src/routes/paths';
 import { ISpaceItem } from 'src/types/space';
 import { useRouter } from 'src/routes/hooks';
 import SpaceItem from 'src/sections/manageSpace/space-item';
+import SpaceEditDialog from './space-edit-dialog';
 // components
 //
 
@@ -19,6 +20,8 @@ type Props = {
 
 export default function SpaceList({ spaces }: Props) {
   const router = useRouter();
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [currentSpace, setCurrentSpace] = useState<ISpaceItem | null>(null);
 
   // const handleView = useCallback(
   //   (id: string) => {
@@ -27,12 +30,21 @@ export default function SpaceList({ spaces }: Props) {
   //   [router]
   // );
 
-  // const handleEdit = useCallback(
-  //   (id: string) => {
-  //     router.push(paths.dashboard.tour.edit(id));
-  //   },
-  //   [router]
-  // );
+  // const handleEdit = useCallback((id: string) => {
+  //   // router.push(paths.dashboard.space.edit(id));
+  //   SpaceEditDialog();
+  // }, []);
+
+  const handleEdit = useCallback((space: ISpaceItem) => {
+    setCurrentSpace(space);
+    setIsEditDialogOpen(true);
+    console.log('space', space);
+  }, []);
+
+  const handleCloseEditDialog = () => {
+    setIsEditDialogOpen(false);
+    setCurrentSpace(null);
+  };
 
   const handleDelete = useCallback((id: string) => {
     console.info('DELETE', id);
@@ -54,7 +66,7 @@ export default function SpaceList({ spaces }: Props) {
             key={space?.id}
             space={space}
             onView={() => {}} // handleView(tour.id)}
-            onEdit={() => {}} // handleEdit(tour.id)}
+            onEdit={() => handleEdit(space)}
             onDelete={() => handleDelete(space?.id)}
           />
         ))}
@@ -69,6 +81,14 @@ export default function SpaceList({ spaces }: Props) {
               justifyContent: 'center',
             },
           }}
+        />
+      )}
+
+      {isEditDialogOpen && (
+        <SpaceEditDialog
+          open={isEditDialogOpen}
+          onClose={handleCloseEditDialog}
+          space={currentSpace}
         />
       )}
     </>

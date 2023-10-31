@@ -5,11 +5,11 @@ import { _mock } from './_mock';
 
 // ----------------------------------------------------------------------
 
-export const USER_STATUS_OPTIONS = [
-  { value: 'active', label: 'Active' },
-  { value: 'pending', label: 'Pending' },
-  { value: 'banned', label: 'Banned' },
-  { value: 'rejected', label: 'Rejected' },
+export const USER_ROLE_OPTIONS = [
+  { value: 'Admin', label: 'Admin' },
+  { value: 'User', label: 'User' },
+  // { value: 'Banned', label: 'Banned' },
+  { value: 'Blacklist', label: 'Blacklist' },
 ];
 
 export const _userAbout = {
@@ -141,18 +141,20 @@ export const _userPlans = [
 
 export const _userList = [...Array(20)].map((_, index) => ({
   id: _mock.id(index),
-  zipCode: '85807',
-  state: 'Virginia',
-  city: 'Rancho Cordova',
+  // zipCode: '85807',
+  // state: 'Virginia',
+  // city: 'Rancho Cordova',
   role: _mock.role(index),
   email: _mock.email(index),
-  address: '908 Jack Locks',
+  // address: '908 Jack Locks',
   name: _mock.fullName(index),
-  isVerified: _mock.boolean(index),
-  company: _mock.companyName(index),
-  country: countries[index + 1].label,
-  avatarUrl: _mock.image.avatar(index),
-  phoneNumber: _mock.phoneNumber(index),
-  status:
-    (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
+  sid: _mock.sid(index),
+  deptName: '전산전자공학부',
+  // isVerified: _mock.boolean(index),
+  // company: _mock.companyName(index),
+  // country: countries[index + 1].label,
+  // avatarUrl: _mock.image.avatar(index),
+  // phoneNumber: _mock.phoneNumber(index),
+  // status:
+  //   (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
 }));

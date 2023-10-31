@@ -105,13 +105,17 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack sx={{ p: 1 }}>
+        {/* <Stack sx={{ p: 1 }}>
           {OPTIONS.map((option) => (
             <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
               {option.label}
             </MenuItem>
           ))}
-        </Stack>
+        </Stack> */}
+
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
+          My page
+        </MenuItem>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

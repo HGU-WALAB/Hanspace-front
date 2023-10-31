@@ -14,6 +14,7 @@ import { NavSectionVertical } from 'src/components/nav-section';
 //
 import DeptHeaderButton from 'src/sections/home/dept-button';
 import styled from 'styled-components';
+import DescHanspace from 'src/sections/home/desc-hanspace';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
 import { NavToggleButton, NavUpgrade } from '../_common';
@@ -33,7 +34,7 @@ const Rows = styled.div`
   gap: 0.5rem;
 `;
 
-export default function NavVertical({ openNav, onCloseNav }: Props) {
+export default function NavDesc({ openNav, onCloseNav }: Props) {
   const { user } = useMockedUser();
 
   const pathname = usePathname();
@@ -60,8 +61,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         },
       }}
     >
-      {/* <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
-       */}
       <Rows>
         <Logo />
         <DeptHeaderButton />
@@ -69,16 +68,9 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box style={{ height: '10px' }} />
 
-      <NavSectionVertical
-        data={navData}
-        config={{
-          currentRole: user?.role || 'admin',
-        }}
-      />
+      <DescHanspace />
 
       <Box sx={{ flexGrow: 1 }} />
-
-      {/* <NavUpgrade /> */}
     </Scrollbar>
   );
 
@@ -90,32 +82,16 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         width: { lg: NAV.W_VERTICAL },
       }}
     >
-      <NavToggleButton />
-
-      {lgUp ? (
-        <Stack
-          sx={{
-            height: 1,
-            position: 'fixed',
-            width: NAV.W_VERTICAL,
-            borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
-          }}
-        >
-          {renderContent}
-        </Stack>
-      ) : (
-        <Drawer
-          open={openNav}
-          onClose={onCloseNav}
-          PaperProps={{
-            sx: {
-              width: NAV.W_VERTICAL,
-            },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
+      <Stack
+        sx={{
+          height: 1,
+          position: 'fixed',
+          width: NAV.W_VERTICAL,
+          borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
+        }}
+      >
+        {renderContent}
+      </Stack>
     </Box>
   );
 }

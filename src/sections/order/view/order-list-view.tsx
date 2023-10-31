@@ -162,11 +162,11 @@ export default function OrderListView() {
           links={[
             {
               name: 'Dashboard',
-              href: paths.dashboard.root,
+              href: paths.hanspace.root,
             },
             {
               name: 'Order',
-              href: paths.dashboard.waitinglist,
+              // href: paths.hanspace.waitinglist,
             },
             { name: 'List' },
           ]}

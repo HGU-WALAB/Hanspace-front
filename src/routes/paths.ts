@@ -2,7 +2,7 @@
 
 const ROOTS = {
   AUTH: '/auth',
-  DASHBOARD: '/dashboard',
+  HANSPACE: '/hanspace',
 };
 
 // ----------------------------------------------------------------------
@@ -16,17 +16,25 @@ export const paths = {
       register: `${ROOTS.AUTH}/jwt/register`,
     },
   },
+  // HOME
+  hanspace: {
+    root: ROOTS.HANSPACE,
+    home: `${ROOTS.HANSPACE}/home`,
+    dept: `${ROOTS.HANSPACE}/department`,
+  },
   // DASHBOARD
-  dashboard: {
-    root: ROOTS.DASHBOARD,
-    one: `${ROOTS.DASHBOARD}/one`,
-    reserve: `${ROOTS.DASHBOARD}/reserve`,
-    waitinglist: `${ROOTS.DASHBOARD}/waitinglist`,
+  dept: {
+    dashboard: (url: string) => `${ROOTS.HANSPACE}/${url}/dashboard`,
+    reserve: (url: string) => `${ROOTS.HANSPACE}/${url}/reserve`,
+    reservelist: (url: string) => `${ROOTS.HANSPACE}/${url}/reservelist`,
+    // one: `${ROOTS.HANSPACE}/one`,
+    // reserve: `${ROOTS.HANSPACE}/reserve`,
+    // waitinglist: `${ROOTS.HANSPACE}/waitinglist`,
     // list: `${ROOTS.DASHBOARD}/list`,
     management: {
-      root: `${ROOTS.DASHBOARD}/management`,
-      manageUser: `${ROOTS.DASHBOARD}/management/manageUser`,
-      manageSite: `${ROOTS.DASHBOARD}/management/manageSite`,
+      root: (url: string) => `${ROOTS.HANSPACE}/${url}/management`,
+      manageUser: (url: string) => `${ROOTS.HANSPACE}/${url}/management/manageUser`,
+      manageSite: (url: string) => `${ROOTS.HANSPACE}/${url}/management/manageSite`,
     },
     // user: {
     //   root: `${ROOTS.DASHBOARD}/user`,

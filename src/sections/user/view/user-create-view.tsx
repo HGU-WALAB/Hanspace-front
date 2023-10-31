@@ -6,7 +6,7 @@ import { paths } from 'src/routes/paths';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
-import UserNewEditForm from '../user-new-edit-form';
+// import UserNewEditForm from '../user-new-edit-form';
 
 // ----------------------------------------------------------------------
 
@@ -20,11 +20,11 @@ export default function UserCreateView() {
         links={[
           {
             name: 'Dashboard',
-            href: paths.dashboard.root,
+            href: paths.hanspace.root,
           },
           {
             name: 'User',
-            href: paths.dashboard.management.manageUser,
+            // href: paths.hanspace.management.manageUser,
           },
           { name: 'New user' },
         ]}
@@ -33,7 +33,7 @@ export default function UserCreateView() {
         }}
       />
 
-      <UserNewEditForm />
+      {/* <UserNewEditForm /> */}
     </Container>
   );
 }

@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import { paths } from 'src/routes/paths';
 // components
 import SvgColor from 'src/components/svg-color';
+import { useRecoilValue } from 'recoil';
+import { DeptUrlState } from 'src/stores/atom';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +46,8 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
+  const { url } = useRecoilValue(DeptUrlState);
+
   const data = useMemo(
     () => [
       // OVERVIEW
@@ -51,11 +55,11 @@ export function useNavData() {
       {
         subheader: '',
         items: [
-          { title: '대시보드', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: '조회 및 예약', path: paths.dashboard.reserve, icon: ICONS.calendar },
+          { title: '대시보드', path: paths.dept.dashboard(url), icon: ICONS.dashboard },
+          { title: '조회 및 예약', path: paths.dept.reserve(url), icon: ICONS.calendar },
           {
             title: '승인 대기 현황',
-            path: paths.dashboard.waitinglist,
+            path: paths.dept.reservelist(url),
             icon: ICONS.banking,
           },
           // { title: '승인 대기 현황', path: paths.dashboard.list, icon: ICONS.banking },
@@ -84,16 +88,16 @@ export function useNavData() {
         items: [
           {
             title: '관리',
-            path: paths.dashboard.management.root,
+            path: paths.dept.management.root(url),
             icon: ICONS.user,
             children: [
-              { title: '장소 관리', path: paths.dashboard.management.root },
+              { title: '장소 관리', path: paths.dept.management.root(url) },
               // { title: '사용자 관리', path: paths.dashboard.management.manageUser },
               {
                 title: '사용자 관리',
-                path: paths.dashboard.management.manageUser,
+                path: paths.dept.management.manageUser(url),
               },
-              { title: '사이트 관리', path: paths.dashboard.management.manageSite },
+              { title: '사이트 관리', path: paths.dept.management.manageSite(url) },
             ],
           },
         ],
@@ -113,7 +117,7 @@ export function useNavData() {
       //         { title: 'list', path: paths.dashboard.user.list },
       //         { title: 'create', path: paths.dashboard.user.new },
       //         // { title: 'edit', path: paths.dashboard.user.demo.edit },
-      //         // { title: t('account'), path: paths.dashboard.user.account },
+      // \{ title: t('account'), path: paths.dashboard.user.account },
       //       ],
       //     },
       //   ],
@@ -134,7 +138,7 @@ export function useNavData() {
       //   ],
       // },
     ],
-    []
+    [url]
   );
 
   return data;
