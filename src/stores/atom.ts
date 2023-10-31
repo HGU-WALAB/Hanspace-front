@@ -18,3 +18,9 @@ export const IsLoginState = atom({
   default: true,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const DeptNameState = atom({
+  key: 'DeptNameState',
+  default: 'CSEE',
+  effects_UNSTABLE: [persistAtom],
+});

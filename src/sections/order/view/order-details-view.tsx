@@ -34,14 +34,14 @@ export default function OrderDetailsView({ id }: Props) {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-      <OrderDetailsToolbar
-        backLink={paths.dashboard.waitinglist}
+      {/* <OrderDetailsToolbar
+        backLink={paths.hanspace.waitinglist}
         orderNumber={currentOrder.orderNumber}
         createdAt={currentOrder.createdAt}
         status={status}
         onChangeStatus={handleChangeStatus}
         statusOptions={ORDER_STATUS_OPTIONS}
-      />
+      /> */}
 
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>

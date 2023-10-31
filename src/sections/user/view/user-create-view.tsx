@@ -20,11 +20,11 @@ export default function UserCreateView() {
         links={[
           {
             name: 'Dashboard',
-            href: paths.dashboard.root,
+            href: paths.hanspace.root,
           },
           {
             name: 'User',
-            href: paths.dashboard.management.manageUser,
+            // href: paths.hanspace.management.manageUser,
           },
           { name: 'New user' },
         ]}

@@ -33,7 +33,7 @@ const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'))
 
 export const dashboardRoutes = [
   {
-    path: 'dashboard',
+    path: 'hanspace',
     element: (
       <AuthGuard>
         <DashboardLayout>
@@ -44,17 +44,17 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <DashBoardPage />, index: true },
-      { path: 'reserve', element: <PageReserve /> },
+      { path: ':url/dashboard', element: <DashBoardPage /> },
+      { path: ':url/reserve', element: <PageReserve /> },
       // { path: 'waitinglist', element: <PageWaitinglist /> },
-      { path: 'waitinglist', element: <OrderListPage /> },
+      { path: ':url/reservelist', element: <OrderListPage /> },
       {
-        path: 'management',
+        path: ':url/management',
         children: [
           { element: <PageManageSpace />, index: true },
           // { path: 'manageUser', element: <PageManageUser /> },
-          { path: 'manageUser', element: <UserListPage /> },
-          { path: 'manageSite', element: <PageManageSite /> },
+          { path: ':url/manageUser', element: <UserListPage /> },
+          { path: ':url/manageSite', element: <PageManageSite /> },
         ],
       },
       {
@@ -69,7 +69,7 @@ export const dashboardRoutes = [
       //     { path: 'cards', element: <UserCardsPage /> },
       //     { path: 'list', element: <UserListPage /> },
       //     { path: 'new', element: <UserCreatePage /> },
-      //     // { path: ':id/edit', element: <UserEditPage /> },
+      // { path: ':id/edit', element: <UserEditPage /> },
       //     // { path: 'account', element: <UserAccountPage /> },
       //   ],
       // },
