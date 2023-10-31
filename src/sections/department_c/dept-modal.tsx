@@ -20,41 +20,46 @@ const style = {
   p: 4,
 };
 
-export default function DepartmentCreateSuccessModal({ open, onClose }: {open: boolean, onClose: () => void }) {
+export default function DepartmentCreateSuccessModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const router = useRouter();
 
-    useEffect(() => {
-        let timer: NodeJS.Timeout;
-    
-        if (open) {
-          timer = setTimeout(() => {
-            router.push(paths.dashboard.root);
-            onClose();
-          }, 1000);
-        }
-    
-        return () => {
-          if (timer) {
-            clearTimeout(timer);
-          }
-        };
-      }, [open, onClose, router]);
-    
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
 
-    return (
-        <div>
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-                기관이 등록되었습니다!
-            </Typography>
-            </Box>
-        </Modal>
-        </div>
-    );
+    if (open) {
+      timer = setTimeout(() => {
+        router.push(paths.hanspace.dept);
+        onClose();
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [open, onClose, router]);
+
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            기관이 등록되었습니다!
+          </Typography>
+        </Box>
+      </Modal>
+    </div>
+  );
 }

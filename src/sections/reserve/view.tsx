@@ -5,14 +5,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-// routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
-
 // types
 import { ISpaceItem } from 'src/types/space';
-import { DailyReserveForm1, DailyReserveForm2, RegularyReserveForm1, RegularyReserveForm2 } from 'src/types/reserve';
+import {
+  DailyReserveForm1,
+  DailyReserveForm2,
+  RegularyReserveForm1,
+  RegularyReserveForm2,
+} from 'src/types/reserve';
 // components
 import { useSettingsContext } from 'src/components/settings';
 // api
@@ -28,8 +28,6 @@ import ReserveRegularyForm2 from './reserve-regularly-form2';
 import ReserveCSVForm from './reserve-csv';
 import ReserveDaily2 from './reserve-daily2';
 import ReserveRegularly2 from './reserve-regularly2';
-
-
 
 export default function ReserveView() {
   const settings = useSettingsContext();
@@ -81,14 +79,14 @@ export default function ReserveView() {
 
   const handleDailyReserveInfo = (data: DailyReserveForm1) => {
     setSelectedDailyData1(data);
-  }
+  };
   const handleNextClick1 = (data: DailyReserveForm2) => {
     setSelectedDailyData2(data);
     setCurrentPage1(currentPage1 + 1);
   };
   const handleRegularlyReserveInfo = (data: RegularyReserveForm1) => {
     setSelectedRegularyData1(data);
-  }
+  };
   const handleNextClick2 = (data: RegularyReserveForm2) => {
     setSelectedRegularyData2(data);
     setCurrentPage2(currentPage2 + 1);
@@ -108,43 +106,44 @@ export default function ReserveView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      {/* <Link to={paths.dashboard.department.root} color="inherit">
-        <Button disableRipple color="inherit">기관 등록하기</Button>
-      </Link> */}
-      <Link component={RouterLink} href={paths.dashboard.department.root} color="inherit" variant="subtitle2" noWrap>
-        <Button disableRipple color="inherit">기관 등록하기</Button>
-      </Link>
-    <Box style={{ display: 'flex' }}>
-      <Box style={{ display: 'flex', flexWrap: 'wrap', flex: 2.5 }}>
-        <Box
-          gap={3}
-          display="grid"
-          gridTemplateColumns={{
-            xs: 'repeat(2, 1fr)',
-            sm: 'repeat(4, 1fr)',
-            md: 'repeat(4, 1fr)',
-          }}
-          sx={{marginTop: '50px'}}
-        >
-        {spaces && spaces.map((space: ISpaceItem) => (
-          <Box key={space.id}>
-            <DailySpaceCardList space={space} selectedData={selectedDailyData1} onNextClick={handleNextClick1}/>
+      <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
+      {selectedValue === 'daily' && currentPage1 === 1 && (
+        <>
+          <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} />
+          <Box
+            gap={3}
+            display="grid"
+            gridTemplateColumns={{
+              xs: 'repeat(2, 1fr)',
+              sm: 'repeat(4, 1fr)',
+              md: 'repeat(4, 1fr)',
+            }}
+            sx={{ marginTop: '50px' }}
+          >
+            {spaces &&
+              spaces.map((space: ISpaceItem) => (
+                <Box key={space.id}>
+                  <DailySpaceCardList
+                    space={space}
+                    selectedData={selectedDailyData1}
+                    onNextClick={handleNextClick1}
+                  />
+                </Box>
+              ))}
           </Box>
-        ))}
-        </Box>
         </>
-        }
-        {selectedValue === 'daily' && currentPage1 === 2 && 
+      )}
+      {selectedValue === 'daily' && currentPage1 === 2 && (
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveDaily2 selectedData={selectedDailyData2}/>
+            <ReserveDaily2 selectedData={selectedDailyData2} />
           </div>
           <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
             <ReserveDailyForm2 onPrevClick={goToPrevPage1} selectedData={selectedDailyData2} />
           </div>
         </div>
-        }
-        {selectedValue === 'regularly' && currentPage2 === 1 && 
+      )}
+      {selectedValue === 'regularly' && currentPage2 === 1 && (
         <>
           <ReserveRegularyForm1 handleRegularlyReserveInfo={handleRegularlyReserveInfo} />
           <Box
@@ -155,30 +154,35 @@ export default function ReserveView() {
               sm: 'repeat(4, 1fr)',
               md: 'repeat(4, 1fr)',
             }}
-            sx={{marginTop: '50px'}}
-        >
-        {spaces && spaces.map((space: ISpaceItem) => (
-          <Box key={space.id}>
-            <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} onNextClick={handleNextClick2}/>
+            sx={{ marginTop: '50px' }}
+          >
+            {spaces &&
+              spaces.map((space: ISpaceItem) => (
+                <Box key={space.id}>
+                  <RegularlySpaceCardList
+                    space={space}
+                    selectedData={selectedRegularyData1}
+                    onNextClick={handleNextClick2}
+                  />
+                </Box>
+              ))}
           </Box>
-        ))}
-        </Box>
-      </>
-      }
-      {selectedValue === 'regularly' && currentPage2 === 2 && 
+        </>
+      )}
+      {selectedValue === 'regularly' && currentPage2 === 2 && (
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveRegularly2 selectedData={selectedRegularyData2}/>
+            <ReserveRegularly2 selectedData={selectedRegularyData2} />
           </div>
           <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveRegularyForm2 onPrevClick={goToPrevPage2} selectedData={selectedRegularyData2} />
+            <ReserveRegularyForm2
+              onPrevClick={goToPrevPage2}
+              selectedData={selectedRegularyData2}
+            />
           </div>
         </div>
-      }
-      {selectedValue === 'csv' && 
-        <ReserveCSVForm />
-      }
+      )}
+      {selectedValue === 'csv' && <ReserveCSVForm />}
     </Container>
   );
-
 }

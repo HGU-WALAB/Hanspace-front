@@ -20,6 +20,7 @@ export const paths = {
   hanspace: {
     root: ROOTS.HANSPACE,
     home: `${ROOTS.HANSPACE}/home`,
+    dept: `${ROOTS.HANSPACE}/department`,
   },
   // DASHBOARD
   dept: {
@@ -35,9 +36,6 @@ export const paths = {
       manageUser: (url: string) => `${ROOTS.HANSPACE}/${url}/management/manageUser`,
       manageSite: (url: string) => `${ROOTS.HANSPACE}/${url}/management/manageSite`,
     },
-    department:{
-      root: `${ROOTS.DASHBOARD}/department`,
-    }
     // user: {
     //   root: `${ROOTS.DASHBOARD}/user`,
     //   new: `${ROOTS.DASHBOARD}/user/new`,
