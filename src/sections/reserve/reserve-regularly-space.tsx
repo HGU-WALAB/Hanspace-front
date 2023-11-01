@@ -44,7 +44,7 @@ interface Props {
     week: string,
     startTime: string,
     endTime: string,
-    headCount: number,
+    // headCount: number,
   };
   space: EXSpaceItem;
   onNextClick: (data: any) => void;
@@ -139,7 +139,7 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
         startTime: selectedData.startTime,
         endTime: selectedData.endTime,
         week: selectedData.week,
-        headCount: selectedData.headCount,
+        // headCount: selectedData.headCount,
         spaceId: space.spaceId,
         spaceName: space.name,
     };
@@ -169,8 +169,8 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
               !selectedData.endDate ||
               !selectedData.week ||
               !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
+              !selectedData.endTime
+              // !selectedData.headCount
           }>
             장소선택
           </Button> 
@@ -187,8 +187,8 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
               !selectedData.endDate ||
               !selectedData.week ||
               !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
+              !selectedData.endTime
+              // !selectedData.headCount
           }>
             장소선택
           </Button> 

@@ -29,7 +29,7 @@ interface ReserveRegulary2Props {
         week: string;
         startTime: string;
         endTime: string;
-        headCount: number;
+        // headCount: number;
         spaceId: number;
         spaceName: string;
     }
@@ -60,9 +60,9 @@ export default function ReserveRegularly2({ selectedData }: ReserveRegulary2Prop
         <Typography variant="subtitle1" sx={{mb: 7}}>
           예약 끝 시간 : {selectedData.endTime}
         </Typography>
-        <Typography variant="subtitle1" sx={{mb: 7}}>
+        {/* <Typography variant="subtitle1" sx={{mb: 7}}>
           예약 인원 수 : {selectedData.headCount}
-        </Typography>
+        </Typography> */}
         {/* <Typography variant="subtitle1">{selectedData.spaceId}</Typography> */}
         <Typography variant="subtitle1" sx={{mb: 7}}>
           예약 장소 : {selectedData.spaceName}

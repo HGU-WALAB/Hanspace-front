@@ -54,8 +54,8 @@ export const defaultValues = {
   week: '',
   startTime: '',
   endTime: '',
-  headCount: 0,
-  spaceId: 0,
+  // headCount: 0,
+  // spaceId: 0,
 };
 interface ReserveForm1Props {
   handleRegularlyReserveInfo: (data: any) => void;
@@ -64,15 +64,15 @@ interface ReserveForm1Props {
 export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
-    const { data: spaces } = useQuery(
-      ['GetSpace', GetSpace],
-      () => GetSpace().then((response) => response.data),
-      {
-        onSuccess: (data) => {
-          console.log('GetSpace', data);
-        },
-      }
-    );
+    // const { data: spaces } = useQuery(
+    //   ['GetSpace', GetSpace],
+    //   () => GetSpace().then((response) => response.data),
+    //   {
+    //     onSuccess: (data) => {
+    //       console.log('GetSpace', data);
+    //     },
+    //   }
+    // );
   
     const methods = useForm({
       defaultValues
@@ -92,7 +92,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     const [week, setweek] = useState<string[]>([]);
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState(0);
+    // const [headCount, setheadCount] = useState(0);
     // const [spaceId, setSpaceId] = useState('');
 
     // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,11 +116,11 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
             week,
             startTime,
             endTime,
-            headCount,
+            // headCount,
             // spaceId: spaceIdNumber,
         };
         handleRegularlyReserveInfo(selectedData);
-      }, [startDate, endDate, week, startTime, endTime, headCount, handleRegularlyReserveInfo]);
+      }, [startDate, endDate, week, startTime, endTime, handleRegularlyReserveInfo]);
       
       useEffect(() => {
         handleNextClick();
@@ -248,8 +248,8 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                 sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
                 />
           </div>
-          <div style={{ marginRight: '5px' }}>
-            {/* <Typography variant="subtitle2">사용 인원 *</Typography> */}
+          {/* <div style={{ marginRight: '5px' }}>
+            <Typography variant="subtitle2">사용 인원 *</Typography>
             <RHFTextField 
               name="headCount" 
               label="사용 인원을 입력해주세요." 
@@ -261,7 +261,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
               }}
               value={headCount}
             />
-          </div>
+          </div> */}
         {/* <FormControl fullWidth>
           <InputLabel>수용 인원</InputLabel>
           <Select

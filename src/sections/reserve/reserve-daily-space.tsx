@@ -26,7 +26,7 @@ interface Props {
     reserveDate: Date;
     startTime: string;
     endTime: string;
-    headCount: number;
+    // headCount: number;
   };
   space: EXSpaceItem;
   onNextClick: (data: any) => void;
@@ -52,13 +52,13 @@ function isEndTimeRangeValid(selectST: number, availST: number, selectET: number
   else pass = false;
   return (pass);
 }
-function isHeadCountVaild(selectHC: number, availHC: number){
-  let pass = false;
-  if(Number.isNaN(selectHC) || Number.isNaN(availHC) ) pass = true;
-  else if (selectHC <= availHC) pass = true;
-  else pass = false;
-  return pass;
-}
+// function isHeadCountVaild(selectHC: number, availHC: number){
+//   let pass = false;
+//   if(Number.isNaN(selectHC) || Number.isNaN(availHC) ) pass = true;
+//   else if (selectHC <= availHC) pass = true;
+//   else pass = false;
+//   return pass;
+// }
 
 export default function DailySpaceCardList({ space, selectedData, onNextClick }: Props) {
   const popover = usePopover();
@@ -85,7 +85,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
   const [availableEndMinutes, setAvailableEndMinutes] = useState(timeToMinutes(availableEndTime));
   const [isStartTimeWithinRange, setIsStartTimeWithinRange] = useState(true);
   const [isEndimeWithinRange, setIsEndimeWithinRange] = useState(true);
-  const [isHeadCountWithRange, setIsHeadCountWithRange] = useState(true);
+  // const [isHeadCountWithRange, setIsHeadCountWithRange] = useState(true);
 
   useEffect(() => {
     setSelectedStartMinutes(timeToMinutes(selectedData.startTime));
@@ -94,7 +94,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
     setAvailableEndMinutes(timeToMinutes(availableEndTime));
     setIsStartTimeWithinRange(isStartTimeRangeValid(selectedStartMinutes, availableStartMinutes, availableEndMinutes));
     setIsEndimeWithinRange(isEndTimeRangeValid(selectedStartMinutes, availableStartMinutes, selectedEndMinutes, availableEndMinutes));
-    setIsHeadCountWithRange(isHeadCountVaild(selectedData.headCount, headCount));
+    // setIsHeadCountWithRange(isHeadCountVaild(selectedData.headCount, headCount));
   }, [  selectedData.startTime,
     selectedData.endTime,
     availableStartTime,
@@ -102,7 +102,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
     availableEndMinutes,
     availableStartMinutes,
     headCount,
-    selectedData.headCount,
+    // selectedData.headCount,
     selectedEndMinutes,
     selectedStartMinutes,]);
 
@@ -169,7 +169,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
       reserveDate: selectedData.reserveDate,
       startTime: selectedData.startTime,
       endTime: selectedData.endTime,
-      headCount: selectedData.headCount,
+      // headCount: selectedData.headCount,
       spaceId: space.spaceId,
       spaceName: space.name,
     };
@@ -179,7 +179,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
 
   return (
     <>
-    {isStartTimeWithinRange  && isEndimeWithinRange && isHeadCountWithRange ? (
+    {isStartTimeWithinRange  && isEndimeWithinRange  ? (
     <Card
       onClick={() => setIsClicked(!isClicked)}
       color={isClicked ? 'primary' : 'white'}
@@ -199,8 +199,8 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
               disabled={
                 !selectedData.reserveDate ||
                 !selectedData.startTime ||
-                !selectedData.endTime ||
-                !selectedData.headCount
+                !selectedData.endTime
+                // !selectedData.headCount
               }>
               장소선택
             </Button> 
@@ -215,8 +215,8 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
             disabled={
               !selectedData.reserveDate ||
               !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
+              !selectedData.endTime
+              // !selectedData.headCount
             }>
             장소선택
           </Button> 

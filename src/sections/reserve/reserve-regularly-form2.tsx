@@ -49,7 +49,7 @@ interface ReserveRegularyForm2Props {
         week: string | null;
         startTime: string | null;
         endTime: string | null;
-        headCount: number | null;
+        // headCount: number | null;
         spaceId: number | null;
     }
 };
@@ -66,7 +66,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
     week: selectedData.week,
     startTime: selectedData.startTime,
     endTime: selectedData.endTime,
-    headCount: selectedData.headCount,
+    // headCount: selectedData.headCount,
     spaceId: selectedData.spaceId,
     purpose: '',
     // phoneNumber: '',
@@ -123,7 +123,7 @@ export default function ReserveRegularyForm2({ onPrevClick, selectedData }: Rese
             week: week1,
             startTime: selectedData.startTime,
             endTime: selectedData.endTime,
-            headCount: selectedData.headCount,
+            // headCount: selectedData.headCount,
             spaceId: selectedData.spaceId,
             purpose: data.purpose,
             status: '미승인',

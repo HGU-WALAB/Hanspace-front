@@ -27,7 +27,7 @@ interface ReserveDailyForm2Props {
     reserveDate: Date;
     startTime: string;
     endTime: string;
-    headCount: number; // 예상되는 데이터 타입에 따라 수정
+    // headCount: number; // 예상되는 데이터 타입에 따라 수정
     spaceId: number; // 예상되는 데이터 타입에 따라 수정
     spaceName: string;
   };
@@ -56,9 +56,9 @@ export default function ReserveDaily2({ selectedData }: ReserveDailyForm2Props) 
         <Typography variant="subtitle1" sx={{mb: 8}}>
           예약 장소 : {selectedData.spaceName}
         </Typography>
-        <Typography variant="subtitle1">
+        {/* <Typography variant="subtitle1">
           예약 인원 수 : {selectedData.headCount}
-        </Typography>
+        </Typography> */}
     </Box>
   );
 }

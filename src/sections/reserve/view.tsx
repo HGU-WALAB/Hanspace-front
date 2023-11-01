@@ -121,13 +121,13 @@ export default function ReserveView() {
     reserveDate: new Date(),
     startTime: '',
     endTime: '',
-    headCount: 0,
+    // headCount: 0,
   });
   const [selectedDailyData2, setSelectedDailyData2] = useState({
     reserveDate: new Date(),
     startTime: '',
     endTime: '',
-    headCount: 0,
+    // headCount: 0,
     spaceId: 0,
     spaceName: '',
   });
@@ -137,7 +137,7 @@ export default function ReserveView() {
     week: '',
     startTime: '',
     endTime: '',
-    headCount: 0,
+    // headCount: 0,
   });
   const [selectedRegularyData2, setSelectedRegularyData2] = useState({
     startDate: new Date(),
@@ -145,7 +145,7 @@ export default function ReserveView() {
     week: '',
     startTime: '',
     endTime: '',
-    headCount: 0,
+    // headCount: 0,
     spaceId: 0,
     spaceName: '',
   });

@@ -46,7 +46,7 @@ interface ReserveDailyForm2Props {
     reserveDate: Date;
     startTime: string;
     endTime: string;
-    headCount: number; // 예상되는 데이터 타입에 따라 수정
+    // headCount: number; // 예상되는 데이터 타입에 따라 수정
     spaceId: number; // 예상되는 데이터 타입에 따라 수정
   };
 }
@@ -63,7 +63,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
     reserveDate: selectedData.reserveDate,
     startTime: selectedData.startTime,
     endTime: selectedData.endTime,
-    headCount: selectedData.headCount,
+    // headCount: selectedData.headCount,
     purpose: '',
     // phoneNumber: '',
     approve: '미승인',
@@ -100,7 +100,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
           reserveDate: reserveDate.toISOString().split('T')[0],
           startTime: selectedData.startTime,
           endTime: selectedData.endTime,
-          headCount: selectedData.headCount,
+          // headCount: selectedData.headCount,
           purpose: data.purpose,
           // phoneNumber: data.phoneNumber,
           status: '미승인',
