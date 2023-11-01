@@ -5,7 +5,7 @@ import Pagination, { paginationClasses } from '@mui/material/Pagination';
 // routes
 import { paths } from 'src/routes/paths';
 // types
-import { ISpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 import { useRouter } from 'src/routes/hooks';
 import SpaceItem from 'src/sections/manageSpace/space-item';
 import SpaceEditDialog from './space-edit-dialog';
@@ -15,13 +15,13 @@ import SpaceEditDialog from './space-edit-dialog';
 // ----------------------------------------------------------------------
 
 type Props = {
-  spaces: ISpaceItem[];
+  spaces: EXSpaceItem[];
 };
 
 export default function SpaceList({ spaces }: Props) {
   const router = useRouter();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [currentSpace, setCurrentSpace] = useState<ISpaceItem | null>(null);
+  const [currentSpace, setCurrentSpace] = useState<EXSpaceItem | null>(null);
 
   // const handleView = useCallback(
   //   (id: string) => {
@@ -35,7 +35,7 @@ export default function SpaceList({ spaces }: Props) {
   //   SpaceEditDialog();
   // }, []);
 
-  const handleEdit = useCallback((space: ISpaceItem) => {
+  const handleEdit = useCallback((space: EXSpaceItem) => {
     setCurrentSpace(space);
     setIsEditDialogOpen(true);
     console.log('space', space);

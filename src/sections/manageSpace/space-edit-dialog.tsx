@@ -31,7 +31,7 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
-import { ISpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ export const defaultValues = {
 type SpaceEditDialogProps = {
   open: boolean;
   onClose: () => void;
-  space?: ISpaceItem | null; // if you want to pass the space being edited
+  space?: EXSpaceItem | null; // if you want to pass the space being edited
 };
 
 export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialogProps) {
