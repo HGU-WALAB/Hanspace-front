@@ -18,6 +18,7 @@ type Props = {
   spaces: EXSpaceItem[];
 };
 
+
 export default function SpaceList({ spaces }: Props) {
   const router = useRouter();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

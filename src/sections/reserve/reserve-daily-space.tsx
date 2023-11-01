@@ -115,7 +115,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ height: 250 }} />
+        <Image alt={image} src={image} sx={{ width: 1, height: 250 }} />
       </Stack>
     </Stack>
   );
