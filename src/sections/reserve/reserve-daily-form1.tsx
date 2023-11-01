@@ -64,6 +64,9 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     //   }
     // );
   
+  const defaultDate = new Date();
+  defaultDate.setHours(0, 0, 0, 0);
+  
     const methods = useForm({
       defaultValues
     });
@@ -112,8 +115,8 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     
   return (
     <Box>
-      <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
-        일일 예약 하기
+      <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
+        일일 예약 장소 찾기
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -122,6 +125,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
             {/* <Typography variant="subtitle1" >이용 날짜 *</Typography> */}
               <DemoContainer components={['DatePicker', 'DatePicker']}>
                 <DatePicker
+                  label="예약 날짜"
                   value={reserveDate}
                   onChange={(newValue) => {
                     setDate(newValue);
@@ -181,64 +185,46 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
               }}
               value={headCount}
             />
-        <DesktopTimePicker
-              label="예약 끝 시간"
-              value={methods.watch('endTime')}
-              onChange={(newValue) => {
-                if (newValue !== null) {
-                  const dateObject = new Date(newValue);
-                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  });
-                  // setValue('availableEnd', formattedTime);
-                  setendTime(formattedTime);
-                  // console.log(formattedTime);
-                }
-              }}
-              sx={{ width: '280px'}}
-            />
-        <Box sx={{ minWidth: 120 }}>
-        <Text>사용 인원 *</Text>
-        <RHFTextField name="headCount" label="사용 인원을 입력해주세요." sx={{ width: '280px'}} value={headCount} onChange={handleHeadCountChange} />
-        {/* <FormControl fullWidth>
-          <InputLabel>수용 인원</InputLabel>
-          <Select
-            // labelId="demo-simple-select-label"
-            // id="demo-simple-select"
-            name="headCount"
-            label="headCount"
-            onChange={handlePersonneleChange}
-            sx={{ width: '280px'}}
-          >
-            <MenuItem value={10}>10명 이상</MenuItem>
-            <MenuItem value={20}>20명 이상</MenuItem>
-            <MenuItem value={30}>30명 이상</MenuItem>
-          </Select>
-        </FormControl> */}
-        <Text>이용 공간 *</Text>
-        <FormControl fullWidth>
-          <InputLabel>이용 공간</InputLabel>
-            <Select
-              name="spaceId"
-              label="spaceId"
-              onChange={handleSpaceChange}
-              sx={{ width: '280px'}}
-            > 
-            {spaces && spaces.map((space: any) => (
-              <MenuItem key={space?.spaceId} value={space?.spaceId}>
-                {space?.name}
-              </MenuItem>
-            ))}
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Button onClick={handleNextClick} variant="outlined" color="primary" disabled={isSubmitting} sx={{ marginTop: '30px', width: '175px'}}>
-          다음
-        </Button>
-    </FormProvider>
+            {/* <FormControl fullWidth>
+              <InputLabel>수용 인원</InputLabel>
+              <Select
+                // labelId="demo-simple-select-label"
+                // id="demo-simple-select"
+                name="headCount"
+                label="headCount"
+                onChange={handlePersonneleChange}
+                sx={{ width: '280px'}}
+              >
+                <MenuItem value={10}>10명 이상</MenuItem>
+                <MenuItem value={20}>20명 이상</MenuItem>
+                <MenuItem value={30}>30명 이상</MenuItem>
+              </Select>
+            </FormControl> */}
+            {/* <Text>이용 공간 *</Text>
+            <FormControl fullWidth>
+              <InputLabel>이용 공간</InputLabel>
+                <Select
+                  name="spaceId"
+                  label="spaceId"
+                  onChange={handleSpaceChange}
+                  sx={{ width: '280px'}}
+                > 
+                {spaces && spaces.map((space: any) => (
+                  <MenuItem key={space?.spaceId} value={space?.spaceId}>
+                    {space?.name}
+                  </MenuItem>
+                ))}
+                </Select>
+              </FormControl> */}
+          {/* </div> */}
+          {/* <div style={{ flexGrow: 1 }}>
+            <Button onClick={handleNextClick} variant="contained" color="primary" disabled={isSubmitting} sx={{ marginTop: '40px' }}>
+              장소 찾기
+            </Button>
+          </div> */}
+        </div>
+        </LocalizationProvider>
+      </FormProvider>
     </Box>
   );
 }
