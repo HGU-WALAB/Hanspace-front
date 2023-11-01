@@ -42,13 +42,14 @@ import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/u
 //
 import { useQuery } from 'react-query';
 import { GetUser } from 'src/api/userApi';
+import { Typography } from '@mui/material';
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const ROLE_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_ROLE_OPTIONS];
+const ROLE_OPTIONS = [{ value: '전체', label: '전체' }, ...USER_ROLE_OPTIONS];
 
 const TABLE_HEAD = [
   { id: 'name', label: '이름', width: 300 },
@@ -63,7 +64,7 @@ const TABLE_HEAD = [
 const defaultFilters: IUserTableFilters = {
   name: '',
   // role: [],
-  role: 'all',
+  role: '전체',
 };
 
 // ----------------------------------------------------------------------
@@ -189,6 +190,9 @@ export default function UserListView() {
             mb: { xs: 3, md: 5 },
           }}
         /> */}
+        <Typography variant="h4"> 사용자 관리 </Typography>
+
+        <div style={{ margin: '20px', display: 'flex', justifyContent: 'flex-end' }} />
 
         <Card>
           <Tabs
@@ -208,25 +212,25 @@ export default function UserListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.role) && 'filled') || 'soft'
+                      ((tab.value === '전체' || tab.value === filters.role) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'Admin' && 'success') ||
-                      (tab.value === 'User' && 'warning') ||
+                      (tab.value === '관리자' && 'success') ||
+                      (tab.value === '사용자' && 'warning') ||
                       // (tab.value === 'Banned' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _userList.length}
-                    {tab.value === 'Admin' &&
-                      _userList.filter((user) => user.role === 'Admin').length}
+                    {tab.value === '전체' && _userList.length}
+                    {tab.value === '관리자' &&
+                      _userList.filter((user) => user.role === '관리자').length}
 
-                    {tab.value === 'User' &&
-                      _userList.filter((user) => user.role === 'User').length}
+                    {tab.value === '사용자' &&
+                      _userList.filter((user) => user.role === '사용자').length}
                     {/* {tab.value === 'Banned' &&
                       _userList.filter((user) => user.role === 'Banned').length} */}
-                    {tab.value === 'Blacklist' &&
-                      _userList.filter((user) => user.role === 'Blacklist').length}
+                    {tab.value === '블랙리스트' &&
+                      _userList.filter((user) => user.role === '블랙리스트').length}
                   </Label>
                 }
               />
@@ -385,7 +389,7 @@ function applyFilter({
     );
   }
 
-  if (role !== 'all') {
+  if (role !== '전체') {
     inputData = inputData.filter((user) => user.role === role);
   }
 

@@ -77,8 +77,8 @@ export default function UserTableRow({
           <Label
             variant="soft"
             color={
-              (role === 'Admin' && 'success') ||
-              (role === 'User' && 'warning') ||
+              (role === '관리자' && 'success') ||
+              (role === '사용자' && 'warning') ||
               // (role === 'Blacklist' && 'default') ||
               'default'
             }

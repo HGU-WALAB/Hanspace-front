@@ -40,7 +40,7 @@ function NavHorizontal() {
         <NavSectionHorizontal
           data={navData}
           config={{
-            currentRole: user?.role || 'admin',
+            currentRole: user?.role || '관리자',
           }}
         />
       </Toolbar>
