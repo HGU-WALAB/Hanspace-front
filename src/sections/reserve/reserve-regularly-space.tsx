@@ -102,7 +102,7 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
           label: `최대 인원 : ${headCount}`,
         },
         {
-          label: `추가 요청 : ${detail}`,
+          label: `세부 사항 : ${detail}`,
         },
       ].map((item) => (
         <Stack

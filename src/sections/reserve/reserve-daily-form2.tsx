@@ -109,9 +109,9 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
         
         console.info('DATA', dataToSend);
   
-        const response = await axios
-          .post(`${BASE_URL}/reserve`, dataToSend)
-          .then((log) => console.log('log', log));
+        // const response = await axios
+        //   .post(`${BASE_URL}/reserve`, dataToSend)
+        //   .then((log) => console.log('log', log));
       } catch (error) {
         console.error(error);
       }
@@ -123,6 +123,7 @@ export default function ReserveDailyForm2({ onPrevClick, selectedData }: Reserve
       onPrevClick();
     };
 
+    // 기관이 등록한 extra 요구 정보들을 불러오기
     const [extraData, setextraData] = useState<string | null>(null);
     useEffect(() => {
       // 데이터를 가져오는 함수 정의

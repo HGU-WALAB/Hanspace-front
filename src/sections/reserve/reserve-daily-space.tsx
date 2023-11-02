@@ -134,7 +134,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
           label: `최대 인원 : ${headCount}`,
         },
         {
-          label: `추가 요청 : ${detail}`,
+          label: `세부 사항 : ${detail}`,
         },
       ].map((item) => (
         <Stack
