@@ -150,6 +150,8 @@ export default function ReserveView() {
     spaceName: '',
   });
 
+
+
   // const { data: spaces } = useQuery(
   //   ['GetSpace', GetSpace],
   //   () => GetSpace().then((response) => response.data),
@@ -190,6 +192,28 @@ export default function ReserveView() {
     setSelectedValue(newValue); // 선택한 값을 업데이트
   };
 
+  let DailySpaceCradList = null;
+
+  if (spaces) {
+    DailySpaceCradList = spaces.reduce((result, space) => {
+      const dailySpaceCardList = (
+        <DailySpaceCardList
+          space={space}
+          selectedData={selectedDailyData1}
+          onNextClick={handleNextClick1}
+          />
+        );
+      if (dailySpaceCardList !== null) {
+        result.push(
+          <>
+            {dailySpaceCardList}
+          </>
+        );
+      }
+      return result;
+    }, [] as JSX.Element[])
+  }
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
@@ -206,11 +230,7 @@ export default function ReserveView() {
             }}
             sx={{ marginTop: '50px' }}
           >
-            {spaces && spaces.map((space: EXSpaceItem) => (
-              <Box key={space.id}>
-                <DailySpaceCardList space={space} selectedData={selectedDailyData1} onNextClick={handleNextClick1} />
-              </Box>
-            ))}
+          {DailySpaceCradList} 
           </Box>
         </>
       )}

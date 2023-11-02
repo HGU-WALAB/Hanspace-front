@@ -106,16 +106,16 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
     selectedEndMinutes,
     selectedStartMinutes,]);
 
-  const renderImages = (
+  const renderImages = ( 
     <Stack
       spacing={0.5}
       direction="row"
       sx={{
-        p: (theme) => theme.spacing(0, 0, 0, 0),
+        p: (theme) => theme.spacing(1, 0.5, 0, 0.5),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ height: 250 }} />
+        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 242, width: 1 }} />
       </Stack>
     </Stack>
   );

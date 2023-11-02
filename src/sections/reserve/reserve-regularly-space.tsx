@@ -79,11 +79,11 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={0.5}
       direction="row"
       sx={{
-        p: (theme) => theme.spacing(0, 0, 0, 0),
+        p: (theme) => theme.spacing(1, 0.5, 0, 0.5),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ height: 250 }} />
+        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 242, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -122,11 +122,11 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={3}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 2.5, 2.5, 2.5),
+        p: (theme) => theme.spacing(0, 2, 1, 2),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <InfoText>이용 가능 시간</InfoText>
+      <Typography variant="body1" color="black">이용 가능 시간</Typography>
         <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
       </Stack>
     </Stack>
