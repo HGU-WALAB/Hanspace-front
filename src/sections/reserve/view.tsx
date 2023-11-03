@@ -20,8 +20,8 @@ import RegularlySpaceCardList from './reserve-regularly-space';
 import RowRadioButtonsGroup from './reserve-radio';
 import ReserveRegularyForm1 from './reserve-regularly-form1';
 import ReserveCSVForm from './reserve-csv';
-import DailyReserveForm2Modal from './reserve-daily-modal';
-import RegularlyReserveForm2Modal from './reserve-regularly-modal';
+import DailyReserveFormDialog from './reserve-daily-dialog';
+import RegularlyReserveDialog from './reserve-regularly-dialog';
 
 const spaces: EXSpaceItem[] = [
   {
@@ -226,7 +226,7 @@ export default function ReserveView() {
             sx={{ marginTop: '50px' }}
           >
           {DailySpaceCradList} 
-          <DailyReserveForm2Modal open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedDailyData2} />
+          <DailyReserveFormDialog open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedDailyData2} />
           </Box>
         </>
       )}
@@ -248,7 +248,7 @@ export default function ReserveView() {
                 <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} handleModalControl={handleReguluarlyModalControl} />
               </Box>
             ))}
-            <RegularlyReserveForm2Modal open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedRegularyData2} />
+            <RegularlyReserveDialog open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedRegularyData2} />
           </Box>
         </>
       )}

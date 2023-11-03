@@ -1,8 +1,13 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import TextField from '@mui/material/TextField';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Stack, { StackProps } from '@mui/material/Stack';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -21,17 +26,6 @@ import FormProvider , {
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  bgcolor: 'background.paper',
-  border: '1px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 interface ReserveDailyForm2Props {
     selectedData: {
@@ -48,7 +42,7 @@ interface ReserveDailyForm2Props {
   interface InputField {
     value: string;
   }
-export default function DailyReserveForm2Modal({ open, onClose, selectedData}: ReserveDailyForm2Props) {
+export default function DailyReserveFormDialog({ open, onClose, selectedData}: ReserveDailyForm2Props) {
     const defaultValues = {
         spaceId: 1,
         memberId: 1,
@@ -140,31 +134,31 @@ export default function DailyReserveForm2Modal({ open, onClose, selectedData}: R
     
     return (
         <div>
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            <Typography variant="h6" color="primary" sx={{mb: 5}}> 
-                일일 예약 하기
-            </Typography>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Typography variant="body1">목적 *</Typography>
-            <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px', mb: 2}}/>
-            {inputFields.map((field, index) => (
-                <div key={index}>
-                <Typography variant="body1">{words[index]} *</Typography>
-                <RHFTextField name={`extraInfoAns[${index}]`} label={`${words[index]}을 입력해주세요.`} sx={{ width: '280px', mb: 2}} />
-            </div>
-            ))}
-            <Button variant="contained" color="primary" onClick={() => {onSubmit();}} sx={{ width: '200px', mt: 8}}>
-                대여하기
-            </Button>
-            </FormProvider>
-            </Box>
-        </Modal>
+        <Dialog open={open} onClose={onClose}>
+          <DialogTitle> 일일 예약 하기 </DialogTitle>
+            <DialogContent>
+              <FormProvider methods={methods} onSubmit={onSubmit}>
+              <Stack spacing={2}>
+                <Typography variant="body1">목적 *</Typography>
+                <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px'}}/>
+                {inputFields.map((field, index) => (
+                    <div key={index}>
+                    <Typography variant="body1">{words[index]} *</Typography>
+                    <RHFTextField name={`extraInfoAns[${index}]`} label={`${words[index]}을 입력해주세요.`} sx={{ width: '280px'}} />
+                </div>
+                ))}
+              </Stack>
+              <DialogActions>
+                <Button onClick={() => {onClose();}} variant="outlined" color="inherit" >
+                  취소
+                </Button>
+                <Button onClick={() => {onSubmit();}} variant="contained" color="primary" >
+                    대여하기
+                </Button>
+              </DialogActions>
+              </FormProvider>
+            </DialogContent>
+        </Dialog>
         </div>
     );
 }

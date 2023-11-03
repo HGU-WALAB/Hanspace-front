@@ -1,8 +1,13 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import TextField from '@mui/material/TextField';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Stack, { StackProps } from '@mui/material/Stack';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -21,17 +26,6 @@ import FormProvider , {
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  bgcolor: 'background.paper',
-  border: '1px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 interface ReserveRegularlyForm2Props {
     selectedData: {
@@ -50,7 +44,7 @@ interface ReserveRegularlyForm2Props {
   interface InputField {
     value: string;
   }
-export default function RegularlyReserveForm2Modal({ open, onClose, selectedData}: ReserveRegularlyForm2Props) {
+export default function RegularlyReserveDialog({ open, onClose, selectedData}: ReserveRegularlyForm2Props) {
     const defaultValues = {
         memberId: 1,
         startDate: selectedData.startDate,
@@ -164,38 +158,32 @@ export default function RegularlyReserveForm2Modal({ open, onClose, selectedData
         }, [extraData, words]);
     
     return (
-        <div>
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            <Typography variant="h6" color="primary" sx={{mb: 5}}> 
-                정기 예약 하기
-            </Typography>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-            {/* <Text>모임명 *</Text>
-                <RHFTextField name="groupName" label="모임명을 입력해주세요." sx={{ width: '280px'}}/> */}
-            <Typography variant="body1">목적 *</Typography>
-                <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px'}}/>
-            {/* <Text>연락처 *</Text>
-                <RHFTextField name="phoneNumber" label="연락처를 입력해주세요." sx={{ width: '280px'}}/> */}
-            {inputFields.map((field, index) => (
+      <div>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle> 정기 예약 하기 </DialogTitle>
+        <DialogContent>
+          <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Stack spacing={2}>
+              <Typography variant="body1">목적 *</Typography>
+              <RHFTextField name="purpose" label="대여 목적을 입력해주세요." sx={{ width: '280px'}}/>
+              {inputFields.map((field, index) => (
                 <div key={index}>
-                <Typography variant="body1">{words[index]} *</Typography>
-                <RHFTextField name={`extraInfoAns[${index}]`} label={`${words[index]}을 입력해주세요.`} sx={{ width: '280px'}} />
-            </div>
-            ))}
-            <div style={{ marginTop: '100px' }}>
-            <Button variant="contained" color="primary" onClick={() => {onSubmit();}} sx={{ width: '100px'}}>
+                  <Typography variant="body1">{words[index]} *</Typography>
+                  <RHFTextField name={`extraInfoAns[${index}]`} label={`${words[index]}을 입력해주세요.`} sx={{ width: '280px'}} />
+                </div>
+              ))}
+            </Stack>
+            <DialogActions>
+              <Button onClick={() => {onClose();}} variant="outlined" color="inherit" >
+                취소
+              </Button>
+              <Button onClick={() => {onSubmit();}} variant="contained" color="primary" >
                 대여하기
-            </Button>
-            </div>
-            </FormProvider>
-            </Box>
-        </Modal>
-        </div>
+              </Button>
+            </DialogActions>
+          </FormProvider>
+        </DialogContent>
+      </Dialog>
+      </div>
     );
 }
