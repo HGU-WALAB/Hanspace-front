@@ -17,12 +17,12 @@ import { fDate } from 'src/utils/format-time';
 // ----------------------------------------------------------------------
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { useState } from 'react';
-import { AdminCalendarView } from 'src/sections/calendar/view';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
+import { AdminCalendarView } from './calendar/view';
 
 // ----------------------------------------------------------------------
 
-export default function DashboardView() {
+export default function AdminDashboardView() {
   const settings = useSettingsContext();
 
   const rangeCalendarPicker = useDateRangePicker(new Date(), null);
@@ -37,7 +37,7 @@ export default function DashboardView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        Dashboard
+        대시보드
       </Typography>
       {/* <Box
         sx={{
