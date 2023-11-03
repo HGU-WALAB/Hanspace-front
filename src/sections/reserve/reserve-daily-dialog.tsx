@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
+import Autocomplete from "@mui/material/Autocomplete";
 
 // components
 import { useForm } from 'react-hook-form';
@@ -26,6 +27,22 @@ import FormProvider , {
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
 
+const emailInfo = [
+  { email: "22100595@handong.ac.kr" },
+  { email: "22000019@handong.ac.kr" },
+  { email: "22100101@handong.ac.kr" },
+  { email: "22100123@handong.ac.kr" },
+  { email: "22100489@handong.ac.kr" },
+  { email: "22100230@handong.ac.kr" },
+  { email: "21900595@handong.ac.kr" },
+  { email: "22300592@handong.ac.kr" },
+  { email: "21700247@handong.ac.kr" },
+  { email: "21500852@handong.ac.kr" },
+  { email: "22200682@handong.ac.kr" },
+  { email: "21400374@handong.ac.kr" },
+  { email: "21600085@handong.ac.kr" },
+  { email: "22000128@handong.ac.kr" }
+]; // email data
 
 interface ReserveDailyForm2Props {
     selectedData: {
@@ -147,6 +164,22 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
                     <RHFTextField name={`extraInfoAns[${index}]`} label={`${words[index]}을 입력해주세요.`} sx={{ width: '280px'}} />
                 </div>
                 ))}
+              <Autocomplete
+                multiple
+                id="tags-standard"
+                options={emailInfo}
+                getOptionLabel={(option) => option.email}
+                defaultValue={[]}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="standard"
+                    label="장소 예약을 공유할 사람의 이메일을 선택해주세요"
+                    placeholder="Email"
+                    sx={{ width: 300 }}
+                  />
+                )}
+              />
               </Stack>
               <DialogActions>
                 <Button onClick={() => {onClose();}} variant="outlined" color="inherit" >

@@ -115,7 +115,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 242, width: 1 }} />
+        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 250, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -125,10 +125,11 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 0, 0, 0),
+        p: (theme) => theme.spacing(5, 0, 0, 0),
         height: 250,
       }}
     >
+    <Typography variant="h6" color="black">{space.name} 장소의 추가 정보</Typography>
       {[
         {
           label: `최대 인원 : ${headCount}`,
@@ -143,7 +144,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
           direction="row"
           alignItems="center"
         >
-          <Typography variant="h5" color="black" sx={{m: 2}}>{item.label}</Typography>
+          <Typography variant="subtitle1" color="black" sx={{mt: 2}}>{item.label}</Typography>
         </Stack>
       ))}
     </Stack>
@@ -191,7 +192,14 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
     >
       {isClicked ? (
         <div >
-          <Box sx={{border: 'black'}}>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            borderRadius: 1,
+            bgcolor: '#F4F4F4',
+            height: '250px',
+            mt: 1,
+          }}>
             {renderInfo}
           </Box>
           <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>

@@ -93,10 +93,11 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 0, 0, 0),
+        p: (theme) => theme.spacing(5, 0, 0, 0),
         height: 250,
       }}
     >
+    <Typography variant="h6" color="black">{space.name} 장소의 추가 정보</Typography>
       {[
         {
           label: `최대 인원 : ${headCount}`,
@@ -111,7 +112,7 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
           direction="row"
           alignItems="center"
         >
-          <Typography variant="h5" color="black" sx={{m: 2}}>{item.label}</Typography>
+          <Typography variant="subtitle1" color="black" sx={{mt: 2}}>{item.label}</Typography>
         </Stack>
       ))}
     </Stack>
@@ -159,18 +160,27 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
     >
       {isClicked ? (
         <div>
-          {renderInfo}
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            borderRadius: 1,
+            bgcolor: '#F4F4F4',
+            height: '250px',
+            mt: 1,
+          }}>
+            {renderInfo}
+          </Box>
           <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
           <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
             disabled={
               !selectedData.startDate ||
               !selectedData.endDate ||
               !selectedData.week ||
               !selectedData.startTime ||
               !selectedData.endTime
-          }>
+            }>
             장소선택
           </Button> 
         </div>
@@ -180,7 +190,7 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
           <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
           <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
             disabled={
               !selectedData.startDate ||
               !selectedData.endDate ||

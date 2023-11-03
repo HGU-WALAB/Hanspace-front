@@ -69,7 +69,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     });
   
     const {
-      watch,
+      // watch,
       // reset,
       // control,
       setValue,
@@ -81,8 +81,6 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
 
-    const defaultDate = new Date();
-    defaultDate.setHours(0, 0, 0, 0);
 
     const handleNextClick = useCallback(() => {
       const selectedData = {
@@ -125,7 +123,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
             {/* <Typography variant="subtitle1">이용 시간 *</Typography> */}
               <DesktopTimePicker
                     label="예약 시작 시간"
-                    value={methods.watch('startTime') }
+                    value={methods.watch('startTime')}
                     onChange={(newValue) => {
                       if (newValue !== null) {
                         const dateObject = new Date(newValue);
