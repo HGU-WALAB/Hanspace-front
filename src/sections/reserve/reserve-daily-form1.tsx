@@ -83,19 +83,6 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
 
     const defaultDate = new Date();
     defaultDate.setHours(0, 0, 0, 0);
-    // const [headCount, setheadCount] = useState(defaultValues.headCount);
-    // const [spaceId, setSpaceId] = useState('');
-
-    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-    //   setheadCount(numericValue);
-    //   console.log(numericValue);
-    //   handleNextClick();
-    // };
-    // const handleSpaceChange = (event: SelectChangeEvent) => {
-    //   const value = event.target.value;
-    //   setSpaceId(value);
-    // };
 
     const handleNextClick = useCallback(() => {
       const selectedData = {

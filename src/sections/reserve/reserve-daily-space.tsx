@@ -29,7 +29,7 @@ interface Props {
     // headCount: number;
   };
   space: EXSpaceItem;
-  onNextClick: (data: any) => void;
+  handleModalControl: (data: any) => void;
 };
 
 
@@ -60,7 +60,7 @@ function isEndTimeRangeValid(selectST: number, availST: number, selectET: number
 //   return pass;
 // }
 
-export default function DailySpaceCardList({ space, selectedData, onNextClick }: Props) {
+export default function DailySpaceCardList({ space, selectedData, handleModalControl }: Props) {
   const popover = usePopover();
   const [isClicked, setIsClicked] = useState(false);
   const {
@@ -174,7 +174,7 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
       spaceName: space.name,
     };
     // console.log('sendSelectedData', sendSelectedData);
-    onNextClick(sendSelectedData);
+    handleModalControl(sendSelectedData);
   };
 
   return (
@@ -191,16 +191,17 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
     >
       {isClicked ? (
         <div >
-          {renderInfo}
+          <Box sx={{border: 'black'}}>
+            {renderInfo}
+          </Box>
           <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
             {renderTimeTable}
             <Button variant="contained" color="primary" 
-              onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+              onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
               disabled={
                 !selectedData.reserveDate ||
                 !selectedData.startTime ||
                 !selectedData.endTime
-                // !selectedData.headCount
               }>
               장소선택
             </Button> 
@@ -211,12 +212,11 @@ export default function DailySpaceCardList({ space, selectedData, onNextClick }:
           <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
           <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
             disabled={
               !selectedData.reserveDate ||
               !selectedData.startTime ||
               !selectedData.endTime
-              // !selectedData.headCount
             }>
             장소선택
           </Button> 

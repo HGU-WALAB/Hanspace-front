@@ -14,15 +14,14 @@ import { useSettingsContext } from 'src/components/settings';
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
 import ReserveDailyForm1 from './reserve-daily-form1';
-import ReserveDailyForm2 from './reserve-daily-form2';
+// import ReserveDailyForm2 from './reserve-daily-form2';
 import DailySpaceCardList from './reserve-daily-space';
 import RegularlySpaceCardList from './reserve-regularly-space';
 import RowRadioButtonsGroup from './reserve-radio';
 import ReserveRegularyForm1 from './reserve-regularly-form1';
-import ReserveRegularyForm2 from './reserve-regularly-form2';
 import ReserveCSVForm from './reserve-csv';
-import ReserveDaily2 from './reserve-daily2';
-import ReserveRegularly2 from './reserve-regularly2';
+import DailyReserveForm2Modal from './reserve-daily-modal';
+import RegularlyReserveForm2Modal from './reserve-regularly-modal';
 
 const spaces: EXSpaceItem[] = [
   {
@@ -151,7 +150,7 @@ export default function ReserveView() {
   });
 
 
-
+// space 정보들 API
   // const { data: spaces } = useQuery(
   //   ['GetSpace', GetSpace],
   //   () => GetSpace().then((response) => response.data),
@@ -162,28 +161,24 @@ export default function ReserveView() {
   //   }
   // );
 
-  const [currentPage1, setCurrentPage1] = useState(1);
-  const [currentPage2, setCurrentPage2] = useState(1);
-
   const handleDailyReserveInfo = (data: DailyReserveForm1) => {
     setSelectedDailyData1(data);
-  };
-  const handleNextClick1 = (data: DailyReserveForm2) => {
-    setSelectedDailyData2(data);
-    setCurrentPage1(currentPage1 + 1);
   };
   const handleRegularlyReserveInfo = (data: RegularyReserveForm1) => {
     setSelectedRegularyData1(data);
   };
-  const handleNextClick2 = (data: RegularyReserveForm2) => {
+
+  // modal code
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDailyModalControl = (data: DailyReserveForm2) => {
+    setIsModalOpen(true);
+    setSelectedDailyData2(data);
+  };
+
+  const handleReguluarlyModalControl = (data: RegularyReserveForm2) => {
+    setIsModalOpen(true);
     setSelectedRegularyData2(data);
-    setCurrentPage2(currentPage2 + 1);
-  };
-  const goToPrevPage1 = () => {
-    setCurrentPage1(currentPage1 - 1);
-  };
-  const goToPrevPage2 = () => {
-    setCurrentPage2(currentPage2 - 1);
   };
 
   const [selectedValue, setSelectedValue] = useState('daily');
@@ -200,7 +195,7 @@ export default function ReserveView() {
         <DailySpaceCardList
           space={space}
           selectedData={selectedDailyData1}
-          onNextClick={handleNextClick1}
+          handleModalControl={handleDailyModalControl}
           />
         );
       if (dailySpaceCardList !== null) {
@@ -217,7 +212,7 @@ export default function ReserveView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
-      {selectedValue === 'daily' && currentPage1 === 1 && (
+      {selectedValue === 'daily' && (
         <>
           <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} />
           <Box
@@ -231,20 +226,11 @@ export default function ReserveView() {
             sx={{ marginTop: '50px' }}
           >
           {DailySpaceCradList} 
+          <DailyReserveForm2Modal open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedDailyData2} />
           </Box>
         </>
       )}
-      {selectedValue === 'daily' && currentPage1 === 2 && (
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveDaily2 selectedData={selectedDailyData2} />
-          </div>
-          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveDailyForm2 onPrevClick={goToPrevPage1} selectedData={selectedDailyData2} />
-          </div>
-        </div>
-      )}
-      {selectedValue === 'regularly' && currentPage2 === 1 && (
+      {selectedValue === 'regularly' && (
         <>
           <ReserveRegularyForm1 handleRegularlyReserveInfo={handleRegularlyReserveInfo} />
           <Box
@@ -259,24 +245,12 @@ export default function ReserveView() {
           >
             {spaces && spaces.map((space: EXSpaceItem) => (
               <Box key={space.id}>
-                <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} onNextClick={handleNextClick2} />
+                <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} handleModalControl={handleReguluarlyModalControl} />
               </Box>
             ))}
+            <RegularlyReserveForm2Modal open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedRegularyData2} />
           </Box>
         </>
-      )}
-      {selectedValue === 'regularly' && currentPage2 === 2 && (
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveRegularly2 selectedData={selectedRegularyData2} />
-          </div>
-          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <ReserveRegularyForm2
-              onPrevClick={goToPrevPage2}
-              selectedData={selectedRegularyData2}
-            />
-          </div>
-        </div>
       )}
       {selectedValue === 'csv' && <ReserveCSVForm />}
     </Container>

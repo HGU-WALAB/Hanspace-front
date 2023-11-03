@@ -47,10 +47,10 @@ interface Props {
     // headCount: number,
   };
   space: EXSpaceItem;
-  onNextClick: (data: any) => void;
+  handleModalControl: (data: any) => void;
 };
 
-export default function RegularlySpaceCardList({ space, selectedData, onNextClick }: Props) {
+export default function RegularlySpaceCardList({ space, selectedData, handleModalControl }: Props) {
   useEffect(() => {
     // console.log('space data', selectedData);
   }, [selectedData]);
@@ -143,7 +143,7 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
         spaceId: space.spaceId,
         spaceName: space.name,
     };
-    onNextClick(sendSelectedData);
+    handleModalControl(sendSelectedData);
   };
 
   return (
@@ -170,7 +170,6 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
               !selectedData.week ||
               !selectedData.startTime ||
               !selectedData.endTime
-              // !selectedData.headCount
           }>
             장소선택
           </Button> 
@@ -188,7 +187,6 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
               !selectedData.week ||
               !selectedData.startTime ||
               !selectedData.endTime
-              // !selectedData.headCount
           }>
             장소선택
           </Button> 
