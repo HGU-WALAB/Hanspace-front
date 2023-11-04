@@ -25,6 +25,7 @@ import FormProvider , {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
+import ReserveSuccessDialog from './reserve-dialog';
 
 
 interface ReserveRegularlyForm2Props {
@@ -72,6 +73,11 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
             handleSubmit,
             formState: { isSubmitting },
           } = methods;
+
+          const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+          const handleSuccessDialogControl = () => {
+            setIsSuccessDialogOpen(true);
+          };
 
           const onSubmit = handleSubmit(async (data) => {
             try {
@@ -123,6 +129,8 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
               // const response = await axios
               //   .post(`${BASE_URL}/reserve`, dataToSend)
               //   .then((log) => console.log('log', log));
+
+              handleSuccessDialogControl();
             } catch (error) {
               console.error(error);
             }
@@ -184,6 +192,7 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
           </FormProvider>
         </DialogContent>
       </Dialog>
+      <ReserveSuccessDialog open = {isSuccessDialogOpen} onClose = {() => setIsSuccessDialogOpen(false)} />
       </div>
     );
 }

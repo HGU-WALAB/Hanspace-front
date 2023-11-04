@@ -169,15 +169,15 @@ export default function ReserveView() {
   };
 
   // modal code
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDailyModalControl = (data: DailyReserveForm2) => {
-    setIsModalOpen(true);
+    setIsDialogOpen(true);
     setSelectedDailyData2(data);
   };
 
   const handleReguluarlyModalControl = (data: RegularyReserveForm2) => {
-    setIsModalOpen(true);
+    setIsDialogOpen(true);
     setSelectedRegularyData2(data);
   };
 
@@ -226,7 +226,7 @@ export default function ReserveView() {
             sx={{ marginTop: '50px' }}
           >
           {DailySpaceCradList} 
-          <DailyReserveFormDialog open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedDailyData2} />
+          <DailyReserveFormDialog open = {isDialogOpen} onClose = {() => setIsDialogOpen(false)} selectedData={selectedDailyData2} />
           </Box>
         </>
       )}
@@ -248,7 +248,7 @@ export default function ReserveView() {
                 <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} handleModalControl={handleReguluarlyModalControl} />
               </Box>
             ))}
-            <RegularlyReserveDialog open = {isModalOpen} onClose = {() => setIsModalOpen(false)} selectedData={selectedRegularyData2} />
+            <RegularlyReserveDialog open = {isDialogOpen} onClose = {() => setIsDialogOpen(false)} selectedData={selectedRegularyData2} />
           </Box>
         </>
       )}

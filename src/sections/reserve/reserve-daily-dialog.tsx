@@ -26,6 +26,7 @@ import FormProvider , {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
+import ReserveSuccessDialog from './reserve-dialog';
 
 const emailInfo = [
   { email: "22100595@handong.ac.kr" },
@@ -86,6 +87,11 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
             formState: { isSubmitting },
           } = methods;
 
+          const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+          const handleSuccessDialogControl = () => {
+            setIsSuccessDialogOpen(true);
+          };
+
           const onSubmit = handleSubmit(async (data) => {
             try {
               reset();
@@ -115,6 +121,7 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
               // const response = await axios
               //   .post(`${BASE_URL}/reserve`, dataToSend)
               //   .then((log) => console.log('log', log));
+              handleSuccessDialogControl();
             } catch (error) {
               console.error(error);
             }
@@ -176,7 +183,7 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
                     variant="standard"
                     label="장소 예약을 공유할 사람의 이메일을 선택해주세요"
                     placeholder="Email"
-                    sx={{ width: 300 }}
+                    sx={{ width: '300px' }}
                   />
                 )}
               />
@@ -186,12 +193,13 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
                   취소
                 </Button>
                 <Button onClick={() => {onSubmit();}} variant="contained" color="primary" >
-                    대여하기
+                  대여하기
                 </Button>
               </DialogActions>
               </FormProvider>
             </DialogContent>
         </Dialog>
+        <ReserveSuccessDialog open = {isSuccessDialogOpen} onClose = {() => setIsSuccessDialogOpen(false)} />
         </div>
     );
 }
