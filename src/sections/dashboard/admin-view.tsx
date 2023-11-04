@@ -18,7 +18,7 @@ import { fDate } from 'src/utils/format-time';
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { useState } from 'react';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
-import { AdminCalendarView } from './calendar/view';
+import AdminCalendarView from './calendar/view/admin-calendar-view';
 
 // ----------------------------------------------------------------------
 

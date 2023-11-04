@@ -17,7 +17,7 @@ import { fDate } from 'src/utils/format-time';
 // ----------------------------------------------------------------------
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { useState } from 'react';
-import { AdminCalendarView } from './calendar/view';
+import UserCalendarView from './calendar/view/user-calendar-view';
 import UserTimeLine from './timeline/user-timeline';
 
 // ----------------------------------------------------------------------
@@ -97,7 +97,7 @@ export default function UserDashboardView() {
       {/* 2번째  */}
       <Grid container spacing={3}>
         <Grid xs={12} sm={9} md={9}>
-          <AdminCalendarView />
+          <UserCalendarView />
         </Grid>
         <Grid xs={12} sm={3} md={3}>
           <UserTimeLine />
