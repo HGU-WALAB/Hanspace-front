@@ -86,7 +86,7 @@ export default function CalendarFilters({
       sx={{ py: 2, pr: 1, pl: 2.5 }}
     >
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        Filters
+        필터링
       </Typography>
 
       <Tooltip title="Reset">
@@ -105,7 +105,7 @@ export default function CalendarFilters({
 
   const renderColors = (
     <Stack spacing={1} sx={{ my: 3, px: 2.5 }}>
-      <Typography variant="subtitle2">Colors</Typography>
+      <Typography variant="subtitle2">색상</Typography>
       <ColorPicker
         colors={colorOptions}
         selected={filters.colors}
@@ -116,19 +116,25 @@ export default function CalendarFilters({
 
   const renderDateRange = (
     <Stack spacing={1.5} sx={{ mb: 3, px: 2.5 }}>
-      <Typography variant="subtitle2">Range</Typography>
+      <Typography variant="subtitle2">날짜 범위</Typography>
 
       <Stack spacing={2}>
-        <DatePicker label="Start date" value={filters.startDate} onChange={handleFilterStartDate} />
+        <DatePicker 
+          label="시작 날짜" 
+          format="yyyy/MM/dd"
+          value={filters.startDate} 
+          onChange={handleFilterStartDate}
+        />
 
         <DatePicker
-          label="End date"
+          label="끝 날짜"
+          format="yyyy/MM/dd"
           value={filters.endDate}
           onChange={handleFilterEndDate}
           slotProps={{
             textField: {
               error: dateError,
-              helperText: dateError && 'End date must be later than start date',
+              helperText: dateError && '끝 날짜는 시작 날짜보다 이전일 수 없습니다',
             },
           }}
         />
@@ -139,7 +145,7 @@ export default function CalendarFilters({
   const renderEvents = (
     <>
       <Typography variant="subtitle2" sx={{ px: 2.5, mb: 1 }}>
-        Events ({events.length})
+        일정 ({events.length})
       </Typography>
 
       <Scrollbar sx={{ height: 1 }}>
@@ -178,12 +184,12 @@ export default function CalendarFilters({
                   sx={{ fontSize: 11, color: 'text.disabled' }}
                 >
                   {event.allDay ? (
-                    fDateTime(event.start, 'dd MMM yy')
+                    fDateTime(event.start, 'yy/MM/dd')
                   ) : (
                     <>
-                      {`${fDateTime(event.start, 'dd MMM yy p')} - ${fDateTime(
+                      {`${fDateTime(event.start, 'yy/MM/dd p')} - ${fDateTime(
                         event.end,
-                        'dd MMM yy p'
+                        'yy/MM/dd p'
                       )}`}
                     </>
                   )}

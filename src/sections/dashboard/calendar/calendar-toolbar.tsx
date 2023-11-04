@@ -61,6 +61,11 @@ export default function CalendarToolbar({
 
   const selectedItem = VIEW_OPTIONS.filter((item) => item.value === view)[0];
 
+  const parts = fDate(date).split(' ');
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
+
   return (
     <>
       <Stack
@@ -86,7 +91,7 @@ export default function CalendarToolbar({
             <Iconify icon="eva:arrow-ios-back-fill" />
           </IconButton>
 
-          <Typography variant="h6">{fDate(date)}</Typography>
+          <Typography variant="h6">{year}년 {month}월 {day}일</Typography>
 
           <IconButton onClick={onNextDate}>
             <Iconify icon="eva:arrow-ios-forward-fill" />
@@ -95,7 +100,7 @@ export default function CalendarToolbar({
 
         <Stack direction="row" alignItems="center" spacing={1}>
           <Button size="small" color="error" variant="contained" onClick={onToday}>
-            Today
+            오늘
           </Button>
 
           <IconButton onClick={onOpenFilters}>
