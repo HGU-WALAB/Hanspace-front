@@ -62,33 +62,33 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
 
   const dateError = values.start && values.end ? values.start > values.end : false;
 
-  const onSubmit = handleSubmit(async (data) => {
-    const eventData: ICalendarEvent = {
-      id: currentEvent?.id ? currentEvent?.id : uuidv4(),
-      color: data?.color,
-      title: data?.title,
-      allDay: data?.allDay,
-      description: data?.description,
-      end: data?.end,
-      start: data?.start,
-    } as ICalendarEvent;
+  // const onSubmit = handleSubmit(async (data) => {
+  //   const eventData: ICalendarEvent = {
+  //     id: currentEvent?.id ? currentEvent?.id : uuidv4(),
+  //     color: data?.color,
+  //     title: data?.title,
+  //     allDay: data?.allDay,
+  //     description: data?.description,
+  //     end: data?.end,
+  //     start: data?.start,
+  //   } as ICalendarEvent;
 
-    try {
-      if (!dateError) {
-        if (currentEvent?.id) {
-          await updateEvent(eventData);
-          enqueueSnackbar('수정되었습니다!');
-        } else {
-          await createEvent(eventData);
-          enqueueSnackbar('추가되었습니다!');
-        }
-        onClose();
-        reset();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  //   try {
+  //     if (!dateError) {
+  //       if (currentEvent?.id) {
+  //         await updateEvent(eventData);
+  //         enqueueSnackbar('수정되었습니다!');
+  //       } else {
+  //         await createEvent(eventData);
+  //         enqueueSnackbar('추가되었습니다!');
+  //       }
+  //       onClose();
+  //       reset();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
 
   const onDelete = useCallback(async () => {
     try {
@@ -101,7 +101,8 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
   }, [currentEvent?.id, enqueueSnackbar, onClose]);
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    // <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
         <RHFTextField name="title" label="제목" />
 
@@ -171,28 +172,28 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
       </Stack>
 
       <DialogActions>
-        {!!currentEvent?.id && (
+        {/* {!!currentEvent?.id && (
           <Tooltip title="삭제하기">
             <IconButton onClick={onDelete}>
               <Iconify icon="solar:trash-bin-trash-bold" />
             </IconButton>
           </Tooltip>
-        )}
+        )} */}
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Button variant="outlined" color="inherit" onClick={onClose}>
-          취소
+        <Button variant="outlined" color="primary" onClick={onClose}>
+          확인
         </Button>
 
-        <LoadingButton
+        {/* <LoadingButton
           type="submit"
           variant="contained"
           loading={isSubmitting}
           disabled={dateError}
         >
           추가
-        </LoadingButton>
+        </LoadingButton> */}
       </DialogActions>
     </FormProvider>
   );

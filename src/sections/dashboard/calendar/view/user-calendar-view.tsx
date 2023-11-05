@@ -139,7 +139,7 @@ export default function UserCalendarView() {
     onDateToday,
     onDropEvent,
     onChangeView,
-    onSelectRange,
+    // onSelectRange,
     onClickEvent,
     onResizeEvent,
     onInitialView,
@@ -243,7 +243,7 @@ export default function UserCalendarView() {
               eventDisplay="block"
               events={dataFiltered}
               headerToolbar={false}
-              select={onSelectRange}
+              // select={onSelectRange}
               eventClick={onClickEvent}
               height={smUp ? 720 : 'auto'}
               eventDrop={(arg) => {
@@ -275,7 +275,7 @@ export default function UserCalendarView() {
         }}
       >
         <DialogTitle sx={{ minHeight: 76 }}>
-          {openForm && <> {currentEvent?.id ? '일정 수정하기' : '일정 추가하기'}</>}
+          {openForm && <> {currentEvent?.id ? '일정 확인하기' : '일정 추가하기'}</>}
         </DialogTitle>
 
         <CalendarForm
