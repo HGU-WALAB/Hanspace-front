@@ -64,25 +64,25 @@ const TIMELINES: TimelineType[] = [
   },
   {
     key: 5,
-    title: 'Success',
+    title: '뉴턴홀 220',
     des: 'Morbi mattis ullamcorper',
-    time: '11:00 am',
+    time: '11월 12일 20:00',
     color: 'success',
     icon: <Iconify icon="eva:activity-fill" width={24} />,
   },
   {
     key: 6,
-    title: 'Warning',
+    title: '뉴턴 412호',
     des: 'Morbi mattis ullamcorper',
-    time: '11:30 am',
+    time: '11월 15일 21:00',
     color: 'warning',
     icon: <Iconify icon="eva:cube-fill" width={24} />,
   },
   {
     key: 7,
-    title: 'Error',
+    title: '뉴턴 319호',
     des: 'Morbi mattis ullamcorper',
-    time: '12:00 am',
+    time: '11월 20일 22:00',
     color: 'error',
     icon: <Iconify icon="eva:film-fill" width={24} />,
   },
@@ -116,12 +116,16 @@ export default function UserTimeLine() {
           {reduceTimeLine.map((item) => (
             <TimelineItem key={item.key}>
               <TimelineSeparator>
-                <TimelineDot />
+                <TimelineDot
+                  sx={{
+                    backgroundColor: '#4653F0',
+                  }}
+                />
                 {lastItem === item.key ? null : <TimelineConnector />}
               </TimelineSeparator>
               <TimelineContent>
                 <Typography variant="h6">{item.title}</Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" color="textSecondary" noWrap>
                   {item.time}
                 </Typography>
               </TimelineContent>

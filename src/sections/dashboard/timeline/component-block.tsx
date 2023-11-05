@@ -19,7 +19,9 @@ export default function ComponentBlock({ title, sx, children, ...other }: BlockP
       sx={{
         borderRadius: 1.5,
         borderStyle: 'dashed',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
+        bgcolor: '#AEB5F9',
+        height: '100%',
+        // bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
       }}
     >
       {title && <CardHeader title={title} />}
