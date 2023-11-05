@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: One</title>
+        <title> 대시보드 </title>
       </Helmet>
 
       {/* <AdminDashboardView /> */}
