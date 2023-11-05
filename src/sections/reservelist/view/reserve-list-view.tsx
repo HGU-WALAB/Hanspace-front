@@ -15,7 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
+import { _reserves, RESERVE_STATUS_OPTIONS } from 'src/_mock';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // hooks
@@ -38,18 +38,22 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 // types
-import { IOrderItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import {
+  IReserveListItem,
+  IReserveTableFilters,
+  IReserveTableFilterValue,
+} from 'src/types/reserveList';
 //
-import OrderTableRow from '../order-table-row';
-import OrderTableToolbar from '../order-table-toolbar';
-import OrderTableFiltersResult from '../order-table-filters-result';
+import ReserveTableRow from '../reserve-table-row';
+import ReserveTableToolbar from '../reserve-table-toolbar';
+import ReserveTableFiltersResult from '../reserve-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...RESERVE_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order', width: 116 },
+  { id: 'reserveNumber', label: 'reserve', width: 116 },
   { id: 'name', label: 'Customer' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
@@ -58,7 +62,7 @@ const TABLE_HEAD = [
   { id: '', width: 88 },
 ];
 
-const defaultFilters: IOrderTableFilters = {
+const defaultFilters: IReserveTableFilters = {
   name: '',
   status: 'all',
   startDate: null,
@@ -67,8 +71,8 @@ const defaultFilters: IOrderTableFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function OrderListView() {
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+export default function ReserveListView() {
+  const table = useTable({ defaultOrderBy: 'reserveNumber' });
 
   const settings = useSettingsContext();
 
@@ -76,7 +80,7 @@ export default function OrderListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState(_reserves);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -105,7 +109,7 @@ export default function OrderListView() {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name: string, value: IOrderTableFilterValue) => {
+    (name: string, value: IReserveTableFilterValue) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -165,7 +169,7 @@ export default function OrderListView() {
               href: paths.hanspace.root,
             },
             {
-              name: 'Order',
+              name: 'Reserve',
               // href: paths.hanspace.waitinglist,
             },
             { name: 'List' },
@@ -196,29 +200,29 @@ export default function OrderListView() {
                       ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'cancelled' && 'error') ||
+                      (tab.value === '승인' && 'success') ||
+                      (tab.value === '미승인' && 'warning') ||
+                      (tab.value === '거절' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === 'all' && _reserves.length}
+                    {tab.value === '승인' &&
+                      _reserves.filter((reserve) => reserve.status === '승인').length}
 
-                    {tab.value === 'pending' &&
-                      _orders.filter((order) => order.status === 'pending').length}
-                    {tab.value === 'cancelled' &&
-                      _orders.filter((order) => order.status === 'cancelled').length}
-                    {tab.value === 'refunded' &&
-                      _orders.filter((order) => order.status === 'refunded').length}
+                    {tab.value === '미승인' &&
+                      _reserves.filter((reserve) => reserve.status === '미승인').length}
+                    {tab.value === '거절' &&
+                      _reserves.filter((reserve) => reserve.status === '거절').length}
+                    {tab.value === '자동취소' &&
+                      _reserves.filter((reserve) => reserve.status === '자동취소').length}
                   </Label>
                 }
               />
             ))}
           </Tabs>
 
-          <OrderTableToolbar
+          <ReserveTableToolbar
             filters={filters}
             onFilters={handleFilters}
             //
@@ -227,7 +231,7 @@ export default function OrderListView() {
           />
 
           {canReset && (
-            <OrderTableFiltersResult
+            <ReserveTableFiltersResult
               filters={filters}
               onFilters={handleFilters}
               //
@@ -282,7 +286,7 @@ export default function OrderListView() {
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
                     .map((row) => (
-                      <OrderTableRow
+                      <ReserveTableRow
                         key={row.id}
                         row={row}
                         selected={table.selected.includes(row.id)}
@@ -350,9 +354,9 @@ function applyFilter({
   filters,
   dateError,
 }: {
-  inputData: IOrderItem[];
+  inputData: IReserveListItem[];
   comparator: (a: any, b: any) => number;
-  filters: IOrderTableFilters;
+  filters: IReserveTableFilters;
   dateError: boolean;
 }) {
   const { status, name, startDate, endDate } = filters;
@@ -370,9 +374,9 @@ function applyFilter({
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.id.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        order.user.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      // order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 

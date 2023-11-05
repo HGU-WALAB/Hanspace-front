@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack, { StackProps } from '@mui/material/Stack';
 // types
-import { IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { IReserveTableFilters, IReserveTableFilterValue } from 'src/types/reserveList';
 // components
 import Iconify from 'src/components/iconify';
 import { shortDateLabel } from 'src/components/custom-date-range-picker';
@@ -13,15 +13,15 @@ import { shortDateLabel } from 'src/components/custom-date-range-picker';
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IOrderTableFilters;
-  onFilters: (name: string, value: IOrderTableFilterValue) => void;
+  filters: IReserveTableFilters;
+  onFilters: (name: string, value: IReserveTableFilterValue) => void;
   //
   onResetFilters: VoidFunction;
   //
   results: number;
 };
 
-export default function OrderTableFiltersResult({
+export default function ReserveTableFiltersResult({
   filters,
   onFilters,
   //

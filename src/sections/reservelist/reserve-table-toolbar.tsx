@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 // types
-import { IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { IReserveTableFilters, IReserveTableFilterValue } from 'src/types/reserveList';
 // components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
@@ -16,14 +16,14 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 type Props = {
-  filters: IOrderTableFilters;
-  onFilters: (name: string, value: IOrderTableFilterValue) => void;
+  filters: IReserveTableFilters;
+  onFilters: (name: string, value: IReserveTableFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
 };
 
-export default function OrderTableToolbar({
+export default function ReserveTableToolbar({
   filters,
   onFilters,
   //

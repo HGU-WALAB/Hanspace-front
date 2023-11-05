@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import { OrderListView } from 'src/sections/order/view';
+import { ReserveListView } from 'src/sections/reservelist/view';
 
 // ----------------------------------------------------------------------
 
-export default function OrderListPage() {
+export default function ReserveListPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Order List</title>
+        <title> 예약 승인 리스트</title>
       </Helmet>
 
-      <OrderListView />
+      <ReserveListView />
     </>
   );
 }
