@@ -34,9 +34,10 @@ const GREY = {
 };
 
 const PRIMARY = {
+  // TODO : 수정 다시 하기
   lighter: '#C8FAD6',
-  light: '#5BE49B',
-  main: '#00A76F',
+  light: '#F2F3F9',
+  main: '#6F79EF',
   dark: '#007867',
   darker: '#004B50',
   contrastText: '#FFFFFF',
