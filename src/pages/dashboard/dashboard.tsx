@@ -1,17 +1,19 @@
+import { User } from '@auth0/auth0-react';
 import { Helmet } from 'react-helmet-async';
 // sections
-import DashboardView from 'src/sections/dashboard/view';
-
+import AdminDashboardView from 'src/sections/dashboard/admin-view';
+import UserDashboardView from 'src/sections/dashboard/user-view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: One</title>
+        <title> 대시보드 </title>
       </Helmet>
 
-      <DashboardView />
+      {/* <AdminDashboardView /> */}
+      <UserDashboardView />
     </>
   );
 }

@@ -13,6 +13,7 @@ export type ICalendarFilters = {
 export type ICalendarDate = string | number;
 
 export type ICalendarView = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listWeek';
+export type UCalendarView = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay';
 
 export type ICalendarRange = {
   start: ICalendarDate;
@@ -27,4 +28,15 @@ export type ICalendarEvent = {
   description: string;
   end: ICalendarDate;
   start: ICalendarDate;
+};
+
+export type UCalendarEvent = {
+  id: string;
+  color: string;
+  title: string;
+  allDay: boolean;
+  description: string;
+  end: ICalendarDate;
+  start: ICalendarDate;
+  colorText: string;
 };
