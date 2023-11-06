@@ -20,25 +20,25 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 const VIEW_OPTIONS = [
   {
     value: 'dayGridMonth',
-    label: 'Month',
+    label: '월간',
     icon: 'mingcute:calendar-month-line',
   },
-  { value: 'timeGridWeek', label: 'Week', icon: 'mingcute:calendar-week-line' },
-  { value: 'timeGridDay', label: 'Day', icon: 'mingcute:calendar-day-line' },
+  { value: 'timeGridWeek', label: '주간', icon: 'mingcute:calendar-week-line' },
+  { value: 'timeGridDay', label: '일간', icon: 'mingcute:calendar-day-line' },
   {
     value: 'listWeek',
-    label: 'Agenda',
+    label: '리스트',
     icon: 'fluent:calendar-agenda-24-regular',
   },
 ] as const;
 const UVIEW_OPTIONS = [
   {
     value: 'dayGridMonth',
-    label: 'Month',
+    label: '월간',
     icon: 'mingcute:calendar-month-line',
   },
-  { value: 'timeGridWeek', label: 'Week', icon: 'mingcute:calendar-week-line' },
-  { value: 'timeGridDay', label: 'Day', icon: 'mingcute:calendar-day-line' },
+  { value: 'timeGridWeek', label: '주간', icon: 'mingcute:calendar-week-line' },
+  { value: 'timeGridDay', label: '일간', icon: 'mingcute:calendar-day-line' },
 ] as const;
 
 // ----------------------------------------------------------------------
