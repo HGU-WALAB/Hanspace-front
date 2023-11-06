@@ -64,7 +64,7 @@ export default function ReserveCSVForm() {
 
   return (
     <Box>
-    <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
+    <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
       CSV 파일로 예약하기
     </Typography>
     <FormProvider methods={methods}>

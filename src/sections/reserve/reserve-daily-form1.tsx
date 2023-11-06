@@ -44,7 +44,7 @@ export const defaultValues = {
   reserveDate: '',
   startTime: '',
   endTime: '',
-  headCount: 0,
+  // headCount: 0,
   // spaceId: 0,
 };
 interface ReserveForm1Props {
@@ -64,9 +64,6 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     //   }
     // );
   
-  const defaultDate = new Date();
-  defaultDate.setHours(0, 0, 0, 0);
-  
     const methods = useForm({
       defaultValues
     });
@@ -83,30 +80,18 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     const [reserveDate, setDate] = useState<Dayjs | null>(dayjs());
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState(defaultValues.headCount);
-    // const [spaceId, setSpaceId] = useState('');
 
-    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-    //   setheadCount(numericValue);
-    //   console.log(numericValue);
-    //   handleNextClick();
-    // };
-    // const handleSpaceChange = (event: SelectChangeEvent) => {
-    //   const value = event.target.value;
-    //   setSpaceId(value);
-    // };
 
     const handleNextClick = useCallback(() => {
       const selectedData = {
         reserveDate,
         startTime,
         endTime,
-        headCount,
+        // headCount,
         // spaceId: spaceIdNumber,
       };
       handleDailyReserveInfo(selectedData);
-  }, [reserveDate, startTime, endTime, headCount, handleDailyReserveInfo]);
+  }, [reserveDate, startTime, endTime, handleDailyReserveInfo]);
   
   useEffect(() => {
     handleNextClick();
@@ -116,7 +101,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
   return (
     <Box>
       <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
-        일일 예약 장소 찾기
+        예약 가능한 공간 조회하기
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -174,7 +159,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
           </div>
           {/* <div style={{ flexGrow: 1 }}> */}
             {/* <Typography variant="subtitle1">사용 인원 *</Typography> */}
-            <RHFTextField 
+            {/* <RHFTextField 
               name="headCount" 
               label="사용 인원을 입력해주세요." 
               sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
@@ -184,7 +169,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                 setheadCount(numericValue);
               }}
               value={headCount}
-            />
+            /> */}
             {/* <FormControl fullWidth>
               <InputLabel>수용 인원</InputLabel>
               <Select
