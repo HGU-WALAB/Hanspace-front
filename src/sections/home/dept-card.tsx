@@ -29,7 +29,7 @@ export default function DeptCard({ deptInfo }: { deptInfo: IDeptInfo }) {
         flexDirection: 'column',
         alignItems: 'flex-start',
       }}
-      primary={`${deptInfo.spaceNum}개 공간 보유  |  ${deptInfo.pplNum}명 사용 중`} // {`Posted date: ${fDateTime(createdAt)}`}
+      primary={`총 인원 ${deptInfo.pplNum}명  | 보유 공간 ${deptInfo.spaceNum}개`} // {`Posted date: ${fDateTime(createdAt)}`}
       secondary={deptInfo.name}
       primaryTypographyProps={{
         typography: 'caption',
@@ -47,26 +47,14 @@ export default function DeptCard({ deptInfo }: { deptInfo: IDeptInfo }) {
 
   const renderButton = (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '10px' }}>
-      <Button
-        key="success"
-        variant="soft"
-        sx={{
-          width: '100%',
-          backgroundColor: '#ECEEFD',
-          color: '#4653F0',
-          '&:active, &:hover': {
-            backgroundColor: '#4653F0',
-            color: '#ffffff', // You might want to change the text color for better contrast
-          },
-        }}
-      >
+      <Button key="success" variant="outlined" color="success" sx={{ width: '100%' }}>
         입장하기
       </Button>
     </Box>
   );
 
   return (
-    <Card style={{ borderRadius: '20px !important' }}>
+    <Card>
       {renderImages}
 
       {renderTexts}

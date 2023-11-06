@@ -8,7 +8,7 @@ export * from './_user';
 export * from './_tour';
 export * from './_blog';
 export * from './_files';
-export * from './_reserve';
+export * from './_order';
 export * from './_others';
 export * from './_invoice';
 export * from './_product';

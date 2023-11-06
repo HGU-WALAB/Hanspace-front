@@ -15,12 +15,12 @@ import { _mock } from 'src/_mock';
 export function useMockedUser() {
   const user = {
     id: '8864c717-587d-472a-929a-8e5f298024da-0',
-    displayName: '최혜림',
-    email: 'HyelimChoi@handong.ac.kr',
-    password: '1234',
-    photoURL: _mock.image.avatar(23),
-    phoneNumber: '+82 10-6703-0830',
-    country: 'Korea',
+    displayName: 'Jaydon Frankie',
+    email: 'demo@minimals.cc',
+    password: 'demo1234',
+    photoURL: _mock.image.avatar(24),
+    phoneNumber: '+40 777666555',
+    country: 'United States',
     address: '90210 Broadway Blvd',
     state: 'California',
     city: 'San Francisco',

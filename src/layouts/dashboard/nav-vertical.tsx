@@ -12,7 +12,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
 import { NavSectionVertical } from 'src/components/nav-section';
 //
-import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
+import DeptHeaderButton from 'src/sections/home/dept-button';
 import styled from 'styled-components';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
@@ -63,7 +63,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       {/* <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
        */}
       <Rows>
-        {/* <Logo /> */}
+        <Logo />
         <DeptHeaderButton />
       </Rows>
 

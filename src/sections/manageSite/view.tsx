@@ -3,14 +3,8 @@ import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-// routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 // components
 import { useSettingsContext } from 'src/components/settings';
-import DepartmentInfoForm from './dept-info';
 
 // ----------------------------------------------------------------------
 
@@ -19,19 +13,18 @@ export default function ManageSiteView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> 기관 정보 관리하기 </Typography>
-      <Link
-        component={RouterLink}
-        href={paths.dept.management.manageSite('CSEE')}
-        color="primary"
-        variant="subtitle2"
-        noWrap
-      >
-        <Button disableRipple variant="outlined" color="primary">
-          기관 등록하기
-        </Button>
-      </Link>
-      <DepartmentInfoForm />
+      <Typography variant="h4"> ManageSite </Typography>
+
+      <Box
+        sx={{
+          mt: 5,
+          width: 1,
+          height: 320,
+          borderRadius: 2,
+          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
+          border: (theme) => `dashed 1px ${theme.palette.divider}`,
+        }}
+      />
     </Container>
   );
 }

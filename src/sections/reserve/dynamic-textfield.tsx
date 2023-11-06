@@ -28,27 +28,27 @@ export default function DynamicTextField({ onUpdateExtraInfo }: DynamicTextField
 
 
     return(
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-            <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mt: 1, mb: 1 }}>
-                요구 정보 추가하기
-            </Button>
+        <>
+        <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mt: 1, mb: 1 }}>
+            추가 정보 더 등록하기
+        </Button>
             {fields.map((field, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center'}}>
-                    <TextField
-                    name="extraInfoAns"
-                    value={field}
-                    onChange={(e) => {
-                        const updatedFields = [...fields];
-                        updatedFields[index] = e.target.value;
-                        setFields(updatedFields);
-                    }}
-                    sx={{mt: 1}}
-                    />
-                    <IconButton onClick={() => handleRemoveField(index)} color="primary">
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
+            <div key={index}>
+                <TextField
+                name="extraInfoAns"
+                value={field}
+                onChange={(e) => {
+                    const updatedFields = [...fields];
+                    updatedFields[index] = e.target.value;
+                    setFields(updatedFields);
+                }}
+                sx={{mt: 1}}
+                />
+                <IconButton onClick={() => handleRemoveField(index)} color="primary">
+                <DeleteIcon />
+                </IconButton>
+            </div>
             ))}
-        </div>
+        </>
     );
 }

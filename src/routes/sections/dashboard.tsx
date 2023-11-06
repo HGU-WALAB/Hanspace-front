@@ -11,11 +11,23 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
 const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
-const ReserveListPage = lazy(() => import('src/pages/dashboard/reservelist'));
+const PageWaitinglist = lazy(() => import('src/pages/dashboard/waitinglist'));
 const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
-const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
+const PageManageUser = lazy(() => import('src/pages/dashboard/manageUser'));
 const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
 const DepartmentView = lazy(() => import('src/pages/dashboard/department'));
+
+// USER
+const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
+const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
+const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
+// const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
+const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
+const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
+
+// ORDER
+const OrderListPage = lazy(() => import('src/pages/dashboard/order/list'));
+const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'));
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +47,7 @@ export const dashboardRoutes = [
       { path: ':url/dashboard', element: <DashBoardPage /> },
       { path: ':url/reserve', element: <PageReserve /> },
       // { path: 'waitinglist', element: <PageWaitinglist /> },
-      { path: ':url/reservelist', element: <ReserveListPage /> },
+      { path: ':url/reservelist', element: <OrderListPage /> },
       {
         path: ':url/management',
         children: [

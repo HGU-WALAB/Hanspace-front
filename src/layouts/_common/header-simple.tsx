@@ -12,7 +12,7 @@ import { RouterLink } from 'src/routes/components';
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 // components
 import Logo from 'src/components/logo';
-import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
+import DeptHeaderButton from 'src/sections/home/dept-button';
 //
 import styled from 'styled-components';
 import { HEADER } from '../config-layout';
@@ -60,10 +60,10 @@ export default function HeaderSimple() {
           }),
         }}
       >
-        {/* <Rows> */}
-        {/* <Logo /> */}
-        <DeptHeaderButton />
-        {/* </Rows> */}
+        <Rows>
+          <Logo />
+          <DeptHeaderButton />
+        </Rows>
 
         {/* <Stack direction="row" alignItems="center" spacing={1}> */}
         <Stack

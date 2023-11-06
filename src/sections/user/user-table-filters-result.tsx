@@ -30,13 +30,13 @@ export default function UserTableFiltersResult({
   ...other
 }: Props) {
   const handleRemoveStatus = () => {
-    onFilters('status', '전체');
+    onFilters('status', 'all');
   };
 
   const handleRemoveRole = (inputValue: string) => {
     // const newValue = filters.role.filter((item) => item !== inputValue);
     // onFilters('role', newValue);
-    onFilters('role', '전체');
+    onFilters('role', 'all');
   };
 
   return (
@@ -44,13 +44,13 @@ export default function UserTableFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          명의 사용자를 찾았습니다
+          results found
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {filters.role !== '전체' && (
-          <Block label="권한 :">
+        {filters.role !== 'all' && (
+          <Block label="role:">
             <Chip size="small" label={filters.role} onDelete={handleRemoveRole} />
           </Block>
         )}
@@ -68,7 +68,7 @@ export default function UserTableFiltersResult({
           onClick={onResetFilters}
           startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
         >
-          취소
+          Clear
         </Button>
       </Stack>
     </Stack>
