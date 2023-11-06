@@ -1,5 +1,5 @@
 // @mui
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -17,6 +17,9 @@ import { fDate } from 'src/utils/format-time';
 // ----------------------------------------------------------------------
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { paths } from 'src/routes/paths';
+import styled from 'styled-components';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
 import { AdminCalendarView } from './calendar/view';
 
@@ -24,9 +27,19 @@ import { AdminCalendarView } from './calendar/view';
 
 export default function AdminDashboardView() {
   const settings = useSettingsContext();
+  const theme = useTheme();
 
   const rangeCalendarPicker = useDateRangePicker(new Date(), null);
   const [value, setValue] = useState<Date | null>(new Date());
+
+  const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: ${theme.palette.text.primary};
+
+    &:hover {
+      color: ${theme.palette.text.primary};
+    }
+  `;
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -39,97 +52,51 @@ export default function AdminDashboardView() {
       >
         대시보드
       </Typography>
-      {/* <Box
-        sx={{
-          mt: 5,
-          width: 1,
-          height: 320,
-          borderRadius: 2,
-          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-          border: (theme) => `dashed 1px ${theme.palette.divider}`,
-        }}
-      > */}
-      {/* <DemoItem label="Responsive variant" component="DateRangePicker"> */}
-
-      {/* <ComponentBlock title="Calendar"> */}
-      {/* <Button variant="contained" onClick={rangeCalendarPicker.onOpen}>
-          Click me!
-        </Button> */}
-
-      {/* <Stack sx={{ typography: 'body2', mt: 3 }}>
-          <div>
-            <strong>Start:</strong> {fDate(rangeCalendarPicker.startDate)}
-          </div>
-          <div>
-            <strong>End:</strong> {fDate(rangeCalendarPicker.endDate)}
-          </div>
-        </Stack> */}
-      {/* 
-        <CustomDateRangePicker
-          variant="calendar"
-          open={rangeCalendarPicker.open}
-          startDate={rangeCalendarPicker.startDate}
-          endDate={rangeCalendarPicker.endDate}
-          onChangeStartDate={rangeCalendarPicker.onChangeStartDate}
-          onChangeEndDate={rangeCalendarPicker.onChangeEndDate}
-          onClose={rangeCalendarPicker.onClose}
-          error={rangeCalendarPicker.error}
-        /> */}
-      {/* </ComponentBlock> */}
-      {/* <Rating /> */}
-
-      {/* <DesktopTimePicker
-          ampm={false}
-          label="For desktop"
-          value={value}
-          minutesStep={30} // 30분 단위로 설정
-          views={['hours', 'minutes']}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              margin: 'normal',
-            },
-          }}
-        /> */}
 
       {/* 분석 카드 4개 */}
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
-          <AnalyticsWidgetSummary
-            title="미승인 예약"
-            total={210}
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
+          <StyledLink to={paths.dept.reservelist('CSEE')}>
+            <AnalyticsWidgetSummary
+              title="미승인 예약"
+              total={210}
+              color="secondary"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            />
+          </StyledLink>
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AnalyticsWidgetSummary
-            title="미승인 대기 유저"
-            total={13}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-          />
+          <StyledLink to={paths.dept.reservelist('CSEE')}>
+            <AnalyticsWidgetSummary
+              title="미승인 대기 유저"
+              total={13}
+              color="info"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            />
+          </StyledLink>
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AnalyticsWidgetSummary
-            title="아이템 미정1"
-            total={17}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
-          />
+          <StyledLink to={paths.dept.reservelist('CSEE')}>
+            <AnalyticsWidgetSummary
+              title="오늘 예정된 예약"
+              total={17}
+              color="warning"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            />
+          </StyledLink>
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AnalyticsWidgetSummary
-            title="아이템 미정2"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
-          />
+          <StyledLink to={paths.dept.reservelist('CSEE')}>
+            <AnalyticsWidgetSummary
+              title="전체 예약"
+              total={234}
+              color="error"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            />
+          </StyledLink>
         </Grid>
 
         {/* 2번째  */}

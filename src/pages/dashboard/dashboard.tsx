@@ -12,8 +12,8 @@ export default function Page() {
         <title> 대시보드 </title>
       </Helmet>
 
-      {/* <AdminDashboardView /> */}
-      <UserDashboardView />
+      <AdminDashboardView />
+      {/* <UserDashboardView /> */}
     </>
   );
 }

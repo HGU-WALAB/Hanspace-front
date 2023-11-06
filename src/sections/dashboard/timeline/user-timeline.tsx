@@ -92,7 +92,7 @@ const TIMELINES: TimelineType[] = [
 export default function UserTimeLine() {
   const lastItem = TIMELINES[TIMELINES.length - 1].key;
 
-  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 3);
+  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 0);
 
   return (
     <ComponentBlock title="나의 예약 리스트">
@@ -113,7 +113,7 @@ export default function UserTimeLine() {
             },
           }}
         >
-          {reduceTimeLine.map((item) => (
+          {/* {reduceTimeLine.map((item) => (
             <TimelineItem key={item.key}>
               <TimelineSeparator>
                 <TimelineDot
@@ -130,7 +130,33 @@ export default function UserTimeLine() {
                 </Typography>
               </TimelineContent>
             </TimelineItem>
-          ))}
+          ))} */}
+          {reduceTimeLine.length === 0 ? (
+            <Box
+              component="img"
+              src="/assets/images/dept/noreserve.svg"
+              style={{ width: '100%' }}
+            />
+          ) : (
+            reduceTimeLine.map((item) => (
+              <TimelineItem key={item.key}>
+                <TimelineSeparator>
+                  <TimelineDot
+                    sx={{
+                      backgroundColor: '#4653F0',
+                    }}
+                  />
+                  {lastItem === item.key ? null : <TimelineConnector />}
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Typography variant="h6">{item.title}</Typography>
+                  <Typography variant="body2" color="textSecondary" noWrap>
+                    {item.time}
+                  </Typography>
+                </TimelineContent>
+              </TimelineItem>
+            ))
+          )}
         </Timeline>
       </Container>
     </ComponentBlock>
