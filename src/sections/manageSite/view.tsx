@@ -20,8 +20,16 @@ export default function ManageSiteView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4"> 기관 정보 관리하기 </Typography>
-      <Link component={RouterLink} href={paths.dashboard.department.root} color="primary" variant="subtitle2" noWrap>
-        <Button disableRipple  variant="outlined" color="primary">기관 등록하기</Button>
+      <Link
+        component={RouterLink}
+        href={paths.dept.management.manageSite('CSEE')}
+        color="primary"
+        variant="subtitle2"
+        noWrap
+      >
+        <Button disableRipple variant="outlined" color="primary">
+          기관 등록하기
+        </Button>
       </Link>
       <DepartmentInfoForm />
     </Container>

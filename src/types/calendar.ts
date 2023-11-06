@@ -29,3 +29,14 @@ export type ICalendarEvent = {
   end: ICalendarDate;
   start: ICalendarDate;
 };
+
+export type UCalendarEvent = {
+  id: string;
+  color: string;
+  title: string;
+  allDay: boolean;
+  description: string;
+  end: ICalendarDate;
+  start: ICalendarDate;
+  colorText: string;
+};
