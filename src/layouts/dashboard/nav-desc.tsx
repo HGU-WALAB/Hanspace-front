@@ -12,7 +12,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
 import { NavSectionVertical } from 'src/components/nav-section';
 //
-import DeptHeaderButton from 'src/sections/home/dept-button';
+import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
 import styled from 'styled-components';
 import DescHanspace from 'src/sections/home/desc-hanspace';
 import { NAV } from '../config-layout';
@@ -62,7 +62,7 @@ export default function NavDesc({ openNav, onCloseNav }: Props) {
       }}
     >
       <Rows>
-        <Logo />
+        {/* <Logo /> */}
         <DeptHeaderButton />
       </Rows>
 

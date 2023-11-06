@@ -3,7 +3,6 @@ import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 //
 import { Box } from '@mui/material';
-import DescHanspace from 'src/sections/home/desc-hanspace';
 import { useBoolean } from 'src/hooks/use-boolean';
 // import { HeaderSimple as Header } from '../_common';
 import Main from '../dashboard/main';
@@ -46,7 +45,6 @@ export default function CompactLayout({ children }: Props) {
         }}
       >
         {renderNavDesc}
-        {/* <DescHanspace /> */}
 
         <Main>{children}</Main>
       </Box>
