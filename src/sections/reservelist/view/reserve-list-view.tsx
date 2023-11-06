@@ -54,13 +54,18 @@ import ReserveTableFiltersResult from '../reserve-table-filters-result';
 const STATUS_OPTIONS = [{ value: '전체', label: '전체' }, ...RESERVE_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'no', label: 'No', width: 116 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
+  { id: 'no', label: '번호', width: 80 },
+  { id: 'spaceName', label: '공간명', width: 100 },
+  { id: 'reserveDate', label: '예약일', width: 140 },
+  { id: 'reserveTime', label: '예약시간', width: 140 },
+  { id: 'createdAt', label: '신청일', width: 140 },
+  { id: 'name', label: '예약자명', width: 120 },
+  { id: 'purpose', label: '목적', width: 140 },
   // { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
   // { id: 'totalAmount', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { id: 'status', label: '상태', width: 110 },
+  { id: 'manage', label: '관리', width: 110 },
+  { id: '', width: 50 },
 ];
 
 const defaultFilters: IReserveTableFilters = {

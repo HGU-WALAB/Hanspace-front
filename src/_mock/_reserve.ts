@@ -45,7 +45,7 @@ export const _reserves = [...Array(20)].map((_, index) => {
   const startTime = '10:00';
   const endTime = '11:00';
   const user = '김민수';
-  const Purpose = '멋사 회의';
+  const purpose = '멋사 회의';
 
   return {
     id: _mock.id(index),
@@ -56,7 +56,7 @@ export const _reserves = [...Array(20)].map((_, index) => {
     startTime,
     endTime,
     user,
-    Purpose,
+    purpose,
     // shippingAddress: {
     //   fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
     //   phoneNumber: '365-374-4961',

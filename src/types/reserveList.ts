@@ -80,7 +80,7 @@ export type IReserveListItem = {
   startTime: string;
   endTime: string;
   user: string;
-  Purpose: string;
+  purpose: string;
   status: string;
   // items: IReserveProductItem[];
 };

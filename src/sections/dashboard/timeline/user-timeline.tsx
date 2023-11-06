@@ -92,7 +92,7 @@ const TIMELINES: TimelineType[] = [
 export default function UserTimeLine() {
   const lastItem = TIMELINES[TIMELINES.length - 1].key;
 
-  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 0);
+  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 3);
 
   return (
     <ComponentBlock title="나의 예약 리스트">

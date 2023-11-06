@@ -23,6 +23,7 @@ import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import styled from 'styled-components';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +35,13 @@ type Props = {
   onDeleteRow: VoidFunction;
 };
 
+const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+`;
+
 export default function ReserveTableRow({
   row,
   selected,
@@ -42,7 +50,7 @@ export default function ReserveTableRow({
   onDeleteRow,
 }: Props) {
   // const { items, status, reserveNumber, createdAt, customer, totalQuantity, subTotal } = row;
-  const { id, spaceName, useDate, createdAt, startTime, endTime, user, Purpose, status } = row;
+  const { id, spaceName, useDate, createdAt, startTime, endTime, user, purpose, status } = row;
 
   const confirm = useBoolean();
 
@@ -70,24 +78,11 @@ export default function ReserveTableRow({
         </Box>
       </TableCell>
 
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+      <TableCell>
         {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
 
         <ListItemText
-          primary={user}
-          // secondary={customer.email}
-          primaryTypographyProps={{ typography: 'body2' }}
-          secondaryTypographyProps={{
-            component: 'span',
-            color: 'text.disabled',
-          }}
-        />
-      </TableCell>
-
-      <TableCell>
-        <ListItemText
-          primary={format(new Date(createdAt), 'dd MMM yyyy')}
-          secondary={format(new Date(createdAt), 'p')}
+          primary={spaceName}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -97,9 +92,68 @@ export default function ReserveTableRow({
         />
       </TableCell>
 
-      <TableCell align="center"> {startTime} </TableCell>
+      <TableCell>
+        <ListItemText
+          primary={format(new Date(useDate), 'yyyy / MM / dd')}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
 
-      <TableCell> {endTime} </TableCell>
+      <TableCell>
+        <ListItemText
+          primary={`${startTime} - ${endTime}`}
+          // The following is commented out, but you can format the date as needed and uncomment it.
+          // secondary={format(new Date(createdAt), 'p')}
+          primaryTypographyProps={{ variant: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            variant: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={format(new Date(createdAt), 'yyyy / MM / dd')}
+          // secondary={format(new Date(createdAt), 'p')}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={user}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={purpose}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
 
       <TableCell>
         <Label
@@ -110,10 +164,35 @@ export default function ReserveTableRow({
             (status === '거절' && 'error') ||
             'default'
           }
+          // style={{width: "75px", height: "30px"}}
         >
           {status}
         </Label>
       </TableCell>
+
+      {status === '미승인' && (
+        <TableCell>
+          <Rows>
+            <Button variant="outlined" color="primary">
+              승인
+            </Button>
+            <Button variant="outlined" color="error">
+              거절
+            </Button>
+          </Rows>
+        </TableCell>
+      )}
+
+      {status !== '미승인' && (
+        <TableCell>
+          <Rows>
+            <div />
+            <Button variant="outlined" style={{ color: 'gray' }}>
+              삭제
+            </Button>
+          </Rows>
+        </TableCell>
+      )}
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <IconButton
@@ -128,9 +207,9 @@ export default function ReserveTableRow({
           <Iconify icon="eva:arrow-ios-downward-fill" />
         </IconButton>
 
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+        {/* <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
           <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        </IconButton> */}
       </TableCell>
     </TableRow>
   );
