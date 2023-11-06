@@ -12,8 +12,9 @@ import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import MinusIcon from "@mui/icons-material/Remove";
 // hooks
 // import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -106,6 +107,49 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     // };
   const defaultDate = new Date();
   defaultDate.setHours(0, 0, 0, 0);
+  const [halfTime, setHalfTime] = useState(0);
+
+  const convertToMinutes = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  const formatTime = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    console.log("hour+reamainingMinutes: ", hours+remainingMinutes);
+    return `${String(hours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}`;
+  };
+
+  const handleMinusClick = () => {
+    let startMinutes;
+    if(endTime === ''){
+      startMinutes = convertToMinutes(startTime);
+    }
+    else{
+      startMinutes = convertToMinutes(endTime);
+    }
+    const endMinutes = formatTime(startMinutes - 30);
+    setendTime(endMinutes);
+    setHalfTime(halfTime - 30);
+    console.log("endtime: ", endTime);
+    handleNextClick();
+  };
+
+  const handlePlusClick = () => {
+    let startMinutes;
+    if(endTime === ''){
+      startMinutes = convertToMinutes(startTime);
+    }
+    else{
+      startMinutes = convertToMinutes(endTime);
+    }
+    const endMinutes = formatTime(startMinutes + 30);
+    setendTime(endMinutes);
+    setHalfTime(halfTime + 30);
+    console.log("endtime: ", endTime);
+    handleNextClick();
+  };
 
     const handleNextClick = useCallback(() => {
       // const headCountNumber = parseInt(headCount, 10);
@@ -209,7 +253,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
           </div>
           {/* </div>
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}> */}
-          <div style={{ marginRight: '5px' }}>
+          <div style={{ marginRight: '5px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             {/* <Typography variant="subtitle2">이용 시간 *</Typography> */}
             <DesktopTimePicker
                 label="예약 시작 시간"
@@ -229,7 +273,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                 }}
                 sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
             />
-            <DesktopTimePicker
+            {/* <DesktopTimePicker
                 label="예약 끝 시간"
                 value={methods.watch('endTime') || defaultDate}
                 onChange={(newValue) => {
@@ -246,7 +290,14 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     }
                 }}
                 sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
-                />
+                /> */}
+            <Fab size="small" color="primary" aria-label="add" sx={{ml: 2, mr: 3}} onClick={handleMinusClick} disabled={halfTime<=0}>
+              <MinusIcon />
+            </Fab>
+            <Typography variant="subtitle1"> {halfTime} 분 추가</Typography>
+            <Fab size="small" color="primary" aria-label="minus" sx={{ml: 3}} onClick={handlePlusClick} disabled={halfTime >= 180}>
+              <AddIcon />
+            </Fab>
           </div>
           {/* <div style={{ marginRight: '5px' }}>
             <Typography variant="subtitle2">사용 인원 *</Typography>

@@ -127,7 +127,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ height: 250, width: 1 }} />
+        <Image alt={image} src={image} sx={{ width: '100%', height: 250 }} />
       </Stack>
     </Stack>
   );
@@ -149,7 +149,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
         },
       ].map((item) => ( */}
       <Stack spacing={1} direction="row" alignItems="center">
-        <Typography variant="subtitle1" color="#A6A6A6" sx={{ mt: 1, fontSize: '15px' }}>
+        <Typography variant="subtitle1" color="#606060" sx={{ mt: 1, fontSize: '15px' }}>
           {detail}
         </Typography>
       </Stack>
@@ -194,15 +194,21 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
           style={{
             display: 'flex', // 가로 방향으로 정렬
             justifyContent: 'center', // 가운데 정렬
+            padding: 0,
+            margin: 0,
           }}
         >
           <div>
             {renderImages}
             <div style={{ padding: '0 16px 0 16px' }}>
-              <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
-                {' '}
-                {space.name}
-              </Typography>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
+                  {space.name}
+                </Typography>
+                <Typography variant="body1" color="#777777" sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px'}}>
+                  | 최대 이용 가능 인원 : {space.headCount}명
+                </Typography>
+              </div>
               {renderInfo}
               {renderTimeTable}
               <Button
