@@ -30,7 +30,8 @@ import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useCalendar, useEvent } from '../hooks';
+import { useEvent } from '../hooks';
+import adminCalendar from '../hooks/admin-calendar';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
 import CalendarToolbar from '../calendar-toolbar';
@@ -143,7 +144,7 @@ export default function AdminCalendarView() {
     selectedRange,
     //
     onClickEventInFilters,
-  } = useCalendar();
+  } = adminCalendar();
 
   const currentEvent = useEvent(events, selectEventId, selectedRange, openForm);
 

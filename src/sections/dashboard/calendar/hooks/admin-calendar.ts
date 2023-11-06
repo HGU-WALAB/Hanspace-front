@@ -7,11 +7,11 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // types
-import { UCalendarView, ICalendarRange, ICalendarEvent } from 'src/types/calendar';
+import { ICalendarView, ICalendarRange, ICalendarEvent } from 'src/types/calendar';
 
 // ----------------------------------------------------------------------
 
-export default function useCalendar() {
+export default function adminCalendar() {
   const calendarRef = useRef<FullCalendar>(null);
 
   const calendarEl = calendarRef.current;
@@ -26,7 +26,7 @@ export default function useCalendar() {
 
   const [selectedRange, setSelectedRange] = useState<ICalendarRange>(null);
 
-  const [view, setView] = useState<UCalendarView>('dayGridMonth');
+  const [view, setView] = useState<ICalendarView>('dayGridMonth');
 
   const onOpenForm = useCallback(() => {
     setOpenForm(true);
@@ -46,10 +46,10 @@ export default function useCalendar() {
       calendarApi.changeView(newView);
       setView(newView);
     }
-  }, [calendarEl]);
+  }, [calendarEl, smUp]);
 
   const onChangeView = useCallback(
-    (newView: UCalendarView) => {
+    (newView: ICalendarView) => {
       if (calendarEl) {
         const calendarApi = calendarEl.getApi();
 

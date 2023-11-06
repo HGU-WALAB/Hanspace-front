@@ -33,7 +33,7 @@ import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent, ICalendarDate }
 import { useCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
-import CalendarToolbar from '../calendar-toolbar';
+import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
 import CalendarFiltersResult from '../calendar-filters-result';
 
@@ -217,14 +217,14 @@ export default function UserCalendarView() {
 
         <Card>
           <StyledCalendar>
-            <CalendarToolbar
+            <UCalendarToolbar
               date={date}
               view={view}
               loading={eventsLoading}
               onNextDate={onDateNext}
               onPrevDate={onDatePrev}
               onToday={onDateToday}
-              onChangeView={onChangeView}
+              onUChangeView={onChangeView}
               onOpenFilters={openFilters.onTrue}
             />
 
