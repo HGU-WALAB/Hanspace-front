@@ -1,4 +1,3 @@
-import { User } from '@auth0/auth0-react';
 import { Helmet } from 'react-helmet-async';
 // sections
 import AdminDashboardView from 'src/sections/dashboard/admin-view';

@@ -7,7 +7,12 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 // types
 import { ISpaceItem, EXSpaceItem } from 'src/types/space';
-import { DailyReserveForm1, DailyReserveForm2, RegularyReserveForm1, RegularyReserveForm2 } from 'src/types/reserve';
+import {
+  DailyReserveForm1,
+  DailyReserveForm2,
+  RegularyReserveForm1,
+  RegularyReserveForm2,
+} from 'src/types/reserve';
 // components
 import { useSettingsContext } from 'src/components/settings';
 // api
@@ -149,8 +154,7 @@ export default function ReserveView() {
     spaceName: '',
   });
 
-
-// space 정보들 API
+  // space 정보들 API
   // const { data: spaces } = useQuery(
   //   ['GetSpace', GetSpace],
   //   () => GetSpace().then((response) => response.data),
@@ -196,17 +200,13 @@ export default function ReserveView() {
           space={space}
           selectedData={selectedDailyData1}
           handleModalControl={handleDailyModalControl}
-          />
-        );
+        />
+      );
       if (dailySpaceCardList !== null) {
-        result.push(
-          <>
-            {dailySpaceCardList}
-          </>
-        );
+        result.push(<>{dailySpaceCardList}</>);
       }
       return result;
-    }, [] as JSX.Element[])
+    }, [] as JSX.Element[]);
   }
 
   return (
@@ -225,8 +225,12 @@ export default function ReserveView() {
             }}
             sx={{ marginTop: '50px' }}
           >
-          {DailySpaceCradList} 
-          <DailyReserveFormDialog open = {isDialogOpen} onClose = {() => setIsDialogOpen(false)} selectedData={selectedDailyData2} />
+            {DailySpaceCradList}
+            <DailyReserveFormDialog
+              open={isDialogOpen}
+              onClose={() => setIsDialogOpen(false)}
+              selectedData={selectedDailyData2}
+            />
           </Box>
         </>
       )}
@@ -243,12 +247,21 @@ export default function ReserveView() {
             }}
             sx={{ marginTop: '50px' }}
           >
-            {spaces && spaces.map((space: EXSpaceItem) => (
-              <Box key={space.id}>
-                <RegularlySpaceCardList space={space} selectedData={selectedRegularyData1} handleModalControl={handleReguluarlyModalControl} />
-              </Box>
-            ))}
-            <RegularlyReserveDialog open = {isDialogOpen} onClose = {() => setIsDialogOpen(false)} selectedData={selectedRegularyData2} />
+            {spaces &&
+              spaces.map((space: EXSpaceItem) => (
+                <Box key={space.id}>
+                  <RegularlySpaceCardList
+                    space={space}
+                    selectedData={selectedRegularyData1}
+                    handleModalControl={handleReguluarlyModalControl}
+                  />
+                </Box>
+              ))}
+            <RegularlyReserveDialog
+              open={isDialogOpen}
+              onClose={() => setIsDialogOpen(false)}
+              selectedData={selectedRegularyData2}
+            />
           </Box>
         </>
       )}

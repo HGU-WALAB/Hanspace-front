@@ -18,8 +18,6 @@ import { useEffect, useState } from 'react';
 // api
 import SpacingGrid from './reserve-time';
 
-
-
 // ----------------------------------------------------------------------
 const SpaceName = styled.p`
   color: var(--neutral-colors-headings-black, #383838);
@@ -39,22 +37,22 @@ const InfoText = styled.div`
 
 interface Props {
   selectedData: {
-    startDate: Date,
-    endDate: Date,
-    week: string,
-    startTime: string,
-    endTime: string,
-    headCount: number,
+    startDate: Date;
+    endDate: Date;
+    week: string;
+    startTime: string;
+    endTime: string;
+    // headCount: number,
   };
   space: EXSpaceItem;
-  onNextClick: (data: any) => void;
-};
+  handleModalControl: (data: any) => void;
+}
 
-export default function RegularlySpaceCardList({ space, selectedData, onNextClick }: Props) {
+export default function RegularlySpaceCardList({ space, selectedData, handleModalControl }: Props) {
   useEffect(() => {
     // console.log('space data', selectedData);
   }, [selectedData]);
-  
+
   const popover = usePopover();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -83,7 +81,7 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ width: 1, height: 250 }} />
+        <Image alt={image} src={image} sx={{ height: 250, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -93,27 +91,23 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 0, 0, 0),
-        height: 250,
+        p: (theme) => theme.spacing(0, 0, 2, 0),
       }}
     >
-      {[
+      {/* {[
         {
           label: `최대 인원 : ${headCount}`,
         },
         {
-          label: `추가 요청 : ${detail}`,
+          label: `세부 사항 : ${detail}`,
         },
-      ].map((item) => (
-        <Stack
-          key={item.label}
-          spacing={1}
-          direction="row"
-          alignItems="center"
-        >
-          <Typography variant="h5" color="black" sx={{m: 2}}>{item.label}</Typography>
-        </Stack>
-      ))}
+      ].map((item) => ( */}
+      <Stack spacing={1} direction="row" alignItems="center">
+        <Typography variant="subtitle1" color="#A6A6A6" sx={{ mt: 1, fontSize: '15px' }}>
+          {detail}
+        </Typography>
+      </Stack>
+      {/* ))} */}
     </Stack>
   );
 
@@ -122,11 +116,11 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={3}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 2.5, 2.5, 2.5),
+        p: (theme) => theme.spacing(0, 0, 1, 0),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <InfoText>이용 가능 시간</InfoText>
+        {/* <Typography variant="body1" color="black">이용 가능 시간</Typography> */}
         <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
       </Stack>
     </Stack>
@@ -134,20 +128,19 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
 
   const handleNextClick = () => {
     const sendSelectedData = {
-        startDate: selectedData.startDate,
-        endDate: selectedData.endDate,
-        startTime: selectedData.startTime,
-        endTime: selectedData.endTime,
-        week: selectedData.week,
-        headCount: selectedData.headCount,
-        spaceId: space.spaceId,
-        spaceName: space.name,
+      startDate: selectedData.startDate,
+      endDate: selectedData.endDate,
+      startTime: selectedData.startTime,
+      endTime: selectedData.endTime,
+      week: selectedData.week,
+      // headCount: selectedData.headCount,
+      spaceId: space.spaceId,
+      spaceName: space.name,
     };
-    onNextClick(sendSelectedData);
+    handleModalControl(sendSelectedData);
   };
 
   return (
-    <>
     <Card
       onClick={() => setIsClicked(!isClicked)}
       color={isClicked ? 'primary' : 'white'}
@@ -157,44 +150,32 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
         cursor: 'pointer',
       }}
     >
-      {isClicked ? (
-        <div>
+      <div>
+        {renderImages}
+        <div style={{ padding: '0 16px 0 16px' }}>
+          <Typography variant="h6" color="black" sx={{ m: 2 }}>
+            {' '}
+            {space.name}
+          </Typography>
           {renderInfo}
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
           {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleNextClick}
+            sx={{ ml: 2, mb: 2, mr: 2, width: '95%' }}
             disabled={
               !selectedData.startDate ||
               !selectedData.endDate ||
               !selectedData.week ||
               !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
-          }>
-            장소선택
-          </Button> 
+              !selectedData.endTime
+            }
+          >
+            선택하기
+          </Button>
         </div>
-      ) : (
-        <div>
-          {renderImages}
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
-          {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
-          }>
-            장소선택
-          </Button> 
-        </div>
-      )}
+      </div>
     </Card>
-    </>
   );
 }

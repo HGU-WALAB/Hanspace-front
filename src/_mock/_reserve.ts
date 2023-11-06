@@ -18,7 +18,7 @@ const ITEMS = [...Array(3)].map((_, index) => ({
   price: _mock.number.price(index),
 }));
 
-export const _reserves = [...Array(20)].map((_, index) => {
+export const _reserve = [...Array(20)].map((_, index) => {
   // const shipping = 10;
 
   // const discount = 10;

@@ -15,7 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _reserves, RESERVE_STATUS_OPTIONS } from 'src/_mock';
+import { _reserve, RESERVE_STATUS_OPTIONS } from 'src/_mock';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // hooks
@@ -86,7 +86,7 @@ export default function ReserveListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_reserves);
+  const [tableData, setTableData] = useState(_reserve);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -196,16 +196,16 @@ export default function ReserveListView() {
                       'default'
                     }
                   >
-                    {tab.value === '전체' && _reserves.length}
+                    {tab.value === '전체' && _reserve.length}
                     {tab.value === '승인' &&
-                      _reserves.filter((reserve) => reserve.status === '승인').length}
+                      _reserve.filter((reserve) => reserve.status === '승인').length}
 
                     {tab.value === '미승인' &&
-                      _reserves.filter((reserve) => reserve.status === '미승인').length}
+                      _reserve.filter((reserve) => reserve.status === '미승인').length}
                     {tab.value === '거절' &&
-                      _reserves.filter((reserve) => reserve.status === '거절').length}
+                      _reserve.filter((reserve) => reserve.status === '거절').length}
                     {tab.value === '자동취소' &&
-                      _reserves.filter((reserve) => reserve.status === '자동취소').length}
+                      _reserve.filter((reserve) => reserve.status === '자동취소').length}
                   </Label>
                 }
               />
