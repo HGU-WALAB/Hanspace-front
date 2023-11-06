@@ -44,27 +44,28 @@ import {
   IReserveTableFilterValue,
 } from 'src/types/reserveList';
 //
+import { Typography } from '@mui/material';
 import ReserveTableRow from '../reserve-table-row';
 import ReserveTableToolbar from '../reserve-table-toolbar';
 import ReserveTableFiltersResult from '../reserve-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...RESERVE_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: '전체', label: '전체' }, ...RESERVE_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'reserveNumber', label: 'reserve', width: 116 },
+  { id: 'no', label: 'No', width: 116 },
   { id: 'name', label: 'Customer' },
   { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
+  // { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
+  // { id: 'totalAmount', label: 'Price', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
   { id: '', width: 88 },
 ];
 
 const defaultFilters: IReserveTableFilters = {
   name: '',
-  status: 'all',
+  status: '전체',
   startDate: null,
   endDate: null,
 };
@@ -72,7 +73,7 @@ const defaultFilters: IReserveTableFilters = {
 // ----------------------------------------------------------------------
 
 export default function ReserveListView() {
-  const table = useTable({ defaultOrderBy: 'reserveNumber' });
+  const table = useTable({ defaultOrderBy: 'no' });
 
   const settings = useSettingsContext();
 
@@ -104,7 +105,7 @@ export default function ReserveListView() {
   const denseHeight = table.dense ? 52 : 72;
 
   const canReset =
-    !!filters.name || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
+    !!filters.name || filters.status !== '전체' || (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -160,25 +161,9 @@ export default function ReserveListView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-        <CustomBreadcrumbs
-          heading="List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: paths.hanspace.root,
-            },
-            {
-              name: 'Reserve',
-              // href: paths.hanspace.waitinglist,
-            },
-            { name: 'List' },
-          ]}
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        />
-
+      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+        <Typography variant="h4"> 예약 내역 보기 </Typography>
+        <div style={{ height: '30px' }} />
         <Card>
           <Tabs
             value={filters.status}
@@ -197,16 +182,16 @@ export default function ReserveListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === '전체' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
                       (tab.value === '승인' && 'primary') ||
                       (tab.value === '미승인' && 'warning') ||
                       (tab.value === '거절' && 'error') ||
-                      'secondary'
+                      'default'
                     }
                   >
-                    {tab.value === 'all' && _reserves.length}
+                    {tab.value === '전체' && _reserves.length}
                     {tab.value === '승인' &&
                       _reserves.filter((reserve) => reserve.status === '승인').length}
 
@@ -380,7 +365,7 @@ function applyFilter({
     );
   }
 
-  if (status !== 'all') {
+  if (status !== '전체') {
     inputData = inputData.filter((order) => order.status === status);
   }
 
