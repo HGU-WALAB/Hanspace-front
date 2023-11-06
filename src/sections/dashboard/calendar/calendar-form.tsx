@@ -36,8 +36,8 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
-    title: Yup.string().max(255).required('Title is required'),
-    description: Yup.string().max(5000, 'Description must be at most 5000 characters'),
+    title: Yup.string().max(255).required('제목을 입력해주세요'),
+    description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
     // not required
     color: Yup.string(),
     allDay: Yup.boolean(),
@@ -62,38 +62,38 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
 
   const dateError = values.start && values.end ? values.start > values.end : false;
 
-  const onSubmit = handleSubmit(async (data) => {
-    const eventData: ICalendarEvent = {
-      id: currentEvent?.id ? currentEvent?.id : uuidv4(),
-      color: data?.color,
-      title: data?.title,
-      allDay: data?.allDay,
-      description: data?.description,
-      end: data?.end,
-      start: data?.start,
-    } as ICalendarEvent;
+  // const onSubmit = handleSubmit(async (data) => {
+  //   const eventData: ICalendarEvent = {
+  //     id: currentEvent?.id ? currentEvent?.id : uuidv4(),
+  //     color: data?.color,
+  //     title: data?.title,
+  //     allDay: data?.allDay,
+  //     description: data?.description,
+  //     end: data?.end,
+  //     start: data?.start,
+  //   } as ICalendarEvent;
 
-    try {
-      if (!dateError) {
-        if (currentEvent?.id) {
-          await updateEvent(eventData);
-          enqueueSnackbar('Update success!');
-        } else {
-          await createEvent(eventData);
-          enqueueSnackbar('Create success!');
-        }
-        onClose();
-        reset();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  //   try {
+  //     if (!dateError) {
+  //       if (currentEvent?.id) {
+  //         await updateEvent(eventData);
+  //         enqueueSnackbar('수정되었습니다!');
+  //       } else {
+  //         await createEvent(eventData);
+  //         enqueueSnackbar('추가되었습니다!');
+  //       }
+  //       onClose();
+  //       reset();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
 
   const onDelete = useCallback(async () => {
     try {
       await deleteEvent(`${currentEvent?.id}`);
-      enqueueSnackbar('Delete success!');
+      enqueueSnackbar('삭제되었습니다!');
       onClose();
     } catch (error) {
       console.error(error);
@@ -101,13 +101,14 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
   }, [currentEvent?.id, enqueueSnackbar, onClose]);
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    // <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="Title" />
+        <RHFTextField name="title" label="제목" />
 
-        <RHFTextField name="description" label="Description" multiline rows={3} />
+        <RHFTextField name="description" label="설명" multiline rows={3} />
 
-        <RHFSwitch name="allDay" label="All day" />
+        <RHFSwitch name="allDay" label="요일 전체" />
 
         <Controller
           name="start"
@@ -121,8 +122,8 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
                   field.onChange(fTimestamp(newValue));
                 }
               }}
-              label="Start date"
-              format="dd/MM/yyyy hh:mm a"
+              label="시작 날짜"
+              format="yyyy/MM/dd hh:mm a"
               slotProps={{
                 textField: {
                   fullWidth: true,
@@ -144,13 +145,13 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
                   field.onChange(fTimestamp(newValue));
                 }
               }}
-              label="End date"
-              format="dd/MM/yyyy hh:mm a"
+              label="끝 날짜"
+              format="yyyy/MM/dd hh:mm a"
               slotProps={{
                 textField: {
                   fullWidth: true,
                   error: dateError,
-                  helperText: dateError && 'End date must be later than start date',
+                  helperText: dateError && '끝 날짜는 시작 날짜보다 이전일 수 없습니다',
                 },
               }}
             />
@@ -171,28 +172,28 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
       </Stack>
 
       <DialogActions>
-        {!!currentEvent?.id && (
-          <Tooltip title="Delete Event">
+        {/* {!!currentEvent?.id && (
+          <Tooltip title="삭제하기">
             <IconButton onClick={onDelete}>
               <Iconify icon="solar:trash-bin-trash-bold" />
             </IconButton>
           </Tooltip>
-        )}
+        )} */}
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Button variant="outlined" color="inherit" onClick={onClose}>
-          Cancel
+        <Button variant="outlined" color="primary" onClick={onClose}>
+          확인
         </Button>
 
-        <LoadingButton
+        {/* <LoadingButton
           type="submit"
           variant="contained"
           loading={isSubmitting}
           disabled={dateError}
         >
-          Save Changes
-        </LoadingButton>
+          추가
+        </LoadingButton> */}
       </DialogActions>
     </FormProvider>
   );

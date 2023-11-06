@@ -10,7 +10,7 @@ import { fDate } from 'src/utils/format-time';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // types
-import { ICalendarView } from 'src/types/calendar';
+import { UCalendarView } from 'src/types/calendar';
 // components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
@@ -31,28 +31,37 @@ const VIEW_OPTIONS = [
     icon: 'fluent:calendar-agenda-24-regular',
   },
 ] as const;
+const UVIEW_OPTIONS = [
+  {
+    value: 'dayGridMonth',
+    label: 'Month',
+    icon: 'mingcute:calendar-month-line',
+  },
+  { value: 'timeGridWeek', label: 'Week', icon: 'mingcute:calendar-week-line' },
+  { value: 'timeGridDay', label: 'Day', icon: 'mingcute:calendar-day-line' },
+] as const;
 
 // ----------------------------------------------------------------------
 
 type Props = {
   date: Date;
-  view: ICalendarView;
+  view: UCalendarView;
   loading: boolean;
   onToday: VoidFunction;
   onNextDate: VoidFunction;
   onPrevDate: VoidFunction;
   onOpenFilters: VoidFunction;
-  onChangeView: (newView: ICalendarView) => void;
+  onUChangeView: (newView: UCalendarView) => void;
 };
 
-export default function CalendarToolbar({
+export default function UCalendarToolbar({
   date,
   view,
   loading,
   onToday,
   onNextDate,
   onPrevDate,
-  onChangeView,
+  onUChangeView,
   onOpenFilters,
 }: Props) {
   const smUp = useResponsive('up', 'sm');
@@ -128,13 +137,13 @@ export default function CalendarToolbar({
         arrow="top-left"
         sx={{ width: 160 }}
       >
-        {VIEW_OPTIONS.map((viewOption) => (
+        {UVIEW_OPTIONS.map((viewOption) => (
           <MenuItem
             key={viewOption.value}
             selected={viewOption.value === view}
             onClick={() => {
               popover.onClose();
-              onChangeView(viewOption.value);
+              onUChangeView(viewOption.value);
             }}
           >
             <Iconify icon={viewOption.icon} />

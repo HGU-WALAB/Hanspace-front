@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import { paths } from 'src/routes/paths';
 import styled from 'styled-components';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
-import { AdminCalendarView } from './calendar/view';
+import AdminCalendarView from './calendar/view/admin-calendar-view';
 
 // ----------------------------------------------------------------------
 

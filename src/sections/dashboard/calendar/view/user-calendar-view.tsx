@@ -28,15 +28,25 @@ import { useGetEvents, updateEvent } from 'src/api/calendar';
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
-import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
+import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent, ICalendarDate } from 'src/types/calendar';
 //
 import { useCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
-import CalendarToolbar from '../calendar-toolbar';
+import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
 import CalendarFiltersResult from '../calendar-filters-result';
 
+interface UserCalendarEvent {
+  id: string;
+  allDay: boolean;
+  color: string;
+  description: string;
+  start: ICalendarDate;
+  end: ICalendarDate;
+  textColor: string;
+  title: string;
+} // ex
 // ----------------------------------------------------------------------
 
 const defaultFilters: ICalendarFilters = {
@@ -45,9 +55,52 @@ const defaultFilters: ICalendarFilters = {
   endDate: null,
 };
 
+const eventsData: UserCalendarEvent[] = [ // ex
+  {
+    id: "1",
+    allDay: false,
+    color: "#00A76F",
+    description: "공프기 마감 작업 회의 진행 예정",
+    start: new Date('2023.11.23 11:00:00').getTime(),
+    end: new Date('2023.11.23 14:30:00').getTime(),
+    textColor: "#00A76F",
+    title: "공프기 회의",
+  },
+  {
+    id: "2",
+    allDay: false,
+    color: "#00B8D9",
+    description: "학합 연습 진행 예정, 인원은 25명 예상",
+    start: new Date('2023.11.01 19:00:00').getTime(),
+    end: new Date('2023.11.04 22:00:00').getTime(),
+    textColor: "#00B8D9",
+    title: "학합 연습",
+  },
+  {
+    id: "3",
+    allDay: false,
+    color: "#003768",
+    description: "비즈플로우 대표님과 식사자리 마련",
+    start: new Date('2023.11.11 11:00:00').getTime(),
+    end: new Date('2023.11.11 20:30:00').getTime(),
+    textColor: "#003768",
+    title: "비즈플로우",
+  },
+  {
+    id: "4",
+    allDay: false,
+    color: "#FFAB00",
+    description: "실전프로젝트1 특별 수업 진행",
+    start: new Date('2023.11.18 11:00:00').getTime(),
+    end: new Date('2023.11.20 13:30:00').getTime(),
+    textColor: "#FFAB00",
+    title: "실전프로젝트 수업",
+  },
+];
+
 // ----------------------------------------------------------------------
 
-export default function CalendarView() {
+export default function UserCalendarView() {
   const theme = useTheme();
 
   const settings = useSettingsContext();
@@ -56,9 +109,19 @@ export default function CalendarView() {
 
   const openFilters = useBoolean();
 
+  console.log('openFilters', openFilters);
+
   const [filters, setFilters] = useState(defaultFilters);
 
-  const { events, eventsLoading } = useGetEvents();
+  console.log('filters', filters);
+
+  // const { events, eventsLoading } = useGetEvents();
+  
+  // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
+  const events = eventsData;
+  const eventsLoading = false;
+
+  console.log('events: ', events);
 
   const dateError =
     filters.startDate && filters.endDate
@@ -76,7 +139,7 @@ export default function CalendarView() {
     onDateToday,
     onDropEvent,
     onChangeView,
-    onSelectRange,
+    // onSelectRange,
     onClickEvent,
     onResizeEvent,
     onInitialView,
@@ -132,7 +195,7 @@ export default function CalendarView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Stack
+        {/* <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
@@ -148,20 +211,20 @@ export default function CalendarView() {
           >
             New Event
           </Button>
-        </Stack>
+        </Stack> */}
 
         {canReset && renderResults}
 
         <Card>
           <StyledCalendar>
-            <CalendarToolbar
+            <UCalendarToolbar
               date={date}
               view={view}
               loading={eventsLoading}
               onNextDate={onDateNext}
               onPrevDate={onDatePrev}
               onToday={onDateToday}
-              onChangeView={onChangeView}
+              onUChangeView={onChangeView}
               onOpenFilters={openFilters.onTrue}
             />
 
@@ -180,7 +243,7 @@ export default function CalendarView() {
               eventDisplay="block"
               events={dataFiltered}
               headerToolbar={false}
-              select={onSelectRange}
+              // select={onSelectRange}
               eventClick={onClickEvent}
               height={smUp ? 720 : 'auto'}
               eventDrop={(arg) => {
@@ -212,7 +275,7 @@ export default function CalendarView() {
         }}
       >
         <DialogTitle sx={{ minHeight: 76 }}>
-          {openForm && <> {currentEvent?.id ? 'Edit Event' : 'Add Event'}</>}
+          {openForm && <> {currentEvent?.id ? '일정 확인하기' : '일정 추가하기'}</>}
         </DialogTitle>
 
         <CalendarForm

@@ -30,7 +30,8 @@ import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useCalendar, useEvent } from '../hooks';
+import { useEvent } from '../hooks';
+import adminCalendar from '../hooks/admin-calendar';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
 import CalendarToolbar from '../calendar-toolbar';
@@ -44,6 +45,50 @@ const defaultFilters: ICalendarFilters = {
   startDate: null,
   endDate: null,
 };
+
+const eventsData = [
+  {
+    id: "1",
+    allDay: false,
+    color: "#00A76F",
+    description: "공프기 마감 작업 회의 진행 예정",
+    start: new Date('2023.11.23 11:00:00').getTime(),
+    end: new Date('2023.11.23 14:30:00').getTime(),
+    textColor: "#00A76F",
+    title: "공프기 회의",
+  },
+  {
+    id: "2",
+    allDay: false,
+    color: "#00B8D9",
+    description: "학합 연습 진행 예정, 인원은 25명 예상",
+    start: new Date('2023.11.01 19:00:00').getTime(),
+    end: new Date('2023.11.04 22:00:00').getTime(),
+    textColor: "#00B8D9",
+    title: "학합 연습",
+  },
+  {
+    id: "3",
+    allDay: false,
+    color: "#003768",
+    description: "비즈플로우 대표님과 식사자리 마련",
+    start: new Date('2023.11.11 11:00:00').getTime(),
+    end: new Date('2023.11.11 20:30:00').getTime(),
+    textColor: "#003768",
+    title: "비즈플로우",
+  },
+  {
+    id: "4",
+    allDay: false,
+    color: "#FFAB00",
+    description: "실전프로젝트1 특별 수업 진행",
+    start: new Date('2023.11.18 11:00:00').getTime(),
+    end: new Date('2023.11.20 13:30:00').getTime(),
+    textColor: "#FFAB00",
+    title: "실전프로젝트 수업",
+  },
+  // 또 다른 이벤트를 추가하려면 위와 같은 구조로 객체를 계속 추가합니다.
+];
 
 // ----------------------------------------------------------------------
 
@@ -62,7 +107,13 @@ export default function AdminCalendarView() {
 
   console.log('filters', filters);
 
-  const { events, eventsLoading } = useGetEvents();
+  // const { events, eventsLoading } = useGetEvents();
+  
+  // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
+  const events = eventsData;
+  const eventsLoading = false;
+
+  console.log('events: ', events);
 
   const dateError =
     filters.startDate && filters.endDate
@@ -93,7 +144,7 @@ export default function AdminCalendarView() {
     selectedRange,
     //
     onClickEventInFilters,
-  } = useCalendar();
+  } = adminCalendar();
 
   const currentEvent = useEvent(events, selectEventId, selectedRange, openForm);
 
@@ -216,7 +267,7 @@ export default function AdminCalendarView() {
         }}
       >
         <DialogTitle sx={{ minHeight: 76 }}>
-          {openForm && <> {currentEvent?.id ? 'Edit Event' : 'Add Event'}</>}
+          {openForm && <> {currentEvent?.id ? '일정 수정하기' : '일정 추가하기'}</>}
         </DialogTitle>
 
         <CalendarForm

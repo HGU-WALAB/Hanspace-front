@@ -50,13 +50,13 @@ export default function CalendarFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          results found
+          개의 일정이 있습니다
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
         {!!filters.colors.length && (
-          <Block label="Colors:">
+          <Block label="색상:">
             {filters.colors.map((item) => (
               <Chip
                 key={item}
@@ -80,7 +80,7 @@ export default function CalendarFiltersResult({
         )}
 
         {filters.startDate && filters.endDate && (
-          <Block label="Date:">
+          <Block label="날짜:">
             <Chip size="small" label={shortLabel} onDelete={handleRemoveDate} />
           </Block>
         )}
@@ -91,7 +91,7 @@ export default function CalendarFiltersResult({
             onClick={onResetFilters}
             startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
           >
-            Clear
+            초기화
           </Button>
         )}
       </Stack>
