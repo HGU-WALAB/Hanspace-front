@@ -1,5 +1,5 @@
 // @mui
-import { Theme, alpha, SxProps } from '@mui/material/styles';
+import { Theme, alpha, SxProps, useTheme } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import CardHeader from '@mui/material/CardHeader';
 import Stack, { StackProps } from '@mui/material/Stack';
@@ -13,15 +13,16 @@ type BlockProps = StackProps & {
 };
 
 export default function ComponentBlock({ title, sx, children, ...other }: BlockProps) {
+  const theme = useTheme();
+
   return (
     <Paper
       variant="outlined"
       sx={{
         borderRadius: 1.5,
         borderStyle: 'dashed',
-        bgcolor: '#AEB5F9',
+        bgcolor: theme.palette.primary.pale,
         height: '100%',
-        // bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
       }}
     >
       {title && <CardHeader title={title} />}

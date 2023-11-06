@@ -200,10 +200,10 @@ export default function ReserveListView() {
                       ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === '승인' && 'success') ||
+                      (tab.value === '승인' && 'primary') ||
                       (tab.value === '미승인' && 'warning') ||
                       (tab.value === '거절' && 'error') ||
-                      'default'
+                      'secondary'
                     }
                   >
                     {tab.value === 'all' && _reserves.length}
