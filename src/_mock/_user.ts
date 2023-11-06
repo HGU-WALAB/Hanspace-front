@@ -6,10 +6,10 @@ import { _mock } from './_mock';
 // ----------------------------------------------------------------------
 
 export const USER_ROLE_OPTIONS = [
-  { value: 'Admin', label: 'Admin' },
-  { value: 'User', label: 'User' },
+  { value: '관리자', label: '관리자' },
+  { value: '사용자', label: '사용자' },
   // { value: 'Banned', label: 'Banned' },
-  { value: 'Blacklist', label: 'Blacklist' },
+  { value: '블랙리스트', label: '블랙리스트' },
 ];
 
 export const _userAbout = {

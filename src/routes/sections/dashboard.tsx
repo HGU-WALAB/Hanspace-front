@@ -53,14 +53,14 @@ export const dashboardRoutes = [
         children: [
           { element: <PageManageSpace />, index: true },
           // { path: 'manageUser', element: <PageManageUser /> },
-          { path: ':url/manageUser', element: <UserListPage /> },
-          { path: ':url/manageSite', element: <PageManageSite /> },
+          { path: 'manageUser', element: <UserListPage /> },
+          { path: 'manageSite', element: <PageManageSite /> },
         ],
       },
       {
         path: 'department',
         element: <DepartmentView />,
-      }
+      },
       // {
       //   path: 'user',
       //   children: [
