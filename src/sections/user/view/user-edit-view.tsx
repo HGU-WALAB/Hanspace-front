@@ -28,11 +28,11 @@ export default function UserEditView({ id }: Props) {
         links={[
           {
             name: 'Dashboard',
-            href: paths.dashboard.root,
+            href: paths.hanspace.root,
           },
           {
             name: 'User',
-            href: paths.dashboard.management.manageUser,
+            // href: paths.hanspace.management.manageUser,
           },
           { name: currentUser?.name },
         ]}

@@ -54,8 +54,8 @@ export const defaultValues = {
   week: '',
   startTime: '',
   endTime: '',
-  headCount: 0,
-  spaceId: 0,
+  // headCount: 0,
+  // spaceId: 0,
 };
 interface ReserveForm1Props {
   handleRegularlyReserveInfo: (data: any) => void;
@@ -64,15 +64,15 @@ interface ReserveForm1Props {
 export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
-    const { data: spaces } = useQuery(
-      ['GetSpace', GetSpace],
-      () => GetSpace().then((response) => response.data),
-      {
-        onSuccess: (data) => {
-          console.log('GetSpace', data);
-        },
-      }
-    );
+    // const { data: spaces } = useQuery(
+    //   ['GetSpace', GetSpace],
+    //   () => GetSpace().then((response) => response.data),
+    //   {
+    //     onSuccess: (data) => {
+    //       console.log('GetSpace', data);
+    //     },
+    //   }
+    // );
   
     const methods = useForm({
       defaultValues
@@ -92,7 +92,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     const [week, setweek] = useState<string[]>([]);
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
-    const [headCount, setheadCount] = useState(0);
+    // const [headCount, setheadCount] = useState(0);
     // const [spaceId, setSpaceId] = useState('');
 
     // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +104,8 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
     //   const value = event.target.value;
     //   setSpaceId(value);
     // };
-
+  const defaultDate = new Date();
+  defaultDate.setHours(0, 0, 0, 0);
 
     const handleNextClick = useCallback(() => {
       // const headCountNumber = parseInt(headCount, 10);
@@ -115,11 +116,11 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
             week,
             startTime,
             endTime,
-            headCount,
+            // headCount,
             // spaceId: spaceIdNumber,
         };
         handleRegularlyReserveInfo(selectedData);
-      }, [startDate, endDate, week, startTime, endTime, headCount, handleRegularlyReserveInfo]);
+      }, [startDate, endDate, week, startTime, endTime, handleRegularlyReserveInfo]);
       
       useEffect(() => {
         handleNextClick();
@@ -149,15 +150,14 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
 
     return (
         <Box>
-        <Typography variant="h4" color="primary" sx={{marginBottom: '20px'}}> 
-          정기 예약 하기
-
+        <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
+          예약 가능한 공간 조회하기
         </Typography>
         <FormProvider methods={methods}>
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div style={{ marginRight: '10px' }}>
+            <div style={{ marginRight: '5px' }}>
               {/* <Typography variant="subtitle2">시작 일 *</Typography> */}
               <DemoContainer components={['DatePicker', 'DatePicker']} >
                 <DatePicker
@@ -165,14 +165,14 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                   onChange={(newValue) => {
                     setstartDate(newValue);
                   }}
-                  sx={{ width: '200px'}}
+                  sx={{ width: '160px'}}
                   label='시작 일'
                 />
               </DemoContainer>
             </div>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <div style={{ marginRight: '10px' }}>
+              <div style={{ marginRight: '5px' }}>
                 {/* <Typography variant="subtitle2">종료 일 *</Typography> */}
                 <DemoContainer components={['DatePicker', 'DatePicker']}>
                   <DatePicker
@@ -180,14 +180,14 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     onChange={(newValue) => {
                       setendDate(newValue);
                     }}
-                    sx={{ width: '200px'}}
+                    sx={{ width: '160px'}}
                     label='종료 일'
                   />
                 </DemoContainer>
               </div>
             </LocalizationProvider>
           </div>
-          <div style={{ marginRight: '10px', marginTop: '12px'}}>
+          <div style={{ marginRight: '5px', marginTop: '12px'}}>
             {/* <Typography variant="subtitle2" sx={{ margin: '0 0 12px 0' }}>요일 *</Typography> */}
             <DayButton type="button" onClick={toggleAllDays} style={{ width: '40px' }}>
                 전체
@@ -199,7 +199,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                   toggleDay(day);
                 }}
                 style={{
-                    background: week.includes(day) ? '#FFECF6' : 'white',
+                  background: week.includes(day) ? '#CECECE' : 'white',
                 }}
                 type="button"
                 >
@@ -209,11 +209,11 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
           </div>
           {/* </div>
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}> */}
-          <div style={{ marginRight: '10px' }}>
+          <div style={{ marginRight: '5px' }}>
             {/* <Typography variant="subtitle2">이용 시간 *</Typography> */}
             <DesktopTimePicker
                 label="예약 시작 시간"
-                value={methods.watch('startTime')}
+                value={methods.watch('startTime') || defaultDate}
                 onChange={(newValue) => {
                     if (newValue !== null) {
                     const dateObject = new Date(newValue);
@@ -227,11 +227,11 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     // console.log(formattedTime);
                     }
                 }}
-                sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
+                sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
             />
             <DesktopTimePicker
                 label="예약 끝 시간"
-                value={methods.watch('endTime')}
+                value={methods.watch('endTime') || defaultDate}
                 onChange={(newValue) => {
                     if (newValue !== null) {
                     const dateObject = new Date(newValue);
@@ -245,15 +245,15 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                     // console.log(formattedTime);
                     }
                 }}
-                sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
+                sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
                 />
           </div>
-          <div style={{ marginRight: '10px' }}>
-            {/* <Typography variant="subtitle2">사용 인원 *</Typography> */}
+          {/* <div style={{ marginRight: '5px' }}>
+            <Typography variant="subtitle2">사용 인원 *</Typography>
             <RHFTextField 
               name="headCount" 
               label="사용 인원을 입력해주세요." 
-              sx={{ margin: '8.5px 10px 0 0', width: '200px'}} 
+              sx={{ margin: '8.5px 10px 0 0', width: '160px'}} 
               type="number"
               onChange={(newValue) => {
                 const numericValue = parseFloat(newValue.target.value);
@@ -261,7 +261,7 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
               }}
               value={headCount}
             />
-          </div>
+          </div> */}
         {/* <FormControl fullWidth>
           <InputLabel>수용 인원</InputLabel>
           <Select

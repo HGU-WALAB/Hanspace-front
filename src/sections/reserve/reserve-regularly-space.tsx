@@ -9,7 +9,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // types
-import { ISpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 // components
 import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
@@ -44,13 +44,13 @@ interface Props {
     week: string,
     startTime: string,
     endTime: string,
-    headCount: number,
+    // headCount: number,
   };
-  space: ISpaceItem;
-  onNextClick: (data: any) => void;
+  space: EXSpaceItem;
+  handleModalControl: (data: any) => void;
 };
 
-export default function RegularlySpaceCardList({ space, selectedData, onNextClick }: Props) {
+export default function RegularlySpaceCardList({ space, selectedData, handleModalControl }: Props) {
   useEffect(() => {
     // console.log('space data', selectedData);
   }, [selectedData]);
@@ -83,7 +83,7 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ height: 250 }} />
+        <Image alt={image} src={image} sx={{ height: 250, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -93,27 +93,25 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 0, 0, 0),
-        height: 250,
+        p: (theme) => theme.spacing(0, 0, 2, 0),
       }}
     >
-      {[
+      {/* {[
         {
           label: `최대 인원 : ${headCount}`,
         },
         {
-          label: `추가 요청 : ${detail}`,
+          label: `세부 사항 : ${detail}`,
         },
-      ].map((item) => (
+      ].map((item) => ( */}
         <Stack
-          key={item.label}
           spacing={1}
           direction="row"
           alignItems="center"
         >
-          <Typography variant="h5" color="black" sx={{m: 2}}>{item.label}</Typography>
+          <Typography variant="subtitle1" color="#A6A6A6" sx={{mt: 1, fontSize: '15px'}}>{detail}</Typography>
         </Stack>
-      ))}
+      {/* ))} */}
     </Stack>
   );
 
@@ -122,11 +120,11 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
       spacing={3}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 2.5, 2.5, 2.5),
+        p: (theme) => theme.spacing(0, 0, 1, 0),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <InfoText>이용 가능 시간</InfoText>
+      {/* <Typography variant="body1" color="black">이용 가능 시간</Typography> */}
         <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
       </Stack>
     </Stack>
@@ -139,11 +137,11 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
         startTime: selectedData.startTime,
         endTime: selectedData.endTime,
         week: selectedData.week,
-        headCount: selectedData.headCount,
+        // headCount: selectedData.headCount,
         spaceId: space.spaceId,
         spaceName: space.name,
     };
-    onNextClick(sendSelectedData);
+    handleModalControl(sendSelectedData);
   };
 
   return (
@@ -157,43 +155,25 @@ export default function RegularlySpaceCardList({ space, selectedData, onNextClic
         cursor: 'pointer',
       }}
     >
-      {isClicked ? (
         <div>
-          {renderInfo}
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
-          {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
-          }>
-            장소선택
-          </Button> 
+            {renderImages}
+            <div style={{ padding: '0 16px 0 16px' }}>
+              <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
+              {renderInfo}
+              {renderTimeTable}
+              <Button variant="contained" color="primary" 
+                onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
+                disabled={
+                  !selectedData.startDate ||
+                  !selectedData.endDate ||
+                  !selectedData.week ||
+                  !selectedData.startTime ||
+                  !selectedData.endTime
+                }>
+                선택하기
+              </Button> 
+            </div>
         </div>
-      ) : (
-        <div>
-          {renderImages}
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
-          {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '90%'}}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime ||
-              !selectedData.headCount
-          }>
-            장소선택
-          </Button> 
-        </div>
-      )}
     </Card>
     </>
   );

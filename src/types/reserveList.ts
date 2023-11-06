@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------
 
-export type IOrderTableFilterValue = string | Date | null;
+export type IReserveTableFilterValue = string | Date | null;
 
-export type IOrderTableFilters = {
+export type IReserveTableFilters = {
   name: string;
   status: string;
   startDate: Date | null;
@@ -11,8 +11,8 @@ export type IOrderTableFilters = {
 
 // ----------------------------------------------------------------------
 
-export type IOrderHistory = {
-  orderTime: Date;
+export type IReserveHistory = {
+  reserveTime: Date;
   paymentTime: Date;
   deliveryTime: Date;
   completionTime: Date;
@@ -22,23 +22,23 @@ export type IOrderHistory = {
   }[];
 };
 
-export type IOrderShippingAddress = {
+export type IReserveShippingAddress = {
   fullAddress: string;
   phoneNumber: string;
 };
 
-export type IOrderPayment = {
+export type IReservePayment = {
   cardType: string;
   cardNumber: string;
 };
 
-export type IOrderDelivery = {
+export type IReserveDelivery = {
   shipBy: string;
   speedy: string;
   trackingNumber: string;
 };
 
-export type IOrderCustomer = {
+export type IReserveCustomer = {
   id: string;
   name: string;
   email: string;
@@ -46,7 +46,7 @@ export type IOrderCustomer = {
   ipAddress: string;
 };
 
-export type IOrderProductItem = {
+export type IReserveProductItem = {
   id: string;
   sku: string;
   name: string;
@@ -55,19 +55,32 @@ export type IOrderProductItem = {
   quantity: number;
 };
 
-export type IOrderItem = {
+export type IReserveItem = {
   id: string;
   taxes: number;
   status: string;
   shipping: number;
   discount: number;
   subTotal: number;
-  orderNumber: string;
+  reserveNumber: string;
   totalAmount: number;
   totalQuantity: number;
-  history: IOrderHistory;
-  customer: IOrderCustomer;
-  delivery: IOrderDelivery;
-  items: IOrderProductItem[];
+  history: IReserveHistory;
+  customer: IReserveCustomer;
+  delivery: IReserveDelivery;
+  items: IReserveProductItem[];
   createdAt: Date;
+};
+
+export type IReserveListItem = {
+  id: string;
+  spaceName: string;
+  useDate: string;
+  createdAt: Date;
+  startTime: string;
+  endTime: string;
+  user: string;
+  purpose: string;
+  status: string;
+  // items: IReserveProductItem[];
 };

@@ -15,7 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
+import { _reserves, RESERVE_STATUS_OPTIONS } from 'src/_mock';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // hooks
@@ -38,37 +38,47 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 // types
-import { IOrderItem, IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import {
+  IReserveListItem,
+  IReserveTableFilters,
+  IReserveTableFilterValue,
+} from 'src/types/reserveList';
 //
-import OrderTableRow from '../order-table-row';
-import OrderTableToolbar from '../order-table-toolbar';
-import OrderTableFiltersResult from '../order-table-filters-result';
+import { Typography } from '@mui/material';
+import ReserveTableRow from '../reserve-table-row';
+import ReserveTableToolbar from '../reserve-table-toolbar';
+import ReserveTableFiltersResult from '../reserve-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: '전체', label: '전체' }, ...RESERVE_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order', width: 116 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { id: 'no', label: '번호', width: 80 },
+  { id: 'spaceName', label: '공간명', width: 100 },
+  { id: 'reserveDate', label: '예약일', width: 140 },
+  { id: 'reserveTime', label: '예약시간', width: 140 },
+  { id: 'createdAt', label: '신청일', width: 140 },
+  { id: 'name', label: '예약자명', width: 120 },
+  { id: 'purpose', label: '목적', width: 140 },
+  // { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
+  // { id: 'totalAmount', label: 'Price', width: 140 },
+  { id: 'status', label: '상태', width: 110 },
+  { id: 'manage', label: '관리', width: 110 },
+  { id: '', width: 50 },
 ];
 
-const defaultFilters: IOrderTableFilters = {
+const defaultFilters: IReserveTableFilters = {
   name: '',
-  status: 'all',
+  status: '전체',
   startDate: null,
   endDate: null,
 };
 
 // ----------------------------------------------------------------------
 
-export default function OrderListView() {
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+export default function ReserveListView() {
+  const table = useTable({ defaultOrderBy: 'no' });
 
   const settings = useSettingsContext();
 
@@ -76,7 +86,7 @@ export default function OrderListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState(_reserves);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -100,12 +110,12 @@ export default function OrderListView() {
   const denseHeight = table.dense ? 52 : 72;
 
   const canReset =
-    !!filters.name || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
+    !!filters.name || filters.status !== '전체' || (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleFilters = useCallback(
-    (name: string, value: IOrderTableFilterValue) => {
+    (name: string, value: IReserveTableFilterValue) => {
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -156,25 +166,9 @@ export default function OrderListView() {
 
   return (
     <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-        <CustomBreadcrumbs
-          heading="List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: paths.dashboard.root,
-            },
-            {
-              name: 'Order',
-              href: paths.dashboard.waitinglist,
-            },
-            { name: 'List' },
-          ]}
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        />
-
+      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+        <Typography variant="h4"> 예약 내역 보기 </Typography>
+        <div style={{ height: '30px' }} />
         <Card>
           <Tabs
             value={filters.status}
@@ -193,32 +187,32 @@ export default function OrderListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
+                      ((tab.value === '전체' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'cancelled' && 'error') ||
+                      (tab.value === '승인' && 'primary') ||
+                      (tab.value === '미승인' && 'warning') ||
+                      (tab.value === '거절' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === '전체' && _reserves.length}
+                    {tab.value === '승인' &&
+                      _reserves.filter((reserve) => reserve.status === '승인').length}
 
-                    {tab.value === 'pending' &&
-                      _orders.filter((order) => order.status === 'pending').length}
-                    {tab.value === 'cancelled' &&
-                      _orders.filter((order) => order.status === 'cancelled').length}
-                    {tab.value === 'refunded' &&
-                      _orders.filter((order) => order.status === 'refunded').length}
+                    {tab.value === '미승인' &&
+                      _reserves.filter((reserve) => reserve.status === '미승인').length}
+                    {tab.value === '거절' &&
+                      _reserves.filter((reserve) => reserve.status === '거절').length}
+                    {tab.value === '자동취소' &&
+                      _reserves.filter((reserve) => reserve.status === '자동취소').length}
                   </Label>
                 }
               />
             ))}
           </Tabs>
 
-          <OrderTableToolbar
+          <ReserveTableToolbar
             filters={filters}
             onFilters={handleFilters}
             //
@@ -227,7 +221,7 @@ export default function OrderListView() {
           />
 
           {canReset && (
-            <OrderTableFiltersResult
+            <ReserveTableFiltersResult
               filters={filters}
               onFilters={handleFilters}
               //
@@ -282,7 +276,7 @@ export default function OrderListView() {
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
                     .map((row) => (
-                      <OrderTableRow
+                      <ReserveTableRow
                         key={row.id}
                         row={row}
                         selected={table.selected.includes(row.id)}
@@ -350,9 +344,9 @@ function applyFilter({
   filters,
   dateError,
 }: {
-  inputData: IOrderItem[];
+  inputData: IReserveListItem[];
   comparator: (a: any, b: any) => number;
-  filters: IOrderTableFilters;
+  filters: IReserveTableFilters;
   dateError: boolean;
 }) {
   const { status, name, startDate, endDate } = filters;
@@ -370,13 +364,13 @@ function applyFilter({
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.id.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        order.user.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      // order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
-  if (status !== 'all') {
+  if (status !== '전체') {
     inputData = inputData.filter((order) => order.status === status);
   }
 

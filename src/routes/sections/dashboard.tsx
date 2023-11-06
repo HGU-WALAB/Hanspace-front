@@ -11,29 +11,17 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
 const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
-const PageWaitinglist = lazy(() => import('src/pages/dashboard/waitinglist'));
+const ReserveListPage = lazy(() => import('src/pages/dashboard/reservelist'));
 const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
-const PageManageUser = lazy(() => import('src/pages/dashboard/manageUser'));
+const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
 const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
 const DepartmentView = lazy(() => import('src/pages/dashboard/department'));
-
-// USER
-const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
-const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
-const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
-// const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
-const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
-const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
-
-// ORDER
-const OrderListPage = lazy(() => import('src/pages/dashboard/order/list'));
-const OrderDetailsPage = lazy(() => import('src/pages/dashboard/order/details'));
 
 // ----------------------------------------------------------------------
 
 export const dashboardRoutes = [
   {
-    path: 'dashboard',
+    path: 'hanspace',
     element: (
       <AuthGuard>
         <DashboardLayout>
@@ -44,12 +32,12 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <DashBoardPage />, index: true },
-      { path: 'reserve', element: <PageReserve /> },
+      { path: ':url/dashboard', element: <DashBoardPage /> },
+      { path: ':url/reserve', element: <PageReserve /> },
       // { path: 'waitinglist', element: <PageWaitinglist /> },
-      { path: 'waitinglist', element: <OrderListPage /> },
+      { path: ':url/reservelist', element: <ReserveListPage /> },
       {
-        path: 'management',
+        path: ':url/management',
         children: [
           { element: <PageManageSpace />, index: true },
           // { path: 'manageUser', element: <PageManageUser /> },
@@ -60,7 +48,7 @@ export const dashboardRoutes = [
       {
         path: 'department',
         element: <DepartmentView />,
-      }
+      },
       // {
       //   path: 'user',
       //   children: [
@@ -69,7 +57,7 @@ export const dashboardRoutes = [
       //     { path: 'cards', element: <UserCardsPage /> },
       //     { path: 'list', element: <UserListPage /> },
       //     { path: 'new', element: <UserCreatePage /> },
-      //     // { path: ':id/edit', element: <UserEditPage /> },
+      // { path: ':id/edit', element: <UserEditPage /> },
       //     // { path: 'account', element: <UserAccountPage /> },
       //   ],
       // },

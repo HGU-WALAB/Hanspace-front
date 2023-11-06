@@ -1,8 +1,6 @@
 // ----------------------------------------------------------------------
 
-export const _id = [...Array(40)].map(
-  (_, index) => `e99f09a7-dd88-49d5-b1c8-1daf80c2d7b${index + 1}`
-);
+export const _id = [...Array(40)].map((_, index) => `${index + 1}`);
 
 export const _fullAddress = [
   '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
@@ -239,29 +237,29 @@ export const _phoneNumbers = [
 // ----------------------------------------------------------------------
 
 export const _roles = [
-  'Admin',
-  'Blacklist',
-  'Blacklist',
-  'Admin',
-  'User',
-  'Blacklist',
-  'Admin',
-  'Admin',
-  'User',
-  'Blacklist',
-  'User',
-  'Admin',
-  'Admin',
-  'Admin',
-  'Admin',
-  'User',
-  'User',
-  'User',
-  'User',
-  'Blacklist',
-  'Blacklist',
-  'Blacklist',
-  'Blacklist',
+  '관리자',
+  '블랙리스트',
+  '블랙리스트',
+  '관리자',
+  '사용자',
+  '블랙리스트',
+  '관리자',
+  '관리자',
+  '사용자',
+  '블랙리스트',
+  '사용자',
+  '관리자',
+  '관리자',
+  '관리자',
+  '관리자',
+  '사용자',
+  '사용자',
+  '사용자',
+  '사용자',
+  '블랙리스트',
+  '블랙리스트',
+  '블랙리스트',
+  '블랙리스트',
 ];
 
 // 'HR Manager',

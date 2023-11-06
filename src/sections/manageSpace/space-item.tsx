@@ -13,7 +13,7 @@ import { RouterLink } from 'src/routes/components';
 import { fDateTime } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 // types
-import { ISpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
@@ -23,7 +23,8 @@ import { shortDateLabel } from 'src/components/custom-date-range-picker';
 // ----------------------------------------------------------------------
 
 type Props = {
-  space: ISpaceItem;
+  // space: ISpaceItem;
+  space: EXSpaceItem;
   onView: VoidFunction;
   onEdit: VoidFunction;
   onDelete: VoidFunction;
@@ -119,7 +120,7 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
       }}
       //   primary={`Posted date: ${fDateTime(createdAt)}`}
       secondary={
-        <Link component={RouterLink} href={paths.dashboard.root} color="inherit">
+        <Link component={RouterLink} href={paths.hanspace.root} color="inherit">
           {name}
         </Link>
       }

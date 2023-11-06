@@ -12,6 +12,8 @@ import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
 import { NavSectionVertical } from 'src/components/nav-section';
 //
+import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
+import styled from 'styled-components';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
 import { NavToggleButton, NavUpgrade } from '../_common';
@@ -22,6 +24,14 @@ type Props = {
   openNav: boolean;
   onCloseNav: VoidFunction;
 };
+
+const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+`;
 
 export default function NavVertical({ openNav, onCloseNav }: Props) {
   const { user } = useMockedUser();
@@ -50,7 +60,14 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
+      {/* <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
+       */}
+      <Rows>
+        {/* <Logo /> */}
+        <DeptHeaderButton />
+      </Rows>
+
+      <Box style={{ height: '10px' }} />
 
       <NavSectionVertical
         data={navData}
@@ -61,7 +78,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <NavUpgrade />
+      {/* <NavUpgrade /> */}
     </Scrollbar>
   );
 

@@ -37,3 +37,15 @@ export type ISpaceItem = {
   availability: boolean;
   image: string;
 };
+
+export type EXSpaceItem = {
+  spaceId: any;
+  id: string;
+  name: string;
+  headCount: number;
+  availableStart: string;
+  availableEnd: string;
+  detail: string;
+  availability: boolean;
+  image: string;
+};
