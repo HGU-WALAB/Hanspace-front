@@ -101,7 +101,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
   return (
     <Box>
       <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
-        일일 예약 장소 찾기
+        예약 가능한 공간 조회하기
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>

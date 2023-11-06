@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -28,6 +29,7 @@ import dayjs from 'dayjs';
 import ReserveSuccessDialog from './reserve-dialog';
 
 
+
 interface ReserveRegularlyForm2Props {
     selectedData: {
         startDate: Date | null;
@@ -37,6 +39,7 @@ interface ReserveRegularlyForm2Props {
         endTime: string | null;
         // headCount: number | null;
         spaceId: number | null;
+        spaceName: string;
     };
     open: boolean;
     onClose: () => void;
@@ -168,8 +171,17 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
     return (
       <div>
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle> 정기 예약 하기 </DialogTitle>
+        <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
         <DialogContent>
+        <Grid container spacing={2}>
+        <Grid item xs={3.5} sx={{ m: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* <Typography variant="body1"> 시작 날짜 : {selectedData.startDate}</Typography>
+          <Typography variant="body1"> 종료 날짜 : {selectedData.endDate}</Typography> */}
+          <Typography variant="body1"> 시작 시간 : {selectedData.startTime}</Typography>
+          <Typography variant="body1"> 종료 시간 : {selectedData.endTime}</Typography>
+          <Typography variant="body1"> 요일 : {selectedData.week}</Typography>
+        </Grid>
+        <Grid item xs={6.5} sx={{mr: 4}}>
           <FormProvider methods={methods} onSubmit={onSubmit}>
             <Stack spacing={2}>
               <Typography variant="body1">목적 *</Typography>
@@ -182,14 +194,16 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
               ))}
             </Stack>
             <DialogActions>
-              <Button onClick={() => {onClose();}} variant="outlined" color="inherit" >
+              <Button onClick={() => {onClose();}} variant="outlined" color="inherit" sx={{width: 1}}>
                 취소
               </Button>
-              <Button onClick={() => {onSubmit();}} variant="contained" color="primary" >
+              <Button onClick={() => {onSubmit();}} variant="contained" color="primary" sx={{width: 1}}>
                 대여하기
               </Button>
             </DialogActions>
           </FormProvider>
+          </Grid>
+        </Grid>
         </DialogContent>
       </Dialog>
       <ReserveSuccessDialog open = {isSuccessDialogOpen} onClose = {() => setIsSuccessDialogOpen(false)} />

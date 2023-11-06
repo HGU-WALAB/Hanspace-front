@@ -79,11 +79,11 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
       spacing={0.5}
       direction="row"
       sx={{
-        p: (theme) => theme.spacing(1, 0.5, 0, 0.5),
+        p: (theme) => theme.spacing(0, 0, 0, 0),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 242, width: 1 }} />
+        <Image alt={image} src={image} sx={{ height: 250, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -93,28 +93,25 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
       spacing={2}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(5, 0, 0, 0),
-        height: 250,
+        p: (theme) => theme.spacing(0, 0, 2, 0),
       }}
     >
-    <Typography variant="h6" color="black">{space.name} 장소의 추가 정보</Typography>
-      {[
+      {/* {[
         {
           label: `최대 인원 : ${headCount}`,
         },
         {
           label: `세부 사항 : ${detail}`,
         },
-      ].map((item) => (
+      ].map((item) => ( */}
         <Stack
-          key={item.label}
           spacing={1}
           direction="row"
           alignItems="center"
         >
-          <Typography variant="subtitle1" color="black" sx={{mt: 2}}>{item.label}</Typography>
+          <Typography variant="subtitle1" color="#A6A6A6" sx={{mt: 1, fontSize: '15px'}}>{detail}</Typography>
         </Stack>
-      ))}
+      {/* ))} */}
     </Stack>
   );
 
@@ -123,11 +120,11 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
       spacing={3}
       sx={{
         position: 'relative',
-        p: (theme) => theme.spacing(0, 2, 1, 2),
+        p: (theme) => theme.spacing(0, 0, 1, 0),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-      <Typography variant="body1" color="black">이용 가능 시간</Typography>
+      {/* <Typography variant="body1" color="black">이용 가능 시간</Typography> */}
         <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
       </Stack>
     </Stack>
@@ -158,50 +155,25 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
         cursor: 'pointer',
       }}
     >
-      {isClicked ? (
         <div>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            borderRadius: 1,
-            bgcolor: '#F4F4F4',
-            height: '250px',
-            mt: 1,
-          }}>
-            {renderInfo}
-          </Box>
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
-          {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime
-            }>
-            장소선택
-          </Button> 
+            {renderImages}
+            <div style={{ padding: '0 16px 0 16px' }}>
+              <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
+              {renderInfo}
+              {renderTimeTable}
+              <Button variant="contained" color="primary" 
+                onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
+                disabled={
+                  !selectedData.startDate ||
+                  !selectedData.endDate ||
+                  !selectedData.week ||
+                  !selectedData.startTime ||
+                  !selectedData.endTime
+                }>
+                선택하기
+              </Button> 
+            </div>
         </div>
-      ) : (
-        <div>
-          {renderImages}
-          <Typography variant="h6" color="black" sx={{m: 2}}> {space.name}</Typography>
-          {renderTimeTable}
-          <Button variant="contained" color="primary" 
-            onClick={handleNextClick} sx={{ml: 2, mb: 2, mr: 2, width: '95%'}}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime
-          }>
-            장소선택
-          </Button> 
-        </div>
-      )}
     </Card>
     </>
   );

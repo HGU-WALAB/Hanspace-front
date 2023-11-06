@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
 import Autocomplete from "@mui/material/Autocomplete";
+import Grid from '@mui/material/Grid';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -52,6 +53,7 @@ interface ReserveDailyForm2Props {
       endTime: string;
       // headCount: number; // 예상되는 데이터 타입에 따라 수정
       spaceId: number; // 예상되는 데이터 타입에 따라 수정
+      spaceName: string;
     };
     open: boolean;
     onClose: () => void;
@@ -157,10 +159,16 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
         }, [extraData, words]);
     
     return (
-        <div>
+        <>
         <Dialog open={open} onClose={onClose}>
-          <DialogTitle> 일일 예약 하기 </DialogTitle>
+          <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
             <DialogContent>
+            <Grid container spacing={2}>
+            <Grid item xs={3.5} sx={{ m: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Typography variant="body1"> 시작 시간 : {selectedData.startTime}</Typography>
+              <Typography variant="body1"> 종료 시간 : {selectedData.endTime}</Typography>
+            </Grid>
+            <Grid item xs={6.5} sx={{mr: 5}}>
               <FormProvider methods={methods} onSubmit={onSubmit}>
               <Stack spacing={2}>
                 <Typography variant="body1">목적 *</Typography>
@@ -189,17 +197,19 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
               />
               </Stack>
               <DialogActions>
-                <Button onClick={() => {onClose();}} variant="outlined" color="inherit" >
+                <Button onClick={() => {onClose();}} variant="outlined" color="inherit" sx={{width: 1}}>
                   취소
                 </Button>
-                <Button onClick={() => {onSubmit();}} variant="contained" color="primary" >
+                <Button onClick={() => {onSubmit();}} variant="contained" color="primary" sx={{width: 1}}>
                   대여하기
                 </Button>
               </DialogActions>
               </FormProvider>
+              </Grid>
+            </Grid>
             </DialogContent>
         </Dialog>
         <ReserveSuccessDialog open = {isSuccessDialogOpen} onClose = {() => setIsSuccessDialogOpen(false)} />
-        </div>
+        </>
     );
 }
