@@ -64,6 +64,9 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     //   }
     // );
   
+  const defaultDate = new Date();
+  defaultDate.setHours(0, 0, 0, 0);
+  
     const methods = useForm({
       defaultValues
     });

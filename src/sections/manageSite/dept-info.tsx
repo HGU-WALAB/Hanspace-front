@@ -25,8 +25,6 @@ import FormProvider , {
 import { useForm } from 'react-hook-form';
 import Image from 'src/components/image';
 import DynamicTextField from "../reserve/dynamic-textfield";
-import DeptPopover from "./dept-popover";
-import DepartmentCreateSuccessModal from "./dept-modal";
 
 
 const Div = styled.div`
@@ -36,19 +34,19 @@ const Div = styled.div`
 `;
 // ———————————————————————————————————
 export const defaultValues = {
-    siteName: '', 
-    deptName: '',
+    siteName: 'Computer Science', 
+    deptName: '전산전자공학부',
     logo: '',
-    color: '',
-    userAccept: false,
-    maxRserveCount: 0,
-    link: '',
+    color: 'red',
+    userAccept: true,
+    maxRserveCount: 5,
+    link: '/Computer Science',
     extraInfo: '',
     // siteInfoTitle: '',
     // siteInfoDetail: '',
 };
 
-export default function DepartmentForm() {
+export default function DepartmentInfoForm() {
     // const settings = useSettingsContext();
     const methods = useForm({
         defaultValues
@@ -64,18 +62,17 @@ export default function DepartmentForm() {
 
     const [logoImageName, setLogoImageName] = useState('');
     const [logoImagePreview, setLogoImagePreview] = useState<string | null>(null);
-    const [maxRserveCount, setMaxRserveCount] = useState(30);
+    const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
     const [extraInfo, setExtraInfo] = useState('');
-    const [open, setOpen] = useState<boolean>(false);
 
     const updateExtraInfo = (newExtraInfo: string) => {
         setExtraInfo(newExtraInfo);
     }
-    const handleMaxRserveCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-        const parsedValue = parseInt(numericValue, 10); // Convert to number
-        setMaxRserveCount(parsedValue);
-    };
+    // const handleMaxRserveCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
+    //     const parsedValue = parseInt(numericValue, 10); // Convert to number
+    //     setMaxRserveCount(parsedValue);
+    // };
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -83,9 +80,6 @@ export default function DepartmentForm() {
             data.extraInfo = extraInfo;
             reset();
             console.log('넘어오는 data', data);
-
-            // modal
-            setOpen(true);
         } catch (error) {
             console.error(error);
         }
@@ -126,7 +120,6 @@ export default function DepartmentForm() {
       flexDirection: 'column',
       alignItems: 'center',
     }}> 
-    <DepartmentCreateSuccessModal open={open} onClose={() => setOpen(false)} />
     <FormProvider methods={methods} onSubmit={onSubmit}>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사이트 이름 *</Typography>
@@ -166,21 +159,29 @@ export default function DepartmentForm() {
                 label="허가없이 사용자 기관 가입"
                 sx={{mr: 2}}
             />
-            <DeptPopover filed="userAccept"/>
         </Div>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 최대 예약 가능 날짜 *</Typography>
-            <RHFTextField name="maxRserveCount" label="사용자 최대 예약 가능 날짜를 입력해주세요." sx={{ width: '280px'}} value={maxRserveCount} onChange={handleMaxRserveCountChange} />
-            {/* <DeptPopover filed="maxRserveCount"/> */}
+            <RHFTextField 
+              name="maxRserveCount" 
+              label="사용 인원을 입력해주세요." 
+              sx={{ width: '280px'}} 
+              type="number"
+              onChange={(newValue) => {
+                const numericValue = parseFloat(newValue.target.value);
+                setMaxRserveCount(numericValue);
+              }}
+              value={maxRserveCount}
+            />
         </Div>
-        <Div>
+        {/* <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>URL 이름 *</Typography>
             <RHFTextField name="link" label="URL 이름을 입력해주세요." sx={{ width: '280px'}}/>
-        </Div>
-        <Div>
+        </Div> */}
+        {/* <Div>
           <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>추가 정보</Typography>
           <DynamicTextField onUpdateExtraInfo={updateExtraInfo}/>
-        </Div>
+        </Div> */}
     </FormProvider>
     </Box>
     <Box        
@@ -197,34 +198,9 @@ export default function DepartmentForm() {
       (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
     }
       <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '300px', marginTop: '50px' }}>
-        대여하기
+        수정하기
       </Button>
     </Box>
     </Div>
   );
 }
-
-// ----------------------------------------------------------------------
-
-interface BlockProps extends StackProps {
-    label?: string;
-    children: React.ReactNode;
-  }
-  
-  function Block({ label = 'RHFTextField', sx, children }: BlockProps) {
-    return (
-      <Stack spacing={1} sx={{ width: 1, ...sx }}>
-        <Typography
-          variant="caption"
-          sx={{
-            textAlign: 'right',
-            fontStyle: 'italic',
-            color: 'text.disabled',
-          }}
-        >
-          {label}
-        </Typography>
-        {children}
-      </Stack>
-    );
-  }
