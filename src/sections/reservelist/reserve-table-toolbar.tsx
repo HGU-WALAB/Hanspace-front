@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 // types
-import { IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { IReserveTableFilters, IReserveTableFilterValue } from 'src/types/reserveList';
 // components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
@@ -16,14 +16,14 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 type Props = {
-  filters: IOrderTableFilters;
-  onFilters: (name: string, value: IOrderTableFilterValue) => void;
+  filters: IReserveTableFilters;
+  onFilters: (name: string, value: IReserveTableFilterValue) => void;
   //
   canReset: boolean;
   onResetFilters: VoidFunction;
 };
 
-export default function OrderTableToolbar({
+export default function ReserveTableToolbar({
   filters,
   onFilters,
   //
@@ -68,7 +68,7 @@ export default function OrderTableToolbar({
         }}
       >
         <DatePicker
-          label="Start date"
+          label="예약 시작 날짜"
           value={filters.startDate}
           onChange={handleFilterStartDate}
           slotProps={{
@@ -82,7 +82,7 @@ export default function OrderTableToolbar({
         />
 
         <DatePicker
-          label="End date"
+          label="예약 끝 날짜"
           value={filters.endDate}
           onChange={handleFilterEndDate}
           slotProps={{ textField: { fullWidth: true } }}
@@ -96,7 +96,7 @@ export default function OrderTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder="Search customer or order number..."
+            placeholder="예약자명 및 장소명으로 검색할 수 있습니다"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -105,10 +105,10 @@ export default function OrderTableToolbar({
               ),
             }}
           />
-
+          {/* 
           <IconButton onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+          </IconButton> */}
         </Stack>
 
         {canReset && (
@@ -118,12 +118,12 @@ export default function OrderTableToolbar({
             onClick={onResetFilters}
             startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
           >
-            Clear
+            취소
           </Button>
         )}
       </Stack>
 
-      <CustomPopover
+      {/* <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
@@ -155,7 +155,7 @@ export default function OrderTableToolbar({
           <Iconify icon="solar:export-bold" />
           Export
         </MenuItem>
-      </CustomPopover>
+      </CustomPopover> */}
     </>
   );
 }

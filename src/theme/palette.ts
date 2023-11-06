@@ -13,6 +13,7 @@ declare module '@mui/material/styles/createPalette' {
     darker: string;
   }
   interface PaletteColor {
+    pale: string;
     lighter: string;
     darker: string;
   }
@@ -34,57 +35,44 @@ const GREY = {
 };
 
 const PRIMARY = {
-  lighter: '#C8FAD6',
-  light: '#5BE49B',
-  main: '#00A76F',
-  dark: '#007867',
-  darker: '#004B50',
-  contrastText: '#FFFFFF',
+  pale: '#F7F7FB',
+  lighter: '#ECEEFD',
+  light: '#AEB5F9',
+  main: '#7A83F1',
+  dark: '#4653F0',
 };
 
 const SECONDARY = {
   lighter: '#EFD6FF',
-  light: '#C684FF',
-  main: '#8E33FF',
-  dark: '#5119B7',
-  darker: '#27097A',
-  contrastText: '#FFFFFF',
+  light: '#9FDFE9',
+  main: '#60C3D7',
 };
 
 const INFO = {
-  lighter: '#CAFDF5',
-  light: '#61F3F3',
-  main: '#00B8D9',
-  dark: '#006C9C',
-  darker: '#003768',
-  contrastText: '#FFFFFF',
+  lighter: '#F2E6FC',
+  light: '#D1A6F6',
+  main: '#B26AF0',
 };
 
 const SUCCESS = {
-  lighter: '#D3FCD2',
-  light: '#77ED8B',
-  main: '#22C55E',
-  dark: '#118D57',
-  darker: '#065E49',
-  contrastText: '#ffffff',
+  // primary 동일
+  pale: '#F7F7FB',
+  lighter: '#ECEEFD',
+  light: '#AEB5F9',
+  main: '#7A83F1',
+  dark: '#4653F0',
 };
 
 const WARNING = {
-  lighter: '#FFF5CC',
-  light: '#FFD666',
-  main: '#FFAB00',
-  dark: '#B76E00',
-  darker: '#7A4100',
-  contrastText: GREY[800],
+  lighter: '#FEF9E0',
+  light: '#FBEEAA',
+  main: '#F7D347',
 };
 
 const ERROR = {
-  lighter: '#FFE9D5',
-  light: '#FFAC82',
-  main: '#FF5630',
-  dark: '#B71D18',
-  darker: '#7A0916',
-  contrastText: '#FFFFFF',
+  lighter: '#FBE7E3',
+  light: '#EE9583',
+  main: '#E96347',
 };
 
 const COMMON = {
@@ -119,6 +107,9 @@ export function palette(mode: 'light' | 'dark') {
       primary: GREY[800],
       secondary: GREY[600],
       disabled: GREY[500],
+      n1: '#B4AFC3',
+      n2: '#7E547A',
+      n3: '#2A2D56',
     },
     background: {
       paper: '#FFFFFF',

@@ -17,31 +17,40 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // utils
 import { fCurrency } from 'src/utils/format-number';
 // types
-import { IOrderItem } from 'src/types/order';
+import { IReserveListItem } from 'src/types/reserveList';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import styled from 'styled-components';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: IOrderItem;
+  row: IReserveListItem;
   selected: boolean;
   onViewRow: VoidFunction;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
 };
 
-export default function OrderTableRow({
+const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+`;
+
+export default function ReserveTableRow({
   row,
   selected,
   onViewRow,
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  // const { items, status, reserveNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  const { id, spaceName, useDate, createdAt, startTime, endTime, user, purpose, status } = row;
 
   const confirm = useBoolean();
 
@@ -65,28 +74,15 @@ export default function OrderTableRow({
             },
           }}
         >
-          {orderNumber}
+          {id}
         </Box>
       </TableCell>
 
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+      <TableCell>
         {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
 
         <ListItemText
-          primary={customer.name}
-          secondary={customer.email}
-          primaryTypographyProps={{ typography: 'body2' }}
-          secondaryTypographyProps={{
-            component: 'span',
-            color: 'text.disabled',
-          }}
-        />
-      </TableCell>
-
-      <TableCell>
-        <ListItemText
-          primary={format(new Date(createdAt), 'dd MMM yyyy')}
-          secondary={format(new Date(createdAt), 'p')}
+          primary={spaceName}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -96,23 +92,107 @@ export default function OrderTableRow({
         />
       </TableCell>
 
-      <TableCell align="center"> {totalQuantity} </TableCell>
+      <TableCell>
+        <ListItemText
+          primary={format(new Date(useDate), 'yyyy / MM / dd')}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
 
-      <TableCell> {fCurrency(subTotal)} </TableCell>
+      <TableCell>
+        <ListItemText
+          primary={`${startTime} - ${endTime}`}
+          // The following is commented out, but you can format the date as needed and uncomment it.
+          // secondary={format(new Date(createdAt), 'p')}
+          primaryTypographyProps={{ variant: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            variant: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={format(new Date(createdAt), 'yyyy / MM / dd')}
+          // secondary={format(new Date(createdAt), 'p')}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={user}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText
+          primary={purpose}
+          primaryTypographyProps={{ typography: 'body2', noWrap: true }}
+          secondaryTypographyProps={{
+            mt: 0.5,
+            component: 'span',
+            typography: 'caption',
+          }}
+        />
+      </TableCell>
 
       <TableCell>
         <Label
           variant="soft"
           color={
-            (status === 'completed' && 'success') ||
-            (status === 'pending' && 'warning') ||
-            (status === 'cancelled' && 'error') ||
+            (status === '승인' && 'success') ||
+            (status === '미승인' && 'warning') ||
+            (status === '거절' && 'error') ||
             'default'
           }
+          // style={{width: "75px", height: "30px"}}
         >
           {status}
         </Label>
       </TableCell>
+
+      {status === '미승인' && (
+        <TableCell>
+          <Rows>
+            <Button variant="outlined" color="primary">
+              승인
+            </Button>
+            <Button variant="outlined" color="error">
+              거절
+            </Button>
+          </Rows>
+        </TableCell>
+      )}
+
+      {status !== '미승인' && (
+        <TableCell>
+          <Rows>
+            <div />
+            <Button variant="outlined" style={{ color: 'gray' }}>
+              삭제
+            </Button>
+          </Rows>
+        </TableCell>
+      )}
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <IconButton
@@ -127,9 +207,9 @@ export default function OrderTableRow({
           <Iconify icon="eva:arrow-ios-downward-fill" />
         </IconButton>
 
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+        {/* <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
           <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        </IconButton> */}
       </TableCell>
     </TableRow>
   );
@@ -143,7 +223,7 @@ export default function OrderTableRow({
           unmountOnExit
           sx={{ bgcolor: 'background.neutral' }}
         >
-          <Stack component={Paper} sx={{ m: 1.5 }}>
+          {/* <Stack component={Paper} sx={{ m: 1.5 }}>
             {items.map((item) => (
               <Stack
                 key={item.id}
@@ -180,7 +260,7 @@ export default function OrderTableRow({
                 <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
               </Stack>
             ))}
-          </Stack>
+          </Stack> */}
         </Collapse>
       </TableCell>
     </TableRow>

@@ -21,19 +21,23 @@ import { DeptUrlState, selectedIndexState } from 'src/stores/atom';
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { paths } from 'src/routes/paths';
+import { set } from 'nprogress';
 // ----------------------------------------------------------------------
 
-const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
+const OPTIONS = ['HASPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
 
 const COLORS = ['primary', 'secondary', 'info', 'success'];
+
+const TITLE = 'HASPACE';
 
 const DeptButton = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  width: 175px;
+  width: 200px;
   justify-content: space-between;
+  font-size: 1rem;
 `;
 
 const Rows = styled.div`
@@ -46,13 +50,22 @@ const Rows = styled.div`
 export default function DeptHeaderButton() {
   const settings = useSettingsContext();
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const setDeptUrl = useSetRecoilState(DeptUrlState);
 
   const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
 
-  const [isOpen, setOpen] = useState<null | HTMLElement>(null);
-
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
+
+  const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+    setOpenList(null);
+  }, []);
 
   const handleClickListItem = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setOpenList(event.currentTarget);
@@ -60,18 +73,20 @@ export default function DeptHeaderButton() {
 
   const handleMenuItemClick = useCallback(
     (event: React.MouseEvent<HTMLElement>, index: number) => {
-      console.log('index', index);
+      setSelectedIndex(index);
       setSelectedIndex(index);
       setDeptUrl(OPTIONS[index]);
-      setOpenList(null);
-      window.location.href = paths.dept.dashboard(OPTIONS[index]);
+      // setOpenList(null);
+      handleClose();
+      if (index === 0) {
+        window.location.replace(paths.hanspace.root);
+      } else {
+        window.location.href = paths.dept.dashboard(OPTIONS[index]);
+      }
     },
-    [setDeptUrl, setSelectedIndex]
+    [handleClose, setDeptUrl, setSelectedIndex]
   );
 
-  const handleClose = useCallback(() => {
-    setOpen(null);
-  }, []);
   return (
     <>
       <List component="nav" aria-label="Device settings">

@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack, { StackProps } from '@mui/material/Stack';
 // types
-import { IOrderTableFilters, IOrderTableFilterValue } from 'src/types/order';
+import { IReserveTableFilters, IReserveTableFilterValue } from 'src/types/reserveList';
 // components
 import Iconify from 'src/components/iconify';
 import { shortDateLabel } from 'src/components/custom-date-range-picker';
@@ -13,15 +13,15 @@ import { shortDateLabel } from 'src/components/custom-date-range-picker';
 // ----------------------------------------------------------------------
 
 type Props = StackProps & {
-  filters: IOrderTableFilters;
-  onFilters: (name: string, value: IOrderTableFilterValue) => void;
+  filters: IReserveTableFilters;
+  onFilters: (name: string, value: IReserveTableFilterValue) => void;
   //
   onResetFilters: VoidFunction;
   //
   results: number;
 };
 
-export default function OrderTableFiltersResult({
+export default function ReserveTableFiltersResult({
   filters,
   onFilters,
   //
@@ -33,7 +33,7 @@ export default function OrderTableFiltersResult({
   const shortLabel = shortDateLabel(filters.startDate, filters.endDate);
 
   const handleRemoveStatus = () => {
-    onFilters('status', 'all');
+    onFilters('status', '전체');
   };
 
   const handleRemoveDate = () => {
@@ -46,19 +46,19 @@ export default function OrderTableFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          results found
+          개의 예약 내역을 찾았습니다
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {filters.status !== 'all' && (
-          <Block label="Status:">
+        {filters.status !== '전체' && (
+          <Block label="상태 :">
             <Chip size="small" label={filters.status} onDelete={handleRemoveStatus} />
           </Block>
         )}
 
         {filters.startDate && filters.endDate && (
-          <Block label="Date:">
+          <Block label="날짜 :">
             <Chip size="small" label={shortLabel} onDelete={handleRemoveDate} />
           </Block>
         )}
@@ -68,7 +68,7 @@ export default function OrderTableFiltersResult({
           onClick={onResetFilters}
           startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
         >
-          Clear
+          취소
         </Button>
       </Stack>
     </Stack>
