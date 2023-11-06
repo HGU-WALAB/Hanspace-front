@@ -9,7 +9,7 @@ export default function DepartmentView() {
 
   return (
     <>
-    <Typography variant="h5"> 기관 추가 신청하기 </Typography>
+    <Typography variant="h5"> 기관 추가하기 </Typography>
     {/* <Box
         sx={{
           mt: 5,
