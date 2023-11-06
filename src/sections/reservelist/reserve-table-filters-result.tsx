@@ -33,7 +33,7 @@ export default function ReserveTableFiltersResult({
   const shortLabel = shortDateLabel(filters.startDate, filters.endDate);
 
   const handleRemoveStatus = () => {
-    onFilters('status', 'all');
+    onFilters('status', '전체');
   };
 
   const handleRemoveDate = () => {
@@ -46,19 +46,19 @@ export default function ReserveTableFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          results found
+          개의 예약 내역을 찾았습니다
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {filters.status !== 'all' && (
-          <Block label="Status:">
+        {filters.status !== '전체' && (
+          <Block label="상태 :">
             <Chip size="small" label={filters.status} onDelete={handleRemoveStatus} />
           </Block>
         )}
 
         {filters.startDate && filters.endDate && (
-          <Block label="Date:">
+          <Block label="날짜 :">
             <Chip size="small" label={shortLabel} onDelete={handleRemoveDate} />
           </Block>
         )}
@@ -68,7 +68,7 @@ export default function ReserveTableFiltersResult({
           onClick={onResetFilters}
           startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
         >
-          Clear
+          취소
         </Button>
       </Stack>
     </Stack>

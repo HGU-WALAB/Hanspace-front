@@ -68,7 +68,7 @@ export default function ReserveTableToolbar({
         }}
       >
         <DatePicker
-          label="Start date"
+          label="예약 시작 날짜"
           value={filters.startDate}
           onChange={handleFilterStartDate}
           slotProps={{
@@ -82,7 +82,7 @@ export default function ReserveTableToolbar({
         />
 
         <DatePicker
-          label="End date"
+          label="예약 끝 날짜"
           value={filters.endDate}
           onChange={handleFilterEndDate}
           slotProps={{ textField: { fullWidth: true } }}
@@ -96,7 +96,7 @@ export default function ReserveTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder="Search customer or order number..."
+            placeholder="예약자명 및 장소명으로 검색할 수 있습니다"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -105,10 +105,10 @@ export default function ReserveTableToolbar({
               ),
             }}
           />
-
+          {/* 
           <IconButton onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+          </IconButton> */}
         </Stack>
 
         {canReset && (
@@ -118,12 +118,12 @@ export default function ReserveTableToolbar({
             onClick={onResetFilters}
             startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
           >
-            Clear
+            취소
           </Button>
         )}
       </Stack>
 
-      <CustomPopover
+      {/* <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
@@ -155,7 +155,7 @@ export default function ReserveTableToolbar({
           <Iconify icon="solar:export-bold" />
           Export
         </MenuItem>
-      </CustomPopover>
+      </CustomPopover> */}
     </>
   );
 }
