@@ -24,9 +24,9 @@ export default function AppWelcome({ title, description, action, img, ...other }
         ...bgGradient({
           direction: '135deg',
           //   startColor: alpha(theme.palette.primary.light, 0.2),
-          startColor: '#6F79EF',
+          startColor: theme.palette.primary.main,
           //   endColor: alpha(theme.palette.primary.main, 0.2),
-          endColor: '#6F79EF',
+          endColor: theme.palette.primary.main,
         }),
         height: { md: 1 },
         // borderRadius: 2,
