@@ -131,7 +131,7 @@ export default function SpaceCreateDialog() {
                     hour12: false,
                   });
                   setValue('availableStart', formattedTime);
-                  console.log(formattedTime);
+                  // console.log(formattedTime);
                 }
               }}
             />
