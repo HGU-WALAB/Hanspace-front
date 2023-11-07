@@ -14,25 +14,16 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import MinusIcon from "@mui/icons-material/Remove";
 // hooks
 // import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
-import FormProvider , {
-  RHFEditor,
-  RHFSelect,
-  RHFUpload,
-  RHFSwitch,
-  RHFSlider,
-  RHFCheckbox,
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
-} from 'src/components/hook-form';
+import FormProvider from 'src/components/hook-form';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
@@ -83,7 +74,49 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
     const [reserveDate, setDate] = useState<Dayjs | null>(dayjs());
     const [startTime, setstartTime] = useState(defaultValues.startTime);
     const [endTime, setendTime] = useState(defaultValues.endTime);
+    const [halfTime, setHalfTime] = useState(0);
 
+    const convertToMinutes = (time: string) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+  
+    const formatTime = (minutes: number) => {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      console.log("hour+reamainingMinutes: ", hours+remainingMinutes);
+      return `${String(hours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}`;
+    };
+
+    const handleMinusClick = () => {
+      let startMinutes;
+      if(endTime === ''){
+        startMinutes = convertToMinutes(startTime);
+      }
+      else{
+        startMinutes = convertToMinutes(endTime);
+      }
+      const endMinutes = formatTime(startMinutes - 30);
+      setendTime(endMinutes);
+      setHalfTime(halfTime - 30);
+      console.log("endtime: ", endTime);
+      handleNextClick();
+    };
+  
+    const handlePlusClick = () => {
+      let startMinutes;
+      if(endTime === ''){
+        startMinutes = convertToMinutes(startTime);
+      }
+      else{
+        startMinutes = convertToMinutes(endTime);
+      }
+      const endMinutes = formatTime(startMinutes + 30);
+      setendTime(endMinutes);
+      setHalfTime(halfTime + 30);
+      console.log("endtime: ", endTime);
+      handleNextClick();
+    };
 
     const handleNextClick = useCallback(() => {
       const selectedData = {
@@ -122,7 +155,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                 />
               </DemoContainer>
             </div>
-          <div style={{ marginRight: '10px' }}>
+          <div style={{ marginRight: '10px', display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             {/* <Typography variant="subtitle1">이용 시간 *</Typography> */}
               <DesktopTimePicker
                     label="예약 시작 시간"
@@ -141,7 +174,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
                   />
-              <DesktopTimePicker
+              {/* <DesktopTimePicker
                     label="예약 끝 시간"
                     value={methods.watch('endTime')}
                     onChange={(newValue) => {
@@ -158,7 +191,14 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                       }
                     }}
                     sx={{ margin: '8.5px 10px 0 0', width: '200px'}}
-                  />
+                  /> */}
+                  <Fab size="small" color="primary" aria-label="add" sx={{ml: 2, mr: 3}} onClick={handleMinusClick} disabled={halfTime<=0}>
+                    <MinusIcon />
+                  </Fab>
+                  <Typography variant="subtitle1"> {halfTime} 분 추가</Typography>
+                  <Fab size="small" color="primary" aria-label="minus" sx={{ml: 3}} onClick={handlePlusClick} disabled={halfTime >= 180}>
+                    <AddIcon />
+                  </Fab>
           </div>
           {/* <div style={{ flexGrow: 1 }}> */}
             {/* <Typography variant="subtitle1">사용 인원 *</Typography> */}

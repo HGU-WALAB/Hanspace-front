@@ -164,7 +164,7 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
           <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
             <DialogContent>
             <Grid container spacing={2}>
-            <Grid item xs={3.5} sx={{ m: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Grid item xs={3.5} sx={{ m: 3, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant="body1"> 시작 시간 : {selectedData.startTime}</Typography>
               <Typography variant="body1"> 종료 시간 : {selectedData.endTime}</Typography>
             </Grid>
