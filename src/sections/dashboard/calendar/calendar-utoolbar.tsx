@@ -17,20 +17,6 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-const VIEW_OPTIONS = [
-  {
-    value: 'dayGridMonth',
-    label: '월간',
-    icon: 'mingcute:calendar-month-line',
-  },
-  { value: 'timeGridWeek', label: '주간', icon: 'mingcute:calendar-week-line' },
-  { value: 'timeGridDay', label: '일간', icon: 'mingcute:calendar-day-line' },
-  {
-    value: 'listWeek',
-    label: '리스트',
-    icon: 'fluent:calendar-agenda-24-regular',
-  },
-] as const;
 const UVIEW_OPTIONS = [
   {
     value: 'dayGridMonth',
@@ -68,7 +54,7 @@ export default function UCalendarToolbar({
 
   const popover = usePopover();
 
-  const selectedItem = VIEW_OPTIONS.filter((item) => item.value === view)[0];
+  const selectedItem = UVIEW_OPTIONS.filter((item) => item.value === view)[0];
 
   const parts = fDate(date).split(' ');
   const year = parts[0];
