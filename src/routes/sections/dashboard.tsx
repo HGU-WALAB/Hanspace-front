@@ -11,11 +11,11 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
 const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
-const ReserveListPage = lazy(() => import('src/pages/dashboard/reservelist'));
-const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
-const UserListPage = lazy(() => import('src/pages/dashboard/userlist'));
-const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
-const DepartmentView = lazy(() => import('src/pages/dashboard/department'));
+const PageReserveList = lazy(() => import('src/pages/dashboard/manage-reserve-list'));
+const PageManageSpace = lazy(() => import('src/pages/dashboard/manage-space'));
+const PageUserList = lazy(() => import('src/pages/dashboard/manage-user-list'));
+const PageManageSite = lazy(() => import('src/pages/dashboard/manage-dept'));
+const AddDepartmentView = lazy(() => import('src/pages/dashboard/add-department'));
 
 // ----------------------------------------------------------------------
 
@@ -34,18 +34,18 @@ export const dashboardRoutes = [
     children: [
       { path: ':url/dashboard', element: <DashBoardPage /> },
       { path: ':url/reserve', element: <PageReserve /> },
-      { path: ':url/reservelist', element: <ReserveListPage /> },
+      { path: ':url/reservelist', element: <PageReserveList /> },
       {
         path: ':url/management',
         children: [
           { element: <PageManageSpace />, index: true },
-          { path: 'manageUser', element: <UserListPage /> },
+          { path: 'manageUser', element: <PageUserList /> },
           { path: 'manageSite', element: <PageManageSite /> },
         ],
       },
       {
         path: 'department',
-        element: <DepartmentView />,
+        element: <AddDepartmentView />,
       },
       // {
       //   path: 'user',
