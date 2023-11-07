@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 // sections
+import ManageSpaceView from 'src/sections/manageSpace/view';
 
-import ReserveView from 'src/sections/reserve/view';
 // ----------------------------------------------------------------------
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title> HANSPACE: 예약하기 </title>
+        <title> HANSPACE: 장소 관리 </title>
       </Helmet>
 
-      <ReserveView />
+      <ManageSpaceView />
     </>
   );
 }

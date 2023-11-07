@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> 대시보드 </title>
+        <title> HASPACE: 대시보드 </title>
       </Helmet>
 
       {/* <AdminDashboardView /> */}
