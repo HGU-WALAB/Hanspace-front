@@ -13,7 +13,7 @@ const DashBoardPage = lazy(() => import('src/pages/dashboard/dashboard'));
 const PageReserve = lazy(() => import('src/pages/dashboard/reserve'));
 const ReserveListPage = lazy(() => import('src/pages/dashboard/reservelist'));
 const PageManageSpace = lazy(() => import('src/pages/dashboard/manageSpace'));
-const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
+const UserListPage = lazy(() => import('src/pages/dashboard/userlist'));
 const PageManageSite = lazy(() => import('src/pages/dashboard/manageSite'));
 const DepartmentView = lazy(() => import('src/pages/dashboard/department'));
 
@@ -34,13 +34,11 @@ export const dashboardRoutes = [
     children: [
       { path: ':url/dashboard', element: <DashBoardPage /> },
       { path: ':url/reserve', element: <PageReserve /> },
-      // { path: 'waitinglist', element: <PageWaitinglist /> },
       { path: ':url/reservelist', element: <ReserveListPage /> },
       {
         path: ':url/management',
         children: [
           { element: <PageManageSpace />, index: true },
-          // { path: 'manageUser', element: <PageManageUser /> },
           { path: 'manageUser', element: <UserListPage /> },
           { path: 'manageSite', element: <PageManageSite /> },
         ],

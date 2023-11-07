@@ -6,9 +6,9 @@ import { _mock } from './_mock';
 // ----------------------------------------------------------------------
 
 export const USER_ROLE_OPTIONS = [
+  { value: '미승인', label: '미승인' },
   { value: '관리자', label: '관리자' },
   { value: '사용자', label: '사용자' },
-  // { value: 'Banned', label: 'Banned' },
   { value: '블랙리스트', label: '블랙리스트' },
 ];
 

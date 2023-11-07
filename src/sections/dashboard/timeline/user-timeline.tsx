@@ -113,24 +113,6 @@ export default function UserTimeLine() {
             },
           }}
         >
-          {/* {reduceTimeLine.map((item) => (
-            <TimelineItem key={item.key}>
-              <TimelineSeparator>
-                <TimelineDot
-                  sx={{
-                    backgroundColor: '#4653F0',
-                  }}
-                />
-                {lastItem === item.key ? null : <TimelineConnector />}
-              </TimelineSeparator>
-              <TimelineContent>
-                <Typography variant="h6">{item.title}</Typography>
-                <Typography variant="body2" color="textSecondary" noWrap>
-                  {item.time}
-                </Typography>
-              </TimelineContent>
-            </TimelineItem>
-          ))} */}
           {reduceTimeLine.length === 0 ? (
             <Box
               component="img"
@@ -149,7 +131,7 @@ export default function UserTimeLine() {
                   {lastItem === item.key ? null : <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent>
-                  <Typography variant="h6">{item.title}</Typography>
+                  <Typography variant="body2">{item.title}</Typography>
                   <Typography variant="body2" color="textSecondary" noWrap>
                     {item.time}
                   </Typography>

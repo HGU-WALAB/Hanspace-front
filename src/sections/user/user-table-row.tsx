@@ -1,7 +1,5 @@
 // @mui
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,8 +14,8 @@ import { IUserItem } from 'src/types/user';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { ConfirmDialog } from 'src/components/custom-dialog';
 //
+import styled from 'styled-components';
 import UserQuickEditForm from './user-quick-edit-form';
 
 // ----------------------------------------------------------------------
@@ -30,6 +28,13 @@ type Props = {
   onDeleteRow: VoidFunction;
 };
 
+const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+`;
+
 export default function UserTableRow({
   row,
   selected,
@@ -37,10 +42,9 @@ export default function UserTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  // const { name, avatarUrl, company, role, status, email } = row;
   const { name, sid, deptName, email, role } = row;
 
-  const confirm = useBoolean();
+  // const confirm = useBoolean();
 
   const quickEdit = useBoolean();
 
@@ -71,15 +75,13 @@ export default function UserTableRow({
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{email}</TableCell>
 
-        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell> */}
-
         <TableCell>
           <Label
             variant="soft"
             color={
+              (role === '미승인' && 'error') ||
               (role === '관리자' && 'success') ||
-              (role === '사용자' && 'warning') ||
-              // (role === 'Blacklist' && 'default') ||
+              (role === '사용자' && 'secondary') ||
               'default'
             }
           >
@@ -87,60 +89,41 @@ export default function UserTableRow({
           </Label>
         </TableCell>
 
-        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          <Tooltip title="Quick Edit" placement="top" arrow>
-            <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-            </IconButton>
-          </Tooltip>
+        {role === '미승인' && (
+          <TableCell>
+            <Rows>
+              <Button variant="outlined" color="primary">
+                승인
+              </Button>
+              <Button variant="outlined" color="error">
+                거절
+              </Button>
+            </Rows>
+          </TableCell>
+        )}
 
+        {role !== '미승인' && <div />}
+
+        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            {/* <Iconify icon="eva:more-vertical-fill" /> */}
+            <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
 
-      {/* <CustomPopover
+      <CustomPopover
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
         sx={{ width: 140 }}
       >
-        <MenuItem
-          onClick={() => {
-            confirm.onTrue();
-            popover.onClose();
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            onEditRow();
-            popover.onClose();
-          }}
-        >
+        <MenuItem onClick={quickEdit.onTrue}>
           <Iconify icon="solar:pen-bold" />
-          Edit
+          권한 수정
         </MenuItem>
-      </CustomPopover> */}
-
-      {/* <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
-        action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
-        }
-      /> */}
+      </CustomPopover>
     </>
   );
 }
