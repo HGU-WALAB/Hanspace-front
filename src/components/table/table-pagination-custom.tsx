@@ -26,6 +26,8 @@ export default function TablePaginationCustom({
         rowsPerPageOptions={rowsPerPageOptions}
         component="div"
         {...other}
+        labelDisplayedRows={({ from, to, count }) => `${count}개 중 ${from} – ${to}`}
+        labelRowsPerPage="페이지 당 행 수:"
         sx={{
           borderTopColor: 'transparent',
         }}
@@ -33,7 +35,7 @@ export default function TablePaginationCustom({
 
       {onChangeDense && (
         <FormControlLabel
-          label="Dense"
+          label="밀집형으로 보기"
           control={<Switch checked={dense} onChange={onChangeDense} />}
           sx={{
             pl: 2,

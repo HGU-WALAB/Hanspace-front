@@ -5,7 +5,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,15 +15,9 @@ import DialogContent from '@mui/material/DialogContent';
 import { USER_ROLE_OPTIONS } from 'src/_mock';
 // types
 import { IUserItem } from 'src/types/user';
-// assets
-import { countries } from 'src/assets/data';
 // components
-import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
-import FormProvider, { RHFSelect, RHFTextField, RHFAutocomplete } from 'src/components/hook-form';
-import axios from 'axios';
-import { endpoints } from 'src/utils/axios';
-import { en } from '@fullcalendar/core/internal-common';
+import FormProvider, { RHFSelect } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -38,34 +31,12 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    // name: Yup.string().required('Name is required'),
-    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    // phoneNumber: Yup.string().required('Phone number is required'),
-    // address: Yup.string().required('Address is required'),
-    // country: Yup.string().required('Country is required'),
-    // company: Yup.string().required('Company is required'),
-    // state: Yup.string().required('State is required'),
-    // city: Yup.string().required('City is required'),
     role: Yup.string().required('Role is required'),
-    // sid: Yup.string().required('SID is required'),
-    // deptName: Yup.string().required('Department is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
-      // name: currentUser?.name || '',
-      // email: currentUser?.email || '',
-      // phoneNumber: currentUser?.phoneNumber || '',
-      // address: currentUser?.address || '',
-      // country: currentUser?.country || '',
-      // state: currentUser?.state || '',
-      // city: currentUser?.city || '',
-      // zipCode: currentUser?.zipCode || '',
-      // status: currentUser?.status,
-      // company: currentUser?.company || '',
       role: currentUser?.role || '',
-      // sid: currentUser?.sid || '',
-      // deptName: currentUser?.deptName || '',
     }),
     [currentUser]
   );
@@ -110,10 +81,6 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
         <DialogTitle>권한 수정</DialogTitle>
 
         <DialogContent>
-          {/* <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
-            Account is waiting for confirmation
-          </Alert> */}
-
           <Box
             rowGap={3}
             columnGap={2}
@@ -123,54 +90,13 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
               sm: 'repeat(2, 1fr)',
             }}
           >
-            <RHFSelect name="role" label={currentUser?.role}>
+            <RHFSelect name="role">
               {USER_ROLE_OPTIONS.map((role) => (
                 <MenuItem key={role.value} value={role.value}>
                   {role.label}
                 </MenuItem>
               ))}
             </RHFSelect>
-
-            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }} /> */}
-
-            {/* <RHFTextField name="name" label="Full Name" />
-            <RHFTextField name="email" label="Email Address" />
-            <RHFTextField name="phoneNumber" label="Phone Number" /> */}
-
-            {/* <RHFAutocomplete
-              name="country"
-              label="Country"
-              options={countries.map((country) => country.label)}
-              getOptionLabel={(option) => option}
-              renderOption={(props, option) => {
-                const { code, label, phone } = countries.filter(
-                  (country) => country.label === option
-                )[0];
-
-                if (!label) {
-                  return null;
-                }
-
-                return (
-                  <li {...props} key={label}>
-                    <Iconify
-                      key={label}
-                      icon={`circle-flags:${code.toLowerCase()}`}
-                      width={28}
-                      sx={{ mr: 1 }}
-                    />
-                    {label} ({code}) +{phone}
-                  </li>
-                );
-              }}
-            /> */}
-
-            {/* <RHFTextField name="state" label="State/Region" />
-            <RHFTextField name="city" label="City" />
-            <RHFTextField name="address" label="Address" />
-            <RHFTextField name="zipCode" label="Zip/Code" />
-            <RHFTextField name="company" label="Company" />
-            <RHFTextField name="role" label="Role" /> */}
           </Box>
         </DialogContent>
 

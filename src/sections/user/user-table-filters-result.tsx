@@ -29,9 +29,9 @@ export default function UserTableFiltersResult({
   results,
   ...other
 }: Props) {
-  const handleRemoveStatus = () => {
-    onFilters('status', '전체');
-  };
+  // const handleRemoveStatus = () => {
+  //   onFilters('status', '전체');
+  // };
 
   const handleRemoveRole = (inputValue: string) => {
     // const newValue = filters.role.filter((item) => item !== inputValue);

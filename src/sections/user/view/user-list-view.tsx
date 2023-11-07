@@ -6,16 +6,13 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
 // routes
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+// import { useRouter } from 'src/routes/hooks';
 // _mock
 import { _userList, _roles, USER_ROLE_OPTIONS } from 'src/_mock';
 // hooks
@@ -24,9 +21,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSettingsContext } from 'src/components/settings';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import {
   useTable,
   getComparator,
@@ -40,8 +35,8 @@ import {
 // types
 import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 //
-import { useQuery } from 'react-query';
-import { GetUser } from 'src/api/userApi';
+// import { useQuery } from 'react-query';
+// import { GetUser } from 'src/api/userApi';
 import { Typography } from '@mui/material';
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
@@ -55,15 +50,13 @@ const TABLE_HEAD = [
   { id: 'name', label: '이름', width: 300 },
   { id: 'deptName', label: '학부', width: 300 },
   { id: 'email', label: '이메일', width: 300 },
-  // { id: 'company', label: 'Company', width: 220 },
   { id: 'role', label: '권한', width: 180 },
-  // { id: 'status', label: 'Status', width: 100 },
+  { id: 'manage', label: '관리', width: 180 },
   { id: '', width: 100 },
 ];
 
 const defaultFilters: IUserTableFilters = {
   name: '',
-  // role: [],
   role: '전체',
 };
 
@@ -74,7 +67,7 @@ export default function UserListView() {
 
   const settings = useSettingsContext();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const confirm = useBoolean();
 
@@ -129,16 +122,16 @@ export default function UserListView() {
     [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    setTableData(deleteRows);
+  // const handleDeleteRows = useCallback(() => {
+  //   const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+  //   setTableData(deleteRows);
 
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
+  //   table.onUpdatePageDeleteRows({
+  //     totalRows: tableData.length,
+  //     totalRowsInPage: dataInPage.length,
+  //     totalRowsFiltered: dataFiltered.length,
+  //   });
+  // }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
   // const handleEditRow = useCallback(
   //   (id: string) => {
@@ -147,12 +140,12 @@ export default function UserListView() {
   //   [router]
   // );
 
-  const handleFilterStatus = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
-      handleFilters('status', newValue);
-    },
-    [handleFilters]
-  );
+  // const handleFilterStatus = useCallback(
+  //   (event: React.SyntheticEvent, newValue: string) => {
+  //     handleFilters('status', newValue);
+  //   },
+  //   [handleFilters]
+  // );
 
   const handleFilterRole = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -169,28 +162,7 @@ export default function UserListView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        {/* <CustomBreadcrumbs
-          heading="List"
-          links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: paths.dashboard.list },
-            { name: 'List' },
-          ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.user?.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New User
-            </Button>
-          }
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        /> */}
-        <Typography variant="h4"> 사용자 관리 </Typography>
+        <Typography variant="h4"> 사용자 관리하기 </Typography>
 
         <div style={{ margin: '20px', display: 'flex', justifyContent: 'flex-end' }} />
 
@@ -215,20 +187,19 @@ export default function UserListView() {
                       ((tab.value === '전체' || tab.value === filters.role) && 'filled') || 'soft'
                     }
                     color={
+                      (tab.value === '미승인' && 'error') ||
                       (tab.value === '관리자' && 'success') ||
-                      (tab.value === '사용자' && 'warning') ||
-                      // (tab.value === 'Banned' && 'error') ||
+                      (tab.value === '사용자' && 'secondary') ||
                       'default'
                     }
                   >
                     {tab.value === '전체' && _userList.length}
+                    {tab.value === '미승인' &&
+                      _userList.filter((user) => user.role === '미승인').length}
                     {tab.value === '관리자' &&
                       _userList.filter((user) => user.role === '관리자').length}
-
                     {tab.value === '사용자' &&
                       _userList.filter((user) => user.role === '사용자').length}
-                    {/* {tab.value === 'Banned' &&
-                      _userList.filter((user) => user.role === 'Banned').length} */}
                     {tab.value === '블랙리스트' &&
                       _userList.filter((user) => user.role === '블랙리스트').length}
                   </Label>
@@ -237,12 +208,7 @@ export default function UserListView() {
             ))}
           </Tabs>
 
-          <UserTableToolbar
-            filters={filters}
-            onFilters={handleFilters}
-            //
-            roleOptions={_roles}
-          />
+          <UserTableToolbar filters={filters} onFilters={handleFilters} roleOptions={_roles} />
 
           {canReset && (
             <UserTableFiltersResult
@@ -334,7 +300,7 @@ export default function UserListView() {
         </Card>
       </Container>
 
-      <ConfirmDialog
+      {/* <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
         title="Delete"
@@ -355,7 +321,7 @@ export default function UserListView() {
             Delete
           </Button>
         }
-      />
+      /> */}
     </>
   );
 }
