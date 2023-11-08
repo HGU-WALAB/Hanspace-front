@@ -35,28 +35,30 @@ export const _reserve = [...Array(20)].map((_, index) => {
 
   // const customer = {
   //   id: _mock.id(index),
-  //   name: _mock.fullName(index),
+  //   user: _mock.fullName(index);
   //   email: _mock.email(index),
   //   avatarUrl: _mock.image.avatar(index),
   //   ipAddress: '192.158.1.38',
   // };
-  const spaceName = '회의실';
-  const useDate = '2021-09-01';
-  const startTime = '10:00';
-  const endTime = '11:00';
-  const user = '김민수';
-  const purpose = '멋사 회의';
+  // const spaceName = '회의실';
+  // const useDate = '2021-09-01';
+  // const startTime = '10:00';
+  // const endTime = '11:00';
+  // const user = '김민수';
+  // const purpose = '멋사 회의';
+  // const id = _mock.id(index);
 
+  const createAt = new Date();
   return {
     id: _mock.id(index),
     reserveNumber: `#601${index}`,
-    createdAt: _mock.time(index),
-    spaceName,
-    useDate,
-    startTime,
-    endTime,
-    user,
-    purpose,
+    createdAt: createAt,
+    spaceName: _mock.spaceName(index),
+    useDate: _mock.useDate(index),
+    startTime: _mock.startTime(index),
+    endTime: _mock.endTime(index),
+    user: _mock.fullName(index),
+    purpose: _mock.purpose(index),
     // shippingAddress: {
     //   fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
     //   phoneNumber: '365-374-4961',

@@ -57,12 +57,19 @@ export default function AppWelcome({ title, description, action, img, ...other }
           variant="body2"
           sx={{
             opacity: 0.8,
-            maxWidth: 360,
+            maxWidth: 720,
             mb: { xs: 3, xl: 5 },
             color: 'white',
           }}
         >
-          {description}
+          {description && typeof description === 'string'
+            ? description.split('\n').map((item, index, array) => (
+              <>
+                {item}
+                {index < array.length - 1 && <br />}
+              </>
+            ))
+            : null}
         </Typography>
 
         {action && action}
