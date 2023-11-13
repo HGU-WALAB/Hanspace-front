@@ -27,12 +27,12 @@ import { ICalendarEvent, ICalendarDate } from 'src/types/calendar';
 // ----------------------------------------------------------------------
 
 type Props = {
-  colorOptions: string[];
+  // colorOptions: string[];
   onClose: VoidFunction;
   currentEvent?: ICalendarEvent;
 };
 
-export default function CalendarForm({ currentEvent, colorOptions, onClose }: Props) {
+export default function CalendarForm({ currentEvent, onClose }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
@@ -90,25 +90,25 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
   //   }
   // });
 
-  const onDelete = useCallback(async () => {
-    try {
-      await deleteEvent(`${currentEvent?.id}`);
-      enqueueSnackbar('삭제되었습니다!');
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
-  }, [currentEvent?.id, enqueueSnackbar, onClose]);
+  // const onDelete = useCallback(async () => {
+  //   try {
+  //     await deleteEvent(`${currentEvent?.id}`);
+  //     enqueueSnackbar('삭제되었습니다!');
+  //     onClose();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, [currentEvent?.id, enqueueSnackbar, onClose]);
 
   return (
     // <FormProvider methods={methods} onSubmit={onSubmit}>
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="제목" />
+        <RHFTextField name="title" label="제목" disabled/>
 
-        <RHFTextField name="description" label="설명" multiline rows={3} />
+        <RHFTextField name="description" label="설명" multiline rows={3} disabled/>
 
-        <RHFSwitch name="allDay" label="요일 전체" />
+        {/* <RHFSwitch name="allDay" label="요일 전체" /> */}
 
         <Controller
           name="start"
@@ -129,6 +129,7 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
                   fullWidth: true,
                 },
               }}
+              disabled
             />
           )}
         />
@@ -154,11 +155,12 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
                   helperText: dateError && '끝 날짜는 시작 날짜보다 이전일 수 없습니다',
                 },
               }}
+              disabled
             />
           )}
         />
 
-        <Controller
+        {/* <Controller
           name="color"
           control={control}
           render={({ field }) => (
@@ -168,7 +170,7 @@ export default function CalendarForm({ currentEvent, colorOptions, onClose }: Pr
               colors={colorOptions}
             />
           )}
-        />
+        /> */}
       </Stack>
 
       <DialogActions>
