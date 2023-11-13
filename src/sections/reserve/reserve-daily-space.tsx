@@ -73,6 +73,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
     // regDate,
     // modDate,
   } = space;
+
   const availableStartTime = space.availableStart.toLocaleString();
   const availableEndTime = space.availableEnd.toLocaleString();
 
@@ -123,11 +124,11 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       spacing={0.5}
       direction="row"
       sx={{
-        p: (theme) => theme.spacing(0, 0, 0, 0),
+        p: (theme) => theme.spacing(1, 1, 0, 1),
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        <Image alt={image} src={image} sx={{ width: '100%', height: 250 }} />
+        <Image alt={image} src={image} sx={{ borderRadius: 1, height: 200, width: 1 }} />
       </Stack>
     </Stack>
   );
@@ -140,20 +141,11 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
         p: (theme) => theme.spacing(0, 0, 2, 0),
       }}
     >
-      {/* {[
-        {
-          label: `최대 인원 : ${headCount}`,
-        },
-        {
-          label: `세부 사항 : ${detail}`,
-        },
-      ].map((item) => ( */}
       <Stack spacing={1} direction="row" alignItems="center">
-        <Typography variant="subtitle1" color="#606060" sx={{ mt: 1, fontSize: '15px' }}>
+        <Typography variant="subtitle1" color="#606060" sx={{ mt: 1, fontSize: '14px' }}>
           {detail}
         </Typography>
       </Stack>
-      {/* ))} */}
     </Stack>
   );
 
@@ -166,7 +158,6 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        {/* <Typography variant="body1" color="black">이용 가능 시간</Typography> */}
         <SpacingGrid availableStart={availableStartTime} availableEnd={availableEndTime} />
       </Stack>
     </Stack>
@@ -189,14 +180,14 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
     <>
       {isStartTimeWithinRange && isEndimeWithinRange ? (
         <Card
-          onClick={() => setIsClicked(!isClicked)}
-          color={isClicked ? 'primary' : 'white'}
-          style={{
-            display: 'flex', // 가로 방향으로 정렬
-            justifyContent: 'center', // 가운데 정렬
-            padding: 0,
-            margin: 0,
-          }}
+        // onClick={() => setIsClicked(!isClicked)}
+        // color={isClicked ? 'primary' : 'white'}
+        // style={{
+        //   display: 'flex', // 가로 방향으로 정렬
+        //   justifyContent: 'center', // 가운데 정렬
+        //   padding: 0,
+        //   margin: 0,
+        // }}
         >
           <div>
             {renderImages}
@@ -205,8 +196,12 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
                 <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
                   {space.name}
                 </Typography>
-                <Typography variant="body1" color="#777777" sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px'}}>
-                  | 최대 이용 가능 인원 : {space.headCount}명
+                <Typography
+                  variant="body1"
+                  color="#777777"
+                  sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px' }}
+                >
+                  | {space.headCount}명 사용가능
                 </Typography>
               </div>
               {renderInfo}

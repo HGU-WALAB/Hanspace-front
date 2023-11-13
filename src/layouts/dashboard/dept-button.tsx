@@ -22,6 +22,7 @@ import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { paths } from 'src/routes/paths';
 import { set } from 'nprogress';
+import Logo from 'src/components/logo';
 // ----------------------------------------------------------------------
 
 const OPTIONS = ['HASPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
@@ -45,6 +46,7 @@ const Rows = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+  font-size: 1.2rem;
 `;
 
 export default function DeptHeaderButton() {
@@ -100,13 +102,14 @@ export default function DeptHeaderButton() {
             primary={
               <DeptButton>
                 <Rows>
-                  <Avatar
+                  {/* <Avatar
                     alt="A"
                     color={COLORS[selectedIndex]}
                     style={{ height: '30px', width: '30px', fontSize: '16px' }}
                   >
                     {OPTIONS[selectedIndex].charAt(0)}
-                  </Avatar>
+                  </Avatar> */}
+                  <Logo />
                   {OPTIONS[selectedIndex]}
                 </Rows>
                 <ArrowDropDownIcon />

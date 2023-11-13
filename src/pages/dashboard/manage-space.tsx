@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import SixView from 'src/sections/six/view';
+import ManageSpaceView from 'src/sections/manageSpace/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Six</title>
+        <title> HANSPACE: 장소 관리 </title>
       </Helmet>
 
-      <SixView />
+      <ManageSpaceView />
     </>
   );
 }

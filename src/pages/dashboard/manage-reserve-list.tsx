@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import FourView from 'src/sections/four/view';
+import { ReserveListView } from 'src/sections/reservelist/view';
 
 // ----------------------------------------------------------------------
 
-export default function Page() {
+export default function ReserveListPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Four</title>
+        <title> HANSPACE: 예약 관리 </title>
       </Helmet>
 
-      <FourView />
+      <ReserveListView />
     </>
   );
 }

@@ -64,25 +64,73 @@ const TIMELINES: TimelineType[] = [
   },
   {
     key: 5,
-    title: '뉴턴홀 220',
+    title: '뉴턴 210호',
     des: 'Morbi mattis ullamcorper',
-    time: '11월 12일 20:00',
+    time: '11월 1일 19:00',
     color: 'success',
     icon: <Iconify icon="eva:activity-fill" width={24} />,
   },
   {
     key: 6,
-    title: '뉴턴 412호',
+    title: '뉴턴 310호',
     des: 'Morbi mattis ullamcorper',
-    time: '11월 15일 21:00',
+    time: '11월 7일 21:00',
     color: 'warning',
     icon: <Iconify icon="eva:cube-fill" width={24} />,
   },
   {
     key: 7,
+    title: '뉴턴 219호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 9일 20:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 8,
+    title: '뉴턴 220호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 12일 20:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 9,
+    title: '뉴턴 412호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 15일 21:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 10,
     title: '뉴턴 319호',
     des: 'Morbi mattis ullamcorper',
     time: '11월 20일 22:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 11,
+    title: '뉴턴 310호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 23일 11:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 12,
+    title: '뉴턴 113호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 26일 19:00',
+    color: 'error',
+    icon: <Iconify icon="eva:film-fill" width={24} />,
+  },
+  {
+    key: 13,
+    title: '뉴턴 412호',
+    des: 'Morbi mattis ullamcorper',
+    time: '11월 28일 21:00',
     color: 'error',
     icon: <Iconify icon="eva:film-fill" width={24} />,
   },
@@ -92,7 +140,7 @@ const TIMELINES: TimelineType[] = [
 export default function UserTimeLine() {
   const lastItem = TIMELINES[TIMELINES.length - 1].key;
 
-  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 3);
+  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 5);
 
   return (
     <ComponentBlock title="나의 예약 리스트">

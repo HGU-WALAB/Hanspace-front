@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 // sections
-import { ReserveListView } from 'src/sections/reservelist/view';
+import DepartmentView from 'src/sections/department_c/view';
 
 // ----------------------------------------------------------------------
 
-export default function ReserveListPage() {
+export default function Page() {
   return (
     <>
       <Helmet>
-        <title> 예약 승인 리스트</title>
+        <title> HANSPACE: 기관 추가하기 </title>
       </Helmet>
 
-      <ReserveListView />
+      <DepartmentView />
     </>
   );
 }
