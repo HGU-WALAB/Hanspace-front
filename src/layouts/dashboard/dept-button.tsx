@@ -25,11 +25,11 @@ import { set } from 'nprogress';
 import Logo from 'src/components/logo';
 // ----------------------------------------------------------------------
 
-const OPTIONS = ['HASPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
+const OPTIONS = ['HANSPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
 
 const COLORS = ['primary', 'secondary', 'info', 'success'];
 
-const TITLE = 'HASPACE';
+const TITLE = 'HANSPACE';
 
 const DeptButton = styled.div`
   display: flex;
