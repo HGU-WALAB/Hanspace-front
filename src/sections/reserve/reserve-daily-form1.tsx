@@ -28,6 +28,7 @@ import FormProvider from 'src/components/hook-form';
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
 import { TextField, TextFieldProps } from '@mui/material';
+import RowRadioButtonsGroup from './reserve-radio';
 
 // ———————————————————————————————————
 export const defaultValues = {
@@ -40,9 +41,11 @@ export const defaultValues = {
 };
 interface ReserveForm1Props {
   handleDailyReserveInfo: (data: any) => void;
+  selectedValue: string;
+  handleRadioChange: (data: string) => void;
 }
 
-export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveForm1Props) {
+export default function ReserveDailyForm1({ handleDailyReserveInfo, selectedValue, handleRadioChange }: ReserveForm1Props) {
   // const settings = useSettingsContext();
 
   // const { data: spaces } = useQuery(
@@ -134,13 +137,19 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
 
   return (
     <Box>
-      <Typography variant="h6" color="primary" sx={{ marginBottom: '20px' }}>
+      <Typography variant="h6" color="primary" sx={{ mb: 5 }}>
         예약 가능한 공간 조회하기
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            <div style={{ marginRight: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
               <DemoContainer components={['DatePicker', 'DatePicker']}>
                 <DatePicker
                   label="예약 날짜"
@@ -148,18 +157,9 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
                   onChange={(newValue) => {
                     setDate(newValue);
                   }}
-                  sx={{ width: '200px' }}
+                  sx={{ width: '200px', mr: 3 }}
                 />
               </DemoContainer>
-            </div>
-            <div
-              style={{
-                marginRight: '10px',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
               <DesktopTimePicker
                 label="예약 시작 시간"
                 value={methods.watch('startTime') || defaultDayjs}
@@ -180,25 +180,26 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo }: ReserveFor
               <Fab
                 size="small"
                 color="primary"
-                aria-label="add"
+                aria-label="minus"
                 sx={{ ml: 2, mr: 3 }}
                 onClick={handleMinusClick}
                 disabled={halfTime <= 0}
               >
                 <MinusIcon />
               </Fab>
-              <Typography variant="subtitle1">{halfTime} 분 추가</Typography>
+              <Typography variant="subtitle1">{halfTime} 분 사용</Typography>
               <Fab
                 size="small"
                 color="primary"
-                aria-label="minus"
+                aria-label="add"
                 sx={{ ml: 3 }}
                 onClick={handlePlusClick}
-                disabled={halfTime >= 180}
+                disabled={halfTime >= 180 || startTime === ''}
               >
                 <AddIcon />
               </Fab>
             </div>
+            <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
           </div>
         </LocalizationProvider>
       </FormProvider>
