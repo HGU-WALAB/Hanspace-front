@@ -145,7 +145,7 @@ export default function DepartmentForm() {
               onDelete={() => setValue('logo', '', { shouldValidate: true })}
             />
         </Div>  
-        <Div>
+        {/* <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>테마 색상 *</Typography>
             <FormControl>
             <RHFSelect
@@ -158,7 +158,7 @@ export default function DepartmentForm() {
                 <MenuItem value="black">검정색</MenuItem>
             </RHFSelect>
             </FormControl>
-        </Div>
+        </Div> */}
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 즉시 입장 여부 *</Typography>
             <FormControlLabel 

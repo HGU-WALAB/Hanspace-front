@@ -123,11 +123,11 @@ export default function DepartmentInfoForm() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사이트 이름 *</Typography>
-            <RHFTextField name="siteName" label="사이트 이름을 입력해주세요." sx={{ width: '280px'}}/>
+            <RHFTextField name="siteName" label="설정된 사이트 이름" sx={{ width: '280px'}}/>
         </Div>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>기관 이름 *</Typography>
-            <RHFTextField name="deptName" label="기관 이름을 입력해주세요." sx={{ width: '280px'}}/>
+            <RHFTextField name="deptName" label="설정된 기관 이름" sx={{ width: '280px'}}/>
         </Div>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1 , mr: 4 }}>로고 사진 *</Typography>
@@ -139,6 +139,10 @@ export default function DepartmentInfoForm() {
             />
         </Div>  
         <Div>
+            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>기관 URL *</Typography>
+            <RHFTextField name="link" label="설정된 기관 URL" sx={{ width: '280px'}} disabled/>
+        </Div>
+        {/* <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>테마 색상 *</Typography>
             <FormControl>
             <RHFSelect
@@ -151,7 +155,7 @@ export default function DepartmentInfoForm() {
                 <MenuItem value="black">검정색</MenuItem>
             </RHFSelect>
             </FormControl>
-        </Div>
+        </Div> */}
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 즉시 입장 여부 *</Typography>
             <FormControlLabel 
@@ -164,7 +168,7 @@ export default function DepartmentInfoForm() {
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 최대 예약 가능 날짜 *</Typography>
             <RHFTextField 
               name="maxRserveCount" 
-              label="사용 인원을 입력해주세요." 
+              label="최대 예약 가능 날짜를 설정해주세요" 
               sx={{ width: '280px'}} 
               type="number"
               onChange={(newValue) => {
@@ -186,18 +190,18 @@ export default function DepartmentInfoForm() {
     </Box>
     <Box        
       sx={{
-      mt: 5,
+      mt: 10,
       width: 0.5,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     }}> 
     {logoImagePreview ? 
-      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
     :
-      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '300px', marginTop: '50px' }}>
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5}}>
         수정하기
       </Button>
     </Box>
