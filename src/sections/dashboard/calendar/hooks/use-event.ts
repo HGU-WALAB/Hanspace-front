@@ -24,6 +24,8 @@ export default function useEvent(
       allDay: false,
       start: selectedRange ? selectedRange.start : new Date().getTime(),
       end: selectedRange ? selectedRange.end : new Date().getTime(),
+      textColor: '', // ex
+      invite: false, // ex
     }),
     [selectedRange]
   );

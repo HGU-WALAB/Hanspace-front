@@ -28,6 +28,8 @@ export type ICalendarEvent = {
   description: string;
   end: ICalendarDate;
   start: ICalendarDate;
+  textColor: string;
+  invite: boolean;
 };
 
 export type UCalendarEvent = {
@@ -38,5 +40,4 @@ export type UCalendarEvent = {
   description: string;
   end: ICalendarDate;
   start: ICalendarDate;
-  colorText: string;
 };

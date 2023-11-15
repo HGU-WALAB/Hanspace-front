@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import { paths } from 'src/routes/paths';
 import styled from 'styled-components';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
-import AdminCalendarView from './calendar/view/admin-calendar-view';
+// import AdminCalendarView from './calendar/view/admin-calendar-view';
 
 // ----------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ export default function AdminDashboardView() {
 
         {/* 2번째  */}
         <Grid xs={12} md={12} lg={12}>
-          <AdminCalendarView />
+          {/* <AdminCalendarView /> */}
         </Grid>
       </Grid>
 
