@@ -192,11 +192,11 @@ export default function DepartmentForm() {
       alignItems: 'center',
     }}> 
     {logoImagePreview ? 
-      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: '450px', width: '60%' }} />)
     :
-      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '450px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '300px', marginTop: '50px' }}>
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5 }}>
         대여하기
       </Button>
     </Box>

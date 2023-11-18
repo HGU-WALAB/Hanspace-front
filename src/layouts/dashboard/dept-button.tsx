@@ -23,9 +23,10 @@ import styled from '@emotion/styled';
 import { paths } from 'src/routes/paths';
 import { set } from 'nprogress';
 import Logo from 'src/components/logo';
+import { strlen } from 'stylis';
 // ----------------------------------------------------------------------
 
-const OPTIONS = ['HANSPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
+const OPTIONS = ['HANSPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀', '기관 추가하기'];
 
 const COLORS = ['primary', 'secondary', 'info', 'success'];
 
@@ -81,8 +82,12 @@ export default function DeptHeaderButton() {
       // setOpenList(null);
       handleClose();
       if (index === 0) {
-        window.location.replace(paths.hanspace.root);
-      } else {
+        window.location.replace(paths.hanspace.root); // hanspace
+      } 
+      else if (index === OPTIONS.length - 1){ // add department
+        window.location.replace(paths.hanspace.dept);
+      }
+      else {
         window.location.href = paths.dept.dashboard(OPTIONS[index]);
       }
     },

@@ -179,10 +179,6 @@ export default function DepartmentInfoForm() {
             />
         </Div>
         {/* <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>URL 이름 *</Typography>
-            <RHFTextField name="link" label="URL 이름을 입력해주세요." sx={{ width: '280px'}}/>
-        </Div> */}
-        {/* <Div>
           <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>추가 정보</Typography>
           <DynamicTextField onUpdateExtraInfo={updateExtraInfo}/>
         </Div> */}
@@ -201,7 +197,7 @@ export default function DepartmentInfoForm() {
     :
       (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5}}>
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5 }}>
         수정하기
       </Button>
     </Box>
