@@ -75,13 +75,21 @@ export default function DeptHeaderButton() {
     setOpenList(event.currentTarget);
   }, []);
 
+  const handleGOMain = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      handleClose();
+      setMenuOpen('HANSPACE');
+      window.location.replace(paths.hanspace.root);
+    },
+    [handleClose, setMenuOpen]
+  );
+
   const handleMenuItemClick = useCallback(
     (event: React.MouseEvent<HTMLElement>, index: number) => {
       setSelectedIndex(index);
       setSelectedIndex(index);
       setDeptUrl(OPTIONS[index]);
       setMenuOpen(OPTIONS[index]);
-      // setOpenList(null);
       handleClose();
       window.location.href = paths.dept.dashboard(OPTIONS[index]);
     },
@@ -134,7 +142,7 @@ export default function DeptHeaderButton() {
         <MenuItem
           key="HANSPACE"
           selected={selectedIndex === 0}
-          onClick={(event) => handleGOAddDept(event)}
+          onClick={(event) => handleGOMain(event)}
         >
           <DeptButton>
             <Rows>
