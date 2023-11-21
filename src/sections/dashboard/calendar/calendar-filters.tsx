@@ -212,7 +212,7 @@ export default function CalendarFilters({
         backdrop: { invisible: true },
       }}
       PaperProps={{
-        sx: { width: 320 },
+        sx: { width: '23vw' },
       }}
     >
       {renderHead}
