@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
 import Autocomplete from "@mui/material/Autocomplete";
 import Grid from '@mui/material/Grid';
+import { DatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -27,7 +28,9 @@ import FormProvider , {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
+import Image from 'src/components/image';
 import ReserveSuccessDialog from './reserve-dialog';
+
 
 const emailInfo = [
   { email: "22100595@handong.ac.kr" },
@@ -54,6 +57,7 @@ interface ReserveDailyForm2Props {
       // headCount: number; // 예상되는 데이터 타입에 따라 수정
       spaceId: number; // 예상되는 데이터 타입에 따라 수정
       spaceName: string;
+      spaceImage: string;
     };
     open: boolean;
     onClose: () => void;
@@ -75,7 +79,6 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
         // phoneNumber: '',
         approve: '미승인',
         extraInfoAns: [ ],
-        // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
       };
         const methods = useForm({
           defaultValues
@@ -131,7 +134,7 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
           });
           // 기관이 등록한 extra 요구 정보들을 불러오기
         // const [extraData, setextraData] = useState<string | null>(null);
-        const [extraData, setextraData] = useState<string>("학부, 전화번호")
+        const [extraData, setextraData] = useState<string>("담당 교수님 성함, 사용 인원")
         // useEffect(() => {
         //   // 데이터를 가져오는 함수 정의
         //   const fetchData = async () => {
@@ -157,18 +160,38 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
             setWords(word);
           }
         }, [extraData, words]);
-    
+        const startTimeAsDate = new Date(`1970-01-01T${selectedData.startTime}`);
+        const endTimeAsDate = new Date(`1970-01-01T${selectedData.endTime}`);
+
     return (
         <>
         <Dialog open={open} onClose={onClose}>
           <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
             <DialogContent>
             <Grid container spacing={2}>
-            <Grid item xs={3.5} sx={{ m: 3, mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Typography variant="body1"> 시작 시간 : {selectedData.startTime}</Typography>
-              <Typography variant="body1"> 종료 시간 : {selectedData.endTime}</Typography>
+            <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column' }}>
+              {/* <DatePicker
+                label="예약 날짜"
+                value={selectedData.reserveDate}
+                sx={{ width: '200px', mr: 3 }}
+                readOnly
+              /> */}
+              <Typography variant="body1" sx={{mb: 2}}>선택한 정보</Typography>
+              <DesktopTimePicker
+                label="예약 시작 시간"
+                value={startTimeAsDate}
+                sx={{ margin: '0 0 0 0', width: '180px' }}
+                readOnly
+              />
+              <DesktopTimePicker
+                label="예약 종료 시간"
+                value={endTimeAsDate}
+                sx={{ margin: '15px 0 0 0', width: '180px' }}
+                readOnly
+              />
+              <Image src={selectedData.spaceImage} sx={{ mt: 3, width: 180, height: 150 }} />
             </Grid>
-            <Grid item xs={6.5} sx={{mr: 5}}>
+            <Grid item xs={5} sx={{mr: 5}}>
               <FormProvider methods={methods} onSubmit={onSubmit}>
               <Stack spacing={2}>
                 <Typography variant="body1">목적 *</Typography>
@@ -189,19 +212,19 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
                   <TextField
                     {...params}
                     variant="standard"
-                    label="장소 예약을 공유할 사람의 이메일을 선택해주세요"
+                    label="예약을 공유할 사람의 이메일을 선택해주세요"
                     placeholder="Email"
-                    sx={{ width: '300px' }}
+                    sx={{ width: '280px' }}
                   />
                 )}
               />
               </Stack>
               <DialogActions>
-                <Button onClick={() => {onClose();}} variant="outlined" color="inherit" sx={{width: 1}}>
+                <Button onClick={() => {onClose();}} variant="outlined" color="inherit" sx={{ width: 1}}>
                   취소
                 </Button>
                 <Button onClick={() => {onSubmit();}} variant="contained" color="primary" sx={{width: 1}}>
-                  대여하기
+                  대여
                 </Button>
               </DialogActions>
               </FormProvider>

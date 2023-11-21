@@ -17,7 +17,7 @@ export default function RowRadioButtonsGroup({ selectedValue, onValueChange }: {
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
-        sx={{ marginLeft: '10px', marginBottom: '5px'}}
+        sx={{ marginLeft: '10px', paddingTop: '16px'}}
         value={selectedValue}
         onChange={handleChange}
       >

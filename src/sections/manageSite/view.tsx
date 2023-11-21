@@ -27,9 +27,9 @@ export default function ManageSiteView() {
         variant="subtitle2"
         noWrap
       >
-        <Button disableRipple variant="outlined" color="primary">
+        {/* <Button disableRipple variant="outlined" color="primary">
           기관 등록하기
-        </Button>
+        </Button> */}
       </Link>
       <DepartmentInfoForm />
     </Container>

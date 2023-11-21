@@ -13,6 +13,7 @@ export type DailyReserveForm2 = {
   endTime: string;
   headCount: number;
   spaceName: string;
+  spaceImage: string;
 };
 
 export type RegularyReserveForm1 = {
@@ -34,6 +35,7 @@ export type RegularyReserveForm2 = {
     headCount: number;
     spaceId: number;
     spaceName: string;
+    spaceImage: string;
   };
 
 export type RegularlyReserveItem = {

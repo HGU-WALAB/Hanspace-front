@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DialogActions from '@mui/material/DialogActions';
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from '@mui/material/TextField';
 // utils
 import uuidv4 from 'src/utils/uuidv4';
 import { fTimestamp } from 'src/utils/format-time';
@@ -22,7 +24,7 @@ import { useSnackbar } from 'src/components/snackbar';
 import { ColorPicker } from 'src/components/color-utils';
 import FormProvider, { RHFTextField, RHFSwitch } from 'src/components/hook-form';
 // types
-import { ICalendarEvent, ICalendarDate } from 'src/types/calendar';
+import { ICalendarDate, ICalendarEvent } from 'src/types/calendar';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +34,25 @@ type Props = {
   currentEvent?: ICalendarEvent;
 };
 
-export default function CalendarForm({ currentEvent, onClose }: Props) {
+const emailInfo = [
+  { email: "22100595@handong.ac.kr" },
+  { email: "22000019@handong.ac.kr" },
+  { email: "22100101@handong.ac.kr" },
+  { email: "22100123@handong.ac.kr" },
+  { email: "22100489@handong.ac.kr" },
+  { email: "22100230@handong.ac.kr" },
+  { email: "21900595@handong.ac.kr" },
+  { email: "22300592@handong.ac.kr" },
+  { email: "21700247@handong.ac.kr" },
+  { email: "21500852@handong.ac.kr" },
+  { email: "22200682@handong.ac.kr" },
+  { email: "21400374@handong.ac.kr" },
+  { email: "21600085@handong.ac.kr" },
+  { email: "22000128@handong.ac.kr" }
+]; // email data
+
+
+export default function CalendarUForm({ currentEvent, onClose }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
@@ -171,6 +191,25 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
             />
           )}
         /> */}
+        {currentEvent?.invite && (
+        <Autocomplete
+          multiple
+          id="tags-standard"
+          options={emailInfo}
+          getOptionLabel={(option) => option.email}
+          defaultValue={[]}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="standard"
+              label="장소 예약을 공유할 사람의 이메일을 선택해주세요"
+              placeholder="Email"
+              sx={{ width: '300px' }}
+            />
+          )}
+          sx={{ml: 0.5}}
+        />
+        )}
       </Stack>
 
       <DialogActions>

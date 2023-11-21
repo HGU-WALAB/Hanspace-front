@@ -22,31 +22,33 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
 import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
+import { palette as themePalette } from 'src/theme/palette';
 // api
 import { useGetEvents, updateEvent } from 'src/api/calendar';
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
-import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent, ICalendarDate } from 'src/types/calendar';
+import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
 import { useCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
-import CalendarForm from '../calendar-form';
+import CalendarUForm from '../calendar-uform';
 import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
 import CalendarFiltersResult from '../calendar-filters-result';
 
-interface UserCalendarEvent {
-  id: string;
-  allDay: boolean;
-  color: string;
-  description: string;
-  start: ICalendarDate;
-  end: ICalendarDate;
-  textColor: string;
-  title: string;
-} // ex
+// interface UserCalendarEvent {
+//   id: string;
+//   allDay: boolean;
+//   color: string;
+//   description: string;
+//   start: ICalendarDate;
+//   end: ICalendarDate;
+//   textColor: string;
+//   title: string;
+//   invite: boolean; // 초대받은 일정인지
+// } // ex
 // ----------------------------------------------------------------------
 
 const defaultFilters: ICalendarFilters = {
@@ -54,97 +56,95 @@ const defaultFilters: ICalendarFilters = {
   startDate: null,
   endDate: null,
 };
-
-const eventsData: UserCalendarEvent[] = [ // ex
+const palette = themePalette('light');
+const eventsData: ICalendarEvent[] = [ // ex
   {
     id: "1",
     allDay: false,
-    color: "#00A76F",
+    color: palette.secondary.main,
     description: "공프기 마감 작업 회의 진행 예정",
     start: new Date('2023.11.23 11:00:00').getTime(),
     end: new Date('2023.11.23 14:30:00').getTime(),
-    textColor: "#00A76F",
-    title: "뉴턴 310호",
+    textColor: palette.secondary.main,
+    title: "뉴턴 210호",
+    invite: true,
   },
   {
     id: "2",
     allDay: false,
-    color: "#00B8D9",
+    color: palette.secondary.main,
     description: "학합 연습 진행 예정, 인원은 25명 예상",
-    start: new Date('2023.11.01 19:00:00').getTime(),
+    start: new Date('2023.11.04 19:00:00').getTime(),
     end: new Date('2023.11.04 22:00:00').getTime(),
-    textColor: "#00B8D9",
+    textColor: palette.secondary.main,
     title: "뉴턴 210호",
+    invite: true,
   },
   {
     id: "3",
     allDay: false,
-    color: "#41CF41",
+    color: palette.info.main,
     description: "비즈플로우 대표님과 식사자리 마련",
     start: new Date('2023.11.12 20:00:00').getTime(),
     end: new Date('2023.11.12 21:30:00').getTime(),
-    textColor: "#41CF41",
+    textColor: palette.info.main,
     title: "뉴턴 220호",
+    invite: false,
   },
   {
     id: "4",
     allDay: false,
-    color: "#FFAB00",
+    color: palette.success.main,
     description: "실전프로젝트1 특별 수업 진행",
     start: new Date('2023.11.20 22:00:00').getTime(),
     end: new Date('2023.11.20 23:30:00').getTime(),
-    textColor: "#FFAB00",
+    textColor: palette.success.main,
     title: "뉴턴 319호",
+    invite: false,
   },
   {
     id: "5",
     allDay: false,
-    color: "#003768",
+    color: palette.error.main,
     description: "실전프로젝트1 특별 수업 진행",
     start: new Date('2023.11.26 19:00:00').getTime(),
     end: new Date('2023.11.26 20:30:00').getTime(),
-    textColor: "#003768",
+    textColor: palette.error.main,
     title: "뉴턴 113호",
+    invite: false,
   },
   {
     id: "6",
     allDay: false,
-    color: "#00A76F",
+    color: palette.secondary.main,
     description: "실전프로젝트1 특별 수업 진행",
     start: new Date('2023.11.07 21:00:00').getTime(),
-    end: new Date('2023.11.08 22:30:00').getTime(),
-    textColor: "#00A76F",
-    title: "뉴턴 310호",
+    end: new Date('2023.11.07 22:30:00').getTime(),
+    textColor: palette.secondary.main,
+    title: "뉴턴 210호",
+    invite: true,
   },
   {
     id: "7",
     allDay: false,
-    color: "#CEF377",
+    color: palette.success.main,
     description: "실전프로젝트1 특별 수업 진행",
     start: new Date('2023.11.09 20:00:00').getTime(),
-    end: new Date('2023.11.11 21:30:00').getTime(),
-    textColor: "#CEF377",
-    title: "뉴턴 219호",
+    end: new Date('2023.11.09 21:30:00').getTime(),
+    textColor: palette.success.main,
+    title: "뉴턴 319호",
+    invite: true,
   },
   {
     id: "8",
     allDay: false,
-    color: "#C958E8",
+    color: palette.error.main,
     description: "캡스톤 디자인 회의",
     start: new Date('2023.11.28 21:00:00').getTime(),
-    end: new Date('2023.11.29 22:30:00').getTime(),
-    textColor: "#C958E8",
-    title: "뉴턴 412호",
-  },
-  {
-    id: "9",
-    allDay: false,
-    color: "#C958E8",
-    description: "실전프로젝트1 특별 수업 진행",
-    start: new Date('2023.11.15 21:00:00').getTime(),
-    end: new Date('2023.11.15 22:30:00').getTime(),
-    textColor: "#C958E8",
-    title: "뉴턴 412호",
+    end: new Date('2023.11.28 22:30:00').getTime(),
+    textColor: palette.error.main,
+    title: "뉴턴 113호",
+    invite: true,
   },
 ];
 
@@ -328,7 +328,7 @@ export default function UserCalendarView() {
           {openForm && <> {currentEvent?.id ? '일정 확인하기' : '일정 추가하기'}</>}
         </DialogTitle>
 
-        <CalendarForm
+        <CalendarUForm
           currentEvent={currentEvent}
           // colorOptions={CALENDAR_COLOR_OPTIONS}
           onClose={onCloseForm}

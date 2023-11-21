@@ -23,6 +23,7 @@ import styled from '@emotion/styled';
 import { paths } from 'src/routes/paths';
 import { set } from 'nprogress';
 import Logo from 'src/components/logo';
+import { strlen } from 'stylis';
 // ----------------------------------------------------------------------
 
 const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
@@ -91,7 +92,7 @@ export default function DeptHeaderButton() {
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
       setMenuOpen('HANSPACE');
-      window.location.replace(paths.hanspace.root);
+      window.location.replace(paths.hanspace.dept);
     },
     [handleClose, setMenuOpen]
   );
