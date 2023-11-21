@@ -38,7 +38,6 @@ export default function SpaceList({ spaces }: Props) {
   const handleEdit = useCallback((space: EXSpaceItem) => {
     setCurrentSpace(space);
     setIsEditDialogOpen(true);
-    console.log('space', space);
   }, []);
 
   const handleCloseEditDialog = () => {

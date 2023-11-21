@@ -87,7 +87,6 @@ export default function DeptHeaderButton() {
   const handleMenuItemClick = useCallback(
     (event: React.MouseEvent<HTMLElement>, index: number) => {
       setSelectedIndex(index);
-      setSelectedIndex(index);
       setDeptUrl(OPTIONS[index]);
       setMenuOpen(OPTIONS[index]);
       handleClose();
