@@ -97,7 +97,7 @@ export function useNavData() {
                 title: '사용자 관리',
                 path: paths.dept.management.manageUser(url),
               },
-              { title: '사이트 관리', path: paths.dept.management.manageSite(url) },
+              { title: '기관 관리', path: paths.dept.management.manageSite(url) },
             ],
           },
         ],

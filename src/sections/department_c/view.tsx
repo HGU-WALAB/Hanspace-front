@@ -1,15 +1,19 @@
 // @mui
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { alpha } from '@mui/material/styles';
+// components
+import { useSettingsContext } from 'src/components/settings';
 
 import DepartmentForm from './dept-form';
 
 export default function DepartmentView() {
+  const settings = useSettingsContext();
 
   return (
-    <>
-    <Typography variant="h5"> 기관 추가하기 </Typography>
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+    <Typography variant="h4"> 기관 추가하기 </Typography>
     {/* <Box
         sx={{
           mt: 5,
@@ -24,7 +28,7 @@ export default function DepartmentView() {
       > */}
         <DepartmentForm />
       {/* </Box> */}
-    </>
+    </Container>
   );
 
 }

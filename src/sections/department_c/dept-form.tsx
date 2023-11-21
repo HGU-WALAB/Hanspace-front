@@ -145,7 +145,7 @@ export default function DepartmentForm() {
               onDelete={() => setValue('logo', '', { shouldValidate: true })}
             />
         </Div>  
-        <Div>
+        {/* <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>테마 색상 *</Typography>
             <FormControl>
             <RHFSelect
@@ -158,7 +158,7 @@ export default function DepartmentForm() {
                 <MenuItem value="black">검정색</MenuItem>
             </RHFSelect>
             </FormControl>
-        </Div>
+        </Div> */}
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 즉시 입장 여부 *</Typography>
             <FormControlLabel 
@@ -192,11 +192,11 @@ export default function DepartmentForm() {
       alignItems: 'center',
     }}> 
     {logoImagePreview ? 
-      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: '450px', width: '60%' }} />)
     :
-      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: 1, width: '60%' }} />)
+      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '450px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '300px', marginTop: '50px' }}>
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5 }}>
         대여하기
       </Button>
     </Box>
