@@ -25,7 +25,7 @@ import FormProvider, {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
@@ -35,26 +35,27 @@ import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
-export const defaultValues = {
-  deptId: 0,
-  name: '',
-  headCount: 0,
-  availableStart: '',
-  availableEnd: '',
-  detail: '',
-  availability: true,
-  // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
-  //
-};
-
 type SpaceEditDialogProps = {
   open: boolean;
   onClose: () => void;
-  space?: EXSpaceItem | null; // if you want to pass the space being edited
+  currentSpace?: EXSpaceItem | null; // if you want to pass the space being edited
 };
 
-export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialogProps) {
+export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEditDialogProps) {
   const dialog = useBoolean();
+
+  const defaultValues = useMemo(
+    () => ({
+      deptId: 0,
+      name: currentSpace?.name || '',
+      headCount: currentSpace?.headCount || 0,
+      availableStart: currentSpace?.availableStart || '',
+      availableEnd: currentSpace?.availableEnd || '',
+      detail: currentSpace?.detail || '',
+      availability: currentSpace?.availability || true,
+    }),
+    [currentSpace]
+  );
 
   const methods = useForm({
     resolver: yupResolver(FormSchema),
@@ -102,13 +103,22 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
   //   [setValue]
   // );
 
+  const startTime = new Date();
+  const endTime = new Date();
+
+  const startString = currentSpace?.availableStart;
+  const endString = currentSpace?.availableEnd;
+
+  if (startString && endString) {
+    const [shour, smin] = startString.split(':').map((s) => parseInt(s, 10));
+    const [ehour, emin] = endString.split(':').map((e) => parseInt(e, 10));
+
+    startTime.setHours(shour, smin, 0);
+    endTime.setHours(ehour, emin, 0);
+  }
+
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      {/* <Button variant="outlined" color="primary" onClick={dialog.onTrue}>
-        + 장소 추가
-      </Button> */}
-
-      {/* <Dialog open={dialog.value} onClose={dialog.onFalse}> */}
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>장소 정보 수정</DialogTitle>
 
@@ -121,18 +131,13 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
             {/* 지워야함 이거  */}
             <RHFTextField name="deptId" label="deptId" type="number" />
 
-            <RHFTextField name="name" label="장소명" value={space?.name} />
+            <RHFTextField name="name" label="장소명" />
 
-            <RHFTextField
-              name="headCount"
-              label="수용 가능 인원"
-              type="number"
-              value={space?.headCount}
-            />
+            <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
 
             <DesktopTimePicker
               label="예약가능 시작시간"
-              value={methods.watch('availableStart')}
+              value={startTime}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);
@@ -142,13 +147,12 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
                     hour12: false,
                   });
                   setValue('availableStart', formattedTime);
-                  console.log(formattedTime);
                 }
               }}
             />
             <DesktopTimePicker
               label="예약가능 끝시간"
-              value={methods.watch('availableEnd')}
+              value={endTime}
               onChange={(newValue) => {
                 if (newValue !== null) {
                   const dateObject = new Date(newValue);
@@ -163,9 +167,9 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
               }}
             />
 
-            <RHFTextField name="detail" label="detail" value={space?.detail} />
+            <RHFTextField name="detail" label="추가 정보" />
 
-            <RHFSwitch name="availability" label="availability" />
+            <RHFSwitch name="availability" label="사용 가능 여부" />
 
             {/* <Block label="RHFUpload"> */}
             {/* <RHFUpload
@@ -188,7 +192,7 @@ export default function SpaceEditDialog({ open, onClose, space }: SpaceEditDialo
             }}
             variant="contained"
           >
-            추가하기
+            수정하기
           </Button>
         </DialogActions>
       </Dialog>
