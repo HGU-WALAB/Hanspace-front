@@ -16,7 +16,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DeptUrlState, selectedIndexState } from 'src/stores/atom';
+import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/stores/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
@@ -25,11 +25,9 @@ import { set } from 'nprogress';
 import Logo from 'src/components/logo';
 // ----------------------------------------------------------------------
 
-const OPTIONS = ['HANSPACE', 'CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
+const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
 
-const COLORS = ['primary', 'secondary', 'info', 'success'];
-
-const TITLE = 'HANSPACE';
+const COLORS = ['secondary', 'info', 'success'];
 
 const DeptButton = styled.div`
   display: flex;
@@ -60,6 +58,9 @@ export default function DeptHeaderButton() {
 
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
 
+  const [menuOpen, setMenuOpen] = useRecoilState<string>(DeptNameState);
+  console.log('menuOpen', menuOpen);
+
   const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   }, []);
@@ -78,24 +79,21 @@ export default function DeptHeaderButton() {
       setSelectedIndex(index);
       setSelectedIndex(index);
       setDeptUrl(OPTIONS[index]);
+      setMenuOpen(OPTIONS[index]);
       // setOpenList(null);
       handleClose();
-      if (index === 0) {
-        window.location.replace(paths.hanspace.root);
-      } else {
-        window.location.href = paths.dept.dashboard(OPTIONS[index]);
-      }
+      window.location.href = paths.dept.dashboard(OPTIONS[index]);
     },
-    [handleClose, setDeptUrl, setSelectedIndex]
+    [handleClose, setDeptUrl, setSelectedIndex, setMenuOpen]
   );
 
   const handleGOAddDept = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
-
+      setMenuOpen('HANSPACE');
       window.location.replace(paths.hanspace.root);
     },
-    [handleClose]
+    [handleClose, setMenuOpen]
   );
 
   return (
@@ -111,15 +109,18 @@ export default function DeptHeaderButton() {
             primary={
               <DeptButton>
                 <Rows>
-                  {/* <Avatar
-                    alt="A"
-                    color={COLORS[selectedIndex]}
-                    style={{ height: '30px', width: '30px', fontSize: '16px' }}
-                  >
-                    {OPTIONS[selectedIndex].charAt(0)}
-                  </Avatar> */}
-                  <Logo />
-                  {OPTIONS[selectedIndex]}
+                  {selectedIndex === 0 ? (
+                    <Logo />
+                  ) : (
+                    <Avatar
+                      alt="A"
+                      color={COLORS[selectedIndex]}
+                      style={{ height: '30px', width: '30px', fontSize: '16px' }}
+                    >
+                      {OPTIONS[selectedIndex].charAt(0)}
+                    </Avatar>
+                  )}
+                  {menuOpen}
                 </Rows>
                 <ArrowDropDownIcon />
               </DeptButton>
@@ -129,6 +130,18 @@ export default function DeptHeaderButton() {
       </List>
 
       <Menu id="lock-menu" anchorEl={isOpenList} onClose={handleClose} open={Boolean(isOpenList)}>
+        <MenuItem
+          key="HANSPACE"
+          selected={selectedIndex === 0}
+          onClick={(event) => handleGOAddDept(event)}
+        >
+          <DeptButton>
+            <Rows>
+              <Logo />
+              HANSPACE
+            </Rows>
+          </DeptButton>
+        </MenuItem>
         {OPTIONS.map((option, index) => (
           <MenuItem
             key={option}

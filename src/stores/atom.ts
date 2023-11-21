@@ -31,6 +31,12 @@ export const DeptIdState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const DeptNameState = atom({
+  key: 'DeptNameState',
+  default: 'HANSPACE',
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const selectedIndexState = atom({
   key: 'selectedIndexState',
   default: 0,
