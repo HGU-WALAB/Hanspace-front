@@ -37,6 +37,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
+import RowRadioButtonsGroup from "./reserve-radio";
 
 const DayButton = styled.button`
     width: 31px;
@@ -60,9 +61,11 @@ export const defaultValues = {
 };
 interface ReserveForm1Props {
   handleRegularlyReserveInfo: (data: any) => void;
+  selectedValue: string;
+  handleRadioChange: (data: string) => void;
 }
 
-export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: ReserveForm1Props) {
+export default function ReserveRegularyForm1({ handleRegularlyReserveInfo, selectedValue, handleRadioChange }: ReserveForm1Props) {
     // const settings = useSettingsContext();
 
     // const { data: spaces } = useQuery(
@@ -194,45 +197,40 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
 
     return (
         <Box>
-        <Typography variant="h6" color="primary" sx={{marginBottom: '20px'}}> 
+        <Typography variant="h6" color="primary" sx={{ mb: 5 }}> 
           예약 가능한 공간 조회하기
         </Typography>
         <FormProvider methods={methods}>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div style={{ marginRight: '5px' }}>
-              {/* <Typography variant="subtitle2">시작 일 *</Typography> */}
-              <DemoContainer components={['DatePicker', 'DatePicker']} >
-                <DatePicker
-                  value={startDate}
-                  onChange={(newValue) => {
-                    setstartDate(newValue);
-                  }}
-                  sx={{ width: '160px'}}
-                  label='시작 일'
-                />
-              </DemoContainer>
-            </div>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <div style={{ marginRight: '5px' }}>
-                {/* <Typography variant="subtitle2">종료 일 *</Typography> */}
-                <DemoContainer components={['DatePicker', 'DatePicker']}>
-                  <DatePicker
-                    value={endDate}
-                    onChange={(newValue) => {
-                      setendDate(newValue);
-                    }}
-                    sx={{ width: '160px'}}
-                    label='종료 일'
-                  />
-                </DemoContainer>
-              </div>
-            </LocalizationProvider>
-          </div>
-          <div style={{ marginRight: '5px', marginTop: '12px'}}>
-            {/* <Typography variant="subtitle2" sx={{ margin: '0 0 12px 0' }}>요일 *</Typography> */}
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker', 'DatePicker']} >
+              <DatePicker
+                value={startDate}
+                onChange={(newValue) => {
+                  setstartDate(newValue);
+                }}
+                sx={{ width: '160px', mr: 1}}
+                label='시작 일'
+              />
+            </DemoContainer>
+            <DemoContainer components={['DatePicker', 'DatePicker']}>
+              <DatePicker
+                value={endDate}
+                onChange={(newValue) => {
+                  setendDate(newValue);
+                }}
+                sx={{ width: '160px', mr: 1}}
+                label='종료 일'
+              />
+            </DemoContainer>
+          </LocalizationProvider>
             <DayButton type="button" onClick={toggleAllDays} style={{ width: '40px' }}>
                 전체
             </DayButton>
@@ -250,11 +248,6 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                 {day}
                 </DayButton>
             ))}
-          </div>
-          {/* </div>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}> */}
-          <div style={{ marginRight: '5px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            {/* <Typography variant="subtitle2">이용 시간 *</Typography> */}
             <DesktopTimePicker
                 label="예약 시작 시간"
                 value={methods.watch('startTime') || defaultDate}
@@ -266,91 +259,34 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo }: Res
                         minute: '2-digit',
                         hour12: false,
                     });
-                    // setValue('availableStart', formattedTime);
                     setstartTime(formattedTime);
-                    // console.log(formattedTime);
                     }
                 }}
                 sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
             />
-            {/* <DesktopTimePicker
-                label="예약 끝 시간"
-                value={methods.watch('endTime') || defaultDate}
-                onChange={(newValue) => {
-                    if (newValue !== null) {
-                    const dateObject = new Date(newValue);
-                    const formattedTime = dateObject.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false,
-                    });
-                    // setValue('availableEnd', formattedTime);
-                    setendTime(formattedTime);
-                    // console.log(formattedTime);
-                    }
-                }}
-                sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
-                /> */}
-            <Fab size="small" color="primary" aria-label="add" sx={{ml: 2, mr: 3}} onClick={handleMinusClick} disabled={halfTime<=0}>
-              <MinusIcon />
-            </Fab>
-            <Typography variant="subtitle1"> {halfTime} 분 추가</Typography>
-            <Fab size="small" color="primary" aria-label="minus" sx={{ml: 3}} onClick={handlePlusClick} disabled={halfTime >= 180}>
-              <AddIcon />
-            </Fab>
-          </div>
-          {/* <div style={{ marginRight: '5px' }}>
-            <Typography variant="subtitle2">사용 인원 *</Typography>
-            <RHFTextField 
-              name="headCount" 
-              label="사용 인원을 입력해주세요." 
-              sx={{ margin: '8.5px 10px 0 0', width: '160px'}} 
-              type="number"
-              onChange={(newValue) => {
-                const numericValue = parseFloat(newValue.target.value);
-                setheadCount(numericValue);
-              }}
-              value={headCount}
-            />
-          </div> */}
-        {/* <FormControl fullWidth>
-          <InputLabel>수용 인원</InputLabel>
-          <Select
-            // labelId="demo-simple-select-label"
-            // id="demo-simple-select"
-            name="headCount"
-            label="headCount"
-            onChange={handlePersonneleChange}
-            sx={{ width: '280px'}}
-          >
-            <MenuItem value={10}>10명 이상</MenuItem>
-            <MenuItem value={20}>20명 이상</MenuItem>
-            <MenuItem value={30}>30명 이상</MenuItem>
-          </Select>
-        </FormControl> */}
-            {/* <Box sx={{ minWidth: 120 }}>
-            <Text>이용 공간 *</Text>
-            <FormControl fullWidth>
-            <InputLabel>이용 공간</InputLabel>
-                <Select
-                name="spaceId"
-                label="spaceId"
-                onChange={handleSpaceChange}
-                sx={{ width: '280px'}}
-                > 
-                {spaces && spaces.map((space: any) => (
-                <MenuItem key={space?.spaceId} value={space?.spaceId}>
-                    {space?.name}
-                </MenuItem>
-                ))}
-                </Select>
-            </FormControl>
-            </Box> */}
-            {/* <div style={{ flexGrow: 0.5 }}>
-              <Button onClick={handleNextClick} variant="contained" color="primary" disabled={isSubmitting} sx={{ marginTop: '40px' }}>
-                장소 찾기
-              </Button>
-            </div> */}
+              <Fab
+                size="small"
+                color="primary"
+                aria-label="minus"
+                sx={{ ml: 2, mr: 3 }}
+                onClick={handleMinusClick}
+                disabled={halfTime <= 0}
+              >
+                <MinusIcon />
+              </Fab>
+              <Typography variant="subtitle1">{halfTime} 분 사용</Typography>
+              <Fab
+                size="small"
+                color="primary"
+                aria-label="add"
+                sx={{ ml: 3 }}
+                onClick={handlePlusClick}
+                disabled={halfTime >= 180 || startTime === ''}
+              >
+                <AddIcon />
+              </Fab>
+            </div>
+            <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
         </div>
         </FormProvider>
       </Box>

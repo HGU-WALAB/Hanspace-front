@@ -171,6 +171,7 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       // headCount: selectedData.headCount,
       spaceId: space.spaceId,
       spaceName: space.name,
+      spaceImage: space.image,
     };
     // console.log('sendSelectedData', sendSelectedData);
     handleModalControl(sendSelectedData);

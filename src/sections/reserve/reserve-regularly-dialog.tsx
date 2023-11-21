@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
+import { DesktopTimePicker } from '@mui/x-date-pickers';
 
 // components
 import { useForm } from 'react-hook-form';
@@ -26,7 +27,9 @@ import FormProvider , {
   RHFMultiCheckbox,
 } from 'src/components/hook-form';
 import dayjs from 'dayjs';
+import Image from 'src/components/image';
 import ReserveSuccessDialog from './reserve-dialog';
+
 
 
 
@@ -40,6 +43,7 @@ interface ReserveRegularlyForm2Props {
         // headCount: number | null;
         spaceId: number | null;
         spaceName: string;
+        spaceImage: string;
     };
     open: boolean;
     onClose: () => void;
@@ -141,7 +145,7 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
           });
           // 기관이 등록한 extra 요구 정보들을 불러오기
         // const [extraData, setextraData] = useState<string | null>(null);
-        const [extraData, setextraData] = useState<string>("학부, 전화번호")
+        const [extraData, setextraData] = useState<string>("담당 교수님 성함, 사용 인원")
         // useEffect(() => {
         //   // 데이터를 가져오는 함수 정의
         //   const fetchData = async () => {
@@ -167,21 +171,32 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
             setWords(word);
           }
         }, [extraData, words]);
-    
+        const startTimeAsDate = new Date(`1970-01-01T${selectedData.startTime}`);
+        const endTimeAsDate = new Date(`1970-01-01T${selectedData.endTime}`);
     return (
       <div>
       <Dialog open={open} onClose={onClose}>
         <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
         <DialogContent>
         <Grid container spacing={2}>
-        <Grid item xs={3.5} sx={{ m: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* <Typography variant="body1"> 시작 날짜 : {selectedData.startDate}</Typography>
-          <Typography variant="body1"> 종료 날짜 : {selectedData.endDate}</Typography> */}
-          <Typography variant="body1"> 시작 시간 : {selectedData.startTime}</Typography>
-          <Typography variant="body1"> 종료 시간 : {selectedData.endTime}</Typography>
-          <Typography variant="body1"> 요일 : {selectedData.week}</Typography>
+        <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="body1" sx={{mb: 2}}>선택한 정보</Typography>
+        <DesktopTimePicker
+          label="예약 시작 시간"
+          value={startTimeAsDate}
+          sx={{ margin: '0 0 0 0', width: '180px' }}
+          readOnly
+        />
+        <DesktopTimePicker
+          label="예약 종료 시간"
+          value={endTimeAsDate}
+          sx={{ margin: '15px 0 0 0', width: '180px' }}
+          readOnly
+        />
+          <Typography variant="body1" sx={{ml: 1}}> 요일 : {selectedData.week}</Typography>
+          <Image src={selectedData.spaceImage} sx={{ mt: 1, width: 180, height: 100 }} />
         </Grid>
-        <Grid item xs={6.5} sx={{mr: 4}}>
+        <Grid item xs={5} sx={{mr: 4}}>
           <FormProvider methods={methods} onSubmit={onSubmit}>
             <Stack spacing={2}>
               <Typography variant="body1">목적 *</Typography>
@@ -198,7 +213,7 @@ export default function RegularlyReserveDialog({ open, onClose, selectedData}: R
                 취소
               </Button>
               <Button onClick={() => {onSubmit();}} variant="contained" color="primary" sx={{width: 1}}>
-                대여하기
+                대여
               </Button>
             </DialogActions>
           </FormProvider>

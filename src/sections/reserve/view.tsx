@@ -126,6 +126,16 @@ const spaces: EXSpaceItem[] = [
 ];
 
 export default function ReserveView() {
+    // space 정보들 API
+  // const { data: spaces } = useQuery(
+  //   ['GetSpace', GetSpace],
+  //   () => GetSpace().then((response) => response.data),
+  //   {
+  //     onSuccess: (data) => {
+  //       console.log('GetSpace', data);
+  //     },
+  //   }
+  // );
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({
     reserveDate: new Date(),
@@ -138,6 +148,7 @@ export default function ReserveView() {
     endTime: '',
     spaceId: 0,
     spaceName: '',
+    spaceImage: '',
   });
   const [selectedRegularyData1, setSelectedRegularyData1] = useState({
     startDate: new Date(),
@@ -154,18 +165,15 @@ export default function ReserveView() {
     endTime: '',
     spaceId: 0,
     spaceName: '',
+    spaceImage: '',
   });
 
-  // space 정보들 API
-  // const { data: spaces } = useQuery(
-  //   ['GetSpace', GetSpace],
-  //   () => GetSpace().then((response) => response.data),
-  //   {
-  //     onSuccess: (data) => {
-  //       console.log('GetSpace', data);
-  //     },
-  //   }
-  // );
+  
+  const [selectedValue, setSelectedValue] = useState('daily');
+
+  const handleRadioChange = (data: string) => {
+    setSelectedValue(data); // 선택한 값을 업데이트
+  };
 
   const handleDailyReserveInfo = (data: DailyReserveForm1) => {
     setSelectedDailyData1(data);
@@ -187,11 +195,6 @@ export default function ReserveView() {
     setSelectedRegularyData2(data);
   };
 
-  const [selectedValue, setSelectedValue] = useState('daily');
-
-  const handleRadioChange = (newValue: string) => {
-    setSelectedValue(newValue); // 선택한 값을 업데이트
-  };
 
   let DailySpaceCradList = null;
 
@@ -213,10 +216,9 @@ export default function ReserveView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
       {selectedValue === 'daily' && (
         <>
-          <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} />
+          <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
           <Box
             gap={3}
             display="grid"
@@ -225,7 +227,7 @@ export default function ReserveView() {
               sm: 'repeat(3, 1fr)',
               md: 'repeat(3, 1fr)',
             }}
-            sx={{ marginTop: '50px' }}
+            sx={{ mt: 2 }}
           >
             {DailySpaceCradList}
             <DailyReserveFormDialog
@@ -238,7 +240,7 @@ export default function ReserveView() {
       )}
       {selectedValue === 'regularly' && (
         <>
-          <ReserveRegularyForm1 handleRegularlyReserveInfo={handleRegularlyReserveInfo} />
+          <ReserveRegularyForm1 handleRegularlyReserveInfo={handleRegularlyReserveInfo} selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
           <Box
             gap={3}
             display="grid"
@@ -247,7 +249,7 @@ export default function ReserveView() {
               sm: 'repeat(3, 1fr)',
               md: 'repeat(3, 1fr)',
             }}
-            sx={{ marginTop: '50px' }}
+            sx={{ mt: 2 }}
           >
             {spaces &&
               spaces.map((space: EXSpaceItem) => (
@@ -267,7 +269,7 @@ export default function ReserveView() {
           </Box>
         </>
       )}
-      {selectedValue === 'csv' && <ReserveCSVForm />}
+      {selectedValue === 'csv' && <ReserveCSVForm selectedValue={selectedValue} handleRadioChange={handleRadioChange} />}
     </Container>
   );
 }
