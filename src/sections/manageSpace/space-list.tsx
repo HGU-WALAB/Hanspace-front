@@ -18,7 +18,6 @@ type Props = {
   spaces: EXSpaceItem[];
 };
 
-
 export default function SpaceList({ spaces }: Props) {
   const router = useRouter();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -89,7 +88,7 @@ export default function SpaceList({ spaces }: Props) {
         <SpaceEditDialog
           open={isEditDialogOpen}
           onClose={handleCloseEditDialog}
-          space={currentSpace}
+          currentSpace={currentSpace}
         />
       )}
     </>

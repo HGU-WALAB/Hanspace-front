@@ -4,4 +4,5 @@ export type IDeptInfo = {
   pplNum: number;
   spaceNum: number;
   image: string;
+  status: number;
 };

@@ -26,7 +26,7 @@ export default function HomeView() {
     >
       <Grid xs={12} md={8}>
         <AppWelcome
-          title={`안녕하세요, ${user?.displayName} 학우님 👋 `}
+          title={`안녕하세요, ${user?.displayName} 👋 `}
           description={`한동메일을 통한 로그인으로 대여 신청이 가능합니다.\nHOME에서 예약 내역 확인과 'Calendar'를 통한 강의실별 예약 현황을 볼 수 있습니다.\n승인된 예약을 통해 강의실을 사용할 수 있으며, 지도 교수 소속 조건 충족 시 대여가 가능합니다.`}
           // img={<SeoIllustration />}
           action={
@@ -36,8 +36,9 @@ export default function HomeView() {
           }
         />
       </Grid>
-      <div style={{ height: '40px' }} />
+      <div style={{ height: '30px' }} />
       <Typography variant="h4"> 전체 기관 리스트 </Typography>
+      <div style={{ height: '10px' }} />
       <DeptList />
     </Container>
   );

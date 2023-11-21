@@ -2,6 +2,13 @@ import { Box, Button, Card, ListItemText, Stack } from '@mui/material';
 import Image from 'src/components/image';
 import { IDeptInfo } from 'src/types/dept';
 
+// 0 입장 가능
+// 1 나의 기관
+// 2 내가 관리자
+// 3 팬딩 중
+
+const BTN_OPTION = ['기관 추가하기', '입장하기', '관리하기', '승인 대기 중'];
+
 export default function DeptCard({ deptInfo }: { deptInfo: IDeptInfo }) {
   const renderImages = (
     <Stack
@@ -60,7 +67,7 @@ export default function DeptCard({ deptInfo }: { deptInfo: IDeptInfo }) {
           },
         }}
       >
-        입장하기
+        {BTN_OPTION[deptInfo.status]}
       </Button>
     </Box>
   );

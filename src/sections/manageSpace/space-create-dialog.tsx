@@ -152,9 +152,9 @@ export default function SpaceCreateDialog() {
               }}
             />
 
-            <RHFTextField name="detail" label="detail" />
+            <RHFTextField name="detail" label="추가 정보" />
 
-            <RHFSwitch name="availability" label="availability" />
+            <RHFSwitch name="availability" label="사용 가능 여부" />
 
             {/* <Block label="RHFUpload"> */}
             {/* <RHFUpload
