@@ -157,11 +157,11 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
         },
         {
           label: `${availableStart} ~ ${availableEnd}`,
-          icon: <Iconify icon="solar:clock-circle-bold" sx={{ color: 'info.main' }} />,
+          icon: <Iconify icon="solar:clock-circle-bold" sx={{ color: 'error.main' }} />,
         },
         {
           label: `${detail}`,
-          icon: <Iconify icon="mingcute:location-fill" sx={{ color: 'error.main' }} />,
+          icon: <Iconify icon="mdi:application-brackets" sx={{ color: 'secondary.main' }} />,
         },
       ].map((item) => (
         <Stack
@@ -197,23 +197,12 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
         <MenuItem
           onClick={() => {
             popover.onClose();
-            onView();
-          }}
-        >
-          <Iconify icon="solar:eye-bold" />
-          View
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
             onEdit();
           }}
         >
           <Iconify icon="solar:pen-bold" />
-          Edit
+          수정하기
         </MenuItem>
-
         <MenuItem
           onClick={() => {
             popover.onClose();
@@ -222,7 +211,7 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
+          삭제하기
         </MenuItem>
       </CustomPopover>
     </>
