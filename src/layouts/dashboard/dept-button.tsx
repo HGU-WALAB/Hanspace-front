@@ -89,6 +89,15 @@ export default function DeptHeaderButton() {
     [handleClose, setDeptUrl, setSelectedIndex]
   );
 
+  const handleGOAddDept = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      handleClose();
+
+      window.location.replace(paths.hanspace.root);
+    },
+    [handleClose]
+  );
+
   return (
     <>
       <List component="nav" aria-label="Device settings">
@@ -140,6 +149,24 @@ export default function DeptHeaderButton() {
             </DeptButton>
           </MenuItem>
         ))}
+        <MenuItem
+          key="기관 추가하기"
+          selected={selectedIndex === 0}
+          onClick={(event) => handleGOAddDept(event)}
+        >
+          <DeptButton>
+            <Rows>
+              <Avatar
+                alt="+"
+                color="primary.pale"
+                style={{ height: '30px', width: '30px', fontSize: '16px' }}
+              >
+                + {/* TODO : 아바타 이후에 수정하기  */}
+              </Avatar>
+              세 기관 추가하기
+            </Rows>
+          </DeptButton>
+        </MenuItem>
       </Menu>
     </>
   );
