@@ -12,6 +12,7 @@ const deptlist: IDeptInfo[] = [
     pplNum: 123,
     spaceNum: 15,
     image: 'https://www.snunews.com/news/photo/201809/18599_11268_2922.jpg',
+    status: 0,
   },
   {
     id: 2,
@@ -19,27 +20,34 @@ const deptlist: IDeptInfo[] = [
     pplNum: 75,
     spaceNum: 8,
     image: 'https://map.snu.ac.kr/api/upload/spot/84a71dc3-9891-4e67-8f8a-b1b0cf9bfe9c.jpg',
+    status: 3,
   },
   {
     id: 3,
     name: '생명과학부',
     pplNum: 60,
     spaceNum: 10,
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyelkwHA6AFR2bCzp06Ceauo4YQ7nfA1XP30gGZkEffQ8ZP3-WcxygRO2PccgIfET6rXU&usqp=CAU',
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyelkwHA6AFR2bCzp06Ceauo4YQ7nfA1XP30gGZkEffQ8ZP3-WcxygRO2PccgIfET6rXU&usqp=CAU',
+    status: 0,
   },
   {
     id: 4,
     name: 'ICT창업학부',
     pplNum: 100,
-    image: 'https://wimg.mk.co.kr/news/cms/202212/14/news-p.v1.20221213.88bc4288ad01428c9f29203f20cba568_P1.jpg',
+    image:
+      'https://wimg.mk.co.kr/news/cms/202212/14/news-p.v1.20221213.88bc4288ad01428c9f29203f20cba568_P1.jpg',
     spaceNum: 12,
+    status: 1,
   },
   {
     id: 5,
     name: '공간환경시스템디자인학부',
     pplNum: 45,
-    image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTAzMjlfNjYg%2FMDAxNTUzODM4MTg1MDEy.h7Vx5F3Fj8OsCpWnhZv9jI_54LFCFr-5k5jmuvfQkmgg.-2_GcmAI44-hRnKN_pawJH9ocytF4-ecMiqgLuK8dYcg.JPEG.su_mini214%2Foutput_2725856160.jpg&type=sc960_832',
+    image:
+      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTAzMjlfNjYg%2FMDAxNTUzODM4MTg1MDEy.h7Vx5F3Fj8OsCpWnhZv9jI_54LFCFr-5k5jmuvfQkmgg.-2_GcmAI44-hRnKN_pawJH9ocytF4-ecMiqgLuK8dYcg.JPEG.su_mini214%2Foutput_2725856160.jpg&type=sc960_832',
     spaceNum: 5,
+    status: 1,
   },
   {
     id: 6,
@@ -47,13 +55,16 @@ const deptlist: IDeptInfo[] = [
     pplNum: 50,
     image: 'https://cdn.crowdpic.net/detail-thumb/thumb_d_8B8E1C3B87961CEAC3D6AA8BA5AD7D4C.jpg',
     spaceNum: 7,
+    status: 2,
   },
   {
     id: 7,
     name: '기계제어공학부',
     pplNum: 40,
-    image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160725_172%2Fhyun_a_99_1469449498743J8Gp0_JPEG%2F20160528_165238_%25281%2529.jpg&type=sc960_832',
+    image:
+      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160725_172%2Fhyun_a_99_1469449498743J8Gp0_JPEG%2F20160528_165238_%25281%2529.jpg&type=sc960_832',
     spaceNum: 6,
+    status: 0,
   },
   {
     id: 8,
@@ -61,6 +72,7 @@ const deptlist: IDeptInfo[] = [
     pplNum: 85,
     image: 'https://www.osan.ac.kr/usr/images/buildings/8_1.png',
     spaceNum: 9,
+    status: 3,
   },
   {
     id: 9,
@@ -68,6 +80,7 @@ const deptlist: IDeptInfo[] = [
     pplNum: 110,
     image: 'https://source.unsplash.com/random',
     spaceNum: 11,
+    status: 1,
   },
   {
     id: 10,
@@ -75,6 +88,7 @@ const deptlist: IDeptInfo[] = [
     pplNum: 95,
     image: 'https://source.unsplash.com/random',
     spaceNum: 14,
+    status: 2,
   },
 ];
 

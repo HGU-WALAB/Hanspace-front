@@ -36,8 +36,9 @@ export default function HomeView() {
           }
         />
       </Grid>
-      <div style={{ height: '40px' }} />
+      <div style={{ height: '30px' }} />
       <Typography variant="h4"> 전체 기관 리스트 </Typography>
+      <div style={{ height: '10px' }} />
       <DeptList />
     </Container>
   );
