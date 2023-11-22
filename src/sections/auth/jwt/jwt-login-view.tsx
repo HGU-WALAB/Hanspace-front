@@ -24,7 +24,6 @@ import { useAuthContext } from 'src/auth/hooks';
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { userLogin } from 'src/api/userApi';
-import { enqueueSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -48,8 +47,8 @@ export default function JwtLoginView() {
   });
 
   const defaultValues = {
-    name: '유진',
-    email: '22000631@handong.ac.kr',
+    name: '최혜림',
+    email: '22000770@handong.ac.kr',
     // password: 'demo1234',
   };
 
@@ -67,22 +66,19 @@ export default function JwtLoginView() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await userLogin(data).then((res) => {
-        enqueueSnackbar('로그인 성공', {
-          variant: 'success',
-          autoHideDuration: 3000,
-        });
+        // enqueueSnackbar('로그인 성공', {
+        //   variant: 'success',
+        //   autoHideDuration: 3000,
+        // });
 
         localStorage.setItem('accessToken', res.data.token);
-        console.log(res);
-        // console.log({ name: res.data.name, sid: res.data.sid });
-        // setUserInfo({ name: res.data.name, sid: res.data.sid });
+        // setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
       });
 
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       console.log(error.message);
-      console.log('ㅜㅜㅜㅜ');
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
@@ -92,13 +88,13 @@ export default function JwtLoginView() {
     <Stack spacing={2} sx={{ mb: 5 }}>
       <Typography variant="h4">Sign in to Hanspace</Typography>
 
-      <Stack direction="row" spacing={0.5}>
+      {/* <Stack direction="row" spacing={0.5}>
         <Typography variant="body2">New user?</Typography>
 
         <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
           Create an account
         </Link>
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 
