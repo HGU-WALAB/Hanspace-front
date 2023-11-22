@@ -196,8 +196,8 @@ export default function DepartmentForm() {
     :
       (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '450px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5 }}>
-        대여하기
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '60%', height: '50px', mt: 5 }}>
+        추가하기
       </Button>
     </Box>
     </Div>
