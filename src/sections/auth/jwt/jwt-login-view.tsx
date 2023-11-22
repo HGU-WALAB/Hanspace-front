@@ -23,6 +23,8 @@ import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { userLogin } from 'src/api/userApi';
+import { enqueueSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -40,13 +42,15 @@ export default function JwtLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
+    name: Yup.string().required('name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    // password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    name: '유진',
+    email: '22000631@handong.ac.kr',
+    // password: 'demo1234',
   };
 
   const methods = useForm({
@@ -62,11 +66,23 @@ export default function JwtLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
+      await userLogin(data).then((res) => {
+        enqueueSnackbar('로그인 성공', {
+          variant: 'success',
+          autoHideDuration: 3000,
+        });
+
+        localStorage.setItem('accessToken', res.data.token);
+        console.log(res);
+        // console.log({ name: res.data.name, sid: res.data.sid });
+        // setUserInfo({ name: res.data.name, sid: res.data.sid });
+      });
 
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
+      console.log(error.message);
+      console.log('ㅜㅜㅜㅜ');
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
@@ -90,9 +106,10 @@ export default function JwtLoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
+      <RHFTextField name="name" label="name" />
       <RHFTextField name="email" label="Email address" />
 
-      <RHFTextField
+      {/* <RHFTextField
         name="password"
         label="Password"
         type={password.value ? 'text' : 'password'}
@@ -105,7 +122,7 @@ export default function JwtLoginView() {
             </InputAdornment>
           ),
         }}
-      />
+      /> */}
 
       <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
         Forgot password?

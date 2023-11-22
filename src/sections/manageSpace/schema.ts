@@ -17,6 +17,7 @@ export const FormSchema = Yup.object().shape({
   //   .min(6, 'Mininum 6 characters')
   //   .max(32, 'Maximum 32 characters'),
   // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+  // name: Yup.string().required('Email is required').name('Email must be a valid email address'),
   // age: Yup.number()
   //   .required('Age is required')
   //   .moreThan(18, 'Age must be between 18 and 100')

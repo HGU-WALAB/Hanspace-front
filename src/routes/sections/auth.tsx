@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 // auth
-import { GuestGuard } from 'src/auth/guard';
+// import { GuestGuard } from 'src/auth/guard';
 // layouts
 import AuthClassicLayout from 'src/layouts/auth/classic';
 // components
@@ -18,11 +18,11 @@ const JwtRegisterPage = lazy(() => import('src/pages/auth/jwt/register'));
 const authJwt = {
   path: 'jwt',
   element: (
-    <GuestGuard>
-      <Suspense fallback={<SplashScreen />}>
-        <Outlet />
-      </Suspense>
-    </GuestGuard>
+    // <GuestGuard>
+    <Suspense fallback={<SplashScreen />}>
+      <Outlet />
+    </Suspense>
+    // {/* </GuestGuard> */}
   ),
   children: [
     {
