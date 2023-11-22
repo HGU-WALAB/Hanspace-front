@@ -16,7 +16,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/stores/atom';
+import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/utils/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
