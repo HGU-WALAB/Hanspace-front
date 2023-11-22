@@ -60,7 +60,6 @@ export default function DeptHeaderButton() {
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
 
   const [menuOpen, setMenuOpen] = useRecoilState<string>(DeptNameState);
-  console.log('menuOpen', menuOpen);
 
   const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -117,7 +116,7 @@ export default function DeptHeaderButton() {
             primary={
               <DeptButton>
                 <Rows>
-                  {selectedIndex === 0 ? (
+                  {menuOpen === 'HANSPACE' ? (
                     <Logo />
                   ) : (
                     <Avatar
