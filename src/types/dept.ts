@@ -10,7 +10,7 @@ export type IDeptInfo = {
   deptName: string | null;
   // logo: string | null;
   image: string;
-  // userAccept: boolean | null;
+  userAccept: boolean;
   // maxRserveCount: number | null;
   // link: string | null;
   // extraInfo: string | null;

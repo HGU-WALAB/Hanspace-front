@@ -13,10 +13,11 @@ const BTN_OPTION = ['기관 추가하기', '입장하기', '관리하기', '승�
 
 type Props = {
   deptInfo: IDeptInfo;
-  onAdd: VoidFunction;
+  onAccess: VoidFunction;
+  onPending: VoidFunction;
 };
 
-export default function DeptCard({ deptInfo, onAdd }: Props) {
+export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
   const [deptStatus, setDeptStatus] = useState<string>('기관 추가하기');
 
   useEffect(() => {
@@ -39,9 +40,10 @@ export default function DeptCard({ deptInfo, onAdd }: Props) {
     console.log('handleMove');
   };
 
-  const handleClick = (value: number) => {
-    if (value === 0) onAdd();
-    else handleMove();
+  const handleClick = (access: boolean, status: string) => {
+    if (status === '관리하기' || status === '입장하기') handleMove();
+    else if (access === true && status === '기관 추가하기') onAccess();
+    else if (access === false && status === '기관 추가하기') onPending();
   };
 
   const renderImages = (
@@ -92,7 +94,7 @@ export default function DeptCard({ deptInfo, onAdd }: Props) {
         key="success"
         variant="soft"
         onClick={() => {
-          // handleClick(deptInfo.status);
+          handleClick(deptInfo.userAccept, deptStatus);
         }}
         sx={{
           width: '100%',
