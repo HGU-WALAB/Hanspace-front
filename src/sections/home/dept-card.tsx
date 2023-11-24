@@ -102,11 +102,10 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
           color: '#4653F0',
           '&:active, &:hover': {
             backgroundColor: '#4653F0',
-            color: '#ffffff', // You might want to change the text color for better contrast
+            color: '#ffffff',
           },
         }}
       >
-        {/* {BTN_OPTION[deptInfo.status]} */}
         {deptStatus}
       </Button>
     </Box>

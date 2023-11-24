@@ -24,6 +24,7 @@ import { useAuthContext } from 'src/auth/hooks';
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { userLogin } from 'src/api/userApi';
+import { useRecoilState } from 'recoil';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +73,9 @@ export default function JwtLoginView() {
         // });
 
         localStorage.setItem('accessToken', res.data.token);
+        // console.log(res.data.email, res.data.name, res.data.hanRole);
         // setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
+        // console.log();
       });
 
       router.push(returnTo || PATH_AFTER_LOGIN);
