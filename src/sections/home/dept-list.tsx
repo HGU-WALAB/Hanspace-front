@@ -141,7 +141,7 @@ const deptlist: IDeptInfo[] = [
   },
 ];
 
-export default function DeptList() {
+export default function DeptList({ deptList }: { deptList: IDeptInfo[] | null }) {
   const [currentDept, setCurrentDept] = useState<IDeptInfo | null>(null);
   const [isAddSuccessDialogOpen, setIsAddSuccessDialogOpen] = useState(false);
   const [isPendingDialogOpen, setIsPendingDialogOpen] = useState(false);
@@ -172,7 +172,7 @@ export default function DeptList() {
         md: 'repeat(4, 1fr)',
       }}
     >
-      {deptlist.map((dept) => (
+      {deptList?.map((dept) => (
         <DeptCard
           key={dept.deptId}
           deptInfo={dept}
