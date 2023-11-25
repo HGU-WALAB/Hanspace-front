@@ -26,6 +26,7 @@ export default function AuthGuard({ children }: Props) {
 
   const check = useCallback(() => {
     if (!authenticated) {
+      console.log('not authenticated');
       const searchParams = new URLSearchParams({
         returnTo: window.location.pathname,
       }).toString();

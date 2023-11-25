@@ -135,17 +135,22 @@ export function AuthProvider({ children }: Props) {
       email,
       // password,
     };
-    console.log(name);
+
     const res = await axiosInstance.post(endpoints.auth.login, data);
 
     const accessToken = res.data.token;
 
     setSession(accessToken);
 
+    const info = await axiosInstance.get(endpoints.auth.info);
+
+    const user = { name: info.data.name, email: info.data.email, hanRole: info.data.hanRole };
+
     dispatch({
       type: Types.LOGIN,
       payload: {
         user: {
+          ...user,
           accessToken,
         },
       },
