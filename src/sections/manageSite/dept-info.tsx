@@ -26,6 +26,8 @@ import { useForm } from 'react-hook-form';
 import Image from 'src/components/image';
 import DynamicTextField from "../reserve/dynamic-textfield";
 
+import DepartmentUpdateSuccessDialog from './dept-dialog';
+
 
 const Div = styled.div`
   display: flex;
@@ -64,6 +66,7 @@ export default function DepartmentInfoForm() {
     const [logoImagePreview, setLogoImagePreview] = useState<string | null>(null);
     const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
     const [extraInfo, setExtraInfo] = useState('');
+    const [open, setOpen] = useState<boolean>(false);
 
     const updateExtraInfo = (newExtraInfo: string) => {
         setExtraInfo(newExtraInfo);
@@ -80,6 +83,9 @@ export default function DepartmentInfoForm() {
             data.extraInfo = extraInfo;
             reset();
             console.log('넘어오는 data', data);
+
+            // modal
+            setOpen(true);
         } catch (error) {
             console.error(error);
         }
@@ -120,6 +126,7 @@ export default function DepartmentInfoForm() {
       flexDirection: 'column',
       alignItems: 'center',
     }}> 
+    <DepartmentUpdateSuccessDialog open={open} onClose={() => setOpen(false)} />
     <FormProvider methods={methods} onSubmit={onSubmit}>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사이트 이름 *</Typography>
@@ -186,7 +193,7 @@ export default function DepartmentInfoForm() {
     </Box>
     <Box        
       sx={{
-      mt: 10,
+      mt: 5,
       width: 0.5,
       display: 'flex',
       flexDirection: 'column',
@@ -197,7 +204,7 @@ export default function DepartmentInfoForm() {
     :
       (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
     }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '350px', mt: 5 }}>
+      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '60%', height: '50px', mt: 5 }}>
         수정하기
       </Button>
     </Box>
