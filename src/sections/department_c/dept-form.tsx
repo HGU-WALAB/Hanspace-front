@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 import Image from 'src/components/image';
 import DynamicTextField from "../reserve/dynamic-textfield";
 import DeptPopover from "./dept-popover";
-import DepartmentCreateSuccessModal from "./dept-modal";
+import DepartmentCreateSuccessDialog from "./dept-dialog";
 
 
 const Div = styled.div`
@@ -126,7 +126,7 @@ export default function DepartmentForm() {
       flexDirection: 'column',
       alignItems: 'center',
     }}> 
-    <DepartmentCreateSuccessModal open={open} onClose={() => setOpen(false)} />
+    <DepartmentCreateSuccessDialog open={open} onClose={() => setOpen(false)} />
     <FormProvider methods={methods} onSubmit={onSubmit}>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사이트 이름 *</Typography>

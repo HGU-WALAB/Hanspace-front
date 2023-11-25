@@ -165,7 +165,7 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
 
     return (
         <>
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} fullWidth>
           <DialogTitle> {selectedData.spaceName} 공간 대여하기 </DialogTitle>
             <DialogContent>
             <Grid container spacing={2}>
