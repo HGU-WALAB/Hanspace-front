@@ -4,11 +4,22 @@ import { HOST_API, BASE_URL } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: HOST_API });
-// const axiosInstance = axios.create({ baseURL: BASE_URL });
+// const axiosInstance = axios.create({ baseURL: HOST_API });
+const axiosInstance = axios.create({ baseURL: BASE_URL });
 
 const deptId = localStorage.getItem('deptId');
 const UserId = localStorage.getItem('userId');
+const token = localStorage.getItem('accessToken');
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -35,8 +46,10 @@ export const endpoints = {
   calendar: '/api/calendar',
   auth: {
     me: '/api/auth/me',
-    login: '/api/auth/login',
+    login: '/hanSpace/login',
+    // login: '/api/auth/login',
     register: '/api/auth/register',
+    info: '/hanSpace/info',
   },
   mail: {
     list: '/api/mail/list',
@@ -60,5 +73,8 @@ export const endpoints = {
   user: {
     list: `/deptMember/list/${deptId}`,
     update: `/deptMember/${UserId}`,
+  },
+  dept: {
+    signup: `/hanSpace/member/signup`,
   },
 };

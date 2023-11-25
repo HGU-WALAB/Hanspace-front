@@ -16,7 +16,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/stores/atom';
+import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/utils/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
@@ -60,7 +60,6 @@ export default function DeptHeaderButton() {
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
 
   const [menuOpen, setMenuOpen] = useRecoilState<string>(DeptNameState);
-  console.log('menuOpen', menuOpen);
 
   const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -75,13 +74,20 @@ export default function DeptHeaderButton() {
     setOpenList(event.currentTarget);
   }, []);
 
+  const handleGOMain = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      handleClose();
+      setMenuOpen('HANSPACE');
+      window.location.replace(paths.hanspace.root);
+    },
+    [handleClose, setMenuOpen]
+  );
+
   const handleMenuItemClick = useCallback(
     (event: React.MouseEvent<HTMLElement>, index: number) => {
       setSelectedIndex(index);
-      setSelectedIndex(index);
       setDeptUrl(OPTIONS[index]);
       setMenuOpen(OPTIONS[index]);
-      // setOpenList(null);
       handleClose();
       window.location.href = paths.dept.dashboard(OPTIONS[index]);
     },
@@ -110,7 +116,7 @@ export default function DeptHeaderButton() {
             primary={
               <DeptButton>
                 <Rows>
-                  {selectedIndex === 0 ? (
+                  {menuOpen === 'HANSPACE' ? (
                     <Logo />
                   ) : (
                     <Avatar
@@ -134,7 +140,7 @@ export default function DeptHeaderButton() {
         <MenuItem
           key="HANSPACE"
           selected={selectedIndex === 0}
-          onClick={(event) => handleGOAddDept(event)}
+          onClick={(event) => handleGOMain(event)}
         >
           <DeptButton>
             <Rows>

@@ -23,13 +23,13 @@ export const dashboardRoutes = [
   {
     path: 'hanspace',
     element: (
-      <AuthGuard>
-        <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      </AuthGuard>
+      // <AuthGuard>
+      <DashboardLayout>
+        <Suspense fallback={<LoadingScreen />}>
+          <Outlet />
+        </Suspense>
+      </DashboardLayout>
+      // </AuthGuard>
     ),
     children: [
       { path: ':url/dashboard', element: <DashBoardPage /> },

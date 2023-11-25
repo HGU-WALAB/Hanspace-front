@@ -1,7 +1,9 @@
 import { useEffect, useReducer, useCallback, useMemo } from 'react';
 // utils
-import axios, { endpoints } from 'src/utils/axios';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 //
+import { useSetRecoilState } from 'recoil';
+import { IsLoginState } from 'src/utils/atom';
 import { AuthContext } from './auth-context';
 import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType } from '../../types';
@@ -89,7 +91,7 @@ export function AuthProvider({ children }: Props) {
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
-        const res = await axios.get(endpoints.auth.me);
+        const res = await axiosInstance.get(endpoints.auth.me);
 
         const { user } = res.data;
 
@@ -126,17 +128,23 @@ export function AuthProvider({ children }: Props) {
   }, [initialize]);
 
   // LOGIN
-  const login = useCallback(async (email: string, password: string) => {
+  // const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (name: string, email: string) => {
     const data = {
+      name,
       email,
-      password,
+      // password,
     };
 
-    const res = await axios.post(endpoints.auth.login, data);
+    const res = await axiosInstance.post(endpoints.auth.login, data);
 
-    const { accessToken, user } = res.data;
+    const accessToken = res.data.token;
 
     setSession(accessToken);
+
+    const info = await axiosInstance.get(endpoints.auth.info);
+
+    const user = { name: info.data.name, email: info.data.email, hanRole: info.data.hanRole };
 
     dispatch({
       type: Types.LOGIN,
@@ -159,7 +167,7 @@ export function AuthProvider({ children }: Props) {
         lastName,
       };
 
-      const res = await axios.post(endpoints.auth.register, data);
+      const res = await axiosInstance.post(endpoints.auth.register, data);
 
       const { accessToken, user } = res.data;
 
@@ -180,7 +188,10 @@ export function AuthProvider({ children }: Props) {
 
   // LOGOUT
   const logout = useCallback(async () => {
+    // setIsLoginState(false);
     setSession(null);
+    // setUserState(null);
+    console.log('logout');
     dispatch({
       type: Types.LOGOUT,
     });

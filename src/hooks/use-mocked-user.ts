@@ -16,6 +16,7 @@ export function useMockedUser() {
   const user = {
     id: '8864c717-587d-472a-929a-8e5f298024da-0',
     displayName: '최혜림',
+    name: '최혜림',
     email: 'HyelimChoi@handong.ac.kr',
     password: '1234',
     photoURL: _mock.image.avatar(23),

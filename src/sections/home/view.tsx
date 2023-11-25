@@ -5,15 +5,39 @@ import Typography from '@mui/material/Typography';
 import { useSettingsContext } from 'src/components/settings';
 import { Button, Grid } from '@mui/material';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useEffect, useState } from 'react';
+import { GetFirstInfo } from 'src/api/userApi';
+import { useSetRecoilState } from 'recoil';
+import { userState } from 'src/utils/atom';
+import { IDeptInfo } from 'src/types/dept';
+import { useAuthContext } from 'src/auth/hooks';
 import DeptList from './dept-list';
 import AppWelcome from './app-welcome';
 
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
+  const { login } = useAuthContext();
+
   const { user } = useMockedUser();
 
   const settings = useSettingsContext();
+
+  const setUserInfo = useSetRecoilState(userState);
+
+  const [deptInfo, setDeptInfo] = useState<IDeptInfo[] | null>(null);
+
+  useEffect(() => {
+    try {
+      GetFirstInfo().then((res) => {
+        login?.(res.data.name, res.data.email);
+        setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
+        setDeptInfo(res.data.departmentResponses);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [login, setUserInfo]);
 
   return (
     <Container
@@ -39,7 +63,7 @@ export default function HomeView() {
       <div style={{ height: '30px' }} />
       <Typography variant="h4"> 전체 기관 리스트 </Typography>
       <div style={{ height: '10px' }} />
-      <DeptList />
+      <DeptList deptList={deptInfo} />
     </Container>
   );
 }

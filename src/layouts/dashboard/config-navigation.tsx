@@ -4,7 +4,7 @@ import { paths } from 'src/routes/paths';
 // components
 import SvgColor from 'src/components/svg-color';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState } from 'src/stores/atom';
+import { DeptUrlState } from 'src/utils/atom';
 
 // ----------------------------------------------------------------------
 

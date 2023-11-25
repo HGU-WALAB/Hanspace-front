@@ -42,3 +42,17 @@ export const selectedIndexState = atom({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const userState = atom({
+  key: 'userState',
+  default: {
+    email: 'HyelimChoi@handong.ac.kr',
+    name: '최혜림',
+    hanRole: 'USER',
+  },
+});
+
+export const tokenState = atom({
+  key: 'tokenState',
+  default: null,
+});
