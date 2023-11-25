@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 // auth
-// import { AuthGuard } from 'src/auth/guard';
+import { AuthGuard } from 'src/auth/guard';
 // layouts
 import CompactLayout from 'src/layouts/compact';
 // components
@@ -18,13 +18,13 @@ export const mainRoutes = [
   {
     path: 'hanspace',
     element: (
-      // <AuthGuard>
-      <CompactLayout>
-        <Suspense fallback={<LoadingScreen />}>
-          <Outlet />
-        </Suspense>
-      </CompactLayout>
-      // </AuthGuard>
+      <AuthGuard>
+        <CompactLayout>
+          <Suspense fallback={<LoadingScreen />}>
+            <Outlet />
+          </Suspense>
+        </CompactLayout>
+      </AuthGuard>
     ),
     children: [
       { element: <HomePage />, index: true },

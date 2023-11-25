@@ -51,3 +51,8 @@ export const userState = atom({
     hanRole: 'USER',
   },
 });
+
+export const tokenState = atom({
+  key: 'tokenState',
+  default: null,
+});

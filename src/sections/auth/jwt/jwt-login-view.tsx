@@ -21,10 +21,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
 // components
-import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
-import { userLogin } from 'src/api/userApi';
-import { useRecoilState } from 'recoil';
 
 // ----------------------------------------------------------------------
 
@@ -65,21 +62,14 @@ export default function JwtLoginView() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    console.log('log');
     try {
-      await userLogin(data).then((res) => {
-        // enqueueSnackbar('로그인 성공', {
-        //   variant: 'success',
-        //   autoHideDuration: 3000,
-        // });
-
-        localStorage.setItem('accessToken', res.data.token);
-        // console.log(res.data.email, res.data.name, res.data.hanRole);
-        // setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
-        // console.log();
-      });
-
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      await login?.(data.name, data.email);
+      console.log('????');
+      router.push(PATH_AFTER_LOGIN);
     } catch (error) {
+      console.log('????');
       console.error(error);
       console.log(error.message);
       reset();
