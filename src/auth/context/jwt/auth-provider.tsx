@@ -4,6 +4,8 @@ import axiosInstance, { endpoints } from 'src/utils/axios';
 //
 import { useSetRecoilState } from 'recoil';
 import { IsLoginState } from 'src/utils/atom';
+import axios from 'axios';
+import { BASE_URL } from 'src/config-global';
 import { AuthContext } from './auth-context';
 import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType } from '../../types';
@@ -135,13 +137,13 @@ export function AuthProvider({ children }: Props) {
       email,
       // password,
     };
-
-    const res = await axiosInstance.post(endpoints.auth.login, data);
-
+    console.log('login');
+    console.log(data);
+    const res = await axios.post(`${BASE_URL}${endpoints.auth.login}`, data);
+    console.log(res);
     const accessToken = res.data.token;
-
+    console.log(accessToken);
     setSession(accessToken);
-
     const info = await axiosInstance.get(endpoints.auth.info);
 
     const user = { name: info.data.name, email: info.data.email, hanRole: info.data.hanRole };
