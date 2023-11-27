@@ -32,6 +32,7 @@ import Image from 'src/components/image';
 import ReserveSuccessDialog from './reserve-dialog';
 
 
+
 const emailInfo = [
   { email: "22100595@handong.ac.kr" },
   { email: "22000019@handong.ac.kr" },
@@ -189,7 +190,8 @@ export default function DailyReserveFormDialog({ open, onClose, selectedData}: R
                 sx={{ margin: '15px 0 0 0', width: '180px' }}
                 readOnly
               />
-              <Image src={selectedData.spaceImage} sx={{ mt: 3, width: 180, height: 150 }} />
+              <Box component="img" src="/assets/images/main/finance.svg" sx={{ mt: 3, width: 180, height: 150 }} />
+              {/* <Image src={Finance} sx={{ mt: 3, width: 180, height: 150 }} /> */}
             </Grid>
             <Grid item xs={5} sx={{mr: 5}}>
               <FormProvider methods={methods} onSubmit={onSubmit}>

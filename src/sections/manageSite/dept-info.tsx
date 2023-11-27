@@ -42,7 +42,7 @@ export const defaultValues = {
     color: 'red',
     userAccept: true,
     maxRserveCount: 5,
-    link: '/Computer Science',
+    link: '/ComputerScience',
     extraInfo: '',
     // siteInfoTitle: '',
     // siteInfoDetail: '',
