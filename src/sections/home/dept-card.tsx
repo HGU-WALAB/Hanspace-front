@@ -72,7 +72,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
         flexDirection: 'column',
         alignItems: 'flex-start',
       }}
-      primary={`${deptInfo.spaceNum}개 공간 보유  |  ${deptInfo.pplNum}명 사용 중`} // {`Posted date: ${fDateTime(createdAt)}`}
+      primary={`${deptInfo.spaceCount}개 공간 보유  |  ${deptInfo.memberCount}명 사용 중`} // {`Posted date: ${fDateTime(createdAt)}`}
       secondary={deptInfo.deptName}
       primaryTypographyProps={{
         typography: 'caption',

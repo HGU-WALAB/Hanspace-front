@@ -14,7 +14,7 @@ export type IDeptInfo = {
   // maxRserveCount: number | null;
   // link: string | null;
   // extraInfo: string | null;
-  spaceNum: number | null;
-  pplNum: number | null;
+  spaceCount: number | null;
+  memberCount: number | null;
   deptMemberResponse: IDeptRole[] | [];
 };
