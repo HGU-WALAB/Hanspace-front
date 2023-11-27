@@ -11,8 +11,8 @@ export default function Page() {
         <title> HANSPACE: 대시보드 </title>
       </Helmet>
 
-      {/* <AdminDashboardView /> */}
-      <UserDashboardView />
+      <AdminDashboardView />
+      {/* <UserDashboardView /> */}
     </>
   );
 }
