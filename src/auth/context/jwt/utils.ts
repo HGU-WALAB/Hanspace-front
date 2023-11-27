@@ -49,8 +49,7 @@ export const tokenExpired = (exp: number) => {
 
   expiredTimer = setTimeout(() => {
     alert('Token expired');
-
-    sessionStorage.removeItem('accessToken');
+    localStorage.removeItem('accessToken');
 
     window.location.href = paths.auth.jwt.login;
   }, timeLeft);
@@ -68,12 +67,8 @@ export const setSession = (accessToken: string | null) => {
     const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
     tokenExpired(exp);
   } else {
+    console.log('set session null remove');
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('deptId');
-    localStorage.removeItem('IsLoginState');
-
-    console.log('setSession');
 
     delete axios.defaults.headers.common.Authorization;
   }

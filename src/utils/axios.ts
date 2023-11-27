@@ -47,7 +47,6 @@ export const endpoints = {
   auth: {
     me: '/api/auth/me',
     login: '/hanSpace/login',
-    // login: '/api/auth/login',
     register: '/api/auth/register',
     info: '/hanSpace/info',
   },
