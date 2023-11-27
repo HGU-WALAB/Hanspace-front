@@ -2,8 +2,6 @@ import { useEffect, useReducer, useCallback, useMemo } from 'react';
 // utils
 import axiosInstance, { endpoints } from 'src/utils/axios';
 //
-import { useSetRecoilState } from 'recoil';
-import { IsLoginState } from 'src/utils/atom';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
 import { AuthContext } from './auth-context';
@@ -88,12 +86,11 @@ export function AuthProvider({ children }: Props) {
 
   const initialize = useCallback(async () => {
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
-
+      const accessToken = localStorage.getItem(STORAGE_KEY);
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
-        const res = await axiosInstance.get(endpoints.auth.me);
+        const res = await axiosInstance.get(endpoints.auth.info);
 
         const { user } = res.data;
 
@@ -137,15 +134,13 @@ export function AuthProvider({ children }: Props) {
       email,
       // password,
     };
-    console.log('login');
-    console.log(data);
+
     const res = await axios.post(`${BASE_URL}${endpoints.auth.login}`, data);
-    console.log(res);
+
     const accessToken = res.data.token;
-    console.log(accessToken);
+
     setSession(accessToken);
     const info = await axiosInstance.get(endpoints.auth.info);
-
     const user = { name: info.data.name, email: info.data.email, hanRole: info.data.hanRole };
 
     dispatch({
@@ -190,10 +185,7 @@ export function AuthProvider({ children }: Props) {
 
   // LOGOUT
   const logout = useCallback(async () => {
-    // setIsLoginState(false);
     setSession(null);
-    // setUserState(null);
-    console.log('logout');
     dispatch({
       type: Types.LOGOUT,
     });
