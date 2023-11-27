@@ -60,8 +60,8 @@ export default function AdminDashboardView() {
             <AnalyticsWidgetSummary
               title="미승인 예약"
               total={210}
-              color="secondary"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+              color="primary"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_check.png" />}
             />
           </StyledLink>
         </Grid>
@@ -71,7 +71,7 @@ export default function AdminDashboardView() {
             <AnalyticsWidgetSummary
               title="미승인 대기 유저"
               total={13}
-              color="info"
+              color="secondary"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
           </StyledLink>

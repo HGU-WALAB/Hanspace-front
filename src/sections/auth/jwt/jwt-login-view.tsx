@@ -131,7 +131,7 @@ export default function JwtLoginView() {
       {renderHead}
 
       <Alert severity="info" sx={{ mb: 3 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
+        Use name :<strong> 최혜림 </strong> / email : <strong> 22000770@handong.ac.kr </strong>
       </Alert>
 
       {renderForm}
