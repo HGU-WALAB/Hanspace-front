@@ -25,6 +25,7 @@ const UVIEW_OPTIONS = [
   },
   { value: 'timeGridWeek', label: '주간', icon: 'mingcute:calendar-week-line' },
   { value: 'timeGridDay', label: '일간', icon: 'mingcute:calendar-day-line' },
+  { value: 'listWeek', label: '아젠다',icon: 'fluent:calendar-agenda-24-regular' },
 ] as const;
 
 // ----------------------------------------------------------------------
