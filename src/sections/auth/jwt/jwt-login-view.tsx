@@ -46,7 +46,7 @@ export default function JwtLoginView() {
 
   const defaultValues = {
     name: '최혜림',
-    email: '22000770@handong.ac.kr',
+    email: 'HyelimChoi@handong.ac.kr',
     // password: 'demo1234',
   };
 
@@ -131,7 +131,7 @@ export default function JwtLoginView() {
       {renderHead}
 
       <Alert severity="info" sx={{ mb: 3 }}>
-        Use name :<strong> 최혜림 </strong> / email : <strong> 22000770@handong.ac.kr </strong>
+        Use name :<strong> 최혜림 </strong> / email : <strong> HyelimChoi@handong.ac.kr </strong>
       </Alert>
 
       {renderForm}

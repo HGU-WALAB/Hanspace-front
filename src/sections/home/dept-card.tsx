@@ -56,8 +56,8 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
         <Image
-          alt={deptInfo.image}
-          src={deptInfo.image}
+          alt={deptInfo.deptImage}
+          src={deptInfo.deptImage}
           sx={{ borderRadius: 1, height: 164, width: 1 }}
         />
       </Stack>
