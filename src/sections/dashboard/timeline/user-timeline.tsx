@@ -156,7 +156,7 @@ export default function UserTimeLine() {
           sx={{
             m: 0,
             p: 3,
-            paddingLeft: '30px', // 여기에서 패딩을 조정합니다
+            paddingLeft: '16px', // 여기에서 패딩을 조정합니다
             [`& .${timelineItemClasses.root}:before`]: {
               flex: 0,
               padding: 0,
