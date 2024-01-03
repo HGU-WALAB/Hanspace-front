@@ -16,7 +16,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { DeptNameState, DeptUrlState, selectedIndexState, userDeptListState } from 'src/utils/atom';
+import { DeptUrlState, selectedIndexState, userDeptListState, userDeptState } from 'src/utils/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
@@ -56,13 +56,15 @@ export default function DeptHeaderButton() {
 
   const deptList = useRecoilValue(userDeptListState);
 
+  const setUserDeptState = useSetRecoilState(userDeptState);
+
   const setDeptUrl = useSetRecoilState(DeptUrlState);
 
   const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
 
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
 
-  const [menuOpen, setMenuOpen] = useRecoilState<string | null>(DeptNameState);
+  const [menuOpen, setMenuOpen] = useRecoilState(userDeptState);
 
   const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -82,30 +84,33 @@ export default function DeptHeaderButton() {
       handleClose();
       setMenuOpen('HANSPACE');
       setSelectedIndex(-1);
+      setDeptUrl(paths.hanspace.root);
       window.location.replace(paths.hanspace.root);
     },
-    [handleClose, setMenuOpen, setSelectedIndex]
+    [handleClose, setMenuOpen, setSelectedIndex, setDeptUrl]
   );
 
   const handleMenuItemClick = useCallback(
     (event: React.MouseEvent<HTMLElement>, option: IDeptInfo) => {
       setSelectedIndex(deptList?.findIndex((dept) => dept.deptId === option.deptId));
-      setDeptUrl(option?.deptName);
-      setMenuOpen(option?.deptName);
+      setUserDeptState(option);
+      setMenuOpen(option);
       handleClose();
-      window.location.href = paths.dept.dashboard(option?.deptName ?? 'HANSPACE');
+      setDeptUrl(paths.dept.dashboard(option?.link ?? 'HANSPACE'));
+      window.location.href = paths.dept.dashboard(option?.link ?? 'HANSPACE');
     },
-    [handleClose, setDeptUrl, setSelectedIndex, setMenuOpen, deptList]
+    [handleClose, setSelectedIndex, setMenuOpen, deptList, setUserDeptState, setDeptUrl]
   );
 
   const handleGOAddDept = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
       setMenuOpen('HANSPACE');
+      setDeptUrl(paths.hanspace.dept);
       window.location.replace(paths.hanspace.dept);
       setSelectedIndex(-2);
     },
-    [handleClose, setMenuOpen, setSelectedIndex]
+    [handleClose, setMenuOpen, setSelectedIndex, setDeptUrl]
   );
 
   return (
@@ -132,7 +137,8 @@ export default function DeptHeaderButton() {
                       {/* {deptList[selectedIndex]?.deptName.charAt(0)} */}A
                     </Avatar>
                   )}
-                  {menuOpen}
+                  {typeof menuOpen === 'string' && menuOpen}
+                  {typeof menuOpen === 'object' && menuOpen.deptName}
                 </Rows>
                 <ArrowDropDownIcon />
               </DeptButton>

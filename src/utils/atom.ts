@@ -26,17 +26,17 @@ export const DeptUrlState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const DeptIdState = atom({
-  key: 'DeptIdState',
-  default: 'CSEE',
-  effects_UNSTABLE: [persistAtom],
-});
+// export const DeptIdState = atom({
+//   key: 'DeptIdState',
+//   default: 'CSEE',
+//   effects_UNSTABLE: [persistAtom],
+// });
 
-export const DeptNameState = atom({
-  key: 'DeptNameState',
-  default: 'HANSPACE',
-  effects_UNSTABLE: [persistAtom],
-});
+// export const DeptNameState = atom({
+//   key: 'DeptNameState',
+//   default: 'HANSPACE',
+//   effects_UNSTABLE: [persistAtom],
+// });
 
 export const selectedIndexState = atom({
   key: 'selectedIndexState',
@@ -51,6 +51,12 @@ export const userState = atom({
     name: '최혜림',
     hanRole: 'USER',
   },
+});
+
+export const userDeptState = atom<IDeptInfo | string>({
+  key: 'userDeptState',
+  default: 'HANSPACE',
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const userDeptListState = atom<IDeptInfo[] | null>({
