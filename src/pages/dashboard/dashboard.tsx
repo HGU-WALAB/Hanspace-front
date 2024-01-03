@@ -13,6 +13,7 @@ export default function Page() {
       <Helmet>
         <title> HANSPACE: 대시보드 </title>
       </Helmet>
+
       {typeof userDeptInfo === 'object' &&
       userDeptInfo.deptMemberResponse[0].deptRole === 'Admin' ? (
         <AdminDashboardView />

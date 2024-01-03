@@ -143,3 +143,24 @@ export function useNavData() {
 
   return data;
 }
+
+export function useUserNavData() {
+  const { url } = useRecoilValue(DeptUrlState);
+
+  const data = useMemo(
+    () => [
+      // OVERVIEW
+      // ----------------------------------------------------------------------
+      {
+        subheader: '',
+        items: [
+          { title: '대시보드', path: paths.dept.dashboard(url), icon: ICONS.dashboard },
+          { title: '조회 및 예약', path: paths.dept.reserve(url), icon: ICONS.calendar },
+        ],
+      },
+    ],
+    [url]
+  );
+
+  return data;
+}
