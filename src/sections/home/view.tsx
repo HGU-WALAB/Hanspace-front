@@ -1,14 +1,14 @@
 // @mui
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-// componentss
+// components
 import { useSettingsContext } from 'src/components/settings';
 import { Button, Grid } from '@mui/material';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GetFirstInfo } from 'src/api/userApi';
-import { useSetRecoilState } from 'recoil';
-import { userState } from 'src/utils/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { userDeptListState, userState } from 'src/utils/atom';
 import { IDeptInfo } from 'src/types/dept';
 import { useAuthContext } from 'src/auth/hooks';
 import DeptList from './dept-list';
@@ -25,7 +25,7 @@ export default function HomeView() {
 
   const setUserInfo = useSetRecoilState(userState);
 
-  const [deptInfo, setDeptInfo] = useState<IDeptInfo[] | null>(null);
+  const [deptInfo, setDeptInfo] = useRecoilState<IDeptInfo[] | null>(userDeptListState);
 
   useEffect(() => {
     try {
@@ -37,7 +37,9 @@ export default function HomeView() {
     } catch (error) {
       console.error(error);
     }
-  }, [login, setUserInfo]);
+  }, [login, setUserInfo, setDeptInfo]);
+
+  console.log(deptInfo);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -61,9 +63,11 @@ export default function HomeView() {
             }
           />
         </Grid>
-        <div style={{ height: '30px' }} />
+
+        <Container style={{ height: '30px' }} />
+
         <Typography variant="h4"> 전체 기관 리스트 </Typography>
-        <div style={{ height: '10px' }} />
+        <Container style={{ height: '10px' }} />
         <DeptList deptList={deptInfo} />
       </Container>
     </Container>

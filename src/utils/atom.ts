@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
+import { IDeptInfo } from 'src/types/dept';
 
 const { persistAtom } = recoilPersist({
   key: 'localStorage', // 원하는 key 값 입력
@@ -50,6 +51,12 @@ export const userState = atom({
     name: '최혜림',
     hanRole: 'USER',
   },
+});
+
+export const userDeptListState = atom<IDeptInfo[] | null>({
+  key: 'userDeptListState',
+  default: null,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const tokenState = atom({
