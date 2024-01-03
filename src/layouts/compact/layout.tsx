@@ -19,8 +19,6 @@ export default function CompactLayout({ children }: Props) {
   const nav = useBoolean();
   const renderNavDesc = <NavDesc openNav={nav.value} onCloseNav={nav.onFalse} />;
 
-  // const renderNavMini = <NavMini />;
-
   return (
     <>
       <Header onOpenNav={nav.onTrue} />

@@ -14,7 +14,6 @@ import { useOffSetTop } from 'src/hooks/use-off-set-top';
 import Logo from 'src/components/logo';
 import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
 //
-import styled from 'styled-components';
 import { HEADER } from '../config-layout';
 import HeaderShadow from './header-shadow';
 import SettingsButton from './settings-button';
@@ -22,14 +21,6 @@ import NotificationsPopover from './notifications-popover/notifications-popover'
 import AccountPopover from './account-popover';
 
 // ----------------------------------------------------------------------
-
-const Rows = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-`;
 
 export default function HeaderSimple() {
   const theme = useTheme();
