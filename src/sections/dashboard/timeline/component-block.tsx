@@ -28,13 +28,13 @@ export default function ComponentBlock({ title, sx, children, ...other }: BlockP
       {title && <CardHeader title={title} />}
 
       <Stack
-        spacing={3}
+        spacing={1}
         direction="row"
         alignItems="center"
         justifyContent="center"
         flexWrap="wrap"
         sx={{
-          p: 5,
+          p: 3.5,
           minHeight: 180,
           ...sx,
         }}

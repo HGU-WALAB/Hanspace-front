@@ -25,16 +25,16 @@ import UserTimeLine from './timeline/user-timeline';
 export default function UserDashboardView() {
   const settings = useSettingsContext();
 
-  const rangeCalendarPicker = useDateRangePicker(new Date(), null);
-  const [value, setValue] = useState<Date | null>(new Date());
+  // const rangeCalendarPicker = useDateRangePicker(new Date(), null);
+  // const [value, setValue] = useState<Date | null>(new Date());
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={9} md={9}>
+      <Grid container spacing={1}>
+        <Grid xs={12} sm={12} md={9}>
           <UserCalendarView />
         </Grid>
-        <Grid xs={12} sm={3} md={3}>
+        <Grid xs={12} sm={12} md={3}>
           <UserTimeLine />
         </Grid>
       </Grid>
