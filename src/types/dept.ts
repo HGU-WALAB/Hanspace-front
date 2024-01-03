@@ -6,13 +6,13 @@ export type IDeptRole = {
 
 export type IDeptInfo = {
   deptId: number;
-  // siteName: string;
+  siteName: string;
   deptName: string | null;
   // logo: string | null;
   deptImage: string;
   userAccept: boolean;
   // maxRserveCount: number | null;
-  // link: string | null;
+  link: string | null;
   // extraInfo: string | null;
   spaceCount: number | null;
   memberCount: number | null;
