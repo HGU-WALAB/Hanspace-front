@@ -171,6 +171,16 @@ export default function DeptHeaderButton() {
                   {option.deptName?.charAt(0)}
                 </Avatar>
                 {option.deptName}
+
+                {option.deptMemberResponse[0].deptRole === 'Admin' ? (
+                  <Avatar
+                    alt="A"
+                    color="primary.pale"
+                    style={{ height: '30px', width: '30px', fontSize: '16px' }}
+                  >
+                    A
+                  </Avatar>
+                ) : null}
               </Rows>
             </DeptButton>
           </MenuItem>

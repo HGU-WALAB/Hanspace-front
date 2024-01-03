@@ -16,5 +16,5 @@ export type IDeptInfo = {
   // extraInfo: string | null;
   spaceCount: number | null;
   memberCount: number | null;
-  deptMemberResponse: IDeptRole[] | [];
+  deptMemberResponse: IDeptRole[];
 };
