@@ -26,21 +26,9 @@ export const DeptUrlState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-// export const DeptIdState = atom({
-//   key: 'DeptIdState',
-//   default: 'CSEE',
-//   effects_UNSTABLE: [persistAtom],
-// });
-
-// export const DeptNameState = atom({
-//   key: 'DeptNameState',
-//   default: 'HANSPACE',
-//   effects_UNSTABLE: [persistAtom],
-// });
-
 export const selectedIndexState = atom({
   key: 'selectedIndexState',
-  default: 0,
+  default: -1,
   effects_UNSTABLE: [persistAtom],
 });
 
