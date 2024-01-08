@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -56,8 +56,8 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
-    title: Yup.string().max(255).required('제목을 입력해주세요'),
-    description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
+    purpose: Yup.string().max(255).required('제목을 입력해주세요'),
+    // description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
     // not required
     color: Yup.string(),
     allDay: Yup.boolean(),
@@ -77,6 +77,10 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
+
+  useEffect(() => {
+    console.log("넘어온 데이터 확인", currentEvent);
+  })
 
   const values = watch();
 
@@ -124,9 +128,10 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
     // <FormProvider methods={methods} onSubmit={onSubmit}>
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="제목" disabled/>
+        <RHFTextField name="purpose" label={currentEvent?.purpose} disabled/>
+        <RHFTextField name="spaceName" label={currentEvent?.spaceName} disabled/>
 
-        <RHFTextField name="description" label="설명" multiline rows={3} disabled/>
+        {/* <RHFTextField name="description" label="설명" multiline rows={3} disabled/> */}
 
         {/* <RHFSwitch name="allDay" label="요일 전체" /> */}
 
@@ -191,8 +196,8 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
             />
           )}
         /> */}
-        {currentEvent?.invite && (
-        <Autocomplete
+        {/* {currentEvent?.invite && ( */}
+        {/* <Autocomplete
           multiple
           id="tags-standard"
           options={emailInfo}
@@ -208,8 +213,8 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
             />
           )}
           sx={{ml: 0.5}}
-        />
-        )}
+        /> */}
+        {/* )} */}
       </Stack>
 
       <DialogActions>

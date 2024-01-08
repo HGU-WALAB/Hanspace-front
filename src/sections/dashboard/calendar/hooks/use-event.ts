@@ -18,14 +18,16 @@ export default function useEvent(
   const defaultValues: ICalendarEvent = useMemo(
     () => ({
       id: '',
-      title: '',
-      description: '',
-      color: CALENDAR_COLOR_OPTIONS[1],
-      allDay: false,
+      reserveDate: '',
       start: selectedRange ? selectedRange.start : new Date().getTime(),
       end: selectedRange ? selectedRange.end : new Date().getTime(),
+      color: CALENDAR_COLOR_OPTIONS[1],
       textColor: '', // ex
-      invite: false, // ex
+      purpose: '',
+      status: false,
+      spaceName: '',
+      allDay: false,
+      // invite: false, // ex
     }),
     [selectedRange]
   );
