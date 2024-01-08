@@ -15,8 +15,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import { useSettingsContext } from 'src/components/settings';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { DeptNameState, DeptUrlState, selectedIndexState } from 'src/utils/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { DeptUrlState, selectedIndexState, userDeptListState, userDeptState } from 'src/utils/atom';
 //
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
@@ -24,11 +24,12 @@ import { paths } from 'src/routes/paths';
 import { set } from 'nprogress';
 import Logo from 'src/components/logo';
 import { strlen } from 'stylis';
+import { IDeptInfo } from 'src/types/dept';
 // ----------------------------------------------------------------------
 
-const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
+// const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
 
-const COLORS = ['secondary', 'info', 'success'];
+// const COLORS = ['secondary', 'info', 'success'];
 
 const DeptButton = styled.div`
   display: flex;
@@ -53,13 +54,17 @@ export default function DeptHeaderButton() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const deptList = useRecoilValue(userDeptListState);
+
+  const setUserDeptState = useSetRecoilState(userDeptState);
+
   const setDeptUrl = useSetRecoilState(DeptUrlState);
 
   const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
 
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
 
-  const [menuOpen, setMenuOpen] = useRecoilState<string>(DeptNameState);
+  const [menuOpen, setMenuOpen] = useRecoilState(userDeptState);
 
   const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,29 +83,34 @@ export default function DeptHeaderButton() {
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
       setMenuOpen('HANSPACE');
+      setSelectedIndex(-1);
+      setDeptUrl(paths.hanspace.root);
       window.location.replace(paths.hanspace.root);
     },
-    [handleClose, setMenuOpen]
+    [handleClose, setMenuOpen, setSelectedIndex, setDeptUrl]
   );
 
   const handleMenuItemClick = useCallback(
-    (event: React.MouseEvent<HTMLElement>, index: number) => {
-      setSelectedIndex(index);
-      setDeptUrl(OPTIONS[index]);
-      setMenuOpen(OPTIONS[index]);
+    (event: React.MouseEvent<HTMLElement>, option: IDeptInfo) => {
+      setSelectedIndex(deptList?.findIndex((dept) => dept.deptId === option.deptId));
+      setUserDeptState(option);
+      setMenuOpen(option);
       handleClose();
-      window.location.href = paths.dept.dashboard(OPTIONS[index]);
+      setDeptUrl(paths.dept.dashboard(option?.link ?? 'HANSPACE'));
+      window.location.href = paths.dept.dashboard(option?.link ?? 'HANSPACE');
     },
-    [handleClose, setDeptUrl, setSelectedIndex, setMenuOpen]
+    [handleClose, setSelectedIndex, setMenuOpen, deptList, setUserDeptState, setDeptUrl]
   );
 
   const handleGOAddDept = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
       setMenuOpen('HANSPACE');
+      setDeptUrl(paths.hanspace.dept);
       window.location.replace(paths.hanspace.dept);
+      setSelectedIndex(-2);
     },
-    [handleClose, setMenuOpen]
+    [handleClose, setMenuOpen, setSelectedIndex, setDeptUrl]
   );
 
   return (
@@ -121,13 +131,14 @@ export default function DeptHeaderButton() {
                   ) : (
                     <Avatar
                       alt="A"
-                      color={COLORS[selectedIndex]}
+                      color="primary.pale"
                       style={{ height: '30px', width: '30px', fontSize: '16px' }}
                     >
-                      {OPTIONS[selectedIndex].charAt(0)}
+                      {/* {deptList[selectedIndex]?.deptName.charAt(0)} */}A
                     </Avatar>
                   )}
-                  {menuOpen}
+                  {typeof menuOpen === 'string' && menuOpen}
+                  {typeof menuOpen === 'object' && menuOpen.deptName}
                 </Rows>
                 <ArrowDropDownIcon />
               </DeptButton>
@@ -139,7 +150,7 @@ export default function DeptHeaderButton() {
       <Menu id="lock-menu" anchorEl={isOpenList} onClose={handleClose} open={Boolean(isOpenList)}>
         <MenuItem
           key="HANSPACE"
-          selected={selectedIndex === 0}
+          selected={selectedIndex === -1}
           onClick={(event) => handleGOMain(event)}
         >
           <DeptButton>
@@ -149,29 +160,40 @@ export default function DeptHeaderButton() {
             </Rows>
           </DeptButton>
         </MenuItem>
-        {OPTIONS.map((option, index) => (
+
+        {deptList?.map((option, index) => (
           <MenuItem
-            key={option}
+            key={option.deptId}
             selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, index)}
+            onClick={(event) => handleMenuItemClick(event, option)}
           >
             <DeptButton>
               <Rows>
                 <Avatar
                   alt="A"
-                  color={COLORS[index]}
+                  color={option.deptName?.charAt(0) === 'A' ? 'primary.pale' : 'info.pale'}
                   style={{ height: '30px', width: '30px', fontSize: '16px' }}
                 >
-                  {option.charAt(0)}
+                  {option.deptName?.charAt(0)}
                 </Avatar>
-                {option}
+                {option.deptName}
+
+                {option.deptMemberResponse[0].deptRole === 'Admin' ? (
+                  <Avatar
+                    alt="A"
+                    color="primary.pale"
+                    style={{ height: '30px', width: '30px', fontSize: '16px' }}
+                  >
+                    A
+                  </Avatar>
+                ) : null}
               </Rows>
             </DeptButton>
           </MenuItem>
         ))}
         <MenuItem
           key="기관 추가하기"
-          selected={selectedIndex === 0}
+          selected={selectedIndex === -2}
           onClick={(event) => handleGOAddDept(event)}
         >
           <DeptButton>

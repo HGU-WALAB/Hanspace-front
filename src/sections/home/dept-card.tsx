@@ -2,14 +2,14 @@ import { Box, Button, Card, ListItemText, Stack } from '@mui/material';
 import Image from 'src/components/image';
 import { IDeptInfo } from 'src/types/dept';
 import { useEffect, useState } from 'react';
-import AccessedDialog from './success-modal-accessed';
+import axiosInstance, { endpoints } from 'src/utils/axios';
+import { useRecoilValue } from 'recoil';
+import { userState } from 'src/utils/atom';
 
 // 0 입장 가능
 // 1 나의 기관
 // 2 내가 관리자
 // 3 팬딩 중
-
-const BTN_OPTION = ['기관 추가하기', '입장하기', '관리하기', '승인 대기 중'];
 
 type Props = {
   deptInfo: IDeptInfo;
@@ -18,17 +18,18 @@ type Props = {
 };
 
 export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
-  const [deptStatus, setDeptStatus] = useState<string>('기관 추가하기');
+  const [deptStatus, setDeptStatus] = useState<string>('');
+  const userInfo = useRecoilValue(userState);
 
   useEffect(() => {
     const firstElement = deptInfo.deptMemberResponse[0];
 
     if (deptInfo.deptMemberResponse.length !== 0) {
-      if (firstElement.approve === '승인대기') {
+      if (firstElement.approve === '승인 대기') {
         setDeptStatus('승인 대기 중');
-      } else if (firstElement.deptRole === 'Admin') {
+      } else if (firstElement.deptRole === 'ADMIN') {
         setDeptStatus('관리하기');
-      } else if (firstElement.deptRole === 'User') {
+      } else if (firstElement.deptRole === 'USER') {
         setDeptStatus('입장하기');
       }
     } else {
@@ -42,8 +43,23 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
 
   const handleClick = (access: boolean, status: string) => {
     if (status === '관리하기' || status === '입장하기') handleMove();
-    else if (access === true && status === '기관 추가하기') onAccess();
-    else if (access === false && status === '기관 추가하기') onPending();
+    else if (access === true && status === '기관 추가하기') {
+      const res = axiosInstance.post(endpoints.dept.add, {
+        name: userInfo.name,
+        email: userInfo.email,
+        deptId: deptInfo.deptId,
+      });
+      onPending();
+      setDeptStatus('승인 대기 중');
+    } else if (access === false && status === '기관 추가하기') {
+      const res = axiosInstance.post(endpoints.dept.add, {
+        name: userInfo.name,
+        email: userInfo.email,
+        deptId: deptInfo.deptId,
+      });
+      onAccess();
+      setDeptStatus('입장하기');
+    }
   };
 
   const renderImages = (

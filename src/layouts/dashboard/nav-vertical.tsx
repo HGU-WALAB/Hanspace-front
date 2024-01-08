@@ -14,8 +14,10 @@ import { NavSectionVertical } from 'src/components/nav-section';
 //
 import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 import { NAV } from '../config-layout';
-import { useNavData } from './config-navigation';
+import { useNavData, useUserNavData } from './config-navigation';
 import { NavToggleButton, NavUpgrade } from '../_common';
 
 // ----------------------------------------------------------------------
@@ -40,7 +42,11 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
   const lgUp = useResponsive('up', 'lg');
 
+  const userDeptInfo = useRecoilValue(userDeptState);
+
   const navData = useNavData();
+
+  const userNavData = useUserNavData();
 
   useEffect(() => {
     if (openNav) {
@@ -60,25 +66,30 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         },
       }}
     >
-      {/* <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
-       */}
       <Rows>
-        {/* <Logo /> */}
         <DeptHeaderButton />
       </Rows>
 
       <Box style={{ height: '10px' }} />
 
-      <NavSectionVertical
-        data={navData}
-        config={{
-          currentRole: user?.role || 'admin',
-        }}
-      />
+      {typeof userDeptInfo === 'object' &&
+      userDeptInfo.deptMemberResponse[0].deptRole === 'Admin' ? (
+        <NavSectionVertical
+          data={navData}
+          config={{
+            currentRole: user?.role || 'admin',
+          }}
+        />
+      ) : (
+        <NavSectionVertical
+          data={userNavData}
+          config={{
+            currentRole: user?.role || 'user',
+          }}
+        />
+      )}
 
       <Box sx={{ flexGrow: 1 }} />
-
-      {/* <NavUpgrade /> */}
     </Scrollbar>
   );
 

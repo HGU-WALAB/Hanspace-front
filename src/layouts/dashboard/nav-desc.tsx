@@ -5,18 +5,17 @@ import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+// import { useMockedUser } from 'src/hooks/use-mocked-user';
 // components
-import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
-import { NavSectionVertical } from 'src/components/nav-section';
+// import { NavSectionVertical } from 'src/components/nav-section';
 //
 import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
 import styled from 'styled-components';
 import DescHanspace from 'src/sections/home/desc-hanspace';
 import { NAV } from '../config-layout';
-import { useNavData } from './config-navigation';
+// import { useNavData } from './config-navigation';
 import { NavToggleButton, NavUpgrade } from '../_common';
 
 // ----------------------------------------------------------------------
@@ -35,13 +34,13 @@ const Rows = styled.div`
 `;
 
 export default function NavDesc({ openNav, onCloseNav }: Props) {
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
 
   const pathname = usePathname();
 
   const lgUp = useResponsive('up', 'lg');
 
-  const navData = useNavData();
+  // const navData = useNavData();
 
   useEffect(() => {
     if (openNav) {
@@ -62,7 +61,6 @@ export default function NavDesc({ openNav, onCloseNav }: Props) {
       }}
     >
       <Rows>
-        {/* <Logo /> */}
         <DeptHeaderButton />
       </Rows>
 
@@ -82,16 +80,32 @@ export default function NavDesc({ openNav, onCloseNav }: Props) {
         width: { lg: NAV.W_VERTICAL },
       }}
     >
-      <Stack
-        sx={{
-          height: 1,
-          position: 'fixed',
-          width: NAV.W_VERTICAL,
-          borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
-        }}
-      >
-        {renderContent}
-      </Stack>
+      <NavToggleButton />
+
+      {lgUp ? (
+        <Stack
+          sx={{
+            height: 1,
+            position: 'fixed',
+            width: NAV.W_VERTICAL,
+            borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
+          }}
+        >
+          {renderContent}
+        </Stack>
+      ) : (
+        <Drawer
+          open={openNav}
+          onClose={onCloseNav}
+          PaperProps={{
+            sx: {
+              width: NAV.W_VERTICAL,
+            },
+          }}
+        >
+          {renderContent}
+        </Drawer>
+      )}
     </Box>
   );
 }

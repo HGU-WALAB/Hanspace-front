@@ -21,22 +21,8 @@ export default function CompactLayout({ children }: Props) {
 
   return (
     <>
-      <Header />
+      <Header onOpenNav={nav.onTrue} />
 
-      {/* <Container component="main">
-        <Stack
-          sx={{
-            py: 12,
-            m: 'auto',
-            // maxWidth: 400,
-            minHeight: '100vh',
-            textAlign: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {children}
-        </Stack>
-      </Container> */}
       <Box
         sx={{
           minHeight: 1,
