@@ -4,7 +4,7 @@ import { paths } from 'src/routes/paths';
 // components
 import SvgColor from 'src/components/svg-color';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState } from 'src/utils/atom';
+import { DeptUrlState, userDeptState } from 'src/utils/atom';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,13 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
-  const { url } = useRecoilValue(DeptUrlState);
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let url = '';
+  if (typeof userDeptInfo === 'object') {
+    url = userDeptInfo.link ?? '';
+  }
+
+  console.log(url);
 
   const data = useMemo(
     () => [
@@ -62,29 +68,13 @@ export function useNavData() {
             path: paths.dept.reservelist(url),
             icon: ICONS.banking,
           },
-          // { title: '승인 대기 현황', path: paths.dashboard.list, icon: ICONS.banking },
-          // {
-          //   title: '장소 관리',
-          //   path: paths.dashboard.three,
-          //   icon: ICONS.analytics,
-          // },
-          // {
-          //   title: '사용자 관리',
-          //   path: paths.dashboard.three,
-          //   icon: ICONS.analytics,
-          // },
-          // {
-          //   title: '사이트 관리',
-          //   path: paths.dashboard.three,
-          //   icon: ICONS.analytics,
-          // },
         ],
       },
 
       // MANAGEMENT
       // ----------------------------------------------------------------------
       {
-        subheader: '', // 'management',
+        subheader: '',
         items: [
           {
             title: '관리',
@@ -92,7 +82,6 @@ export function useNavData() {
             icon: ICONS.user,
             children: [
               { title: '장소 관리', path: paths.dept.management.root(url) },
-              // { title: '사용자 관리', path: paths.dashboard.management.manageUser },
               {
                 title: '사용자 관리',
                 path: paths.dept.management.manageUser(url),
@@ -102,41 +91,6 @@ export function useNavData() {
           },
         ],
       },
-
-      // // USER
-      // {
-      //   subheader: '', // 'management',
-      //   items: [
-      //     {
-      //       title: 'user',
-      //       path: paths.dashboard.user.root,
-      //       icon: ICONS.user,
-      //       children: [
-      //         { title: 'profile', path: paths.dashboard.user.root },
-      //         { title: 'cards', path: paths.dashboard.user.cards },
-      //         { title: 'list', path: paths.dashboard.user.list },
-      //         { title: 'create', path: paths.dashboard.user.new },
-      //         // { title: 'edit', path: paths.dashboard.user.demo.edit },
-      // \{ title: t('account'), path: paths.dashboard.user.account },
-      //       ],
-      //     },
-      //   ],
-      // },
-      // {
-      //   subheader: '',
-
-      //   items: [
-      //     {
-      //       title: 'order',
-      //       path: paths.dashboard.order.root,
-      //       icon: ICONS.order,
-      //       children: [
-      //         { title: 'list', path: paths.dashboard.order.root },
-      //         // { title: ('details'), path: paths.dashboard.order.demo.details },
-      //       ],
-      //     },
-      //   ],
-      // },
     ],
     [url]
   );
@@ -145,7 +99,13 @@ export function useNavData() {
 }
 
 export function useUserNavData() {
-  const { url } = useRecoilValue(DeptUrlState);
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let url = '';
+  if (typeof userDeptInfo === 'object') {
+    url = userDeptInfo.link ?? '';
+  }
+
+  console.log(url);
 
   const data = useMemo(
     () => [
