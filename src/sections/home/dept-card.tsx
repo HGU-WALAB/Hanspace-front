@@ -3,8 +3,9 @@ import Image from 'src/components/image';
 import { IDeptInfo } from 'src/types/dept';
 import { useEffect, useState } from 'react';
 import axiosInstance, { endpoints } from 'src/utils/axios';
-import { useRecoilValue } from 'recoil';
-import { userState } from 'src/utils/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { DeptUrlState, userState } from 'src/utils/atom';
+import { paths } from 'src/routes/paths';
 
 // 0 입장 가능
 // 1 나의 기관
@@ -20,6 +21,7 @@ type Props = {
 export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
   const [deptStatus, setDeptStatus] = useState<string>('');
   const userInfo = useRecoilValue(userState);
+  const setDeptUrl = useSetRecoilState(DeptUrlState);
 
   useEffect(() => {
     const firstElement = deptInfo.deptMemberResponse[0];
@@ -37,14 +39,15 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
     }
   }, [deptInfo]);
 
-  const handleMove = () => {
-    console.log('handleMove');
+  const handleMove = (deptlink: string | null) => {
+    setDeptUrl(paths.dept.dashboard(deptlink ?? 'HANSPACE'));
+    window.location.href = paths.dept.dashboard(deptlink ?? 'HANSPACE');
   };
 
   const handleClick = (access: boolean, status: string) => {
-    if (status === '관리하기' || status === '입장하기') handleMove();
+    if (status === '관리하기' || status === '입장하기') handleMove(deptInfo.link);
     else if (access === true && status === '기관 추가하기') {
-      const res = axiosInstance.post(endpoints.dept.add, {
+      axiosInstance.post(endpoints.dept.add, {
         name: userInfo.name,
         email: userInfo.email,
         deptId: deptInfo.deptId,
@@ -52,7 +55,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
       onPending();
       setDeptStatus('승인 대기 중');
     } else if (access === false && status === '기관 추가하기') {
-      const res = axiosInstance.post(endpoints.dept.add, {
+      axiosInstance.post(endpoints.dept.add, {
         name: userInfo.name,
         email: userInfo.email,
         deptId: deptInfo.deptId,
