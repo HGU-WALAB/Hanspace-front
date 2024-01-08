@@ -75,5 +75,6 @@ export const endpoints = {
   },
   dept: {
     signup: `/hanSpace/member/signup`,
+    add: `/hanSpace/member/add`,
   },
 };
