@@ -240,7 +240,11 @@ export default function ReserveView() {
       )}
       {selectedValue === 'regularly' && (
         <>
-          <ReserveRegularyForm1 handleRegularlyReserveInfo={handleRegularlyReserveInfo} selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
+          <ReserveRegularyForm1
+            handleRegularlyReserveInfo={handleRegularlyReserveInfo}
+            selectedValue={selectedValue}
+            handleRadioChange={handleRadioChange}
+          />
           <Box
             gap={3}
             display="grid"
