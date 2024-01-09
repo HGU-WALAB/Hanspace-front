@@ -41,7 +41,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
   }, [deptInfo]);
 
   const handleMove = (deptinfo: IDeptInfo | null) => {
-    setDeptUrl(paths.dept.dashboard(deptinfo?.link ?? 'HANSPACE'));
+    setDeptUrl(deptinfo?.link);
     setDeptState(deptinfo ?? 'HANSPACE');
     window.location.href = paths.dept.dashboard(deptinfo?.link ?? 'HANSPACE');
   };

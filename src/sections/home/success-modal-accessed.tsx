@@ -37,7 +37,7 @@ export default function AccessedDialog({ open, onClose, currentDept }: IAccessMo
   const setDeptUrl = useSetRecoilState(DeptUrlState);
 
   const moveToDept = (deptlink: string | null | undefined) => {
-    setDeptUrl(paths.dept.dashboard(deptlink ?? 'HANSPACE'));
+    setDeptUrl(deptlink ?? 'HANSPACE');
     window.location.href = paths.dept.dashboard(deptlink ?? 'HANSPACE');
   };
 

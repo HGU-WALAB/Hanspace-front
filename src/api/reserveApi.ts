@@ -1,7 +1,6 @@
-// import axios from 'axios';
-// import { BASE_URL } from 'src/config-global';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 
-// export const GetReserve = async () => {
-//   const response = await axios.get(`${BASE_URL}/reserve/list/1`); // spaceId = 1
-//   return response;
-// };
+export const GetReserve = async () => {
+  const response = await axiosInstance.get(endpoints.reserve.list); // spaceId = 1
+  return response;
+};

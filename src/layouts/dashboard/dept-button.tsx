@@ -80,7 +80,7 @@ export default function DeptHeaderButton() {
       handleClose();
       setMenuOpen('HANSPACE');
       setSelectedIndex(-1);
-      setDeptUrl(paths.hanspace.root);
+      setDeptUrl('HANSPACE');
       window.location.replace(paths.hanspace.root);
     },
     [handleClose, setMenuOpen, setSelectedIndex, setDeptUrl]
@@ -92,7 +92,7 @@ export default function DeptHeaderButton() {
       setUserDeptState(option);
       setMenuOpen(option);
       handleClose();
-      setDeptUrl(paths.dept.dashboard(option?.link ?? 'HANSPACE'));
+      setDeptUrl(option?.link ?? 'HANSPACE');
       window.location.href = paths.dept.dashboard(option?.link ?? 'HANSPACE');
     },
     [handleClose, setSelectedIndex, setMenuOpen, deptList, setUserDeptState, setDeptUrl]
@@ -102,7 +102,7 @@ export default function DeptHeaderButton() {
     (event: React.MouseEvent<HTMLElement>) => {
       handleClose();
       setMenuOpen('HANSPACE');
-      setDeptUrl(paths.hanspace.dept);
+      setDeptUrl('HANSPACE');
       window.location.replace(paths.hanspace.dept);
       setSelectedIndex(-2);
     },
