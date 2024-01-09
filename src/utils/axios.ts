@@ -8,7 +8,6 @@ import { HOST_API, BASE_URL } from 'src/config-global';
 const axiosInstance = axios.create({ baseURL: BASE_URL });
 
 const deptId = localStorage.getItem('deptId');
-const spaceId = localStorage.getItem('spaceId');
 const UserId = localStorage.getItem('userId');
 
 axiosInstance.interceptors.request.use(
@@ -78,6 +77,6 @@ export const endpoints = {
     signup: `/hanSpace/member/signup`,
   },
   reserve: {
-    list: `/hanSpace/reserve/list/1`,
+    list: `/hanSpace/reserve/list/${deptId}`,
   }
 };

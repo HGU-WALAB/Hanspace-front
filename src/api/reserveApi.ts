@@ -8,15 +8,14 @@ const palette = themePalette('light');
 // dashboard calander (ReserveFindeBySpaceId)
 export const GetReserveListBySpace = async () => {
   const response = axiosInstance.get(endpoints.reserve.list);
-  console.log("data check", response);
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.id,
     reserveDate: item.reserveDate,
     start: new Date(`${item.reserveDate} ${item.startTime}`).getTime(),
     end: new Date(`${item.reserveDate} ${item.endTime}`).getTime(),
-    color: palette.secondary.main,
-    textColor: palette.secondary.main,
+    color: palette.secondary.main, // to be continue..
+    textColor: palette.secondary.main, // to be continue..
     purpose: item.purpose,
     status: item.status,
     spaceName: item.space?.name,
