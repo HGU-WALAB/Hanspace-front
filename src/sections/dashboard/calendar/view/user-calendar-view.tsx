@@ -25,6 +25,7 @@ import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
 import { palette as themePalette } from 'src/theme/palette';
 // api
 import { useGetEvents, updateEvent } from 'src/api/calendar';
+import { GetReserveListBySpace } from 'src/api/reserveApi';
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
@@ -33,6 +34,7 @@ import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/type
 //
 import { useCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
+import CalendarForm from '../calendar-form';
 import CalendarUForm from '../calendar-uform';
 import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
@@ -57,140 +59,18 @@ const defaultFilters: ICalendarFilters = {
   endDate: null,
 };
 const palette = themePalette('light');
-const eventsData: ICalendarEvent[] = [ // ex
-  {
-    id: "1",
-    allDay: false,
-    color: palette.secondary.main,
-    description: "공프기 마감 작업 회의 진행 예정",
-    start: new Date('2023.11.23 11:00:00').getTime(),
-    end: new Date('2023.11.23 14:30:00').getTime(),
-    textColor: palette.secondary.main,
-    title: "뉴턴 210호",
-    invite: true,
-  },
-  {
-    id: "2",
-    allDay: false,
-    color: palette.secondary.main,
-    description: "학합 연습 진행 예정, 인원은 25명 예상",
-    start: new Date('2023.11.04 19:00:00').getTime(),
-    end: new Date('2023.11.04 22:00:00').getTime(),
-    textColor: palette.secondary.main,
-    title: "뉴턴 210호",
-    invite: true,
-  },
-  {
-    id: "3",
-    allDay: false,
-    color: palette.info.main,
-    description: "비즈플로우 대표님과 식사자리 마련",
-    start: new Date('2023.11.12 20:00:00').getTime(),
-    end: new Date('2023.11.12 21:30:00').getTime(),
-    textColor: palette.info.main,
-    title: "뉴턴 220호",
-    invite: false,
-  },
-  {
-    id: "4",
-    allDay: false,
-    color: palette.success.main,
-    description: "실전프로젝트1 특별 수업 진행",
-    start: new Date('2023.11.20 22:00:00').getTime(),
-    end: new Date('2023.11.20 23:30:00').getTime(),
-    textColor: palette.success.main,
-    title: "뉴턴 319호",
-    invite: false,
-  },
-  {
-    id: "5",
-    allDay: false,
-    color: palette.error.main,
-    description: "실전프로젝트1 특별 수업 진행",
-    start: new Date('2023.11.26 19:00:00').getTime(),
-    end: new Date('2023.11.26 20:30:00').getTime(),
-    textColor: palette.error.main,
-    title: "뉴턴 113호",
-    invite: false,
-  },
-  {
-    id: "6",
-    allDay: false,
-    color: palette.secondary.main,
-    description: "실전프로젝트1 특별 수업 진행",
-    start: new Date('2023.11.07 21:00:00').getTime(),
-    end: new Date('2023.11.07 22:30:00').getTime(),
-    textColor: palette.secondary.main,
-    title: "뉴턴 210호",
-    invite: true,
-  },
-  {
-    id: "7",
-    allDay: false,
-    color: palette.success.main,
-    description: "실전프로젝트1 특별 수업 진행",
-    start: new Date('2023.11.09 20:00:00').getTime(),
-    end: new Date('2023.11.09 21:30:00').getTime(),
-    textColor: palette.success.main,
-    title: "뉴턴 319호",
-    invite: true,
-  },
-  {
-    id: "8",
-    allDay: false,
-    color: palette.error.main,
-    description: "캡스톤 디자인 회의",
-    start: new Date('2023.11.27 21:00:00').getTime(),
-    end: new Date('2023.11.27 22:30:00').getTime(),
-    textColor: palette.error.main,
-    title: "뉴턴 113호",
-    invite: true,
-  },
-  {
-    id: "9",
-    allDay: false,
-    color: palette.success.main,
-    description: "공프기 회의",
-    start: new Date('2023.11.27 15:00:00').getTime(),
-    end: new Date('2023.11.27 16:30:00').getTime(),
-    textColor: palette.success.main,
-    title: "뉴턴 319호",
-    invite: true,
-  },
-  {
-    id: "10",
-    allDay: false,
-    color: palette.error.main,
-    description: "멋사 회의",
-    start: new Date('2023.11.27 09:00:00').getTime(),
-    end: new Date('2023.11.27 10:30:00').getTime(),
-    textColor: palette.error.main,
-    title: "뉴턴 113호",
-    invite: true,
-  },
-  {
-    id: "11",
-    allDay: false,
-    color: palette.secondary.main,
-    description: "실프 TA 세션",
-    start: new Date('2023.11.27 18:00:00').getTime(),
-    end: new Date('2023.11.27 19:00:00').getTime(),
-    textColor: palette.secondary.main,
-    title: "뉴턴 210호",
-    invite: true,
-  },
-  {
-    id: "12",
-    allDay: false,
-    color: palette.info.main,
-    description: "HanSpace 고정 회의",
-    start: new Date('2023.11.28 11:00:00').getTime(),
-    end: new Date('2023.11.28 12:30:00').getTime(),
-    textColor: palette.info.main,
-    title: "뉴턴 220호",
-    invite: false,
-  },
-];
+// const eventsData: ICalendarEvent[] = [ // ex
+//   {
+//     id: "1",
+//     allDay: false,
+//     color: palette.secondary.main,
+//     description: "공프기 마감 작업 회의 진행 예정",
+//     start: new Date('2023.11.23 11:00:00').getTime(),
+//     end: new Date('2023.11.23 14:30:00').getTime(),
+//     textColor: palette.secondary.main,
+//     title: "뉴턴 210호",
+//     invite: true,
+//   },
 
 // ----------------------------------------------------------------------
 
@@ -210,12 +90,6 @@ export default function UserCalendarView() {
   console.log('filters', filters);
 
   // const { events, eventsLoading } = useGetEvents();
-  
-  // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
-  const events = eventsData;
-  const eventsLoading = false;
-
-  console.log('events: ', events);
 
   const dateError =
     filters.startDate && filters.endDate
@@ -248,11 +122,30 @@ export default function UserCalendarView() {
     onClickEventInFilters,
   } = useCalendar();
 
-  const currentEvent = useEvent(events, selectEventId, selectedRange, openForm);
+  const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
+
+  const fetchData = async () => {
+    try {
+      const data = await GetReserveListBySpace();
+      setEventData(data);
+      console.log("data" ,data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
     onInitialView();
+    // ToDo : ReserveBySpaceId List API
+    fetchData();
   }, [onInitialView]);
+  
+  
+  // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
+  const events = eventsData || [];
+  const eventsLoading = false;
+
+  // const currentEvent = useEvent(events, selectEventId, selectedRange, openForm);
 
   const handleFilters = useCallback((name: string, value: ICalendarFilterValue) => {
     setFilters((prevState) => ({
@@ -289,7 +182,7 @@ export default function UserCalendarView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        {/* <Stack
+        <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
@@ -297,15 +190,8 @@ export default function UserCalendarView() {
             mb: { xs: 3, md: 5 },
           }}
         >
-          <Typography variant="h4">Calendar</Typography>
-          <Button
-            variant="contained"
-            startIcon={<Iconify icon="mingcute:add-line" />}
-            onClick={onOpenForm}
-          >
-            New Event
-          </Button>
-        </Stack> */}
+          <Typography variant="h4">달력</Typography>
+        </Stack>
 
         {canReset && renderResults}
 
@@ -369,14 +255,20 @@ export default function UserCalendarView() {
         }}
       >
         <DialogTitle sx={{ minHeight: 76 }}>
-          {openForm && <> {currentEvent?.id ? '일정 확인하기' : '일정 추가하기'}</>}
+          {/* {openForm && <> {selectEventId ? '일정 확인하기' : '일정 추가하기'}</>} */}
+          {openForm && {selectEventId} && '일정 확인하기'}
         </DialogTitle>
-
-        <CalendarUForm
-          currentEvent={currentEvent}
-          // colorOptions={CALENDAR_COLOR_OPTIONS}
-          onClose={onCloseForm}
-        />
+        {selectEventId &&
+          <CalendarUForm
+            currentEvent={events.find((event) => event.id.toString() === selectEventId)}
+            onClose={onCloseForm}
+          />
+        //   :
+        //   <CalendarForm
+        //     currentEvent={currentEvent}
+        //     onClose={onCloseForm}
+        // />
+        }
       </Dialog>
 
       <CalendarFilters

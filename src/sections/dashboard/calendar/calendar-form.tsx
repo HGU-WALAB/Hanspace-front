@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,6 +23,7 @@ import { ColorPicker } from 'src/components/color-utils';
 import FormProvider, { RHFTextField, RHFSwitch } from 'src/components/hook-form';
 // types
 import { ICalendarEvent, ICalendarDate } from 'src/types/calendar';
+import { defaultValues } from 'src/sections/reserve/reserve-daily-form1';
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +37,8 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
-    title: Yup.string().max(255).required('제목을 입력해주세요'),
-    description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
+    purpose: Yup.string().max(255).required('제목을 입력해주세요'),
+    // description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
     // not required
     color: Yup.string(),
     allDay: Yup.boolean(),
@@ -49,6 +50,10 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     resolver: yupResolver(EventSchema),
     defaultValues: currentEvent,
   });
+
+  useEffect(() => {
+    console.log("넘어온 데이터 확인", currentEvent);
+  })
 
   const {
     reset,
@@ -104,9 +109,9 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     // <FormProvider methods={methods} onSubmit={onSubmit}>
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="제목" disabled/>
-
-        <RHFTextField name="description" label="설명" multiline rows={3} disabled/>
+        <RHFTextField name="purpose" label="제목"/>
+        <RHFTextField name="spaceName" label="장소"/>
+        {/* <RHFTextField name="description" label="설명" multiline rows={3} disabled/> */}
 
         {/* <RHFSwitch name="allDay" label="요일 전체" /> */}
 
@@ -129,7 +134,6 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
                   fullWidth: true,
                 },
               }}
-              disabled
             />
           )}
         />
@@ -155,7 +159,6 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
                   helperText: dateError && '끝 날짜는 시작 날짜보다 이전일 수 없습니다',
                 },
               }}
-              disabled
             />
           )}
         />

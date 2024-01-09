@@ -77,4 +77,7 @@ export const endpoints = {
     signup: `/hanSpace/member/signup`,
     add: `/hanSpace/member/add`,
   },
+  reserve: {
+    list: `/hanSpace/reserve/list/${deptId}`,
+  }
 };

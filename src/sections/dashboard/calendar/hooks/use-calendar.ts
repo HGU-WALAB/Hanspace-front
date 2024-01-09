@@ -106,7 +106,6 @@ export default function useCalendar() {
   const onClickEvent = useCallback(
     (arg: EventClickArg) => {
       const { event } = arg;
-
       onOpenForm();
       setSelectEventId(event.id);
     },
