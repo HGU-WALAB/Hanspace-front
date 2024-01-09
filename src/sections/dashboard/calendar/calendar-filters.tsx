@@ -174,7 +174,7 @@ export default function CalendarFilters({
               disableTypography
               primary={
                 <Typography variant="subtitle2" sx={{ fontSize: 13, mt: 0.5 }}>
-                  {event.title}
+                  {event.purpose}
                 </Typography>
               }
               secondary={

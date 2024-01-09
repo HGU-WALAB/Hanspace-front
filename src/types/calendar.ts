@@ -20,16 +20,26 @@ export type ICalendarRange = {
   end: ICalendarDate;
 } | null;
 
+// export type ICalendarEvent = {
+//   start: ICalendarDate;
+//   end: ICalendarDate;
+//   color: string;
+//   title: string;
+//   description: string;
+//   allDay: boolean;
+// };
+
 export type ICalendarEvent = {
   id: string;
-  color: string;
-  title: string;
-  allDay: boolean;
-  description: string;
-  end: ICalendarDate;
+  reserveDate: string;
   start: ICalendarDate;
+  end: ICalendarDate;
+  color: string;
   textColor: string;
-  invite: boolean;
+  purpose: string;
+  status: boolean;
+  spaceName: string;
+  allDay: boolean;
 };
 
 export type UCalendarEvent = {
