@@ -43,7 +43,6 @@ import {
 //
 import { Typography } from '@mui/material';
 import { useQuery } from 'react-query';
-import { GetReserve } from 'src/api/reserveApi';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
 import { DeptUrlState, userDeptState } from 'src/utils/atom';

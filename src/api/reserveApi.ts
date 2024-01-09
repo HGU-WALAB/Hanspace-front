@@ -7,7 +7,7 @@ const palette = themePalette('light');
 
 // dashboard calander (ReserveFindeBySpaceId)
 export const GetReserveListBySpace = async () => {
-  const response = axiosInstance.get(endpoints.reserve.list);
+  const response = axiosInstance.get(endpoints.reserve.schedule);
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.id,
