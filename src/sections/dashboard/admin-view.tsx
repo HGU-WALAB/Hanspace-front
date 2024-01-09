@@ -20,6 +20,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { paths } from 'src/routes/paths';
 import styled from 'styled-components';
+import { userDeptState } from 'src/utils/atom';
+import { useRecoilValue } from 'recoil';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
 import { UserCalendarView } from './calendar/view';
 // import AdminCalendarView from './calendar/view/admin-calendar-view';
@@ -29,6 +31,12 @@ import { UserCalendarView } from './calendar/view';
 export default function AdminDashboardView() {
   const settings = useSettingsContext();
   const theme = useTheme();
+
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let url = '';
+  if (typeof userDeptInfo === 'object') {
+    url = userDeptInfo.link ?? '';
+  }
 
   const rangeCalendarPicker = useDateRangePicker(new Date(), null);
   const [value, setValue] = useState<Date | null>(new Date());
@@ -57,7 +65,7 @@ export default function AdminDashboardView() {
       {/* 분석 카드 4개 */}
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
-          <StyledLink to={paths.dept.reservelist('CSEE')}>
+          <StyledLink to={paths.dept.reservelist(url)}>
             <AnalyticsWidgetSummary
               title="미승인 예약"
               total={210}
@@ -68,7 +76,7 @@ export default function AdminDashboardView() {
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <StyledLink to={paths.dept.reservelist('CSEE')}>
+          <StyledLink to={paths.dept.management.manageUser(url)}>
             <AnalyticsWidgetSummary
               title="미승인 대기 유저"
               total={13}
@@ -79,7 +87,7 @@ export default function AdminDashboardView() {
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <StyledLink to={paths.dept.reservelist('CSEE')}>
+          <StyledLink to={paths.dept.reservelist(url)}>
             <AnalyticsWidgetSummary
               title="오늘 예정된 예약"
               total={17}
@@ -90,7 +98,7 @@ export default function AdminDashboardView() {
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <StyledLink to={paths.dept.reservelist('CSEE')}>
+          <StyledLink to={paths.dept.reservelist(url)}>
             <AnalyticsWidgetSummary
               title="전체 예약"
               total={234}
@@ -106,9 +114,6 @@ export default function AdminDashboardView() {
           {/* <AdminCalendarView /> */}
         </Grid>
       </Grid>
-
-      {/* </DemoItem> */}
-      {/* </Box> */}
     </Container>
   );
 }
