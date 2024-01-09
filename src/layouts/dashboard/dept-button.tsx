@@ -27,10 +27,6 @@ import { strlen } from 'stylis';
 import { IDeptInfo } from 'src/types/dept';
 // ----------------------------------------------------------------------
 
-// const OPTIONS = ['CSEE 뉴턴', '오석관', '산학협력관', '에벤에셀'];
-
-// const COLORS = ['secondary', 'info', 'success'];
-
 const DeptButton = styled.div`
   display: flex;
   flex-direction: row;

@@ -4,7 +4,7 @@ import { IDeptInfo } from 'src/types/dept';
 import { useEffect, useState } from 'react';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { DeptUrlState, userState } from 'src/utils/atom';
+import { DeptUrlState, userDeptState, userState } from 'src/utils/atom';
 import { paths } from 'src/routes/paths';
 
 // 0 입장 가능
@@ -22,6 +22,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
   const [deptStatus, setDeptStatus] = useState<string>('');
   const userInfo = useRecoilValue(userState);
   const setDeptUrl = useSetRecoilState(DeptUrlState);
+  const setDeptState = useSetRecoilState(userDeptState);
 
   useEffect(() => {
     const firstElement = deptInfo.deptMemberResponse[0];
@@ -39,13 +40,14 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
     }
   }, [deptInfo]);
 
-  const handleMove = (deptlink: string | null) => {
-    setDeptUrl(paths.dept.dashboard(deptlink ?? 'HANSPACE'));
-    window.location.href = paths.dept.dashboard(deptlink ?? 'HANSPACE');
+  const handleMove = (deptinfo: IDeptInfo | null) => {
+    setDeptUrl(paths.dept.dashboard(deptinfo?.link ?? 'HANSPACE'));
+    setDeptState(deptinfo ?? 'HANSPACE');
+    window.location.href = paths.dept.dashboard(deptinfo?.link ?? 'HANSPACE');
   };
 
   const handleClick = (access: boolean, status: string) => {
-    if (status === '관리하기' || status === '입장하기') handleMove(deptInfo.link);
+    if (status === '관리하기' || status === '입장하기') handleMove(deptInfo);
     else if (access === true && status === '기관 추가하기') {
       axiosInstance.post(endpoints.dept.add, {
         name: userInfo.name,

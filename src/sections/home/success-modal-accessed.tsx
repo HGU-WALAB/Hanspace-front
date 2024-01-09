@@ -9,6 +9,9 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { IDeptInfo } from 'src/types/dept';
 import styled from 'styled-components';
 import { Box } from '@mui/material';
+import { paths } from 'src/routes/paths';
+import { useSetRecoilState } from 'recoil';
+import { DeptUrlState } from 'src/utils/atom';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +34,13 @@ const Content = styled.div`
 `;
 
 export default function AccessedDialog({ open, onClose, currentDept }: IAccessModalProps) {
+  const setDeptUrl = useSetRecoilState(DeptUrlState);
+
+  const moveToDept = (deptlink: string | null | undefined) => {
+    setDeptUrl(paths.dept.dashboard(deptlink ?? 'HANSPACE'));
+    window.location.href = paths.dept.dashboard(deptlink ?? 'HANSPACE');
+  };
+
   return (
     <Dialog open={open} onClose={onClose}>
       <Box style={{ padding: '30px', textAlign: 'center' }}>
@@ -54,12 +64,21 @@ export default function AccessedDialog({ open, onClose, currentDept }: IAccessMo
         <Box style={{ padding: '24px', textAlign: 'center' }}>
           <Button
             variant="contained"
-            onClick={onClose}
+            onClick={() => moveToDept(currentDept?.link)}
             color="primary"
             autoFocus
             style={{ padding: '15px 50px' }}
           >
             기관 둘러보기
+          </Button>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            color="primary"
+            autoFocus
+            style={{ padding: '15px 50px' }}
+          >
+            홈으로
           </Button>
         </Box>
       </Box>

@@ -4,7 +4,7 @@ import { paths } from 'src/routes/paths';
 // components
 import SvgColor from 'src/components/svg-color';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { userDeptState } from 'src/utils/atom';
 
 // ----------------------------------------------------------------------
 
@@ -104,8 +104,6 @@ export function useUserNavData() {
   if (typeof userDeptInfo === 'object') {
     url = userDeptInfo.link ?? '';
   }
-
-  console.log(url);
 
   const data = useMemo(
     () => [
