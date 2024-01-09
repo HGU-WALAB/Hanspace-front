@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -42,6 +42,11 @@ import {
 } from 'src/types/reserveList';
 //
 import { Typography } from '@mui/material';
+import { useQuery } from 'react-query';
+import { GetReserve } from 'src/api/reserveApi';
+import axiosInstance, { endpoints } from 'src/utils/axios';
+import { useRecoilValue } from 'recoil';
+import { DeptUrlState, userDeptState } from 'src/utils/atom';
 import ReserveTableRow from '../reserve-table-row';
 import ReserveTableToolbar from '../reserve-table-toolbar';
 import ReserveTableFiltersResult from '../reserve-table-filters-result';
@@ -77,11 +82,31 @@ export default function ReserveListView() {
 
   const settings = useSettingsContext();
 
-  // const router = useRouter();
-
   const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(_reserve);
+
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`);
+        setTableData(response.data);
+        console.log('res', response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Call the async function
+  }, [deptId]);
+
+  console.log('set', tableData);
 
   const [filters, setFilters] = useState(defaultFilters);
 

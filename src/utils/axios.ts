@@ -7,8 +7,9 @@ import { HOST_API, BASE_URL } from 'src/config-global';
 // const axiosInstance = axios.create({ baseURL: HOST_API });
 const axiosInstance = axios.create({ baseURL: BASE_URL });
 
-const deptId = localStorage.getItem('deptId');
-const UserId = localStorage.getItem('userId');
+// const deptId = localStorage.getItem('DeptUrlState');
+// console.log('deptId', deptId);
+// const UserId = localStorage.getItem('userId');
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -39,7 +40,6 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 };
 
 // ----------------------------------------------------------------------
-
 export const endpoints = {
   chat: '/api/chat',
   kanban: '/api/kanban',
@@ -50,10 +50,8 @@ export const endpoints = {
     register: '/api/auth/register',
     info: '/hanSpace/info',
   },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
+  reserve: {
+    list: `/hanSpace/reserve`,
   },
   post: {
     list: '/api/post/list',
@@ -67,15 +65,15 @@ export const endpoints = {
     search: '/api/product/search',
   },
   space: {
-    list: `/space/list/${deptId}`,
+    list: `/space/list/${localStorage.getItem('DeptUrlState')}`,
   },
   user: {
-    list: `/deptMember/list/${deptId}`,
-    update: `/deptMember/${UserId}`,
+    list: `/deptMember/list/${localStorage.getItem('DeptUrlState')}`,
+    update: `/deptMember/${localStorage.getItem('userId')}`,
   },
   dept: {
-    signup: `/hanSpace/member/signup`,
-    add: `/hanSpace/member/add`,
+    signup: '/hanSpace/member/signup',
+    add: '/hanSpace/member/add',
   },
   reserve: {
     list: `/hanSpace/reserve/list/${deptId}`,
