@@ -174,7 +174,7 @@ export default function DeptHeaderButton() {
                 </Avatar>
                 {option.deptName}
 
-                {option.deptMemberResponse[0].deptRole === 'ADMIN' ? (
+                {option.deptMemberResponse[0]?.deptRole === 'ADMIN' ? (
                   <Avatar
                     alt="A"
                     color="primary.pale"

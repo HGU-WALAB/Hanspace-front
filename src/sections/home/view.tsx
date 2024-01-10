@@ -8,7 +8,7 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { useEffect } from 'react';
 import { GetFirstInfo } from 'src/api/userApi';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userDeptListState, userState } from 'src/utils/atom';
+import { userDeptListState, userDeptState, userState } from 'src/utils/atom';
 import { IDeptInfo } from 'src/types/dept';
 import { useAuthContext } from 'src/auth/hooks';
 import DeptList from './dept-list';
@@ -23,9 +23,12 @@ export default function HomeView() {
 
   const settings = useSettingsContext();
 
-  const setUserInfo = useSetRecoilState(userState);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
 
   const [deptInfo, setDeptInfo] = useRecoilState<IDeptInfo[] | null>(userDeptListState);
+
+  const setfirstDept = useSetRecoilState(userDeptState);
+  setfirstDept('HANSPACE');
 
   useEffect(() => {
     try {
@@ -53,7 +56,7 @@ export default function HomeView() {
       >
         <Grid xs={12} md={8}>
           <AppWelcome
-            title={`안녕하세요, ${user?.displayName}님 👋 `}
+            title={`안녕하세요, ${userInfo.name}님 👋 `}
             description={`한동메일을 통한 로그인으로 대여 신청이 가능합니다.\nHOME에서 예약 내역 확인과 'Calendar'를 통한 강의실별 예약 현황을 볼 수 있습니다.\n승인된 예약을 통해 강의실을 사용할 수 있으며, 지도 교수 소속 조건 충족 시 대여가 가능합니다.`}
             // img={<SeoIllustration />}
             action={

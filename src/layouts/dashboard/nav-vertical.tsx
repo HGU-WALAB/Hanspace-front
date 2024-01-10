@@ -73,7 +73,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       <Box style={{ height: '10px' }} />
 
       {typeof userDeptInfo === 'object' &&
-      userDeptInfo.deptMemberResponse[0].deptRole === 'ADMIN' ? (
+      userDeptInfo.deptMemberResponse[0]?.deptRole === 'ADMIN' ? (
         <NavSectionVertical
           data={navData}
           config={{
