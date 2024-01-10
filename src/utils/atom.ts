@@ -35,9 +35,9 @@ export const selectedIndexState = atom({
 export const userState = atom({
   key: 'userState',
   default: {
-    email: 'HyelimChoi@handong.ac.kr',
-    name: '최혜림',
-    hanRole: 'USER',
+    email: '',
+    name: '',
+    hanRole: '',
   },
 });
 
