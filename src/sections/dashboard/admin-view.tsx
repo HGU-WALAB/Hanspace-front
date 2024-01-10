@@ -23,8 +23,7 @@ import styled from 'styled-components';
 import { userDeptState } from 'src/utils/atom';
 import { useRecoilValue } from 'recoil';
 import AnalyticsWidgetSummary from './analytics-widget-summary';
-import { UserCalendarView } from './calendar/view';
-// import AdminCalendarView from './calendar/view/admin-calendar-view';
+import AdminCalendarView from './calendar/view/admin-calendar-view';
 
 // ----------------------------------------------------------------------
 
@@ -110,8 +109,7 @@ export default function AdminDashboardView() {
 
         {/* 2번째  */}
         <Grid xs={12} md={12} lg={12}>
-          <UserCalendarView />
-          {/* <AdminCalendarView /> */}
+          <AdminCalendarView />
         </Grid>
       </Grid>
     </Container>

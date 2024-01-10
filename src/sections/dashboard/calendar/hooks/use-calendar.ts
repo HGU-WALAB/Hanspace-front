@@ -11,7 +11,7 @@ import { UCalendarView, ICalendarRange, ICalendarEvent } from 'src/types/calenda
 
 // ----------------------------------------------------------------------
 
-export default function useCalendar() {
+export default function useUserCalendar() {
   const calendarRef = useRef<FullCalendar>(null);
 
   const calendarEl = calendarRef.current;

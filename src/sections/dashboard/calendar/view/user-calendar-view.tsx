@@ -25,14 +25,15 @@ import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
 import { palette as themePalette } from 'src/theme/palette';
 // api
 import { useGetEvents, updateEvent } from 'src/api/calendar';
-import { GetReserveListBySpace } from 'src/api/reserveApi';
+import { GetReserveListByMember } from 'src/api/reserveApi';
+// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기 
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useCalendar, useEvent } from '../hooks';
+import { useUserCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
 import CalendarUForm from '../calendar-uform';
@@ -120,15 +121,15 @@ export default function UserCalendarView() {
     selectedRange,
     //
     onClickEventInFilters,
-  } = useCalendar();
+  } = useUserCalendar();
 
   const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
 
   const fetchData = async () => {
     try {
-      const data = await GetReserveListBySpace();
+      const data = await GetReserveListByMember();
       setEventData(data);
-      console.log("data" ,data);
+      // console.log("data" ,data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

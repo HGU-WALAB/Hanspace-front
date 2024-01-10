@@ -5,9 +5,9 @@ import { isEmpty } from 'lodash';
 
 const palette = themePalette('light');
 
-// dashboard calander (ReserveFindeBySpaceId)
-export const GetReserveListBySpace = async () => {
-  const response = axiosInstance.get(endpoints.reserve.schedule);
+// dashboard calander (ReserveFindeByDeptId)
+export const GetReserveListByDept = async () => {
+  const response = axiosInstance.get(`${endpoints.reserve.list}/1`); // DeptId 전체 리스트 (admin)
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.id,
@@ -16,9 +16,28 @@ export const GetReserveListBySpace = async () => {
     end: new Date(`${item.reserveDate} ${item.endTime}`).getTime(),
     color: palette.secondary.main, // to be continue..
     textColor: palette.secondary.main, // to be continue..
-    purpose: item.purpose,
+    title: item.purpose,
     status: item.status,
     spaceName: item.space?.name,
+  }))
+ 
+  return selectData;
+};
+
+// dashboard calander (ReserveFindeByMember)
+export const GetReserveListByMember = async () => {
+  const response = axiosInstance.get(`${endpoints.reserve.member}`); // Member 예약 전체 리스트 (admin)
+  
+  const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
+    id: item.reserveId,
+    reserveDate: item.reserveDate,
+    start: new Date(`${item.reserveDate} ${item.startTime}`).getTime(),
+    end: new Date(`${item.reserveDate} ${item.endTime}`).getTime(),
+    color: palette.secondary.main, // to be continue..
+    textColor: palette.secondary.main, // to be continue..
+    title: item.purpose,
+    status: item.status,
+    spaceName: item.spaceName,
   }))
  
   return selectData;
