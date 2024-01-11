@@ -6,8 +6,8 @@ import { isEmpty } from 'lodash';
 const palette = themePalette('light');
 
 // dashboard calander (ReserveFindeByDeptId)
-export const GetReserveListByDept = async () => {
-  const response = axiosInstance.get(`${endpoints.reserve.list}/1`); // DeptId 전체 리스트 (admin)
+export const GetReserveListByDept = async (deptId: number) => {
+  const response = axiosInstance.get(`${endpoints.reserve.list}/${deptId}`); // DeptId 전체 리스트 (admin)
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.id,
@@ -26,7 +26,7 @@ export const GetReserveListByDept = async () => {
 
 // dashboard calander (ReserveFindeByMember)
 export const GetReserveListByMember = async () => {
-  const response = axiosInstance.get(`${endpoints.reserve.member}`); // Member 예약 전체 리스트 (admin)
+  const response = axiosInstance.get(`${endpoints.reserve.member}/1`); // Member 예약 전체 리스트 (admin)
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.reserveId,
