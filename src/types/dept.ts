@@ -18,3 +18,24 @@ export type IDeptInfo = {
   memberCount: number | null;
   deptMemberResponse: IDeptRole[];
 };
+
+export type IDeptAdd = {
+  siteName: string;
+  deptName: string;
+  // ToDo: 이미지 중 하나 삭제 필요
+  logoImage: string;
+  deptImage: string;
+  userAccept: boolean;
+  maxRserveCount: number;
+  link: string;
+  extraInfo: string;
+};
+
+export type IDeptUpdate = {
+  siteName: string;
+  deptName: string;
+  logoImage: string;
+  userAccept: boolean;
+  maxRserveCount: number;
+  extraInfo: string;
+};

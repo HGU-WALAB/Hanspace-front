@@ -1,16 +1,13 @@
 // react
 import { SetStateAction, useCallback, useState } from "react";
 import styled from "styled-components";
+import { createDept } from 'src/api/deptApi';
 // @mui
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 // component
@@ -38,14 +35,13 @@ const Div = styled.div`
 export const defaultValues = {
     siteName: '', 
     deptName: '',
-    logo: '',
-    color: '',
+    // ToDo: 이미지 중 하나 삭제 필요
+    logoImage: '',
+    deptImage: '',
     userAccept: false,
     maxRserveCount: 0,
     link: '',
     extraInfo: '',
-    // siteInfoTitle: '',
-    // siteInfoDetail: '',
 };
 
 export default function DepartmentForm() {
@@ -71,19 +67,18 @@ export default function DepartmentForm() {
     const updateExtraInfo = (newExtraInfo: string) => {
         setExtraInfo(newExtraInfo);
     }
-    const handleMaxRserveCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-        const parsedValue = parseInt(numericValue, 10); // Convert to number
-        setMaxRserveCount(parsedValue);
-    };
 
     const onSubmit = handleSubmit(async (data) => {
         try {
             data.maxRserveCount = maxRserveCount;
             data.extraInfo = extraInfo;
+            data.deptImage = "no";
+            createDept(data).then((res) => {
+              console.log("저장되는 기관 정보들 확인", res);
+            })
             reset();
-            console.log('넘어오는 data', data);
-
+            setMaxRserveCount(30);
+            setExtraInfo('');
             // modal
             setOpen(true);
         } catch (error) {
@@ -96,7 +91,7 @@ export default function DepartmentForm() {
           const file = acceptedFiles[0];
       
           if (file) {
-            setValue('logo', file.name, { shouldValidate: true });
+            setValue('logoImage', file.name, { shouldValidate: true });
             setLogoImageName(file.name);
       
             // Create a data URL for image preview if e.target is available
@@ -140,25 +135,11 @@ export default function DepartmentForm() {
             <Typography variant="subtitle1" sx={{ flexGrow: 1 , mr: 4 }}>로고 사진 *</Typography>
             <Typography variant="body2">{logoImageName}</Typography>
             <RHFUploadBox
-              name="singleUpload"
+              name="logoImage"
               onDrop={handleDropSingleFile}
-              onDelete={() => setValue('logo', '', { shouldValidate: true })}
+              onDelete={() => setValue('logoImage', '', { shouldValidate: true })}
             />
         </Div>  
-        {/* <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>테마 색상 *</Typography>
-            <FormControl>
-            <RHFSelect
-                name="color"
-                label="테마 색상"
-                sx={{ width: '280px' }}
-            >
-                <MenuItem value="yellow">노란색</MenuItem>
-                <MenuItem value="red">빨간색</MenuItem>
-                <MenuItem value="black">검정색</MenuItem>
-            </RHFSelect>
-            </FormControl>
-        </Div> */}
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 즉시 입장 여부 *</Typography>
             <FormControlLabel 
@@ -170,7 +151,17 @@ export default function DepartmentForm() {
         </Div>
         <Div>
             <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 최대 예약 가능 날짜 *</Typography>
-            <RHFTextField name="maxRserveCount" label="사용자 최대 예약 가능 날짜를 입력해주세요." sx={{ width: '280px'}} value={maxRserveCount} onChange={handleMaxRserveCountChange} />
+            <RHFTextField 
+              name="maxRserveCount" 
+              label="사용자 최대 예약 가능 날짜를 입력해주세요." 
+              sx={{ width: '280px'}} 
+              type="number" 
+              value={maxRserveCount} 
+              onChange={(newValue) => {
+                const numericValue = parseFloat(newValue.target.value);
+                setMaxRserveCount(numericValue);
+              }} 
+            />
             {/* <DeptPopover filed="maxRserveCount"/> */}
         </Div>
         <Div>
