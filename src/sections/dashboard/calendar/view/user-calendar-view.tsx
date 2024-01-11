@@ -6,6 +6,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 //
 import { useState, useEffect, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -125,21 +127,27 @@ export default function UserCalendarView() {
 
   const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
 
-  const fetchData = async () => {
-    try {
-      const data = await GetReserveListByMember();
-      setEventData(data);
-      // console.log("data" ,data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
 
   useEffect(() => {
     onInitialView();
     // ToDo : ReserveBySpaceId List API
+    const fetchData = async () => {
+      try {
+        const data = await GetReserveListByMember(Number(deptId));
+        setEventData(data);
+        // console.log("data" ,data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     fetchData();
-  }, [onInitialView]);
+  }, [onInitialView, deptId]);
   
   
   // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.

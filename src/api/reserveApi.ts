@@ -25,7 +25,7 @@ export const GetReserveListByDept = async (deptId: number) => {
 };
 
 // dashboard calander (ReserveFindeByMember)
-export const GetReserveListByMember = async () => {
+export const GetReserveListByMember = async (deptId: number) => {
   const response = axiosInstance.get(`${endpoints.reserve.member}/1`); // Member 예약 전체 리스트 (admin)
   
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({

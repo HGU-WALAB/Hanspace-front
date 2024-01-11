@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 // react
 import { useState, useEffect, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 // api
 import { GetReserveListByMember } from 'src/api/reserveApi';
 // routes
@@ -56,18 +58,25 @@ const palette = themePalette('light');
 // ----------------------------------------------------------------------
 export default function UserTimeLine() {
   const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
-  const fetchData = async () => {
-    try {
-      const data = await GetReserveListByMember();
-      setEventData(data);
-      // console.log("data" ,data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await GetReserveListByMember(Number(deptId));
+        setEventData(data);
+        // console.log("data" ,data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [deptId]);
 
   const events = eventsData || [];
 
