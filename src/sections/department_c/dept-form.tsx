@@ -37,7 +37,6 @@ const Div = styled.div`
 export const defaultValues = {
     siteName: '', 
     deptName: '',
-    // ToDo: 이미지 중 하나 삭제 필요
     logoImage: '',
     deptImage: '',
     userAccept: false,
@@ -60,7 +59,7 @@ export default function DepartmentForm() {
         formState: { isSubmitting },
     } = methods;
 
-    const [logoImage, setLogoImage] = useState('');
+    const [deptImage, setDeptImage] = useState('');
     const [maxRserveCount, setMaxRserveCount] = useState<number | undefined>();
     const [extraInfo, setExtraInfo] = useState('');
     const [open, setOpen] = useState<boolean>(false);
@@ -73,12 +72,10 @@ export default function DepartmentForm() {
         try {
             data.maxRserveCount = maxRserveCount ?? 0;
             data.extraInfo = extraInfo;
-            data.deptImage = "no";
-            createDept(data).then((res) => {
-              console.log("저장되는 기관 정보들 확인", res);
-            })
+            data.logoImage = "";
+            await createDept(data);
             reset();
-            setMaxRserveCount(30);
+            setMaxRserveCount(undefined);
             setExtraInfo('');
             // modal
             setOpen(true);
@@ -96,9 +93,9 @@ export default function DepartmentForm() {
           });
       
           if (newFile) {
-            setValue('logoImage', file.name, { shouldValidate: true });
+            setValue('deptImage', file.name, { shouldValidate: true });
             console.log("파일 이름 정확히 들어갔나", newFile);
-            setLogoImage(file.name);
+            setDeptImage(file.name);
           }
         },
         [setValue]
@@ -162,10 +159,10 @@ export default function DepartmentForm() {
         </Stack>
         <Stack spacing={10}>
           <RHFUpload
-            name="logoImage"
+            name="deptImage"
             onDrop={handleDropSingleFile}
-            onDelete={() => setValue('logoImage', '', { shouldValidate: true })}
-            helperText = "기관 로고 이미지를 선택해주세요"
+            onDelete={() => setValue('deptImage', '', { shouldValidate: true })}
+            helperText = "기관 대표 이미지를 선택해주세요"
           /> 
             <LoadingButton
               fullWidth
@@ -173,7 +170,6 @@ export default function DepartmentForm() {
               size="large"
               type="submit"
               variant="soft"
-              onClick={() => {onSubmit();}}
             >
               추가하기
             </LoadingButton>

@@ -75,7 +75,9 @@ export const endpoints = {
   dept: {
     signup: '/hanSpace/member/signup',
     add: '/hanSpace/member/add',
+    // ToDo: backend api 완료 되면 다시 연결해서 확인하기
     create: `/hanSpace/dept`,
-    update: `/hanSpace/dept/${localStorage.getItem('userId')}`,
+    read: `/hanSpace/dept`,
+    update: `/hanSpace/dept`,
   },
 };

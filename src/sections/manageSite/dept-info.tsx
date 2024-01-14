@@ -1,6 +1,10 @@
 // react
-import { SetStateAction, useCallback, useState } from "react";
+import { SetStateAction, useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from 'recoil';
+import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { readDept, updateDept } from "src/api/deptApi";
+import { IDeptRead } from "src/types/dept";
 // @mui
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -34,22 +38,18 @@ const Div = styled.div`
 `;
 // ———————————————————————————————————
 export const defaultValues = {
-    siteName: 'Computer Science', 
-    deptName: '전산전자공학부',
-    logoImage: '',
-    color: 'red',
-    userAccept: true,
-    maxRserveCount: 5,
-    link: '/ComputerScience',
-    extraInfo: '',
-    // siteInfoTitle: '',
-    // siteInfoDetail: '',
+  siteName: '', 
+  deptName: '',
+  deptImage: '',
+  userAccept: false,
+  maxRserveCount: 0,
+  extraInfo: '',
 };
 
 export default function DepartmentInfoForm() {
     // const settings = useSettingsContext();
     const methods = useForm({
-        defaultValues
+      defaultValues
     });
     const {
         // watch,
@@ -60,23 +60,39 @@ export default function DepartmentInfoForm() {
         formState: { isSubmitting },
     } = methods;
 
-    const [logoImageName, setLogoImageName] = useState('');
-    const [logoImagePreview, setLogoImagePreview] = useState<string | null>(null);
+    const [eventsData, setEventData] = useState<IDeptRead | null>();
+    const [open, setOpen] = useState<boolean>(false);
     const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
     const [extraInfo, setExtraInfo] = useState('');
-    const [open, setOpen] = useState<boolean>(false);
 
-    const updateExtraInfo = (newExtraInfo: string) => {
-        setExtraInfo(newExtraInfo);
+    const userDeptInfo = useRecoilValue(userDeptState);
+    let deptId = '';
+    if (typeof userDeptInfo === 'object') {
+      deptId = `${userDeptInfo.deptId}`;
     }
+    useEffect(() => {
+      // ToDo : DeptId 전달 시 해당 기관 정보 받아오는 API
+      const fetchData = async () => {
+        try {
+          const data = await readDept(Number(deptId));
+          setEventData(data?.data);
+          console.log("data" ,data); // 불러와진 정보 확인하기
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }, [deptId]);
+
 
     const onSubmit = handleSubmit(async (data) => {
         try {
             data.maxRserveCount = maxRserveCount;
             data.extraInfo = extraInfo;
             reset();
-            console.log('넘어오는 data', data);
-
+            console.log('수정된 기관 data 확인', data);
+            await updateDept(data, Number(deptId));
             // modal
             setOpen(true);
         } catch (error) {
@@ -89,17 +105,8 @@ export default function DepartmentInfoForm() {
           const file = acceptedFiles[0];
       
           if (file) {
-            setValue('logoImage', file.name, { shouldValidate: true });
-            setLogoImageName(file.name);
-      
-            // Create a data URL for image preview if e.target is available
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              if (e.target) {
-                setLogoImagePreview(e.target.result as string | null);
-              }
-            };
-            reader.readAsDataURL(file);
+            setValue('deptImage', file.name, { shouldValidate: true });
+            // setDeptImage(file.name);
           }
         },
         [setValue]
@@ -131,24 +138,17 @@ export default function DepartmentInfoForm() {
             <RHFTextField name="deptName" />
         </Block>
         <Block label="자동으로 기관 입장 허가 여부">
-            {/* <Typography variant="subtitle1" sx={{ flexGrow: 1 , mr: 4 }}>로고 사진 *</Typography>
-            <Typography variant="body2">{logoImageName}</Typography>
-            <RHFUploadBox
-              name="singleUpload"
-              onDrop={handleDropSingleFile}
-              onDelete={() => setValue('logo', '', { shouldValidate: true })}
-            /> */}
-              <FormControlLabel 
-                  control={ <RHFSwitch name="userAccept" label={null} sx={{ m: 0 }} />}
-                  label="허가없이 사용자 기관 가입"
-                  sx={{mr: 2}}
-              />
+          <FormControlLabel 
+              control={ <RHFSwitch name="userAccept" label={null} sx={{ m: 0 }} />}
+              label="허가없이 사용자 기관 가입"
+              sx={{mr: 2}}
+          />
         </Block>  
         <Block label="사용자 최대 예약 가능 날짜">
           <RHFTextField 
             name="maxRserveCount" 
             type="number" 
-            value={maxRserveCount} 
+            value={eventsData?.maxRserveCount} 
             onChange={(newValue) => {
               const numericValue = parseFloat(newValue.target.value);
               setMaxRserveCount(numericValue);
@@ -161,10 +161,10 @@ export default function DepartmentInfoForm() {
       </Stack>
       <Stack spacing={4}>
         <RHFUpload
-          name="logoImage"
+          name="deptImage"
           onDrop={handleDropSingleFile}
-          onDelete={() => setValue('logoImage', '', { shouldValidate: true })}
-          helperText = "기관 로고 이미지를 선택해주세요"
+          onDelete={() => setValue('deptImage', '', { shouldValidate: true })}
+          helperText = "기관 대표 이미지를 선택해주세요"
         /> 
         <LoadingButton
           fullWidth
@@ -172,7 +172,6 @@ export default function DepartmentInfoForm() {
           size="large"
           type="submit"
           variant="soft"
-          onClick={() => {onSubmit();}}
         >
           수정하기
         </LoadingButton>

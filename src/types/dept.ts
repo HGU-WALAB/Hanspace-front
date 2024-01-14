@@ -22,7 +22,6 @@ export type IDeptInfo = {
 export type IDeptAdd = {
   siteName: string;
   deptName: string;
-  // ToDo: 이미지 중 하나 삭제 필요
   logoImage: string;
   deptImage: string;
   userAccept: boolean;
@@ -31,10 +30,23 @@ export type IDeptAdd = {
   extraInfo: string;
 };
 
-export type IDeptUpdate = {
+// ToDo: backend api 수정 후 다시 연결 확인
+export type IDeptRead = {
   siteName: string;
   deptName: string;
   logoImage: string;
+  deptImage: string;
+  userAccept: boolean;
+  maxRserveCount: number;
+  link: string;
+  extraInfo: string;
+};
+
+// ToDo: backend api 수정 후 다시 연결 확인
+export type IDeptUpdate = {
+  siteName: string;
+  deptName: string;
+  deptImage: string;
   userAccept: boolean;
   maxRserveCount: number;
   extraInfo: string;
