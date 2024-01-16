@@ -56,10 +56,10 @@ const STATUS_OPTIONS = [{ value: '전체', label: '전체' }, ...RESERVE_STATUS_
 
 const TABLE_HEAD = [
   { id: 'no', label: '번호', width: 80 },
-  { id: 'spaceName', label: '공간명', width: 100 },
+  { id: 'space', label: '공간명', width: 100 },
   { id: 'reserveDate', label: '예약일', width: 140 },
   { id: 'reserveTime', label: '예약시간', width: 140 },
-  { id: 'createdAt', label: '신청일', width: 140 },
+  { id: 'modDate', label: '신청일', width: 140 },
   { id: 'name', label: '예약자명', width: 120 },
   { id: 'purpose', label: '목적', width: 140 },
   { id: 'status', label: '상태', width: 110 },
@@ -83,7 +83,7 @@ export default function ReserveListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_reserve);
+  const [tableData, setTableData] = useState<IReserveListItem[]>([]);
 
   const userDeptInfo = useRecoilValue(userDeptState);
   let deptId = '';
@@ -371,8 +371,8 @@ function applyFilter({
     if (startDate && endDate) {
       inputData = inputData.filter(
         (order) =>
-          fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
+          fTimestamp(order.modDate) >= fTimestamp(startDate) &&
+          fTimestamp(order.modDate) <= fTimestamp(endDate)
       );
     }
   }

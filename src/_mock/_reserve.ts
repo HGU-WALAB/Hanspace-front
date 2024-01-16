@@ -22,8 +22,6 @@ export const _reserve = [...Array(0)].map((_, index) => {
   const createAt = new Date();
   return {
     id: _mock.id(index),
-    reserveNumber: `#601${index}`,
-    createdAt: createAt,
     spaceName: _mock.spaceName(index),
     useDate: _mock.useDate(index),
     startTime: _mock.startTime(index),
