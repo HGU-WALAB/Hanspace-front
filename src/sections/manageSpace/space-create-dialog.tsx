@@ -26,8 +26,6 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
@@ -42,7 +40,7 @@ export const defaultValues = {
   availableEnd: '',
   detail: '',
   availability: true,
-  // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
+  image: '',
   //
 };
 
@@ -80,20 +78,20 @@ export default function SpaceCreateDialog() {
     }
   });
 
-  // const handleDropSingleFile = useCallback(
-  //   (acceptedFiles: File[]) => {
-  //     const file = acceptedFiles[0];
+  const handleDropSingleFile = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
 
-  //     const newFile = Object.assign(file, {
-  //       preview: URL.createObjectURL(file),
-  //     });
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
 
-  //     if (newFile) {
-  //       setValue('image', newFile, { shouldValidate: true });
-  //     }
-  //   },
-  //   [setValue]
-  // );
+      if (newFile) {
+        setValue('image', newFile, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
   const defaultDate = new Date();
   defaultDate.setHours(0, 0, 0, 0);
 

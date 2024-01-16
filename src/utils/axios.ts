@@ -67,6 +67,7 @@ export const endpoints = {
   },
   space: {
     list: `/hanSpace/space`,
+    edit: `/hanSpace/space`,
   },
   user: {
     list: `/deptMember/list`,

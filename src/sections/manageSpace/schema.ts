@@ -3,14 +3,13 @@ import * as Yup from 'yup';
 // ----------------------------------------------------------------------
 
 export const FormSchema = Yup.object().shape({
-  deptId: Yup.number().required('Department is required'),
   name: Yup.string().required('Space name is required'), // TODO: 에러 메시지 수정
   headCount: Yup.number().required('Head count is required'), // TODO: 에러 메시지 수정
   availableStart: Yup.string().required('Available start time is required'),
   availableEnd: Yup.string().required('Available end time is required'),
   detail: Yup.string().required('Detail is required'),
   availability: Yup.boolean().oneOf([true], 'Availability is required'),
-  // image: Yup.mixed<any>().nullable().required('Single upload is required'),
+  image: Yup.mixed<any>().nullable().required('Single upload is required'),
 
   // fullName: Yup.string()
   //   .required('Full name is required')

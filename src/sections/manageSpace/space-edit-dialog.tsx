@@ -31,7 +31,10 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
+import axiosInstance, { endpoints } from 'src/utils/axios';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
@@ -44,15 +47,22 @@ type SpaceEditDialogProps = {
 export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEditDialogProps) {
   const dialog = useBoolean();
 
+  const userDeptValue = useRecoilValue(userDeptState);
+  let deptId = 0;
+  if (typeof userDeptValue === 'object') {
+    deptId = userDeptValue.deptId ?? '';
+  }
+
   const defaultValues = useMemo(
     () => ({
-      deptId: 0,
+      spaceId: currentSpace?.spaceId || 0,
       name: currentSpace?.name || '',
       headCount: currentSpace?.headCount || 0,
       availableStart: currentSpace?.availableStart || '',
       availableEnd: currentSpace?.availableEnd || '',
       detail: currentSpace?.detail || '',
       availability: currentSpace?.availability || true,
+      image: currentSpace?.image || 'string',
     }),
     [currentSpace]
   );
@@ -71,15 +81,13 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
     formState: { isSubmitting },
   } = methods;
 
-  // const values = watch();
-
   const onSubmit = handleSubmit(async (data) => {
     try {
       reset();
       console.info('DATA', data);
 
-      const response = await axios
-        .post(`${BASE_URL}/space`, data)
+      const response = await axiosInstance
+        .patch(`${endpoints.space.edit}/${deptId}`, data)
         .then((log) => console.log('log', log));
 
       dialog.onFalse();
@@ -88,20 +96,20 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
     }
   });
 
-  // const handleDropSingleFile = useCallback(
-  //   (acceptedFiles: File[]) => {
-  //     const file = acceptedFiles[0];
+  const handleDropSingleFile = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
 
-  //     const newFile = Object.assign(file, {
-  //       preview: URL.createObjectURL(file),
-  //     });
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
 
-  //     if (newFile) {
-  //       setValue('image', newFile, { shouldValidate: true });
-  //     }
-  //   },
-  //   [setValue]
-  // );
+      if (newFile) {
+        setValue('image', newFile, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
 
   const startTime = new Date();
   const endTime = new Date();
@@ -123,14 +131,11 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
         <DialogTitle>장소 정보 수정</DialogTitle>
 
         <DialogContent>
-          <Typography sx={{ width: '500px', marginBottom: '10px' }}>
+          <Typography sx={{ width: '500px', marginBottom: '25px' }}>
             수정 할 장소의 정보를 수정 후 저장해주세요.
           </Typography>
 
           <Stack spacing={2}>
-            {/* 지워야함 이거  */}
-            <RHFTextField name="deptId" label="deptId" type="number" />
-
             <RHFTextField name="name" label="장소명" />
 
             <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
@@ -171,14 +176,13 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
 
             <RHFSwitch name="availability" label="사용 가능 여부" />
 
-            {/* <Block label="RHFUpload"> */}
-            {/* <RHFUpload
-              name="singleUpload"
-              // maxSize={3145728}
-              onDrop={handleDropSingleFile}
-              onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
-            /> */}
-            {/* </Block> */}
+            <Block label="장소 사진">
+              <RHFUpload
+                name="image"
+                onDrop={handleDropSingleFile}
+                onDelete={() => setValue('image', null, { shouldValidate: true })}
+              />
+            </Block>
           </Stack>
         </DialogContent>
 

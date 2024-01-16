@@ -64,7 +64,7 @@ export default function SpaceList({ spaces }: Props) {
           <SpaceItem
             key={space?.id}
             space={space}
-            onView={() => {}} // handleView(tour.id)}
+            onView={() => {}}
             onEdit={() => handleEdit(space)}
             onDelete={() => handleDelete(space?.id)}
           />
