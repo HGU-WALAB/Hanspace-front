@@ -10,11 +10,8 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
-// routes
-// import { paths } from 'src/routes/paths';
-// import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _reserve, RESERVE_STATUS_OPTIONS } from 'src/_mock';
+import { RESERVE_STATUS_OPTIONS } from 'src/_mock';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // hooks
@@ -42,10 +39,9 @@ import {
 } from 'src/types/reserveList';
 //
 import { Typography } from '@mui/material';
-import { useQuery } from 'react-query';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { userDeptState } from 'src/utils/atom';
 import ReserveTableRow from '../reserve-table-row';
 import ReserveTableToolbar from '../reserve-table-toolbar';
 import ReserveTableFiltersResult from '../reserve-table-filters-result';
@@ -214,16 +210,16 @@ export default function ReserveListView() {
                     'default'
                   }
                 >
-                  {tab.value === '전체' && _reserve.length}
+                  {tab.value === '전체' && tableData.length}
                   {tab.value === '승인' &&
-                    _reserve.filter((reserve) => reserve.status === '승인').length}
+                    tableData.filter((reserve) => reserve.status === '승인').length}
 
                   {tab.value === '미승인' &&
-                    _reserve.filter((reserve) => reserve.status === '미승인').length}
+                    tableData.filter((reserve) => reserve.status === '미승인').length}
                   {tab.value === '거절' &&
-                    _reserve.filter((reserve) => reserve.status === '거절').length}
+                    tableData.filter((reserve) => reserve.status === '거절').length}
                   {tab.value === '자동취소' &&
-                    _reserve.filter((reserve) => reserve.status === '자동취소').length}
+                    tableData.filter((reserve) => reserve.status === '자동취소').length}
                 </Label>
               }
             />
