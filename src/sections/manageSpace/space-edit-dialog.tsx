@@ -65,7 +65,7 @@ export default function SpaceEditDialog({
       availableStart: currentSpace?.availableStart || '',
       availableEnd: currentSpace?.availableEnd || '',
       detail: currentSpace?.detail || '',
-      availability: currentSpace?.availability || true,
+      availability: currentSpace?.availability ?? true,
       image: currentSpace?.image || 'string',
     }),
     [currentSpace]
@@ -89,10 +89,7 @@ export default function SpaceEditDialog({
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();
-    formData.append(
-      'spaceId',
-      currentSpace?.spaceId === undefined ? '' : currentSpace?.spaceId.toString()
-    );
+    formData.append('deptId', deptId?.toString() || '0');
     formData.append('name', data.name);
     formData.append('headCount', data.headCount.toString());
     formData.append('availableStart', data.availableStart);
@@ -104,7 +101,7 @@ export default function SpaceEditDialog({
     reset();
 
     axiosInstance
-      .patch(`${endpoints.space.edit}/${deptId}`, formData, {
+      .patch(`${endpoints.space.edit}/${currentSpace?.spaceId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
