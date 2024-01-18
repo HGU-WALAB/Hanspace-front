@@ -8,6 +8,7 @@ import { paths } from 'src/routes/paths';
 import { ISpaceItem, EXSpaceItem } from 'src/types/space';
 import { useRouter } from 'src/routes/hooks';
 import SpaceItem from 'src/sections/manageSpace/space-item';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 import SpaceEditDialog from './space-edit-dialog';
 // components
 //
@@ -16,24 +17,13 @@ import SpaceEditDialog from './space-edit-dialog';
 
 type Props = {
   spaces: EXSpaceItem[];
+  refetchSpaces: any;
 };
 
-export default function SpaceList({ spaces }: Props) {
+export default function SpaceList({ spaces, refetchSpaces }: Props) {
   const router = useRouter();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [currentSpace, setCurrentSpace] = useState<EXSpaceItem | null>(null);
-
-  // const handleView = useCallback(
-  //   (id: string) => {
-  //     router.push(paths.dashboard.tour.details(id));
-  //   },
-  //   [router]
-  // );
-
-  // const handleEdit = useCallback((id: string) => {
-  //   // router.push(paths.dashboard.space.edit(id));
-  //   SpaceEditDialog();
-  // }, []);
 
   const handleEdit = useCallback((space: EXSpaceItem) => {
     setCurrentSpace(space);
@@ -45,9 +35,16 @@ export default function SpaceList({ spaces }: Props) {
     setCurrentSpace(null);
   };
 
-  const handleDelete = useCallback((id: string) => {
-    console.info('DELETE', id);
-  }, []);
+  const handleDelete = useCallback(
+    (space: EXSpaceItem) => {
+      console.log('space', space);
+      console.info('DELETE', space?.spaceId);
+      axiosInstance.delete(`${endpoints.space.delete}/${space.spaceId}`).then(() => {
+        refetchSpaces();
+      });
+    },
+    [refetchSpaces]
+  );
 
   return (
     <>
@@ -62,11 +59,11 @@ export default function SpaceList({ spaces }: Props) {
       >
         {spaces?.map((space) => (
           <SpaceItem
-            key={space?.id}
+            key={space?.spaceId}
             space={space}
-            onView={() => {}} // handleView(tour.id)}
+            onView={() => {}}
             onEdit={() => handleEdit(space)}
-            onDelete={() => handleDelete(space?.id)}
+            onDelete={() => handleDelete(space)}
           />
         ))}
       </Box>
@@ -87,6 +84,7 @@ export default function SpaceList({ spaces }: Props) {
         <SpaceEditDialog
           open={isEditDialogOpen}
           onClose={handleCloseEditDialog}
+          refetchSpaces={refetchSpaces}
           currentSpace={currentSpace}
         />
       )}

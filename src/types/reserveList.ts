@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { ISpaceItem } from './space';
+
 export type IReserveTableFilterValue = string | Date | null;
 
 export type IReserveTableFilters = {
@@ -74,13 +76,14 @@ export type IReserveItem = {
 
 export type IReserveListItem = {
   id: string;
-  spaceName: string;
-  useDate: string;
-  createdAt: Date;
+  space: ISpaceItem;
   startTime: string;
   endTime: string;
   user: string;
   purpose: string;
   status: string;
-  // items: IReserveProductItem[];
+  createMemberId: string;
+  extraInfoAns: string;
+  reserveDate: string;
+  modDate: string;
 };

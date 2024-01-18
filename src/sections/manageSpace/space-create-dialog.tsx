@@ -26,11 +26,10 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { BASE_URL } from 'src/config-global';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 import { FormSchema } from './schema';
 // ----------------------------------------------------------------------
 
@@ -42,11 +41,17 @@ export const defaultValues = {
   availableEnd: '',
   detail: '',
   availability: true,
-  // image: 'https://m.s1campus.co.kr:1543/comm/images/facility/b_lecture1.jpg',
+  image: '',
   //
 };
 
-export default function SpaceCreateDialog() {
+export default function SpaceCreateDialog({
+  deptId,
+  refetchSpaces,
+}: {
+  deptId: number;
+  refetchSpaces: any;
+}) {
   const dialog = useBoolean();
 
   const methods = useForm({
@@ -55,7 +60,7 @@ export default function SpaceCreateDialog() {
   });
 
   const {
-    // watch,
+    watch,
     reset,
     // control,
     setValue,
@@ -63,37 +68,54 @@ export default function SpaceCreateDialog() {
     formState: { isSubmitting },
   } = methods;
 
-  // const values = watch();
+  const imageFile = watch('image');
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      reset();
-      console.info('DATA', data);
+    const formData = new FormData();
+    formData.append('deptId', deptId?.toString());
+    formData.append('name', data.name);
+    formData.append('headCount', data.headCount.toString());
+    formData.append('availableStart', data.availableStart);
+    formData.append('availableEnd', data.availableEnd);
+    formData.append('detail', data.detail);
+    formData.append('availability', data.availability?.toString() || 'true');
+    formData.append('image', imageFile);
 
-      const response = await axios
-        .post(`${BASE_URL}/space`, data)
-        .then((log) => console.log('log', log));
+    console.log(formData.forEach((value, key) => console.log(key, value)));
 
-      dialog.onFalse();
-    } catch (error) {
-      console.error(error);
-    }
+    reset();
+
+    axiosInstance
+      .post(endpoints.space.create, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(() => {
+        refetchSpaces();
+      })
+      .catch((e) => {
+        console.log('error');
+        console.log(e);
+      });
+
+    dialog.onFalse();
   });
 
-  // const handleDropSingleFile = useCallback(
-  //   (acceptedFiles: File[]) => {
-  //     const file = acceptedFiles[0];
+  const handleDropSingleFile = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
 
-  //     const newFile = Object.assign(file, {
-  //       preview: URL.createObjectURL(file),
-  //     });
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
 
-  //     if (newFile) {
-  //       setValue('image', newFile, { shouldValidate: true });
-  //     }
-  //   },
-  //   [setValue]
-  // );
+      if (newFile) {
+        setValue('image', newFile, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
   const defaultDate = new Date();
   defaultDate.setHours(0, 0, 0, 0);
 
@@ -112,9 +134,6 @@ export default function SpaceCreateDialog() {
           </Typography>
 
           <Stack spacing={2}>
-            {/* 지워야함 이거  */}
-            <RHFTextField name="deptId" label="deptId" type="number" />
-
             <RHFTextField name="name" label="장소명" />
 
             <RHFTextField name="headCount" label="수용 가능 인원" type="number" />
@@ -131,7 +150,6 @@ export default function SpaceCreateDialog() {
                     hour12: false,
                   });
                   setValue('availableStart', formattedTime);
-                  // console.log(formattedTime);
                 }
               }}
             />
@@ -156,14 +174,14 @@ export default function SpaceCreateDialog() {
 
             <RHFSwitch name="availability" label="사용 가능 여부" />
 
-            {/* <Block label="RHFUpload"> */}
-            {/* <RHFUpload
-              name="singleUpload"
-              // maxSize={3145728}
-              onDrop={handleDropSingleFile}
-              onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
-            /> */}
-            {/* </Block> */}
+            <Block label="장소 사진">
+              <RHFUpload
+                name="image"
+                // maxSize={3145728}
+                onDrop={handleDropSingleFile}
+                onDelete={() => setValue('image', null, { shouldValidate: true })}
+              />
+            </Block>
           </Stack>
         </DialogContent>
 

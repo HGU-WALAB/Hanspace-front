@@ -50,7 +50,7 @@ export default function ReserveTableRow({
   onDeleteRow,
 }: Props) {
   // const { items, status, reserveNumber, createdAt, customer, totalQuantity, subTotal } = row;
-  const { id, spaceName, useDate, createdAt, startTime, endTime, user, purpose, status } = row;
+  const { id, space, reserveDate, modDate, startTime, endTime, user, purpose, status } = row;
 
   const confirm = useBoolean();
 
@@ -82,7 +82,7 @@ export default function ReserveTableRow({
         {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
 
         <ListItemText
-          primary={spaceName}
+          primary={space.name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -94,7 +94,7 @@ export default function ReserveTableRow({
 
       <TableCell>
         <ListItemText
-          primary={format(new Date(useDate), 'yyyy / MM / dd')}
+          primary={format(new Date(reserveDate), 'yyyy / MM / dd')}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -120,7 +120,7 @@ export default function ReserveTableRow({
 
       <TableCell>
         <ListItemText
-          primary={format(new Date(createdAt), 'yyyy / MM / dd')}
+          primary={format(new Date(modDate), 'yyyy / MM / dd')}
           // secondary={format(new Date(createdAt), 'p')}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{

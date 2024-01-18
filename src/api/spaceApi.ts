@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { endpoints } from 'src/utils/axios';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 
-export const GetSpace = async () => {
-  const response = await axios.get(endpoints.space.list);
+export const GetSpace = async (deptId: number) => {
+  const response = await axiosInstance.get(`${endpoints.space.list}/${deptId}`);
   return response;
 };
