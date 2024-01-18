@@ -21,7 +21,7 @@ export default function ComponentBlock({ title, sx, children, ...other }: BlockP
       sx={{
         borderRadius: 1.5,
         borderStyle: 'dashed',
-        bgcolor: theme.palette.primary.light,
+        bgcolor: theme.palette.primary.lighter,
         height: '100%',
       }}
     >

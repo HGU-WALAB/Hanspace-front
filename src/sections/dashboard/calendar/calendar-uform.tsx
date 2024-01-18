@@ -41,7 +41,6 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
   const methods = useForm({
     defaultValues: currentEvent,
   });
-
   const {
     watch,
     control,
@@ -52,7 +51,7 @@ export default function CalendarUForm({ currentEvent, onClose }: Props) {
   return (
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="purpose" label="대여 사유" disabled/>
+        <RHFTextField name="title" label="대여 사유" disabled/>
         <RHFTextField name="spaceName" label="대여 장소" disabled/>
 
         <Controller

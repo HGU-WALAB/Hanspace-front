@@ -11,7 +11,7 @@ import { ICalendarView, ICalendarRange, ICalendarEvent } from 'src/types/calenda
 
 // ----------------------------------------------------------------------
 
-export default function adminCalendar() {
+export default function useAdminCalendar() {
   const calendarRef = useRef<FullCalendar>(null);
 
   const calendarEl = calendarRef.current;
@@ -26,7 +26,7 @@ export default function adminCalendar() {
 
   const [selectedRange, setSelectedRange] = useState<ICalendarRange>(null);
 
-  const [view, setView] = useState<ICalendarView>('dayGridMonth');
+  const [view, setView] = useState<ICalendarView>('timeGridDay');
 
   const onOpenForm = useCallback(() => {
     setOpenForm(true);
@@ -42,11 +42,11 @@ export default function adminCalendar() {
     if (calendarEl) {
       const calendarApi = calendarEl.getApi();
 
-      const newView = 'dayGridMonth';
+      const newView = 'timeGridDay';
       calendarApi.changeView(newView);
       setView(newView);
     }
-  }, [calendarEl, smUp]);
+  }, [calendarEl]);
 
   const onChangeView = useCallback(
     (newView: ICalendarView) => {

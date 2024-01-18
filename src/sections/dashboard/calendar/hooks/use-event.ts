@@ -23,7 +23,7 @@ export default function useEvent(
       end: selectedRange ? selectedRange.end : new Date().getTime(),
       color: CALENDAR_COLOR_OPTIONS[1],
       textColor: '', // ex
-      purpose: '',
+      title: '',
       status: false,
       spaceName: '',
       allDay: false,
