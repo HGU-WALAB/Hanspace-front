@@ -41,12 +41,16 @@ import { FormSchema } from './schema';
 type SpaceEditDialogProps = {
   open: boolean;
   onClose: () => void;
+  refetchSpaces: () => void;
   currentSpace?: EXSpaceItem | null; // if you want to pass the space being edited
 };
 
-export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEditDialogProps) {
-  const dialog = useBoolean();
-
+export default function SpaceEditDialog({
+  open,
+  onClose,
+  refetchSpaces,
+  currentSpace,
+}: SpaceEditDialogProps) {
   const userDeptValue = useRecoilValue(userDeptState);
   let deptId = 0;
   if (typeof userDeptValue === 'object') {
@@ -104,6 +108,9 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+      })
+      .then((response) => {
+        refetchSpaces();
       })
       .catch((e) => {
         console.log('error');

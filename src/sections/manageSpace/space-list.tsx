@@ -25,14 +25,10 @@ export default function SpaceList({ spaces, refetchSpaces }: Props) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [currentSpace, setCurrentSpace] = useState<EXSpaceItem | null>(null);
 
-  const handleEdit = useCallback(
-    (space: EXSpaceItem) => {
-      setCurrentSpace(space);
-      setIsEditDialogOpen(true);
-      refetchSpaces();
-    },
-    [refetchSpaces]
-  );
+  const handleEdit = useCallback((space: EXSpaceItem) => {
+    setCurrentSpace(space);
+    setIsEditDialogOpen(true);
+  }, []);
 
   const handleCloseEditDialog = () => {
     setIsEditDialogOpen(false);
@@ -43,8 +39,8 @@ export default function SpaceList({ spaces, refetchSpaces }: Props) {
     (space: EXSpaceItem) => {
       console.log('space', space);
       console.info('DELETE', space?.spaceId);
-      refetchSpaces();
       axiosInstance.delete(`${endpoints.space.delete}/${space.spaceId}`);
+      refetchSpaces();
     },
     [refetchSpaces]
   );
@@ -87,6 +83,7 @@ export default function SpaceList({ spaces, refetchSpaces }: Props) {
         <SpaceEditDialog
           open={isEditDialogOpen}
           onClose={handleCloseEditDialog}
+          refetchSpaces={refetchSpaces}
           currentSpace={currentSpace}
         />
       )}
