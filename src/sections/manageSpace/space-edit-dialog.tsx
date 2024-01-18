@@ -84,26 +84,25 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
   const imageFile = watch('image');
 
   const onSubmit = handleSubmit(async (data) => {
-    const postData = {
-      spaceId: currentSpace?.spaceId,
-      name: data.name,
-      headCount: data.headCount,
-      availableStart: data.availableStart,
-      availableEnd: data.availableEnd,
-      detail: data.detail,
-      availability: data.availability,
-    };
+    console.log(data);
 
     const formData = new FormData();
-    formData.append('file', imageFile);
     formData.append(
-      'post',
-      new Blob([JSON.stringify(postData)], {
-        type: 'application/json',
-      })
+      'spaceId',
+      currentSpace?.spaceId === undefined ? '' : currentSpace?.spaceId.toString()
     );
+    formData.append('name', data.name);
+    formData.append('headCount', data.headCount.toString());
+    formData.append('availableStart', data.availableStart);
+    formData.append('availableEnd', data.availableEnd);
+    formData.append('detail', data.detail);
+    formData.append('availability', data.availability?.toString() || 'true');
+    formData.append('image', imageFile);
 
     reset();
+
+    console.log(formData.forEach((value, key) => console.log(key, value)));
+    console.log('end');
 
     axiosInstance
       .patch(`${endpoints.space.edit}/${deptId}`, formData, {
@@ -111,13 +110,12 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then((result) => {
-        dialog.onFalse();
-      })
       .catch((e) => {
         console.log('error');
         console.log(e);
       });
+
+    onClose();
   });
 
   const handleDropSingleFile = useCallback(
