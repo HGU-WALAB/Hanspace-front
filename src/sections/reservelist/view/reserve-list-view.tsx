@@ -10,11 +10,8 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
-// routes
-// import { paths } from 'src/routes/paths';
-// import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _reserve, RESERVE_STATUS_OPTIONS } from 'src/_mock';
+import { RESERVE_STATUS_OPTIONS } from 'src/_mock';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
 // hooks
@@ -42,10 +39,9 @@ import {
 } from 'src/types/reserveList';
 //
 import { Typography } from '@mui/material';
-import { useQuery } from 'react-query';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { userDeptState } from 'src/utils/atom';
 import ReserveTableRow from '../reserve-table-row';
 import ReserveTableToolbar from '../reserve-table-toolbar';
 import ReserveTableFiltersResult from '../reserve-table-filters-result';
@@ -56,10 +52,10 @@ const STATUS_OPTIONS = [{ value: '전체', label: '전체' }, ...RESERVE_STATUS_
 
 const TABLE_HEAD = [
   { id: 'no', label: '번호', width: 80 },
-  { id: 'spaceName', label: '공간명', width: 100 },
+  { id: 'space', label: '공간명', width: 100 },
   { id: 'reserveDate', label: '예약일', width: 140 },
   { id: 'reserveTime', label: '예약시간', width: 140 },
-  { id: 'createdAt', label: '신청일', width: 140 },
+  { id: 'modDate', label: '신청일', width: 140 },
   { id: 'name', label: '예약자명', width: 120 },
   { id: 'purpose', label: '목적', width: 140 },
   { id: 'status', label: '상태', width: 110 },
@@ -83,7 +79,7 @@ export default function ReserveListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_reserve);
+  const [tableData, setTableData] = useState<IReserveListItem[]>([]);
 
   const userDeptInfo = useRecoilValue(userDeptState);
   let deptId = '';
@@ -214,16 +210,16 @@ export default function ReserveListView() {
                     'default'
                   }
                 >
-                  {tab.value === '전체' && _reserve.length}
+                  {tab.value === '전체' && tableData.length}
                   {tab.value === '승인' &&
-                    _reserve.filter((reserve) => reserve.status === '승인').length}
+                    tableData.filter((reserve) => reserve.status === '승인').length}
 
                   {tab.value === '미승인' &&
-                    _reserve.filter((reserve) => reserve.status === '미승인').length}
+                    tableData.filter((reserve) => reserve.status === '미승인').length}
                   {tab.value === '거절' &&
-                    _reserve.filter((reserve) => reserve.status === '거절').length}
+                    tableData.filter((reserve) => reserve.status === '거절').length}
                   {tab.value === '자동취소' &&
-                    _reserve.filter((reserve) => reserve.status === '자동취소').length}
+                    tableData.filter((reserve) => reserve.status === '자동취소').length}
                 </Label>
               }
             />
@@ -371,8 +367,8 @@ function applyFilter({
     if (startDate && endDate) {
       inputData = inputData.filter(
         (order) =>
-          fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
+          fTimestamp(order.modDate) >= fTimestamp(startDate) &&
+          fTimestamp(order.modDate) <= fTimestamp(endDate)
       );
     }
   }

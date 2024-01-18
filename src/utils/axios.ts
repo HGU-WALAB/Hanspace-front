@@ -67,11 +67,14 @@ export const endpoints = {
     search: '/api/product/search',
   },
   space: {
-    list: `/space/list/${localStorage.getItem('DeptUrlState')}`,
+    list: `/hanSpace/space`,
+    create: `/hanSpace/space`,
+    edit: `/hanSpace/space`,
+    delete: `/hanSpace/space`,
   },
   user: {
-    list: `/deptMember/list/${localStorage.getItem('DeptUrlState')}`,
-    update: `/deptMember/${localStorage.getItem('userId')}`,
+    list: `/deptMember/list`,
+    update: `/deptMember`,
   },
   dept: {
     signup: '/hanSpace/member/signup',

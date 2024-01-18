@@ -201,7 +201,7 @@ export default function DeptHeaderButton() {
               >
                 + {/* TODO : 아바타 이후에 수정하기  */}
               </Avatar>
-              세 기관 추가하기
+              새 기관 추가하기
             </Rows>
           </DeptButton>
         </MenuItem>
