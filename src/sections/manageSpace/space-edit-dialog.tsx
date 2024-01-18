@@ -84,8 +84,6 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
   const imageFile = watch('image');
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-
     const formData = new FormData();
     formData.append(
       'spaceId',
@@ -100,9 +98,6 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
     formData.append('image', imageFile);
 
     reset();
-
-    console.log(formData.forEach((value, key) => console.log(key, value)));
-    console.log('end');
 
     axiosInstance
       .patch(`${endpoints.space.edit}/${deptId}`, formData, {

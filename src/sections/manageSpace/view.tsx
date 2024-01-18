@@ -19,7 +19,7 @@ export default function ManageSpaceView() {
   const userDeptValue = useRecoilValue(userDeptState);
   let deptId = 0;
   if (typeof userDeptValue === 'object') {
-    deptId = userDeptValue.deptId ?? '';
+    ({ deptId } = userDeptValue);
   }
 
   const { data: spaces } = useQuery<EXSpaceItem[]>(
@@ -37,7 +37,7 @@ export default function ManageSpaceView() {
       <Typography variant="h4"> 장소 관리하기 </Typography>
 
       <div style={{ margin: '50px', display: 'flex', justifyContent: 'flex-end' }}>
-        <SpaceCreateDialog />
+        <SpaceCreateDialog deptId={deptId} />
       </div>
       {spaces && <SpaceList spaces={spaces} />}
     </Container>

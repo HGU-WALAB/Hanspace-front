@@ -8,7 +8,7 @@ export const FormSchema = Yup.object().shape({
   availableStart: Yup.string().required('Available start time is required'),
   availableEnd: Yup.string().required('Available end time is required'),
   detail: Yup.string().required('Detail is required'),
-  availability: Yup.boolean().oneOf([true], 'Availability is required'),
+  availability: Yup.boolean().oneOf([true], '').nullable(),
   image: Yup.mixed<any>().nullable().required('Single upload is required'),
 
   // fullName: Yup.string()
