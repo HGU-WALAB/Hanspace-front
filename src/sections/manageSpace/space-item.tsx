@@ -1,5 +1,4 @@
 // @mui
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -9,16 +8,12 @@ import ListItemText from '@mui/material/ListItemText';
 // routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-// utils
-import { fDateTime } from 'src/utils/format-time';
-import { fCurrency } from 'src/utils/format-number';
 // types
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
 // components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import { shortDateLabel } from 'src/components/custom-date-range-picker';
 
 // ----------------------------------------------------------------------
 
@@ -40,58 +35,9 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
     availableStart,
     availableEnd,
     detail,
-    // lableColor,
-    availability,
+    // availability,
     image,
-    // regDate,
-    // modDate,
   } = space;
-
-  //   const shortLabel = shortDateLabel(available.startDate, available.endDate);
-
-  const renderRating = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        top: 8,
-        right: 8,
-        zIndex: 9,
-        borderRadius: 1,
-        position: 'absolute',
-        p: '2px 6px 2px 4px',
-        typography: 'subtitle2',
-        bgcolor: 'warning.lighter',
-      }}
-    >
-      {/* <Iconify icon="eva:star-fill" sx={{ color: 'warning.main', mr: 0.25 }} /> {ratingNumber} */}
-    </Stack>
-  );
-
-  const renderPrice = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        top: 8,
-        left: 8,
-        zIndex: 9,
-        borderRadius: 1,
-        bgcolor: 'grey.800',
-        position: 'absolute',
-        p: '2px 6px 2px 4px',
-        color: 'common.white',
-        typography: 'subtitle2',
-      }}
-    >
-      {/* {!!priceSale && (
-        <Box component="span" sx={{ color: 'grey.500', mr: 0.25, textDecoration: 'line-through' }}>
-          {fCurrency(priceSale)}
-        </Box>
-      )}
-      {fCurrency(price)} */}
-    </Stack>
-  );
 
   const renderImages = (
     <Stack
@@ -102,14 +48,8 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
       }}
     >
       <Stack flexGrow={1} sx={{ position: 'relative' }}>
-        {/* {renderPrice}
-        {renderRating} */}
         <Image alt={image} src={image} sx={{ borderRadius: 1, height: 164, width: 1 }} />
       </Stack>
-      {/* <Stack spacing={0.5}>
-        <Image alt={images[1]} src={images[1]} ratio="1/1" sx={{ borderRadius: 1, width: 80 }} />
-        <Image alt={images[2]} src={images[2]} ratio="1/1" sx={{ borderRadius: 1, width: 80 }} />
-      </Stack> */}
     </Stack>
   );
 
@@ -118,7 +58,6 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
       sx={{
         p: (theme) => theme.spacing(2.5, 2.5, 2, 2.5),
       }}
-      //   primary={`Posted date: ${fDateTime(createdAt)}`}
       secondary={
         <Link component={RouterLink} href={paths.hanspace.root} color="inherit">
           {name}
