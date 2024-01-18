@@ -39,8 +39,9 @@ export default function SpaceList({ spaces, refetchSpaces }: Props) {
     (space: EXSpaceItem) => {
       console.log('space', space);
       console.info('DELETE', space?.spaceId);
-      axiosInstance.delete(`${endpoints.space.delete}/${space.spaceId}`);
-      refetchSpaces();
+      axiosInstance.delete(`${endpoints.space.delete}/${space.spaceId}`).then(() => {
+        refetchSpaces();
+      });
     },
     [refetchSpaces]
   );
