@@ -45,7 +45,13 @@ export const defaultValues = {
   //
 };
 
-export default function SpaceCreateDialog(deptId: { deptId: number }) {
+export default function SpaceCreateDialog({
+  deptId,
+  refetchSpaces,
+}: {
+  deptId: number;
+  refetchSpaces: any;
+}) {
   const dialog = useBoolean();
 
   const methods = useForm({
@@ -66,18 +72,13 @@ export default function SpaceCreateDialog(deptId: { deptId: number }) {
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();
-    formData.append('deptId', deptId?.deptId.toString());
+    formData.append('deptId', deptId?.toString());
     formData.append('name', data.name);
     formData.append('headCount', data.headCount.toString());
     formData.append('availableStart', data.availableStart);
     formData.append('availableEnd', data.availableEnd);
     formData.append('detail', data.detail);
-    if (data.availability === true) {
-      formData.append('availability', 'true');
-    }
-    if (data.availability === false) {
-      formData.append('availability', 'false');
-    }
+    formData.append('availability', data.availability?.toString() || 'true');
     formData.append('image', imageFile);
 
     console.log(formData.forEach((value, key) => console.log(key, value)));
@@ -90,13 +91,14 @@ export default function SpaceCreateDialog(deptId: { deptId: number }) {
           'Content-Type': 'multipart/form-data',
         },
       })
+      .then(() => {
+        refetchSpaces();
+        dialog.onFalse();
+      })
       .catch((e) => {
         console.log('error');
         console.log(e);
       });
-
-    console.log('onfalse');
-    dialog.onFalse();
   });
 
   const handleDropSingleFile = useCallback(

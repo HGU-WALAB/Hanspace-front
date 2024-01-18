@@ -9,6 +9,7 @@ import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
 import { userDeptState } from 'src/utils/atom';
 import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
 import SpaceCreateDialog from './space-create-dialog';
 //
 import SpaceList from './space-list';
@@ -22,7 +23,7 @@ export default function ManageSpaceView() {
     ({ deptId } = userDeptValue);
   }
 
-  const { data: spaces } = useQuery<EXSpaceItem[]>(
+  const { data: spaces, refetch } = useQuery<EXSpaceItem[]>(
     ['GetSpace', GetSpace],
     () => GetSpace(deptId).then((response) => response.data),
     {
@@ -32,14 +33,19 @@ export default function ManageSpaceView() {
     }
   );
 
+  useEffect(() => {
+    refetch();
+    console.log('refetch');
+  }, [deptId, refetch]);
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4"> 장소 관리하기 </Typography>
 
       <div style={{ margin: '50px', display: 'flex', justifyContent: 'flex-end' }}>
-        <SpaceCreateDialog deptId={deptId} />
+        <SpaceCreateDialog deptId={deptId} refetchSpaces={refetch} />
       </div>
-      {spaces && <SpaceList spaces={spaces} />}
+      {spaces && <SpaceList spaces={spaces} refetchSpaces={refetch} />}
     </Container>
   );
 }
