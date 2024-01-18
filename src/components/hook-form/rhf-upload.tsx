@@ -76,6 +76,7 @@ export function RHFUpload({ name, multiple, helperText, ...other }: Props) {
             }
             {...other}
           />
+
         ) : (
           <Upload
             accept={{ 'image/*': [] }}

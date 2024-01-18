@@ -29,7 +29,7 @@ export default function DynamicTextField({ onUpdateExtraInfo }: DynamicTextField
 
     return(
         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-            <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mt: 1, mb: 1 }}>
+            <Button size="small" variant="outlined" color="primary" onClick={handleAddField} sx={{ mb: 1 }}>
                 요구 정보 추가하기
             </Button>
             {fields.map((field, index) => (

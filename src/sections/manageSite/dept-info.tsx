@@ -1,33 +1,35 @@
 // react
-import { SetStateAction, useCallback, useState } from "react";
-import styled from "styled-components";
+import { SetStateAction, useCallback, useState, useEffect, useMemo } from 'react';
+import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { updateDept } from 'src/api/deptApi';
+import { IDeptRead, IDeptInfo } from 'src/types/dept';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 // @mui
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import LoadingButton from '@mui/lab/LoadingButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 // component
-import FormProvider , {
-    RHFTextField,
-    RHFSwitch,
-    RHFUploadAvatar,
-    RHFSelect,
-    RHFUploadBox,
-    RHFUpload,
-  } from 'src/components/hook-form';
+import FormProvider, {
+  RHFTextField,
+  RHFSwitch,
+  RHFUploadAvatar,
+  RHFSelect,
+  RHFUploadBox,
+  RHFUpload,
+} from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import Image from 'src/components/image';
-import DynamicTextField from "../reserve/dynamic-textfield";
+import DynamicTextField from '../reserve/dynamic-textfield';
 
 import DepartmentUpdateSuccessDialog from './dept-dialog';
-
 
 const Div = styled.div`
   display: flex;
@@ -35,179 +37,225 @@ const Div = styled.div`
   margin: 28px 0;
 `;
 // ———————————————————————————————————
-export const defaultValues = {
-    siteName: 'Computer Science', 
-    deptName: '전산전자공학부',
-    logo: '',
-    color: 'red',
-    userAccept: true,
-    maxRserveCount: 5,
-    link: '/ComputerScience',
-    extraInfo: '',
-    // siteInfoTitle: '',
-    // siteInfoDetail: '',
-};
-
+// ToDo: 파일 업로드 부분 수정 필요
 export default function DepartmentInfoForm() {
-    // const settings = useSettingsContext();
-    const methods = useForm({
-        defaultValues
-    });
-    const {
-        // watch,
-        reset,
-        // control,
-        setValue,
-        handleSubmit,
-        formState: { isSubmitting },
-    } = methods;
+  const [userDeptInfo, setUserDeptInfo] = useRecoilState(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
 
-    const [logoImageName, setLogoImageName] = useState('');
-    const [logoImagePreview, setLogoImagePreview] = useState<string | null>(null);
-    const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
-    const [extraInfo, setExtraInfo] = useState('');
-    const [open, setOpen] = useState<boolean>(false);
-
-    const updateExtraInfo = (newExtraInfo: string) => {
-        setExtraInfo(newExtraInfo);
+  const defaultValues: IDeptInfo = useMemo(() => {
+    if (typeof userDeptInfo === 'object') {
+      return {
+        deptId: userDeptInfo.deptId || 0,
+        siteName: userDeptInfo.siteName || '',
+        deptName: userDeptInfo.deptName || '',
+        deptImage: userDeptInfo.deptImage || '',
+        userAccept: Boolean(userDeptInfo.userAccept),
+        maxRserveCount: Number(userDeptInfo.maxRserveCount),
+        link: userDeptInfo.link || '',
+        extraInfo: userDeptInfo.extraInfo || '',
+        spaceCount: userDeptInfo.spaceCount || 0,
+        memberCount: userDeptInfo.memberCount || 0,
+        deptMemberResponse: userDeptInfo.deptMemberResponse || [],
+      };
     }
-    // const handleMaxRserveCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-    //     const parsedValue = parseInt(numericValue, 10); // Convert to number
-    //     setMaxRserveCount(parsedValue);
-    // };
+    return {
+      deptId: 0,
+      siteName: '',
+      deptName: '',
+      deptImage: '',
+      userAccept: false,
+      maxRserveCount: 0,
+      link: '',
+      extraInfo: '',
+      spaceCount: 0,
+      memberCount: 0,
+      deptMemberResponse: [],
+    };
+  }, [userDeptInfo]);
 
-    const onSubmit = handleSubmit(async (data) => {
-        try {
-            data.maxRserveCount = maxRserveCount;
-            data.extraInfo = extraInfo;
-            reset();
-            console.log('넘어오는 data', data);
+  const methods = useForm({
+    defaultValues,
+  });
 
-            // modal
-            setOpen(true);
-        } catch (error) {
-            console.error(error);
+  // const settings = useSettingsContext();
+  const {
+    // watch,
+    reset,
+    // control,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [siteName, setSiteName] = useState(defaultValues.siteName);
+  const [deptName, setDeptName] = useState(defaultValues.deptName);
+  const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
+  const [deptImage, setDeptImage] = useState(defaultValues.deptImage);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      if (selectedFile) {
+        // 파일을 서버로 업로드
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        // const response = await axios.post('/upload-endpoint', formData);
+        const response = await axiosInstance.patch(`${endpoints.dept.update}/${deptId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if (response.status === 200) {
+          const filePath = response.data.filePath;
+
+          // 이미지 경로를 데이터에 추가
+          data.deptImage = filePath;
+        } else {
+          // 업로드 실패 처리
+          console.error('File upload failed');
         }
+      }
+
+      // 나머지 데이터 업데이트
+      data.siteName = siteName;
+      data.deptName = deptName;
+      data.deptImage = deptImage;
+      data.maxRserveCount = maxRserveCount;
+      data.extraInfo = defaultValues.extraInfo;
+      data.spaceCount = defaultValues.spaceCount;
+      data.memberCount = defaultValues.memberCount;
+      data.deptMemberResponse = defaultValues.deptMemberResponse;
+
+      reset();
+
+      // 서버로 데이터 전송
+      await updateDept(data, Number(deptId));
+
+      // ToDo: userAccept 부분 업데이트 시 업데이트 전 초기 값으로 되돌아감 (수정 필요)
+      setUserDeptInfo(data);
+
+      // modal
+      setOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  const handleDropSingleFile = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
       });
 
-      const handleDropSingleFile = useCallback(
-        (acceptedFiles: File[]) => {
-          const file = acceptedFiles[0];
-      
-          if (file) {
-            setValue('logo', file.name, { shouldValidate: true });
-            setLogoImageName(file.name);
-      
-            // Create a data URL for image preview if e.target is available
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              if (e.target) {
-                setLogoImagePreview(e.target.result as string | null);
-              }
-            };
-            reader.readAsDataURL(file);
-          }
-        },
-        [setValue]
-      );
-      
+      setSelectedFile(file); // 파일 저장
+
+      if (newFile) {
+        setValue('deptImage', file.name, { shouldValidate: true });
+        console.log('파일 이름 정확히 들어갔나', newFile);
+        setDeptImage(file.name);
+      }
+    },
+    [setValue]
+  );
 
   return (
-    <Div>
-    <Box        
-      sx={{
-      mt: 5,
-      width: 0.5,
-      borderRadius: 2,
-      bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-      // border: (theme) => `dashed 1px ${theme.palette.divider}`,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}> 
-    <DepartmentUpdateSuccessDialog open={open} onClose={() => setOpen(false)} />
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사이트 이름 *</Typography>
-            <RHFTextField name="siteName" label="설정된 사이트 이름" sx={{ width: '280px'}}/>
-        </Div>
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>기관 이름 *</Typography>
-            <RHFTextField name="deptName" label="설정된 기관 이름" sx={{ width: '280px'}}/>
-        </Div>
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1 , mr: 4 }}>로고 사진 *</Typography>
-            <Typography variant="body2">{logoImageName}</Typography>
-            <RHFUploadBox
-              name="singleUpload"
-              onDrop={handleDropSingleFile}
-              onDelete={() => setValue('logo', '', { shouldValidate: true })}
-            />
-        </Div>  
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>기관 URL *</Typography>
-            <RHFTextField name="link" label="설정된 기관 URL" sx={{ width: '280px'}} disabled/>
-        </Div>
-        {/* <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>테마 색상 *</Typography>
-            <FormControl>
-            <RHFSelect
-                name="color"
-                label="테마 색상"
-                sx={{ width: '280px' }}
-            >
-                <MenuItem value="yellow">노란색</MenuItem>
-                <MenuItem value="red">빨간색</MenuItem>
-                <MenuItem value="black">검정색</MenuItem>
-            </RHFSelect>
-            </FormControl>
-        </Div> */}
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 즉시 입장 여부 *</Typography>
-            <FormControlLabel 
-                control={ <RHFSwitch name="userAccept" label={null} sx={{ m: 0 }} />}
+    <>
+      <DepartmentUpdateSuccessDialog open={open} onClose={() => setOpen(false)} />
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Box
+          gap={5}
+          display="grid"
+          gridTemplateColumns={{
+            xs: 'repeat(1, 1fr)',
+            sm: 'repeat(2, 1fr)',
+          }}
+          sx={{
+            borderRadius: 2,
+            bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
+            padding: 2,
+          }}
+        >
+          <Stack spacing={2}>
+            <Block label="사이트 이름">
+              <RHFTextField
+                name="siteName"
+                value={siteName}
+                onChange={(e) => setSiteName(e.target.value)}
+              />
+            </Block>
+            <Block label="기관 이름">
+              <RHFTextField
+                name="deptName"
+                value={deptName}
+                onChange={(e) => setDeptName(e.target.value)}
+              />
+            </Block>
+            <Block label="자동으로 기관 입장 허가 여부">
+              <FormControlLabel
+                control={<RHFSwitch name="userAccept" label={null} sx={{ m: 0 }} />}
                 label="허가없이 사용자 기관 가입"
-                sx={{mr: 2}}
+                sx={{ mr: 2 }}
+              />
+            </Block>
+            <Block label="사용자 최대 예약 가능 날짜">
+              <RHFTextField
+                name="maxRserveCount"
+                type="number"
+                value={maxRserveCount}
+                onChange={(newValue) => {
+                  const numericValue = parseFloat(newValue.target.value);
+                  setMaxRserveCount(numericValue);
+                }}
+              />
+            </Block>
+            <Block label="URL 이름">
+              <RHFTextField name="link" value={defaultValues?.link} disabled />
+            </Block>
+          </Stack>
+          <Stack spacing={4}>
+            <RHFUpload
+              name="deptImage"
+              onDrop={handleDropSingleFile}
+              onDelete={() => setValue('deptImage', '', { shouldValidate: true })}
+              helperText="기관 대표 이미지를 선택해주세요"
             />
-        </Div>
-        <Div>
-            <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>사용자 최대 예약 가능 날짜 *</Typography>
-            <RHFTextField 
-              name="maxRserveCount" 
-              label="최대 예약 가능 날짜를 설정해주세요" 
-              sx={{ width: '280px'}} 
-              type="number"
-              onChange={(newValue) => {
-                const numericValue = parseFloat(newValue.target.value);
-                setMaxRserveCount(numericValue);
-              }}
-              value={maxRserveCount}
-            />
-        </Div>
-        {/* <Div>
-          <Typography variant="subtitle1" sx={{ flexGrow: 1, mr: 4 }}>추가 정보</Typography>
-          <DynamicTextField onUpdateExtraInfo={updateExtraInfo}/>
-        </Div> */}
-    </FormProvider>
-    </Box>
-    <Box        
-      sx={{
-      mt: 5,
-      width: 0.5,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}> 
-    {logoImagePreview ? 
-      (<Image src={logoImagePreview} alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
-    :
-      (<Image src='https://source.unsplash.com/random' alt="Selected Logo" sx={{ borderRadius: 1, height: '400px', width: '60%' }} />)
-    }
-      <Button variant="outlined" color="primary" onClick={() => {onSubmit();}} sx={{ width: '60%', height: '50px', mt: 5 }}>
-        수정하기
-      </Button>
-    </Box>
-    </Div>
+            <LoadingButton fullWidth color="primary" size="large" type="submit" variant="soft">
+              수정하기
+            </LoadingButton>
+          </Stack>
+        </Box>
+      </FormProvider>
+    </>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+interface BlockProps extends StackProps {
+  label?: string;
+  children: React.ReactNode;
+}
+
+function Block({ label, sx, children }: BlockProps) {
+  return (
+    <Stack spacing={1} sx={{ width: 1, ...sx }}>
+      <Typography
+        variant="caption"
+        sx={{
+          color: '#5F5F5F',
+          fontWeight: 'bold',
+        }}
+      >
+        {label}
+      </Typography>
+      {children}
+    </Stack>
   );
 }

@@ -13,21 +13,14 @@ export default function DepartmentView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-    <Typography variant="h4"> 기관 추가하기 </Typography>
-    {/* <Box
+      <Typography variant="h4"         
         sx={{
-          mt: 5,
-          width: 0.5,
-          borderRadius: 2,
-          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-          // border: (theme) => `dashed 1px ${theme.palette.divider}`,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          mb: { xs: 3, md: 5 },
         }}
-      > */}
-        <DepartmentForm />
-      {/* </Box> */}
+      > 
+        기관 추가하기 
+      </Typography>
+      <DepartmentForm />
     </Container>
   );
 
