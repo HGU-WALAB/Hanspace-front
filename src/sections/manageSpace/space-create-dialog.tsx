@@ -86,19 +86,20 @@ export default function SpaceCreateDialog({
     reset();
 
     axiosInstance
-      .patch(endpoints.space.create, formData, {
+      .post(endpoints.space.create, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then(() => {
         refetchSpaces();
-        dialog.onFalse();
       })
       .catch((e) => {
         console.log('error');
         console.log(e);
       });
+
+    dialog.onFalse();
   });
 
   const handleDropSingleFile = useCallback(
