@@ -73,7 +73,7 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
   });
 
   const {
-    // watch,
+    watch,
     reset,
     // control,
     setValue,
@@ -81,19 +81,43 @@ export default function SpaceEditDialog({ open, onClose, currentSpace }: SpaceEd
     formState: { isSubmitting },
   } = methods;
 
+  const imageFile = watch('image');
+
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      reset();
-      console.info('DATA', data);
+    const postData = {
+      spaceId: currentSpace?.spaceId,
+      name: data.name,
+      headCount: data.headCount,
+      availableStart: data.availableStart,
+      availableEnd: data.availableEnd,
+      detail: data.detail,
+      availability: data.availability,
+    };
 
-      const response = await axiosInstance
-        .patch(`${endpoints.space.edit}/${deptId}`, data)
-        .then((log) => console.log('log', log));
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append(
+      'post',
+      new Blob([JSON.stringify(postData)], {
+        type: 'application/json',
+      })
+    );
 
-      dialog.onFalse();
-    } catch (error) {
-      console.error(error);
-    }
+    reset();
+
+    axiosInstance
+      .patch(`${endpoints.space.edit}/${deptId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((result) => {
+        dialog.onFalse();
+      })
+      .catch((e) => {
+        console.log('error');
+        console.log(e);
+      });
   });
 
   const handleDropSingleFile = useCallback(
