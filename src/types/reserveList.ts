@@ -5,7 +5,13 @@ import { ISpaceItem } from './space';
 export type IReserveTableFilterValue = string | Date | null;
 
 export type IReserveTableFilters = {
+  no: string;
+  space: string;
+  reserveDate: Date | null;
+  reserveTime: string | null;
+  modDate: Date | null;
   name: string;
+  purpose: string;
   status: string;
   startDate: Date | null;
   endDate: Date | null;
