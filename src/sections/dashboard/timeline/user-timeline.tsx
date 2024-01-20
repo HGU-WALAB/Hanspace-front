@@ -12,11 +12,22 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+// react
+import { useState, useEffect, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
+// api
+import { GetReserveListByMember } from 'src/api/reserveApi';
 // routes
 import { paths } from 'src/routes/paths';
+// utils
+import { fDateTime } from 'src/utils/format-time';
 // components
 import Iconify from 'src/components/iconify';
+// types
+import { ICalendarEvent } from 'src/types/calendar';
 //
+import { palette as themePalette } from 'src/theme/palette';
 import { Padding } from '@mui/icons-material';
 import ComponentBlock from './component-block';
 
@@ -31,6 +42,7 @@ type TimelineType = {
   icon: React.ReactElement;
 };
 
+
 const TIMELINES: TimelineType[] = [
   {
     key: 1,
@@ -39,109 +51,38 @@ const TIMELINES: TimelineType[] = [
     time: '09:30 am',
     icon: <Iconify icon="eva:folder-add-fill" width={24} />,
   },
-  {
-    key: 2,
-    title: 'Primary',
-    des: 'Morbi mattis ullamcorper',
-    time: '10:00 am',
-    color: 'primary',
-    icon: <Iconify icon="eva:image-2-fill" width={24} />,
-  },
-  {
-    key: 3,
-    title: 'Secondary',
-    des: 'Morbi mattis ullamcorper',
-    time: '10:00 am',
-    color: 'secondary',
-    icon: <Iconify icon="eva:pantone-fill" width={24} />,
-  },
-  {
-    key: 4,
-    title: 'Info',
-    des: 'Morbi mattis ullamcorper',
-    time: '10:30 am',
-    color: 'info',
-    icon: <Iconify icon="eva:tv-fill" width={24} />,
-  },
-  {
-    key: 5,
-    title: '뉴턴 210호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 1일 19:00',
-    color: 'success',
-    icon: <Iconify icon="eva:activity-fill" width={24} />,
-  },
-  {
-    key: 6,
-    title: '뉴턴 310호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 7일 21:00',
-    color: 'warning',
-    icon: <Iconify icon="eva:cube-fill" width={24} />,
-  },
-  {
-    key: 7,
-    title: '뉴턴 219호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 9일 20:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 8,
-    title: '뉴턴 220호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 12일 20:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 9,
-    title: '뉴턴 412호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 15일 21:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 10,
-    title: '뉴턴 319호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 20일 22:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 11,
-    title: '뉴턴 310호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 23일 11:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 12,
-    title: '뉴턴 113호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 26일 19:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
-  {
-    key: 13,
-    title: '뉴턴 412호',
-    des: 'Morbi mattis ullamcorper',
-    time: '11월 28일 21:00',
-    color: 'error',
-    icon: <Iconify icon="eva:film-fill" width={24} />,
-  },
 ];
+
+const palette = themePalette('light');
 
 // ----------------------------------------------------------------------
 export default function UserTimeLine() {
-  const lastItem = TIMELINES[TIMELINES.length - 1].key;
+  const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
 
-  const reduceTimeLine = TIMELINES.slice(TIMELINES.length - 5);
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await GetReserveListByMember(Number(deptId));
+        setEventData(data);
+        // console.log("data" ,data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [deptId]);
+
+  const events = eventsData || [];
+
+  const lastItem = events[events.length - 1].id;
+
+  const reduceTimeLine = events.slice(events.length - 5);
 
   return (
     <ComponentBlock title="나의 예약 리스트">
@@ -171,19 +112,19 @@ export default function UserTimeLine() {
             />
           ) : (
             reduceTimeLine.map((item) => (
-              <TimelineItem key={item.key}>
+              <TimelineItem key={item.id}>
                 <TimelineSeparator>
                   <TimelineDot
                     sx={{
-                      backgroundColor: '#4653F0',
+                      backgroundColor: palette.primary.main,
                     }}
                   />
-                  {lastItem === item.key ? null : <TimelineConnector />}
+                  {lastItem === item.id ? null : <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent>
                   <Typography variant="body2">{item.title}</Typography>
                   <Typography variant="body2" color="textSecondary" noWrap>
-                    {item.time}
+                      {`${fDateTime(item.start, 'MM/dd p')}`}
                   </Typography>
                 </TimelineContent>
               </TimelineItem>

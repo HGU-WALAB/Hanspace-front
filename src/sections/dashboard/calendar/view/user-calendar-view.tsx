@@ -6,6 +6,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 //
 import { useState, useEffect, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -25,14 +27,15 @@ import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
 import { palette as themePalette } from 'src/theme/palette';
 // api
 import { useGetEvents, updateEvent } from 'src/api/calendar';
-import { GetReserveListBySpace } from 'src/api/reserveApi';
+import { GetReserveListByMember } from 'src/api/reserveApi';
+// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기 
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useCalendar, useEvent } from '../hooks';
+import { useUserCalendar, useEvent } from '../hooks';
 import { StyledCalendar } from '../styles';
 import CalendarForm from '../calendar-form';
 import CalendarUForm from '../calendar-uform';
@@ -120,25 +123,31 @@ export default function UserCalendarView() {
     selectedRange,
     //
     onClickEventInFilters,
-  } = useCalendar();
+  } = useUserCalendar();
 
   const [eventsData, setEventData] = useState<ICalendarEvent[] | null>();
 
-  const fetchData = async () => {
-    try {
-      const data = await GetReserveListBySpace();
-      setEventData(data);
-      console.log("data" ,data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
 
   useEffect(() => {
     onInitialView();
     // ToDo : ReserveBySpaceId List API
+    const fetchData = async () => {
+      try {
+        const data = await GetReserveListByMember(Number(deptId));
+        setEventData(data);
+        // console.log("data" ,data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     fetchData();
-  }, [onInitialView]);
+  }, [onInitialView, deptId]);
   
   
   // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.

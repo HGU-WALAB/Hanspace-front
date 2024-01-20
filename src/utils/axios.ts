@@ -51,8 +51,9 @@ export const endpoints = {
     info: '/hanSpace/info',
   },
   reserve: {
-    list: `/hanSpace/reserve`,
-    schedule: `/hanSpace/reserve/list/1`,
+    list: `/hanSpace/reserve`, // deptId
+    schedule: `/hanSpace/reserve/list`, // spaceId
+    member: `hanSpace/reserve/list/member` // member
   },
   post: {
     list: '/api/post/list',
@@ -66,14 +67,20 @@ export const endpoints = {
     search: '/api/product/search',
   },
   space: {
-    list: `/space/list/${localStorage.getItem('DeptUrlState')}`,
+    list: `/hanSpace/space`,
+    create: `/hanSpace/space`,
+    edit: `/hanSpace/space`,
+    delete: `/hanSpace/space`,
   },
   user: {
-    list: `/deptMember/list/${localStorage.getItem('DeptUrlState')}`,
-    update: `/deptMember/${localStorage.getItem('userId')}`,
+    list: `/deptMember/list`,
+    update: `/deptMember`,
   },
   dept: {
     signup: '/hanSpace/member/signup',
     add: '/hanSpace/member/add',
+    // ToDo: backend api 완료 되면 다시 연결해서 확인하기
+    create: `/hanSpace/dept`,
+    update: `/hanSpace/dept`,
   },
 };

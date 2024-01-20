@@ -39,8 +39,8 @@ export type ISpaceItem = {
 };
 
 export type EXSpaceItem = {
-  spaceId: any;
-  id: string;
+  spaceId: number;
+  id: string; // Todo: 지우기
   name: string;
   headCount: number;
   availableStart: string;

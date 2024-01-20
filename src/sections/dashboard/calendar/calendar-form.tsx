@@ -37,7 +37,7 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
-    purpose: Yup.string().max(255).required('제목을 입력해주세요'),
+    title: Yup.string().max(255).required('제목을 입력해주세요'),
     // description: Yup.string().max(5000, '설명은 5000자 이상 입력할 수 없습니다'),
     // not required
     color: Yup.string(),
@@ -51,9 +51,6 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     defaultValues: currentEvent,
   });
 
-  useEffect(() => {
-    console.log("넘어온 데이터 확인", currentEvent);
-  })
 
   const {
     reset,
@@ -109,7 +106,7 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     // <FormProvider methods={methods} onSubmit={onSubmit}>
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="purpose" label="제목"/>
+        <RHFTextField name="title" label="제목"/>
         <RHFTextField name="spaceName" label="장소"/>
         {/* <RHFTextField name="description" label="설명" multiline rows={3} disabled/> */}
 

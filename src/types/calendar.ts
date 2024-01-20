@@ -36,7 +36,7 @@ export type ICalendarEvent = {
   end: ICalendarDate;
   color: string;
   textColor: string;
-  purpose: string;
+  title: string;
   status: boolean;
   spaceName: string;
   allDay: boolean;
@@ -45,7 +45,7 @@ export type ICalendarEvent = {
 export type UCalendarEvent = {
   id: string;
   color: string;
-  title: string;
+  purpose: string;
   allDay: boolean;
   description: string;
   end: ICalendarDate;
