@@ -42,9 +42,7 @@ export default function UserTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { name, sid, deptName, email, role } = row;
-
-  // const confirm = useBoolean();
+  const { name, sid, deptName, email, deptRole, approve } = row;
 
   const quickEdit = useBoolean();
 
@@ -58,8 +56,6 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          {/* <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} /> */}
-
           <ListItemText
             primary={name}
             secondary={sid}
@@ -79,17 +75,17 @@ export default function UserTableRow({
           <Label
             variant="soft"
             color={
-              (role === '미승인' && 'error') ||
-              (role === '관리자' && 'success') ||
-              (role === '사용자' && 'secondary') ||
+              (approve === '승인 대기' && 'error') ||
+              (deptRole === 'ADMIN' && 'success') ||
+              (deptRole === 'USER' && 'secondary') ||
               'default'
             }
           >
-            {role}
+            {deptRole}
           </Label>
         </TableCell>
 
-        {role === '미승인' && (
+        {approve === '승인 대기' && (
           <TableCell>
             <Rows>
               <Button variant="outlined" color="primary">
@@ -102,7 +98,7 @@ export default function UserTableRow({
           </TableCell>
         )}
 
-        {role !== '미승인' && <div />}
+        {approve !== '승인 대기' && <div />}
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
