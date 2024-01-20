@@ -42,7 +42,6 @@ import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
 import CalendarFiltersResult from '../calendar-filters-result';
 
-
 // interface UserCalendarEvent {
 //   id: string;
 //   allDay: boolean;
@@ -140,16 +139,15 @@ export default function UserCalendarView() {
       try {
         const data = await GetReserveListByDept(Number(deptId));
         setEventData(data);
-        console.log("data" ,data);
+        console.log('data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    
+
     fetchData();
   }, [onInitialView, deptId]);
-  
-  
+
   // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
   const events = eventsData || [];
   const eventsLoading = false;
@@ -191,17 +189,6 @@ export default function UserCalendarView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        >
-          <Typography variant="h4">달력</Typography>
-        </Stack>
-
         {canReset && renderResults}
 
         <Card>
@@ -265,18 +252,20 @@ export default function UserCalendarView() {
       >
         <DialogTitle sx={{ minHeight: 76 }}>
           {/* {openForm && <> {selectEventId ? '일정 확인하기' : '일정 추가하기'}</>} */}
-          {openForm && {selectEventId} && '일정 확인하기'}
+          {openForm && { selectEventId } && '일정 확인하기'}
         </DialogTitle>
-        {selectEventId &&
-          <CalendarUForm
-            currentEvent={events.find((event) => event.id.toString() === selectEventId)}
-            onClose={onCloseForm}
-          />
-        //   :
-        //   <CalendarForm
-        //     currentEvent={currentEvent}
-        //     onClose={onCloseForm}
-        // />
+        {
+          selectEventId && (
+            <CalendarUForm
+              currentEvent={events.find((event) => event.id.toString() === selectEventId)}
+              onClose={onCloseForm}
+            />
+          )
+          //   :
+          //   <CalendarForm
+          //     currentEvent={currentEvent}
+          //     onClose={onCloseForm}
+          // />
         }
       </Dialog>
 

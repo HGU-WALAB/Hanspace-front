@@ -176,7 +176,7 @@ export default function UserListView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Typography variant="h4"> 사용자 관리하기 </Typography>
+        <Typography variant="h5"> 사용자 관리하기 </Typography>
 
         <div style={{ margin: '20px', display: 'flex', justifyContent: 'flex-end' }} />
 

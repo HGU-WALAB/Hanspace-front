@@ -19,12 +19,13 @@ export default function ManageSiteView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-            <Typography variant="h4"         
+      <Typography
+        variant="h5"
         sx={{
           mb: { xs: 3, md: 5 },
         }}
-      > 
-        기관 정보 관리하기 
+      >
+        기관 정보 관리하기
       </Typography>
       <DepartmentInfoForm />
     </Container>

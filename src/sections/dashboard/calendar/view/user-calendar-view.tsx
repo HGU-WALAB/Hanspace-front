@@ -28,7 +28,7 @@ import { palette as themePalette } from 'src/theme/palette';
 // api
 import { useGetEvents, updateEvent } from 'src/api/calendar';
 import { GetReserveListByMember } from 'src/api/reserveApi';
-// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기 
+// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
@@ -148,8 +148,7 @@ export default function UserCalendarView() {
 
     fetchData();
   }, [onInitialView, deptId]);
-  
-  
+
   // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
   const events = eventsData || [];
   const eventsLoading = false;
@@ -191,17 +190,6 @@ export default function UserCalendarView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        >
-          <Typography variant="h4">달력</Typography>
-        </Stack>
-
         {canReset && renderResults}
 
         <Card>
@@ -265,18 +253,20 @@ export default function UserCalendarView() {
       >
         <DialogTitle sx={{ minHeight: 76 }}>
           {/* {openForm && <> {selectEventId ? '일정 확인하기' : '일정 추가하기'}</>} */}
-          {openForm && {selectEventId} && '일정 확인하기'}
+          {openForm && { selectEventId } && '일정 확인하기'}
         </DialogTitle>
-        {selectEventId &&
-          <CalendarUForm
-            currentEvent={events.find((event) => event.id.toString() === selectEventId)}
-            onClose={onCloseForm}
-          />
-        //   :
-        //   <CalendarForm
-        //     currentEvent={currentEvent}
-        //     onClose={onCloseForm}
-        // />
+        {
+          selectEventId && (
+            <CalendarUForm
+              currentEvent={events.find((event) => event.id.toString() === selectEventId)}
+              onClose={onCloseForm}
+            />
+          )
+          //   :
+          //   <CalendarForm
+          //     currentEvent={currentEvent}
+          //     onClose={onCloseForm}
+          // />
         }
       </Dialog>
 
