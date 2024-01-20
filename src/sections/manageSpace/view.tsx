@@ -35,7 +35,6 @@ export default function ManageSpaceView() {
 
   useEffect(() => {
     refetch();
-    console.log('refetch');
   }, [deptId, refetch]);
 
   return (
