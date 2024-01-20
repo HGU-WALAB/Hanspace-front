@@ -79,7 +79,7 @@ export type IReserveListItem = {
   space: ISpaceItem;
   startTime: string;
   endTime: string;
-  user: string;
+  createMemberName: string;
   purpose: string;
   status: string;
   createMemberId: string;

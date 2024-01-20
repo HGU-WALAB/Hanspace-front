@@ -50,7 +50,8 @@ export default function ReserveTableRow({
   onDeleteRow,
 }: Props) {
   // const { items, status, reserveNumber, createdAt, customer, totalQuantity, subTotal } = row;
-  const { id, space, reserveDate, modDate, startTime, endTime, user, purpose, status } = row;
+  const { id, space, reserveDate, modDate, startTime, endTime, createMemberName, purpose, status } =
+    row;
 
   const confirm = useBoolean();
 
@@ -133,7 +134,7 @@ export default function ReserveTableRow({
 
       <TableCell>
         <ListItemText
-          primary={user}
+          primary={createMemberName}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,

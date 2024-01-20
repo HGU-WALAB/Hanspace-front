@@ -355,7 +355,7 @@ function applyFilter({
     inputData = inputData.filter(
       (order) =>
         order.id.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.user.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.createMemberName.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
