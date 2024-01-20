@@ -103,8 +103,6 @@ export default function ReserveListView() {
     refetch();
   }, [refetch]);
 
-  console.log('set', tableData);
-
   const [filters, setFilters] = useState(defaultFilters);
 
   const dateError =
