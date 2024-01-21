@@ -19,21 +19,6 @@ import { useEffect, useState } from 'react';
 import SpacingGrid from './reserve-time';
 
 // ----------------------------------------------------------------------
-const SpaceName = styled.p`
-  color: var(--neutral-colors-headings-black, #383838);
-  text-align: center;
-  font-size: 23px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 29.065px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-`;
-const InfoText = styled.div`
-  color: #212121;
-  font-family: Pretendard;
-  font-size: 13px;
-`;
 
 interface Props {
   selectedData: {
@@ -52,9 +37,6 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
   useEffect(() => {
     // console.log('space data', selectedData);
   }, [selectedData]);
-
-  const popover = usePopover();
-  const [isClicked, setIsClicked] = useState(false);
 
   const {
     id,
@@ -123,7 +105,6 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
       startTime: selectedData.startTime,
       endTime: selectedData.endTime,
       week: selectedData.week,
-      // headCount: selectedData.headCount,
       spaceId: space.spaceId,
       spaceName: space.name,
       spaceImage: space.image,
@@ -132,49 +113,39 @@ export default function RegularlySpaceCardList({ space, selectedData, handleModa
   };
 
   return (
-    <Card
-      // onClick={() => setIsClicked(!isClicked)}
-      // color={isClicked ? 'primary' : 'white'}
-      // style={{
-      //   display: 'flex', // 가로 방향으로 정렬
-      //   justifyContent: 'center', // 가운데 정렬
-      //   cursor: 'pointer',
-      // }}
-    >
-      <div>
-        {renderImages}
-        <div style={{ padding: '0 16px 0 16px' }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
-              {space.name}
-            </Typography>
-            <Typography
-                variant="body1"
-                color="#777777"
-                sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px' }}
-              >
-              | {space.headCount}명 사용가능
-            </Typography>
-          </div>
-          {renderInfo}
-          {renderTimeTable}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNextClick}
-            sx={{ mb: 2, width: 1, height: '50px' }}
-            disabled={
-              !selectedData.startDate ||
-              !selectedData.endDate ||
-              !selectedData.week ||
-              !selectedData.startTime ||
-              !selectedData.endTime
-            }
+    <div>
+      {renderImages}
+      <div style={{ padding: '0 16px 0 16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
+            {space.name}
+          </Typography>
+          <Typography
+            variant="body1"
+            color="#777777"
+            sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px' }}
           >
-            선택하기
-          </Button>
+            | {space.headCount}명 사용가능
+          </Typography>
         </div>
+        {renderInfo}
+        {renderTimeTable}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNextClick}
+          sx={{ mb: 2, width: 1, height: '50px' }}
+          disabled={
+            !selectedData.startDate ||
+            !selectedData.endDate ||
+            !selectedData.week ||
+            !selectedData.startTime ||
+            !selectedData.endTime
+          }
+        >
+          선택하기
+        </Button>
       </div>
-    </Card>
+    </div>
   );
 }

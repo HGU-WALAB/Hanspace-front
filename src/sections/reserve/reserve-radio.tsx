@@ -27,7 +27,7 @@ export default function RowRadioButtonsGroup({
       >
         <FormControlLabel value="daily" control={<Radio />} label="일일 대여" />
         <FormControlLabel value="regularly" control={<Radio />} label="정기 대여" />
-        <FormControlLabel value="csv" control={<Radio />} label="CSV 파일 업로드" />
+        {/* <FormControlLabel value="csv" control={<Radio />} label="CSV 파일 업로드" /> */}
       </RadioGroup>
     </FormControl>
   );

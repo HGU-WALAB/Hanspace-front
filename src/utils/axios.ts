@@ -51,6 +51,8 @@ export const endpoints = {
     member: `hanSpace/reserve/list/member`, // member
     edit: `/hanSpace/reserve`, // reserveId
     delete: `/hanSpace/reserve`, // reserveId
+    create: `/hanSpace/reserve`,
+    regularcreate: `/hanSpace/reserve/regularReserve`,
   },
   post: {
     list: '/api/post/list',
