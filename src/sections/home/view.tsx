@@ -7,7 +7,13 @@ import { Button, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { GetFirstInfo } from 'src/api/userApi';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userDeptListState, userDeptState, userState } from 'src/utils/atom';
+import {
+  DeptUrlState,
+  selectedIndexState,
+  userDeptListState,
+  userDeptState,
+  userState,
+} from 'src/utils/atom';
 import { IDeptInfo } from 'src/types/dept';
 import { useAuthContext } from 'src/auth/hooks';
 import DeptList from './dept-list';
@@ -25,7 +31,11 @@ export default function HomeView() {
   const [deptInfo, setDeptInfo] = useRecoilState<IDeptInfo[] | null>(userDeptListState);
 
   const setfirstDept = useSetRecoilState(userDeptState);
+  const setfirstDeptUrl = useSetRecoilState(DeptUrlState);
+  const setfirstIndex = useSetRecoilState(selectedIndexState);
   setfirstDept('HANSPACE');
+  setfirstDeptUrl('HANSPACE');
+  setfirstIndex(-1);
 
   useEffect(() => {
     try {
