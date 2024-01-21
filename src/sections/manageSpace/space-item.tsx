@@ -29,7 +29,6 @@ export default function SpaceItem({ space, onView, onEdit, onDelete }: Props) {
   const popover = usePopover();
 
   const {
-    id,
     name,
     headCount,
     availableStart,

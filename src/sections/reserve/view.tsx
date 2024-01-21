@@ -2,11 +2,9 @@
 import { useState } from 'react';
 // @mui
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 // types
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
 import {
   DailyReserveForm1,
   DailyReserveForm2,
@@ -16,13 +14,10 @@ import {
 // components
 import { useSettingsContext } from 'src/components/settings';
 // api
-import { GetSpace } from 'src/api/spaceApi';
-import { useQuery } from 'react-query';
 import ReserveDailyForm1 from './reserve-daily-form1';
 // import ReserveDailyForm2 from './reserve-daily-form2';
 import DailySpaceCardList from './reserve-daily-space';
 import RegularlySpaceCardList from './reserve-regularly-space';
-import RowRadioButtonsGroup from './reserve-radio';
 import ReserveRegularyForm1 from './reserve-regularly-form1';
 import ReserveCSVForm from './reserve-csv';
 import DailyReserveFormDialog from './reserve-daily-dialog';
@@ -126,7 +121,7 @@ const spaces: EXSpaceItem[] = [
 ];
 
 export default function ReserveView() {
-    // space 정보들 API
+  // space 정보들 API
   // const { data: spaces } = useQuery(
   //   ['GetSpace', GetSpace],
   //   () => GetSpace().then((response) => response.data),
@@ -168,7 +163,6 @@ export default function ReserveView() {
     spaceImage: '',
   });
 
-  
   const [selectedValue, setSelectedValue] = useState('daily');
 
   const handleRadioChange = (data: string) => {
@@ -195,7 +189,6 @@ export default function ReserveView() {
     setSelectedRegularyData2(data);
   };
 
-
   let DailySpaceCradList = null;
 
   if (spaces) {
@@ -218,7 +211,11 @@ export default function ReserveView() {
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       {selectedValue === 'daily' && (
         <>
-          <ReserveDailyForm1 handleDailyReserveInfo={handleDailyReserveInfo} selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
+          <ReserveDailyForm1
+            handleDailyReserveInfo={handleDailyReserveInfo}
+            selectedValue={selectedValue}
+            handleRadioChange={handleRadioChange}
+          />
           <Box
             gap={3}
             display="grid"
@@ -273,7 +270,9 @@ export default function ReserveView() {
           </Box>
         </>
       )}
-      {selectedValue === 'csv' && <ReserveCSVForm selectedValue={selectedValue} handleRadioChange={handleRadioChange} />}
+      {selectedValue === 'csv' && (
+        <ReserveCSVForm selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
+      )}
     </Container>
   );
 }

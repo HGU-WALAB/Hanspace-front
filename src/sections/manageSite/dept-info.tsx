@@ -1,10 +1,9 @@
 // react
-import { SetStateAction, useCallback, useState, useEffect, useMemo } from 'react';
-import styled from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { useCallback, useState, useMemo } from 'react';
+import { useRecoilState } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
 import { updateDept } from 'src/api/deptApi';
-import { IDeptRead, IDeptInfo } from 'src/types/dept';
+import { IDeptInfo } from 'src/types/dept';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 // @mui
 import Box from '@mui/material/Box';
@@ -12,30 +11,12 @@ import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import LoadingButton from '@mui/lab/LoadingButton';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 // component
-import FormProvider, {
-  RHFTextField,
-  RHFSwitch,
-  RHFUploadAvatar,
-  RHFSelect,
-  RHFUploadBox,
-  RHFUpload,
-} from 'src/components/hook-form';
+import FormProvider, { RHFTextField, RHFSwitch, RHFUpload } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
-import Image from 'src/components/image';
-import DynamicTextField from '../reserve/dynamic-textfield';
-
 import DepartmentUpdateSuccessDialog from './dept-dialog';
 
-const Div = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 28px 0;
-`;
 // ———————————————————————————————————
 // ToDo: 파일 업로드 부분 수정 필요
 export default function DepartmentInfoForm() {
@@ -80,15 +61,7 @@ export default function DepartmentInfoForm() {
     defaultValues,
   });
 
-  // const settings = useSettingsContext();
-  const {
-    // watch,
-    reset,
-    // control,
-    setValue,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const { reset, setValue, handleSubmit } = methods;
 
   const [open, setOpen] = useState<boolean>(false);
   const [siteName, setSiteName] = useState(defaultValues.siteName);
@@ -111,7 +84,7 @@ export default function DepartmentInfoForm() {
           },
         });
         if (response.status === 200) {
-          const filePath = response.data.filePath;
+          const { filePath } = response.data;
 
           // 이미지 경로를 데이터에 추가
           data.deptImage = filePath;

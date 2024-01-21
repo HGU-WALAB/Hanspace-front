@@ -7,7 +7,6 @@ import Drawer from '@mui/material/Drawer';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 // components
-import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 import { usePathname } from 'src/routes/hooks';
 import { NavSectionVertical } from 'src/components/nav-section';
@@ -18,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import { userDeptState } from 'src/utils/atom';
 import { NAV } from '../config-layout';
 import { useNavData, useUserNavData } from './config-navigation';
-import { NavToggleButton, NavUpgrade } from '../_common';
+import { NavToggleButton } from '../_common';
 
 // ----------------------------------------------------------------------
 

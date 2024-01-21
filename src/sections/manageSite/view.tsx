@@ -1,13 +1,6 @@
 // @mui
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-// routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import DepartmentInfoForm from './dept-info';

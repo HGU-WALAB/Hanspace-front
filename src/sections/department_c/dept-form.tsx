@@ -1,5 +1,5 @@
 // react
-import { SetStateAction, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { createDept } from 'src/api/deptApi';
 // @mui
@@ -7,22 +7,11 @@ import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 // component
-import FormProvider, {
-  RHFTextField,
-  RHFSwitch,
-  RHFUploadAvatar,
-  RHFSelect,
-  RHFUploadBox,
-  RHFUpload,
-} from 'src/components/hook-form';
+import FormProvider, { RHFTextField, RHFSwitch, RHFUpload } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
-import Image from 'src/components/image';
 import DynamicTextField from '../reserve/dynamic-textfield';
 import DeptPopover from './dept-popover';
 import DepartmentCreateSuccessDialog from './dept-dialog';
@@ -45,19 +34,12 @@ export const defaultValues = {
 };
 
 export default function DepartmentForm() {
-  // const settings = useSettingsContext();
   const methods = useForm({
     defaultValues,
   });
-  const {
-    // watch,
-    reset,
-    // control,
-    setValue,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const { reset, setValue, handleSubmit } = methods;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [deptImage, setDeptImage] = useState('');
   const [maxRserveCount, setMaxRserveCount] = useState<number | undefined>();
   const [extraInfo, setExtraInfo] = useState('');

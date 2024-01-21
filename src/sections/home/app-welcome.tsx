@@ -1,5 +1,5 @@
 // @mui
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 // theme
@@ -23,13 +23,10 @@ export default function AppWelcome({ title, description, action, img, ...other }
       sx={{
         ...bgGradient({
           direction: '135deg',
-          //   startColor: alpha(theme.palette.primary.light, 0.2),
           startColor: theme.palette.primary.main,
-          //   endColor: alpha(theme.palette.primary.main, 0.2),
           endColor: theme.palette.primary.main,
         }),
         height: { md: 1 },
-        // borderRadius: 2,
         position: 'relative',
         color: 'primary.darker',
         backgroundColor: 'common.white',
@@ -64,11 +61,11 @@ export default function AppWelcome({ title, description, action, img, ...other }
         >
           {description && typeof description === 'string'
             ? description.split('\n').map((item, index, array) => (
-              <>
-                {item}
-                {index < array.length - 1 && <br />}
-              </>
-            ))
+                <>
+                  {item}
+                  {index < array.length - 1 && <br />}
+                </>
+              ))
             : null}
         </Typography>
 

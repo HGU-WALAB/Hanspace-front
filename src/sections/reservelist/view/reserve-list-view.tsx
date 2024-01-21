@@ -322,18 +322,7 @@ function applyFilter({
   filters: IReserveTableFilters;
   dateError: boolean;
 }) {
-  const {
-    no,
-    space,
-    reserveDate,
-    reserveTime,
-    modDate,
-    name,
-    purpose,
-    status,
-    startDate,
-    endDate,
-  } = filters;
+  const { name, status, startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
