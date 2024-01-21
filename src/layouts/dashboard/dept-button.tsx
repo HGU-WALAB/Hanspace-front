@@ -42,7 +42,7 @@ const Rows = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 `;
 
 export default function DeptHeaderButton() {

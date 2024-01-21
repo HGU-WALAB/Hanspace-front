@@ -53,7 +53,9 @@ export const endpoints = {
   reserve: {
     list: `/hanSpace/reserve`, // deptId
     schedule: `/hanSpace/reserve/list`, // spaceId
-    member: `hanSpace/reserve/list/member` // member
+    member: `hanSpace/reserve/list/member`, // member
+    edit: `/hanSpace/reserve`, // reserveId
+    delete: `/hanSpace/reserve`, // reserveId
   },
   post: {
     list: '/api/post/list',

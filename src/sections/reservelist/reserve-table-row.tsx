@@ -24,6 +24,7 @@ import Iconify from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import styled from 'styled-components';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,7 @@ type Props = {
   onViewRow: VoidFunction;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
+  refetch: VoidFunction;
 };
 
 const Rows = styled.div`
@@ -48,15 +50,42 @@ export default function ReserveTableRow({
   onViewRow,
   onSelectRow,
   onDeleteRow,
+  refetch,
 }: Props) {
-  // const { items, status, reserveNumber, createdAt, customer, totalQuantity, subTotal } = row;
-  const { id, space, reserveDate, modDate, startTime, endTime, user, purpose, status } = row;
+  const { id, space, reserveDate, modDate, startTime, endTime, createMemberName, purpose, status } =
+    row;
 
   const confirm = useBoolean();
 
-  const collapse = useBoolean();
+  // const collapse = useBoolean();
 
   const popover = usePopover();
+
+  const handleApprove = () => {
+    axiosInstance
+      .patch(`${endpoints.reserve.edit}/${id}`, {
+        status: '승인',
+      })
+      .then(() => {
+        refetch();
+      });
+  };
+
+  const handleReject = () => {
+    axiosInstance
+      .patch(`${endpoints.reserve.edit}/${id}`, {
+        status: '거절',
+      })
+      .then(() => {
+        refetch();
+      });
+  };
+
+  const handleDelete = () => {
+    axiosInstance.delete(`${endpoints.reserve.delete}/${id}`).then(() => {
+      refetch();
+    });
+  };
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -79,8 +108,6 @@ export default function ReserveTableRow({
       </TableCell>
 
       <TableCell>
-        {/* <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} /> */}
-
         <ListItemText
           primary={space.name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
@@ -107,8 +134,6 @@ export default function ReserveTableRow({
       <TableCell>
         <ListItemText
           primary={`${startTime} - ${endTime}`}
-          // The following is commented out, but you can format the date as needed and uncomment it.
-          // secondary={format(new Date(createdAt), 'p')}
           primaryTypographyProps={{ variant: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -121,7 +146,6 @@ export default function ReserveTableRow({
       <TableCell>
         <ListItemText
           primary={format(new Date(modDate), 'yyyy / MM / dd')}
-          // secondary={format(new Date(createdAt), 'p')}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -133,7 +157,7 @@ export default function ReserveTableRow({
 
       <TableCell>
         <ListItemText
-          primary={user}
+          primary={createMemberName}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -164,113 +188,105 @@ export default function ReserveTableRow({
             (status === '거절' && 'error') ||
             'default'
           }
-          // style={{width: "75px", height: "30px"}}
         >
           {status}
         </Label>
       </TableCell>
 
       {status === '미승인' && (
-        <TableCell>
+        <TableCell sx={{ paddingRight: '30px' }}>
           <Rows>
-            <Button variant="outlined" color="primary">
+            <Button variant="outlined" color="primary" onClick={handleApprove}>
               승인
             </Button>
-            <Button variant="outlined" color="error">
+            <Button variant="outlined" color="error" onClick={handleReject}>
               거절
             </Button>
           </Rows>
         </TableCell>
       )}
 
-      {status !== '미승인' && (
-        <TableCell>
+      {status === '승인' && (
+        <TableCell sx={{ paddingRight: '30px' }}>
           <Rows>
             <div />
-            <Button variant="outlined" style={{ color: 'gray' }}>
-              삭제
+            <Button variant="outlined" style={{ color: 'gray' }} onClick={handleReject}>
+              취소
             </Button>
           </Rows>
         </TableCell>
       )}
 
-      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <IconButton
-          color={collapse.value ? 'inherit' : 'default'}
-          onClick={collapse.onToggle}
-          sx={{
-            ...(collapse.value && {
-              bgcolor: 'action.hover',
-            }),
-          }}
-        >
-          <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton>
-
-        {/* <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton> */}
-      </TableCell>
+      {status === '거절' && (
+        <TableCell sx={{ paddingRight: '30px' }}>
+          <Rows>
+            <div />
+            <Button variant="outlined" style={{ color: 'gray' }} onClick={handleDelete}>
+              삭제
+            </Button>
+          </Rows>
+        </TableCell>
+      )}
     </TableRow>
   );
 
-  const renderSecondary = (
-    <TableRow>
-      <TableCell sx={{ p: 0, border: 'none' }} colSpan={8}>
-        <Collapse
-          in={collapse.value}
-          timeout="auto"
-          unmountOnExit
-          sx={{ bgcolor: 'background.neutral' }}
-        >
-          {/* <Stack component={Paper} sx={{ m: 1.5 }}>
-            {items.map((item) => (
-              <Stack
-                key={item.id}
-                direction="row"
-                alignItems="center"
-                sx={{
-                  p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
-                  '&:not(:last-of-type)': {
-                    borderBottom: (theme) => `solid 2px ${theme.palette.background.neutral}`,
-                  },
-                }}
-              >
-                <Avatar
-                  src={item.coverUrl}
-                  variant="rounded"
-                  sx={{ width: 48, height: 48, mr: 2 }}
-                />
+  // const renderSecondary = (
+  //   <TableRow>
+  //     <TableCell sx={{ p: 0, border: 'none' }} colSpan={8}>
+  //       <Collapse
+  //         in={collapse.value}
+  //         timeout="auto"
+  //         unmountOnExit
+  //         sx={{ bgcolor: 'background.neutral' }}
+  //       >
+  //         {/* <Stack component={Paper} sx={{ m: 1.5 }}>
+  //           {items.map((item) => (
+  //             <Stack
+  //               key={item.id}
+  //               direction="row"
+  //               alignItems="center"
+  //               sx={{
+  //                 p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
+  //                 '&:not(:last-of-type)': {
+  //                   borderBottom: (theme) => `solid 2px ${theme.palette.background.neutral}`,
+  //                 },
+  //               }}
+  //             >
+  //               <Avatar
+  //                 src={item.coverUrl}
+  //                 variant="rounded"
+  //                 sx={{ width: 48, height: 48, mr: 2 }}
+  //               />
 
-                <ListItemText
-                  primary={item.name}
-                  secondary={item.sku}
-                  primaryTypographyProps={{
-                    typography: 'body2',
-                  }}
-                  secondaryTypographyProps={{
-                    component: 'span',
-                    color: 'text.disabled',
-                    mt: 0.5,
-                  }}
-                />
+  //               <ListItemText
+  //                 primary={item.name}
+  //                 secondary={item.sku}
+  //                 primaryTypographyProps={{
+  //                   typography: 'body2',
+  //                 }}
+  //                 secondaryTypographyProps={{
+  //                   component: 'span',
+  //                   color: 'text.disabled',
+  //                   mt: 0.5,
+  //                 }}
+  //               />
 
-                <Box>x{item.quantity}</Box>
+  //               <Box>x{item.quantity}</Box>
 
-                <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
-              </Stack>
-            ))}
-          </Stack> */}
-        </Collapse>
-      </TableCell>
-    </TableRow>
-  );
+  //               <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
+  //             </Stack>
+  //           ))}
+  //         </Stack> */}
+  //       </Collapse>
+  //     </TableCell>
+  //   </TableRow>
+  // );
 
   return (
     <>
       {renderPrimary}
 
-      {renderSecondary}
+      {/* {renderSecondary} */}
 
       <CustomPopover
         open={popover.open}
