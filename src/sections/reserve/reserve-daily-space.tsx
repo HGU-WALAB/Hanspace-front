@@ -49,17 +49,8 @@ function isEndTimeRangeValid(selectST: number, availST: number, selectET: number
   else pass = false;
   return pass;
 }
-// function isHeadCountVaild(selectHC: number, availHC: number){
-//   let pass = false;
-//   if(Number.isNaN(selectHC) || Number.isNaN(availHC) ) pass = true;
-//   else if (selectHC <= availHC) pass = true;
-//   else pass = false;
-//   return pass;
-// }
 
 export default function DailySpaceCardList({ space, selectedData, handleModalControl }: Props) {
-  const popover = usePopover();
-  const [isClicked, setIsClicked] = useState(false);
   const {
     id,
     name,
@@ -180,47 +171,36 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
   return (
     <>
       {isStartTimeWithinRange && isEndimeWithinRange ? (
-        <Card
-        // onClick={() => setIsClicked(!isClicked)}
-        // color={isClicked ? 'primary' : 'white'}
-        // style={{
-        //   display: 'flex', // 가로 방향으로 정렬
-        //   justifyContent: 'center', // 가운데 정렬
-        //   padding: 0,
-        //   margin: 0,
-        // }}
-        >
-          <div>
-            {renderImages}
-            <div style={{ padding: '0 16px 0 16px' }}>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
-                  {space.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="#777777"
-                  sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px' }}
-                >
-                  | {space.headCount}명 사용가능
-                </Typography>
-              </div>
-              {renderInfo}
-              {renderTimeTable}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNextClick}
-                sx={{ mb: 2, width: 1, height: '50px' }}
-                disabled={
-                  !selectedData.reserveDate || !selectedData.startTime || !selectedData.endTime
-                }
+        <div>
+          {renderImages}
+          <div style={{ padding: '0 16px 0 16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <Typography variant="h6" color="black" sx={{ mt: 2, mb: 1 }}>
+                {space.name}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="#777777"
+                sx={{ mt: 2.8, mb: 1, ml: 1, fontSize: '12px' }}
               >
-                선택하기
-              </Button>
+                | {space.headCount}명 사용가능
+              </Typography>
             </div>
+            {renderInfo}
+            {renderTimeTable}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNextClick}
+              sx={{ mb: 2, width: 1, height: '50px' }}
+              disabled={
+                !selectedData.reserveDate || !selectedData.startTime || !selectedData.endTime
+              }
+            >
+              선택하기
+            </Button>
           </div>
-        </Card>
+        </div>
       ) : null}
     </>
   );

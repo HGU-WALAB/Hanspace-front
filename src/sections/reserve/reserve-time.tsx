@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { palette as themePalette } from 'src/theme/palette';
 
 interface TableCellProps {
   isHighlighted?: boolean;
@@ -38,10 +39,11 @@ const TableCell = styled.td<TableCellProps>`
   border: 1px solid #b4afc3;
   padding: 16px 6px 16px 6px;
   background-color: ${(props) => {
+    const palette = themePalette('light');
     if (props.isDisabled) {
-      return '#B4AFC3'; // 만약 isDisabled가 true인 경우 검은색 배경
+      return palette.secondary.dark; // 만약 isDisabled가 true인 경우 검은색 배경
     }
-    return props.isHighlighted ? '#ECEEFD' : 'transparent';
+    return props.isHighlighted ? palette.primary.light : 'transparent';
   }};
   &:hover ${TimeOverlay} {
     display: block;
