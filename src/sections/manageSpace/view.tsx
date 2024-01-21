@@ -35,12 +35,11 @@ export default function ManageSpaceView() {
 
   useEffect(() => {
     refetch();
-    console.log('refetch');
   }, [deptId, refetch]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> 장소 관리하기 </Typography>
+      <Typography variant="h5"> 장소 관리하기 </Typography>
 
       <div style={{ margin: '50px', display: 'flex', justifyContent: 'flex-end' }}>
         <SpaceCreateDialog deptId={deptId} refetchSpaces={refetch} />

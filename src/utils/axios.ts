@@ -1,15 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 // config
-import { HOST_API, BASE_URL } from 'src/config-global';
+import { BASE_URL } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-// const axiosInstance = axios.create({ baseURL: HOST_API });
 const axiosInstance = axios.create({ baseURL: BASE_URL });
-
-// const deptId = localStorage.getItem('DeptUrlState');
-// console.log('deptId', deptId);
-// const UserId = localStorage.getItem('userId');
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -54,6 +49,8 @@ export const endpoints = {
     list: `/hanSpace/reserve`, // deptId
     schedule: `/hanSpace/reserve/list`, // spaceId
     member: `hanSpace/reserve/list/member`, // member
+    edit: `/hanSpace/reserve`, // reserveId
+    delete: `/hanSpace/reserve`, // reserveId
     create: `/hanSpace/reserve`,
     regularcreate: `/hanSpace/reserve/regularReserve`,
   },
@@ -75,7 +72,7 @@ export const endpoints = {
     delete: `/hanSpace/space`,
   },
   user: {
-    list: `/deptMember/list`,
+    list: `/hanSpace/deptMember/list`, // deptId
     update: `/deptMember`,
   },
   dept: {

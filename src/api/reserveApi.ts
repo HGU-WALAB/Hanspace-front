@@ -63,3 +63,4 @@ export const regularCreateReserve = async (data: RegularReserveAdd) => {
   const response = await axiosInstance.post(endpoints.reserve.regularcreate, data);
   return response;
 };
+

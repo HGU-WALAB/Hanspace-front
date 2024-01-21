@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
@@ -14,7 +14,7 @@ import TableContainer from '@mui/material/TableContainer';
 // routes
 // import { useRouter } from 'src/routes/hooks';
 // _mock
-import { _userList, _roles, USER_ROLE_OPTIONS } from 'src/_mock';
+import { USER_ROLE_OPTIONS } from 'src/_mock';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
@@ -38,6 +38,10 @@ import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/u
 // import { useQuery } from 'react-query';
 // import { GetUser } from 'src/api/userApi';
 import { Typography } from '@mui/material';
+import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { userDeptState } from 'src/utils/atom';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 import UserTableRow from '../user-table-row';
 import UserTableToolbar from '../user-table-toolbar';
 import UserTableFiltersResult from '../user-table-filters-result';
@@ -67,19 +71,30 @@ export default function UserListView() {
 
   const settings = useSettingsContext();
 
-  // const router = useRouter();
-
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_userList);
-  // const [tableData, setTableData] = useQuery<IUserItem[]>(['GetUser', Getuser], () => {
-  //   GetUser().then((res) => res.data),
-  //     {
-  //       onSuccess: (data) => {
-  //         console.log('GetSpace', data);
-  //       },
-  //     };
-  // });
+  const userDeptInfo = useRecoilValue(userDeptState);
+  let deptId = '';
+  if (typeof userDeptInfo === 'object') {
+    deptId = `${userDeptInfo.deptId}`;
+  }
+
+  const [tableData, setTableData] = useState<IUserItem[]>([]);
+
+  const { refetch } = useQuery<IUserItem[]>(['userlist', deptId], async () => {
+    try {
+      const response = await axiosInstance.get<IUserItem[]>(`${endpoints.user.list}/${deptId}`);
+      setTableData(response.data);
+      return response.data; // Return the data from the promise
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; // Rethrow the error to let React Query handle it
+    }
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -102,7 +117,6 @@ export default function UserListView() {
 
   const handleFilters = useCallback(
     (name: string, value: IUserTableFilterValue) => {
-      console.log('name', value);
       table.onResetPage();
       setFilters((prevState) => ({
         ...prevState,
@@ -162,7 +176,7 @@ export default function UserListView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Typography variant="h4"> 사용자 관리하기 </Typography>
+        <Typography variant="h5"> 사용자 관리하기 </Typography>
 
         <div style={{ margin: '20px', display: 'flex', justifyContent: 'flex-end' }} />
 
@@ -193,22 +207,22 @@ export default function UserListView() {
                       'default'
                     }
                   >
-                    {tab.value === '전체' && _userList.length}
+                    {tab.value === '전체' && tableData.length}
                     {tab.value === '미승인' &&
-                      _userList.filter((user) => user.role === '미승인').length}
+                      tableData.filter((user) => user.approve === '승인 대기').length}
                     {tab.value === '관리자' &&
-                      _userList.filter((user) => user.role === '관리자').length}
+                      tableData.filter((user) => user.deptRole === 'ADMIN').length}
                     {tab.value === '사용자' &&
-                      _userList.filter((user) => user.role === '사용자').length}
+                      tableData.filter((user) => user.deptRole === 'USER').length}
                     {tab.value === '블랙리스트' &&
-                      _userList.filter((user) => user.role === '블랙리스트').length}
+                      tableData.filter((user) => user.deptRole === '블랙리스트').length}
                   </Label>
                 }
               />
             ))}
           </Tabs>
 
-          <UserTableToolbar filters={filters} onFilters={handleFilters} roleOptions={_roles} />
+          <UserTableToolbar filters={filters} onFilters={handleFilters} roleOptions={tableData} />
 
           {canReset && (
             <UserTableFiltersResult
@@ -356,7 +370,7 @@ function applyFilter({
   }
 
   if (role !== '전체') {
-    inputData = inputData.filter((user) => user.role === role);
+    inputData = inputData.filter((user) => user.deptRole === role);
   }
 
   // if (role.length) {

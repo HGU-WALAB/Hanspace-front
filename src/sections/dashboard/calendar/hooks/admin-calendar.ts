@@ -16,8 +16,6 @@ export default function useAdminCalendar() {
 
   const calendarEl = calendarRef.current;
 
-  const smUp = useResponsive('up', 'sm');
-
   const [date, setDate] = useState(new Date());
 
   const [openForm, setOpenForm] = useState(false);

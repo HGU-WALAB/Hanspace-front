@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { Button, Grid } from '@mui/material';
-import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { useEffect } from 'react';
 import { GetFirstInfo } from 'src/api/userApi';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -18,8 +17,6 @@ import AppWelcome from './app-welcome';
 
 export default function HomeView() {
   const { login } = useAuthContext();
-
-  const { user } = useMockedUser();
 
   const settings = useSettingsContext();
 
@@ -58,7 +55,6 @@ export default function HomeView() {
           <AppWelcome
             title={`안녕하세요, ${userInfo.name}님 👋 `}
             description={`한동메일을 통한 로그인으로 대여 신청이 가능합니다.\nHOME에서 예약 내역 확인과 'Calendar'를 통한 강의실별 예약 현황을 볼 수 있습니다.\n승인된 예약을 통해 강의실을 사용할 수 있으며, 지도 교수 소속 조건 충족 시 대여가 가능합니다.`}
-            // img={<SeoIllustration />}
             action={
               <Button variant="contained" color="primary">
                 Read more

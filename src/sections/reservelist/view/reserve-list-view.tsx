@@ -42,6 +42,7 @@ import { Typography } from '@mui/material';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
 import { userDeptState } from 'src/utils/atom';
+import { useQuery } from 'react-query';
 import ReserveTableRow from '../reserve-table-row';
 import ReserveTableToolbar from '../reserve-table-toolbar';
 import ReserveTableFiltersResult from '../reserve-table-filters-result';
@@ -60,11 +61,16 @@ const TABLE_HEAD = [
   { id: 'purpose', label: '목적', width: 140 },
   { id: 'status', label: '상태', width: 110 },
   { id: 'manage', label: '관리', width: 110 },
-  { id: '', width: 50 },
 ];
 
 const defaultFilters: IReserveTableFilters = {
+  no: '',
+  space: '',
+  reserveDate: null,
+  reserveTime: null,
+  modDate: null,
   name: '',
+  purpose: '',
   status: '전체',
   startDate: null,
   endDate: null,
@@ -87,21 +93,15 @@ export default function ReserveListView() {
     deptId = `${userDeptInfo.deptId}`;
   }
 
+  const { refetch } = useQuery(['reserveList', deptId], async () => {
+    await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`).then((res) => {
+      setTableData(res.data);
+    });
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`);
-        setTableData(response.data);
-        console.log('res', response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData(); // Call the async function
-  }, [deptId]);
-
-  console.log('set', tableData);
+    refetch();
+  }, [refetch]);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -150,27 +150,9 @@ export default function ReserveListView() {
     [dataInPage.length, table, tableData]
   );
 
-  // const handleDeleteRows = useCallback(() => {
-  //   const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-  //   setTableData(deleteRows);
-
-  //   table.onUpdatePageDeleteRows({
-  //     totalRows: tableData.length,
-  //     totalRowsInPage: dataInPage.length,
-  //     totalRowsFiltered: dataFiltered.length,
-  //   });
-  // }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
   }, []);
-
-  // const handleViewRow = useCallback(
-  //   (id: string) => {
-  //     router.push(paths.dashboard.order.details(id));
-  //   },
-  //   [router]
-  // );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -181,7 +163,7 @@ export default function ReserveListView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> 예약 내역 보기 </Typography>
+      <Typography variant="h5"> 예약 내역 보기 </Typography>
       <div style={{ height: '30px' }} />
       <Card>
         <Tabs
@@ -296,7 +278,8 @@ export default function ReserveListView() {
                       selected={table.selected.includes(row.id)}
                       onSelectRow={() => table.onSelectRow(row.id)}
                       onDeleteRow={() => handleDeleteRow(row.id)}
-                      onViewRow={() => handleDeleteRow(row.id)} // handleViewRow(row.id)}
+                      onViewRow={() => handleDeleteRow(row.id)}
+                      refetch={refetch}
                     />
                   ))}
 
@@ -339,7 +322,7 @@ function applyFilter({
   filters: IReserveTableFilters;
   dateError: boolean;
 }) {
-  const { status, name, startDate, endDate } = filters;
+  const { name, status, startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
@@ -355,7 +338,7 @@ function applyFilter({
     inputData = inputData.filter(
       (order) =>
         order.id.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.user.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.createMemberName.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 

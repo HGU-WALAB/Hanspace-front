@@ -1,7 +1,5 @@
 import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-// auth
-import { AuthGuard } from 'src/auth/guard';
 // layouts
 import DashboardLayout from 'src/layouts/dashboard';
 // components
@@ -23,13 +21,11 @@ export const dashboardRoutes = [
   {
     path: 'hanspace',
     element: (
-      // <AuthGuard>
       <DashboardLayout>
         <Suspense fallback={<LoadingScreen />}>
           <Outlet />
         </Suspense>
       </DashboardLayout>
-      // </AuthGuard>
     ),
     children: [
       { path: ':url/dashboard', element: <DashBoardPage /> },
@@ -47,26 +43,6 @@ export const dashboardRoutes = [
         path: 'department',
         element: <AddDepartmentView />,
       },
-      // {
-      //   path: 'user',
-      //   children: [
-      //     { element: <UserProfilePage />, index: true },
-      //     { path: 'profile', element: <UserProfilePage /> },
-      //     { path: 'cards', element: <UserCardsPage /> },
-      //     { path: 'list', element: <UserListPage /> },
-      //     { path: 'new', element: <UserCreatePage /> },
-      // { path: ':id/edit', element: <UserEditPage /> },
-      //     // { path: 'account', element: <UserAccountPage /> },
-      //   ],
-      // },
-      // {
-      //   path: 'order',
-      //   children: [
-      //     { element: <OrderListPage />, index: true },
-      //     { path: 'list', element: <OrderListPage /> },
-      //     // { path: ':id', element: <OrderDetailsPage /> },
-      //   ],
-      // },
     ],
   },
 ];
