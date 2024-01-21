@@ -2,11 +2,8 @@ import { useCallback, useState } from 'react';
 // @mui
 import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
-// routes
-import { paths } from 'src/routes/paths';
 // types
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
-import { useRouter } from 'src/routes/hooks';
+import { EXSpaceItem } from 'src/types/space';
 import SpaceItem from 'src/sections/manageSpace/space-item';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import SpaceEditDialog from './space-edit-dialog';

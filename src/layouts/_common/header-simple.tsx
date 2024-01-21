@@ -1,17 +1,13 @@
 // @mui
 import { useTheme } from '@mui/material/styles';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 // theme
 import { bgBlur } from 'src/theme/css';
-// routes
-import { RouterLink } from 'src/routes/components';
 // hooks
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 // components
-import Logo from 'src/components/logo';
 import DeptHeaderButton from 'src/layouts/dashboard/dept-button';
 //
 import { HEADER } from '../config-layout';
@@ -51,12 +47,8 @@ export default function HeaderSimple() {
           }),
         }}
       >
-        {/* <Rows> */}
-        {/* <Logo /> */}
         <DeptHeaderButton />
-        {/* </Rows> */}
 
-        {/* <Stack direction="row" alignItems="center" spacing={1}> */}
         <Stack
           flexGrow={1}
           direction="row"
@@ -69,10 +61,6 @@ export default function HeaderSimple() {
           <NotificationsPopover />
 
           <AccountPopover />
-
-          {/* <Link href="/" component={RouterLink} color="inherit" sx={{ typography: 'subtitle2' }}>
-            Need help?
-          </Link> */}
         </Stack>
       </Toolbar>
 

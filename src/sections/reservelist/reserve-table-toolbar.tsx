@@ -9,7 +9,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { IReserveTableFilters, IReserveTableFilterValue } from 'src/types/reserveList';
 // components
 import Iconify from 'src/components/iconify';
-import { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +27,6 @@ export default function ReserveTableToolbar({
   canReset,
   onResetFilters,
 }: Props) {
-  const popover = usePopover();
-
   const handleFilterName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onFilters('name', event.target.value);

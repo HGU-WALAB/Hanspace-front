@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 // import { SelectChangeEvent } from '@mui/material/Select';
 // types
-import { IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
+import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 // components
 import Iconify from 'src/components/iconify';
 // import { usePopover } from 'src/components/custom-popover';
@@ -16,7 +16,7 @@ type Props = {
   filters: IUserTableFilters;
   onFilters: (name: string, value: IUserTableFilterValue) => void;
   //
-  roleOptions: string[];
+  roleOptions: IUserItem[];
 };
 
 export default function UserTableToolbar({

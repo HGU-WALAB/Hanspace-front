@@ -11,11 +11,8 @@ import { userDeptState } from 'src/utils/atom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
@@ -26,34 +23,21 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
 import { palette as themePalette } from 'src/theme/palette';
 // api
-import { useGetEvents, updateEvent } from 'src/api/calendar';
+import { updateEvent } from 'src/api/calendar';
 import { GetReserveListByMember } from 'src/api/reserveApi';
-// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기 
+// ToDo : 멤버 API 생성 후 연결해서 해당 학생의 예약 결과만 보이기
 // components
-import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useUserCalendar, useEvent } from '../hooks';
+import { useUserCalendar } from '../hooks';
 import { StyledCalendar } from '../styles';
-import CalendarForm from '../calendar-form';
 import CalendarUForm from '../calendar-uform';
 import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
 import CalendarFiltersResult from '../calendar-filters-result';
 
-// interface UserCalendarEvent {
-//   id: string;
-//   allDay: boolean;
-//   color: string;
-//   description: string;
-//   start: ICalendarDate;
-//   end: ICalendarDate;
-//   textColor: string;
-//   title: string;
-//   invite: boolean; // 초대받은 일정인지
-// } // ex
 // ----------------------------------------------------------------------
 
 const defaultFilters: ICalendarFilters = {
@@ -61,19 +45,6 @@ const defaultFilters: ICalendarFilters = {
   startDate: null,
   endDate: null,
 };
-const palette = themePalette('light');
-// const eventsData: ICalendarEvent[] = [ // ex
-//   {
-//     id: "1",
-//     allDay: false,
-//     color: palette.secondary.main,
-//     description: "공프기 마감 작업 회의 진행 예정",
-//     start: new Date('2023.11.23 11:00:00').getTime(),
-//     end: new Date('2023.11.23 14:30:00').getTime(),
-//     textColor: palette.secondary.main,
-//     title: "뉴턴 210호",
-//     invite: true,
-//   },
 
 // ----------------------------------------------------------------------
 
@@ -92,8 +63,6 @@ export default function UserCalendarView() {
 
   console.log('filters', filters);
 
-  // const { events, eventsLoading } = useGetEvents();
-
   const dateError =
     filters.startDate && filters.endDate
       ? filters.startDate.getTime() > filters.endDate.getTime()
@@ -110,17 +79,14 @@ export default function UserCalendarView() {
     onDateToday,
     onDropEvent,
     onChangeView,
-    // onSelectRange,
     onClickEvent,
     onResizeEvent,
     onInitialView,
     //
     openForm,
-    onOpenForm,
     onCloseForm,
     //
     selectEventId,
-    selectedRange,
     //
     onClickEventInFilters,
   } = useUserCalendar();
@@ -138,7 +104,7 @@ export default function UserCalendarView() {
     // ToDo : ReserveBySpaceId List API
     const fetchData = async () => {
       try {
-        const data = await GetReserveListByMember(Number(deptId));
+        const data = await GetReserveListByMember(deptId);
         setEventData(data);
         // console.log("data" ,data);
       } catch (error) {
@@ -148,8 +114,7 @@ export default function UserCalendarView() {
 
     fetchData();
   }, [onInitialView, deptId]);
-  
-  
+
   // eventsData를 사용하여 이벤트 목록을 만들 수 있습니다.
   const events = eventsData || [];
   const eventsLoading = false;
@@ -191,17 +156,6 @@ export default function UserCalendarView() {
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        >
-          <Typography variant="h4">달력</Typography>
-        </Stack>
-
         {canReset && renderResults}
 
         <Card>
@@ -265,18 +219,20 @@ export default function UserCalendarView() {
       >
         <DialogTitle sx={{ minHeight: 76 }}>
           {/* {openForm && <> {selectEventId ? '일정 확인하기' : '일정 추가하기'}</>} */}
-          {openForm && {selectEventId} && '일정 확인하기'}
+          {openForm && { selectEventId } && '일정 확인하기'}
         </DialogTitle>
-        {selectEventId &&
-          <CalendarUForm
-            currentEvent={events.find((event) => event.id.toString() === selectEventId)}
-            onClose={onCloseForm}
-          />
-        //   :
-        //   <CalendarForm
-        //     currentEvent={currentEvent}
-        //     onClose={onCloseForm}
-        // />
+        {
+          selectEventId && (
+            <CalendarUForm
+              currentEvent={events.find((event) => event.id.toString() === selectEventId)}
+              onClose={onCloseForm}
+            />
+          )
+          //   :
+          //   <CalendarForm
+          //     currentEvent={currentEvent}
+          //     onClose={onCloseForm}
+          // />
         }
       </Dialog>
 

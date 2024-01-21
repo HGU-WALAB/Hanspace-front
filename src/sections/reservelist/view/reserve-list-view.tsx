@@ -93,8 +93,8 @@ export default function ReserveListView() {
     deptId = `${userDeptInfo.deptId}`;
   }
 
-  const { data, refetch } = useQuery(['reserveList', deptId], async () => {
-    const response = await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`).then((res) => {
+  const { refetch } = useQuery(['reserveList', deptId], async () => {
+    await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`).then((res) => {
       setTableData(res.data);
     });
   });
@@ -102,8 +102,6 @@ export default function ReserveListView() {
   useEffect(() => {
     refetch();
   }, [refetch]);
-
-  console.log('set', tableData);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -152,27 +150,9 @@ export default function ReserveListView() {
     [dataInPage.length, table, tableData]
   );
 
-  // const handleDeleteRows = useCallback(() => {
-  //   const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-  //   setTableData(deleteRows);
-
-  //   table.onUpdatePageDeleteRows({
-  //     totalRows: tableData.length,
-  //     totalRowsInPage: dataInPage.length,
-  //     totalRowsFiltered: dataFiltered.length,
-  //   });
-  // }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
   }, []);
-
-  // const handleViewRow = useCallback(
-  //   (id: string) => {
-  //     router.push(paths.dashboard.order.details(id));
-  //   },
-  //   [router]
-  // );
 
   const handleFilterStatus = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -342,18 +322,7 @@ function applyFilter({
   filters: IReserveTableFilters;
   dateError: boolean;
 }) {
-  const {
-    no,
-    space,
-    reserveDate,
-    reserveTime,
-    modDate,
-    name,
-    purpose,
-    status,
-    startDate,
-    endDate,
-  } = filters;
+  const { name, status, startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 

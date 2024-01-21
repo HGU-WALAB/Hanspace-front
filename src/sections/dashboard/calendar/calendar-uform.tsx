@@ -6,53 +6,28 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 // components
-import FormProvider, { RHFTextField, RHFSwitch } from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
 // types
 import { ICalendarDate, ICalendarEvent } from 'src/types/calendar';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  // colorOptions: string[];
   onClose: VoidFunction;
   currentEvent?: ICalendarEvent;
 };
 
-// const emailInfo = [
-//   { email: "22100595@handong.ac.kr" },
-//   { email: "22000019@handong.ac.kr" },
-//   { email: "22100101@handong.ac.kr" },
-//   { email: "22100123@handong.ac.kr" },
-//   { email: "22100489@handong.ac.kr" },
-//   { email: "22100230@handong.ac.kr" },
-//   { email: "21900595@handong.ac.kr" },
-//   { email: "22300592@handong.ac.kr" },
-//   { email: "21700247@handong.ac.kr" },
-//   { email: "21500852@handong.ac.kr" },
-//   { email: "22200682@handong.ac.kr" },
-//   { email: "21400374@handong.ac.kr" },
-//   { email: "21600085@handong.ac.kr" },
-//   { email: "22000128@handong.ac.kr" }
-// ]; // email data
-
-
 export default function CalendarUForm({ currentEvent, onClose }: Props) {
-
   const methods = useForm({
     defaultValues: currentEvent,
   });
-  const {
-    watch,
-    control,
-  } = methods;
-
-  const values = watch();
+  const { control } = methods;
 
   return (
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="대여 사유" disabled/>
-        <RHFTextField name="spaceName" label="대여 장소" disabled/>
+        <RHFTextField name="title" label="대여 사유" disabled />
+        <RHFTextField name="spaceName" label="대여 장소" disabled />
 
         <Controller
           name="start"

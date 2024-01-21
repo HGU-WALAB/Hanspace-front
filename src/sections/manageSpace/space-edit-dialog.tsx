@@ -1,36 +1,18 @@
+// hook
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Stack, { StackProps } from '@mui/material/Stack';
-// hooks
-import { useBoolean } from 'src/hooks/use-boolean';
 // components
-import FormProvider, {
-  RHFEditor,
-  RHFSelect,
-  RHFUpload,
-  RHFSwitch,
-  RHFSlider,
-  RHFCheckbox,
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
-} from 'src/components/hook-form';
+import FormProvider, { RHFUpload, RHFSwitch, RHFTextField } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useCallback, useMemo } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Backdrop, CircularProgress } from '@mui/material';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
-import axios from 'axios';
-import { BASE_URL } from 'src/config-global';
 import { EXSpaceItem } from 'src/types/space';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
@@ -82,7 +64,6 @@ export default function SpaceEditDialog({
     // control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
   } = methods;
 
   const imageFile = watch('image');

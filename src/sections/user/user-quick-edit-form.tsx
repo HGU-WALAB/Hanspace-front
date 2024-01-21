@@ -36,7 +36,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
 
   const defaultValues = useMemo(
     () => ({
-      role: currentUser?.role || '',
+      role: currentUser?.deptRole || '',
     }),
     [currentUser]
   );
