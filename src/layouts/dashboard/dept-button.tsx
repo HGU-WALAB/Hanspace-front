@@ -8,7 +8,6 @@ import List from '@mui/material/List';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -25,6 +24,7 @@ import { set } from 'nprogress';
 import Logo from 'src/components/logo';
 import { strlen } from 'stylis';
 import { IDeptInfo } from 'src/types/dept';
+import { IoMdKey } from 'react-icons/io';
 // ----------------------------------------------------------------------
 
 const DeptButton = styled.div`
@@ -33,7 +33,6 @@ const DeptButton = styled.div`
   align-items: center;
   gap: 0.5rem;
   width: 200px;
-  justify-content: space-between;
   font-size: 1rem;
 `;
 
@@ -41,8 +40,17 @@ const Rows = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   font-size: 1.1rem;
+  width: 100%;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 `;
 
 export default function DeptHeaderButton() {
@@ -121,7 +129,7 @@ export default function DeptHeaderButton() {
           <ListItemText
             primary={
               <DeptButton>
-                <Rows>
+                <Container>
                   {menuOpen === 'HANSPACE' ? (
                     <Logo />
                   ) : (
@@ -130,12 +138,12 @@ export default function DeptHeaderButton() {
                       color="primary.pale"
                       style={{ height: '30px', width: '30px', fontSize: '16px' }}
                     >
-                      {/* {deptList[selectedIndex]?.deptName.charAt(0)} */}A
+                      {typeof menuOpen === 'object' && menuOpen.deptName?.charAt(0)}
                     </Avatar>
                   )}
                   {typeof menuOpen === 'string' && menuOpen}
                   {typeof menuOpen === 'object' && menuOpen.deptName}
-                </Rows>
+                </Container>
                 <ArrowDropDownIcon />
               </DeptButton>
             }
@@ -150,10 +158,10 @@ export default function DeptHeaderButton() {
           onClick={(event) => handleGOMain(event)}
         >
           <DeptButton>
-            <Rows>
+            <Container>
               <Logo />
               HANSPACE
-            </Rows>
+            </Container>
           </DeptButton>
         </MenuItem>
 
@@ -165,24 +173,18 @@ export default function DeptHeaderButton() {
           >
             <DeptButton>
               <Rows>
-                <Avatar
-                  alt="A"
-                  color={option.deptName?.charAt(0) === 'A' ? 'primary.pale' : 'info.pale'}
-                  style={{ height: '30px', width: '30px', fontSize: '16px' }}
-                >
-                  {option.deptName?.charAt(0)}
-                </Avatar>
-                {option.deptName}
-
-                {option.deptMemberResponse[0]?.deptRole === 'ADMIN' ? (
+                <Container>
                   <Avatar
                     alt="A"
-                    color="primary.pale"
+                    color={option.deptName?.charAt(0) === 'A' ? 'primary.pale' : 'info.pale'}
                     style={{ height: '30px', width: '30px', fontSize: '16px' }}
                   >
-                    A
+                    {option.deptName?.charAt(0)}
                   </Avatar>
-                ) : null}
+                  {option.deptName}
+                </Container>
+
+                {option.deptMemberResponse[0]?.deptRole === 'ADMIN' ? <IoMdKey /> : <div />}
               </Rows>
             </DeptButton>
           </MenuItem>
