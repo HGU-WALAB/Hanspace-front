@@ -143,3 +143,5 @@ export function palette(mode: 'light' | 'dark') {
 
   return mode === 'light' ? light : dark;
 }
+
+export const PALETTE_OPTION = ['primary', 'secondary', 'info', 'success', 'warning', 'error'];

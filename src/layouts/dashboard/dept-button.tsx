@@ -25,6 +25,7 @@ import Logo from 'src/components/logo';
 import { strlen } from 'stylis';
 import { IDeptInfo } from 'src/types/dept';
 import { IoMdKey } from 'react-icons/io';
+import { PALETTE_OPTION } from 'src/theme/palette';
 // ----------------------------------------------------------------------
 
 const DeptButton = styled.div`
@@ -134,8 +135,11 @@ export default function DeptHeaderButton() {
                     <Logo />
                   ) : (
                     <Avatar
-                      alt="A"
-                      color="primary.pale"
+                      color={
+                        menuOpen && typeof menuOpen === 'object'
+                          ? PALETTE_OPTION[menuOpen.deptId % 6]
+                          : undefined
+                      }
                       style={{ height: '30px', width: '30px', fontSize: '16px' }}
                     >
                       {typeof menuOpen === 'object' && menuOpen.deptName?.charAt(0)}
@@ -176,7 +180,7 @@ export default function DeptHeaderButton() {
                 <Container>
                   <Avatar
                     alt="A"
-                    color={option.deptName?.charAt(0) === 'A' ? 'primary.pale' : 'info.pale'}
+                    color={PALETTE_OPTION[option.deptId % 6]}
                     style={{ height: '30px', width: '30px', fontSize: '16px' }}
                   >
                     {option.deptName?.charAt(0)}
