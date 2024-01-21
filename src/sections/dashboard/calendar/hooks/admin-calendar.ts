@@ -26,7 +26,7 @@ export default function useAdminCalendar() {
 
   const [selectedRange, setSelectedRange] = useState<ICalendarRange>(null);
 
-  const [view, setView] = useState<ICalendarView>('timeGridDay');
+  const [view, setView] = useState<ICalendarView>('listWeek');
 
   const onOpenForm = useCallback(() => {
     setOpenForm(true);
@@ -42,7 +42,7 @@ export default function useAdminCalendar() {
     if (calendarEl) {
       const calendarApi = calendarEl.getApi();
 
-      const newView = 'timeGridDay';
+      const newView = 'listWeek';
       calendarApi.changeView(newView);
       setView(newView);
     }
