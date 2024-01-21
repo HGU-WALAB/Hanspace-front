@@ -138,7 +138,7 @@ export default function UserCalendarView() {
     // ToDo : ReserveBySpaceId List API
     const fetchData = async () => {
       try {
-        const data = await GetReserveListByMember(Number(deptId));
+        const data = await GetReserveListByMember(deptId);
         setEventData(data);
         // console.log("data" ,data);
       } catch (error) {

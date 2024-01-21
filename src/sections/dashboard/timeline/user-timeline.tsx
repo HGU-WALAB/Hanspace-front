@@ -42,7 +42,6 @@ type TimelineType = {
   icon: React.ReactElement;
 };
 
-
 const TIMELINES: TimelineType[] = [
   {
     key: 1,
@@ -67,9 +66,8 @@ export default function UserTimeLine() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await GetReserveListByMember(Number(deptId));
+        const data = await GetReserveListByMember(deptId);
         setEventData(data);
-        // console.log("data" ,data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -80,7 +78,7 @@ export default function UserTimeLine() {
 
   const events = eventsData || [];
 
-  const lastItem = events[events.length - 1].id;
+  const lastItem = events.length > 0 ? events[events.length - 1].id : null;
 
   const reduceTimeLine = events.slice(events.length - 5);
 
@@ -119,12 +117,12 @@ export default function UserTimeLine() {
                       backgroundColor: palette.primary.main,
                     }}
                   />
-                  {lastItem === item.id ? null : <TimelineConnector />}
+                  {lastItem !== null && lastItem === item.id && <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent>
                   <Typography variant="body2">{item.title}</Typography>
                   <Typography variant="body2" color="textSecondary" noWrap>
-                      {`${fDateTime(item.start, 'MM/dd p')}`}
+                    {`${fDateTime(item.start, 'MM/dd p')}`}
                   </Typography>
                 </TimelineContent>
               </TimelineItem>
