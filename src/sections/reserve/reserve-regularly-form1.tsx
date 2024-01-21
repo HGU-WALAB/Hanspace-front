@@ -1,5 +1,5 @@
 // react
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
@@ -12,15 +12,15 @@ import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import MinusIcon from "@mui/icons-material/Remove";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import MinusIcon from '@mui/icons-material/Remove';
 // hooks
 // import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider , {
+import FormProvider, {
   RHFEditor,
   RHFSelect,
   RHFUpload,
@@ -37,15 +37,15 @@ import dayjs, { Dayjs } from 'dayjs';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
-import RowRadioButtonsGroup from "./reserve-radio";
+import RowRadioButtonsGroup from './reserve-radio';
 
 const DayButton = styled.button`
-    width: 31px;
-    height: 42px;
-    border-radius: 7px;
-    margin-right: 7px;
-    border-width: 2px;
-    background: white;
+  width: 31px;
+  height: 42px;
+  border-radius: 7px;
+  margin-right: 7px;
+  border-width: 2px;
+  background: white;
 `;
 
 // ———————————————————————————————————
@@ -65,49 +65,30 @@ interface ReserveForm1Props {
   handleRadioChange: (data: string) => void;
 }
 
-export default function ReserveRegularyForm1({ handleRegularlyReserveInfo, selectedValue, handleRadioChange }: ReserveForm1Props) {
-    // const settings = useSettingsContext();
+export default function ReserveRegularyForm1({
+  handleRegularlyReserveInfo,
+  selectedValue,
+  handleRadioChange,
+}: ReserveForm1Props) {
+  const methods = useForm({
+    defaultValues,
+  });
 
-    // const { data: spaces } = useQuery(
-    //   ['GetSpace', GetSpace],
-    //   () => GetSpace().then((response) => response.data),
-    //   {
-    //     onSuccess: (data) => {
-    //       console.log('GetSpace', data);
-    //     },
-    //   }
-    // );
-  
-    const methods = useForm({
-      defaultValues
-    });
-  
-    const {
-      // watch,
-      // reset,
-      // control,
-      setValue,
-      // handleSubmit,
-      formState: { isSubmitting },
-    } = methods;
+  const {
+    // watch,
+    // reset,
+    // control,
+    setValue,
+    // handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
-    const [startDate, setstartDate] = useState<Dayjs | null>(dayjs());
-    const [endDate, setendDate] = useState<Dayjs | null>(dayjs());
-    const [week, setweek] = useState<string[]>([]);
-    const [startTime, setstartTime] = useState(defaultValues.startTime);
-    const [endTime, setendTime] = useState(defaultValues.endTime);
-    // const [headCount, setheadCount] = useState(0);
-    // const [spaceId, setSpaceId] = useState('');
+  const [startDate, setstartDate] = useState<Dayjs | null>(dayjs());
+  const [endDate, setendDate] = useState<Dayjs | null>(dayjs());
+  const [week, setweek] = useState<string[]>([]);
+  const [startTime, setstartTime] = useState(defaultValues.startTime);
+  const [endTime, setendTime] = useState(defaultValues.endTime);
 
-    // const handleHeadCountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   const numericValue = event.target.value.replace(/\D/g, ''); // 숫자만
-    //   setheadCount(numericValue);
-    //   handleNextClick();
-    // };
-    // const handleSpaceChange = (event: SelectChangeEvent) => {
-    //   const value = event.target.value;
-    //   setSpaceId(value);
-    // };
   const defaultDate = new Date();
   defaultDate.setHours(0, 0, 0, 0);
   const [halfTime, setHalfTime] = useState(0);
@@ -120,122 +101,127 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo, selec
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-    console.log("hour+reamainingMinutes: ", hours+remainingMinutes);
+    console.log('hour+reamainingMinutes: ', hours + remainingMinutes);
     return `${String(hours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}`;
   };
 
   const handleMinusClick = () => {
     let startMinutes;
-    if(endTime === ''){
+    if (endTime === '') {
       startMinutes = convertToMinutes(startTime);
-    }
-    else{
+    } else {
       startMinutes = convertToMinutes(endTime);
     }
     const endMinutes = formatTime(startMinutes - 30);
     setendTime(endMinutes);
     setHalfTime(halfTime - 30);
-    console.log("endtime: ", endTime);
+    console.log('endtime: ', endTime);
     handleNextClick();
   };
 
   const handlePlusClick = () => {
     let startMinutes;
-    if(endTime === ''){
+    if (endTime === '') {
       startMinutes = convertToMinutes(startTime);
-    }
-    else{
+    } else {
       startMinutes = convertToMinutes(endTime);
     }
     const endMinutes = formatTime(startMinutes + 30);
     setendTime(endMinutes);
     setHalfTime(halfTime + 30);
-    console.log("endtime: ", endTime);
+    console.log('endtime: ', endTime);
     handleNextClick();
   };
 
-    const handleNextClick = useCallback(() => {
-      // const headCountNumber = parseInt(headCount, 10);
-      // const spaceIdNumber = parseInt(spaceId, 10);
-        const selectedData = {
-            startDate,
-            endDate,
-            week,
-            startTime,
-            endTime,
-            // headCount,
-            // spaceId: spaceIdNumber,
-        };
-        handleRegularlyReserveInfo(selectedData);
-      }, [startDate, endDate, week, startTime, endTime, handleRegularlyReserveInfo]);
-      
-      useEffect(() => {
-        handleNextClick();
-      }, [handleNextClick]);
-
-
-    const days: string[] = ['월', '화', '수', '목', '금', '토', '일'];
-    const toggleDay = (day: string) => {
-        if (week.includes(day)) {
-          // 이미 선택된 경우, 선택 해제
-          setweek(week.filter((d) => d !== day));
-        } else {
-          // 선택되지 않은 경우, 선택
-          setweek([...week, day]);
-        }
+  const handleNextClick = useCallback(() => {
+    // const headCountNumber = parseInt(headCount, 10);
+    // const spaceIdNumber = parseInt(spaceId, 10);
+    const selectedData = {
+      startDate,
+      endDate,
+      week,
+      startTime,
+      endTime,
+      // headCount,
+      // spaceId: spaceIdNumber,
     };
-  
-    const toggleAllDays = () => {
-      if (week.length === days.length) {
-        // 모든 날짜가 선택된 경우, 모두 선택 해제
-        setweek([]);
-      } else {
-        // 일부 또는 전혀 선택되지 않은 경우, 모두 선택
-        setweek([...days]);
-      }
-    };
+    handleRegularlyReserveInfo(selectedData);
+  }, [startDate, endDate, week, startTime, endTime, handleRegularlyReserveInfo]);
 
-    return (
-        <Box>
-        <Typography variant="h6" color="primary" sx={{ mb: 5 }}> 
-          예약 가능한 공간 조회하기
-        </Typography>
-        <FormProvider methods={methods}>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+  useEffect(() => {
+    handleNextClick();
+  }, [handleNextClick]);
+
+  const days: string[] = ['월', '화', '수', '목', '금', '토', '일'];
+  const toggleDay = (day: string) => {
+    if (week.includes(day)) {
+      // 이미 선택된 경우, 선택 해제
+      setweek(week.filter((d) => d !== day));
+    } else {
+      // 선택되지 않은 경우, 선택
+      setweek([...week, day]);
+    }
+  };
+
+  const toggleAllDays = () => {
+    if (week.length === days.length) {
+      // 모든 날짜가 선택된 경우, 모두 선택 해제
+      setweek([]);
+    } else {
+      // 일부 또는 전혀 선택되지 않은 경우, 모두 선택
+      setweek([...days]);
+    }
+  };
+
+  return (
+    <Box>
+      <Typography variant="h6" color="primary" sx={{ mb: 5 }}>
+        예약 가능한 공간 조회하기
+      </Typography>
+      <FormProvider methods={methods}>
         <div
           style={{
             display: 'flex',
             flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker', 'DatePicker']} >
-              <DatePicker
-                value={startDate}
-                onChange={(newValue) => {
-                  setstartDate(newValue);
-                }}
-                sx={{ width: '160px', mr: 1}}
-                label='시작 일'
-              />
-            </DemoContainer>
-            <DemoContainer components={['DatePicker', 'DatePicker']}>
-              <DatePicker
-                value={endDate}
-                onChange={(newValue) => {
-                  setendDate(newValue);
-                }}
-                sx={{ width: '160px', mr: 1}}
-                label='종료 일'
-              />
-            </DemoContainer>
-          </LocalizationProvider>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker
+                  value={startDate}
+                  onChange={(newValue) => {
+                    setstartDate(newValue);
+                  }}
+                  sx={{ width: '160px', mr: 1 }}
+                  label="시작 일"
+                />
+              </DemoContainer>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker
+                  value={endDate}
+                  onChange={(newValue) => {
+                    setendDate(newValue);
+                  }}
+                  sx={{ width: '160px', mr: 1 }}
+                  label="종료 일"
+                />
+              </DemoContainer>
+            </LocalizationProvider>
             <DayButton type="button" onClick={toggleAllDays} style={{ width: '40px' }}>
-                전체
+              전체
             </DayButton>
             {days.map((day) => (
-                <DayButton
+              <DayButton
                 key={day}
                 onClick={() => {
                   toggleDay(day);
@@ -244,51 +230,51 @@ export default function ReserveRegularyForm1({ handleRegularlyReserveInfo, selec
                   background: week.includes(day) ? '#CECECE' : 'white',
                 }}
                 type="button"
-                >
+              >
                 {day}
-                </DayButton>
+              </DayButton>
             ))}
             <DesktopTimePicker
-                label="예약 시작 시간"
-                value={methods.watch('startTime') || defaultDate}
-                onChange={(newValue) => {
-                    if (newValue !== null) {
-                    const dateObject = new Date(newValue);
-                    const formattedTime = dateObject.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false,
-                    });
-                    setstartTime(formattedTime);
-                    }
-                }}
-                sx={{ margin: '8.5px 5px 0 0', width: '160px'}}
+              label="예약 시작 시간"
+              value={methods.watch('startTime') || defaultDate}
+              onChange={(newValue) => {
+                if (newValue !== null) {
+                  const dateObject = new Date(newValue);
+                  const formattedTime = dateObject.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  });
+                  setstartTime(formattedTime);
+                }
+              }}
+              sx={{ margin: '8.5px 5px 0 0', width: '160px' }}
             />
-              <Fab
-                size="small"
-                color="primary"
-                aria-label="minus"
-                sx={{ ml: 2, mr: 3 }}
-                onClick={handleMinusClick}
-                disabled={halfTime <= 0}
-              >
-                <MinusIcon />
-              </Fab>
-              <Typography variant="subtitle1">{halfTime} 분 사용</Typography>
-              <Fab
-                size="small"
-                color="primary"
-                aria-label="add"
-                sx={{ ml: 3 }}
-                onClick={handlePlusClick}
-                disabled={halfTime >= 180 || startTime === ''}
-              >
-                <AddIcon />
-              </Fab>
-            </div>
-            <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
+            <Fab
+              size="small"
+              color="primary"
+              aria-label="minus"
+              sx={{ ml: 2, mr: 3 }}
+              onClick={handleMinusClick}
+              disabled={halfTime <= 0}
+            >
+              <MinusIcon />
+            </Fab>
+            <Typography variant="subtitle1">{halfTime} 분 사용</Typography>
+            <Fab
+              size="small"
+              color="primary"
+              aria-label="add"
+              sx={{ ml: 3 }}
+              onClick={handlePlusClick}
+              disabled={halfTime >= 180 || startTime === ''}
+            >
+              <AddIcon />
+            </Fab>
+          </div>
+          <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
         </div>
-        </FormProvider>
-      </Box>
-    );
+      </FormProvider>
+    </Box>
+  );
 }

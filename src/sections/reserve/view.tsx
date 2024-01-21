@@ -16,6 +16,7 @@ import { useSettingsContext } from 'src/components/settings';
 import { userDeptState } from 'src/utils/atom';
 import { useRecoilValue } from 'recoil';
 // api
+import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useQuery } from 'react-query';
 import { GetSpace } from 'src/api/spaceApi';
 import ReserveDailyForm1 from './reserve-daily-form1';
@@ -29,19 +30,46 @@ import RegularlyReserveDialog from './reserve-regularly-dialog';
 
 export default function ReserveView() {
   const userDeptValue = useRecoilValue(userDeptState);
+
+  // const [datad, setData] = useState(null);
+
   let deptId = 0;
   if (typeof userDeptValue === 'object') {
     ({ deptId } = userDeptValue);
   }
+
   const { data: spaces } = useQuery<EXSpaceItem[]>(
     ['GetSpace', GetSpace],
-    () => GetSpace(deptId).then((response) => response.data),
+    async () => GetSpace(deptId).then((response) => response.data),
     {
       onSuccess: (data) => {
-        console.log('GetSpace', data);
+        // Log space IDs within the onSuccess callback
+        data.forEach((space) => {
+          console.log('GetSpace', space);
+          console.log('GetSpace', space.spaceId);
+          const datas = axiosInstance
+            .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
+            .then((res) => {
+              console.log(res.data);
+            });
+        });
       },
     }
   );
+
+  // const { data: reserves } = useQuery<EXSpaceItem[]>(
+  //   ['GetReserve', GetReserve],
+  //   () => GetReserve(deptId).then((response) => response.data),
+  //   {
+  //     onSuccess: (data) => {
+  //       // Log space IDs within the onSuccess callback
+  //       data.forEach((space) => {
+  //         console.log('GetSpace', space);
+  //         console.log('GetSpace', space.spaceId);
+  //       });
+  //     },
+  //   }
+  // );
 
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({

@@ -63,3 +63,18 @@ export type RegularlyReserveItem = {
   reserveCount: number | null;
   reserveDate: string[];
 };
+
+export type RegularReserveAdd = {
+  spaceId: number;
+  reserveDate: string[];
+  startDate: string;
+  endDate: string;
+  week: string;
+  startTime: string;
+  endTime: string;
+  purpose: string;
+  status: string;
+  extraInfoAns: string;
+  regularReserveId: null;
+  reserveCount: number;
+};

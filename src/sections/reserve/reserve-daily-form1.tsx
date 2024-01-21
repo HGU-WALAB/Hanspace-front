@@ -19,6 +19,7 @@ import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import FormProvider from 'src/components/hook-form';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
@@ -88,6 +89,19 @@ export default function ReserveDailyForm1({
     console.log('endtime: ', endTime);
     handleNextClick();
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await axiosInstance.get(`${endpoints.reserve.schedule}/1`);
+        console.log('예약정보 확인', data);
+        // console.log("data" ,data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handlePlusClick = () => {
     let startMinutes;
@@ -108,8 +122,6 @@ export default function ReserveDailyForm1({
       reserveDate,
       startTime,
       endTime,
-      // headCount,
-      // spaceId: spaceIdNumber,
     };
     handleDailyReserveInfo(selectedData);
   }, [reserveDate, startTime, endTime, handleDailyReserveInfo]);

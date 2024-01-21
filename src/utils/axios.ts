@@ -55,6 +55,7 @@ export const endpoints = {
     schedule: `/hanSpace/reserve/list`, // spaceId
     member: `hanSpace/reserve/list/member`, // member
     create: `/hanSpace/reserve`,
+    regularcreate: `/hanSpace/reserve/regularReserve`,
   },
   post: {
     list: '/api/post/list',
