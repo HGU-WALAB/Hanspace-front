@@ -49,6 +49,7 @@ export const endpoints = {
     list: `/hanSpace/reserve`, // deptId
     schedule: `/hanSpace/reserve/list`, // spaceId
     member: `hanSpace/reserve/list/member`, // member
+    deptmember: `hanSpace/reserve/member`, // member by deptId
     edit: `/hanSpace/reserve`, // reserveId
     delete: `/hanSpace/reserve`, // reserveId
     create: `/hanSpace/reserve`,

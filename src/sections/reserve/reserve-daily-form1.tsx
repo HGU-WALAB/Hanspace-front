@@ -38,6 +38,7 @@ export const defaultValues = {
 interface ReserveForm1Props {
   handleDailyReserveInfo: (data: any) => void;
   selectedValue: string;
+
   handleRadioChange: (data: string) => void;
 }
 
@@ -89,19 +90,6 @@ export default function ReserveDailyForm1({
     console.log('endtime: ', endTime);
     handleNextClick();
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await axiosInstance.get(`${endpoints.reserve.schedule}/1`);
-        console.log('예약정보 확인', data);
-        // console.log("data" ,data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handlePlusClick = () => {
     let startMinutes;

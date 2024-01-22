@@ -38,7 +38,7 @@ export default function UserTimeLine() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await GetReserveListByMember(deptId);
+        const data = await GetReserveListByMember(Number(deptId));
         setEventData(data);
       } catch (error) {
         console.error('Error fetching data:', error);

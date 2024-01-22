@@ -31,7 +31,7 @@ import RegularlyReserveDialog from './reserve-regularly-dialog';
 export default function ReserveView() {
   const userDeptValue = useRecoilValue(userDeptState);
 
-  // const [datad, setData] = useState(null);
+  const [reserveInfo, setReserveInfo] = useState(null);
 
   let deptId = 0;
   if (typeof userDeptValue === 'object') {
@@ -46,30 +46,16 @@ export default function ReserveView() {
         // Log space IDs within the onSuccess callback
         data.forEach((space) => {
           console.log('GetSpace', space);
-          console.log('GetSpace', space.spaceId);
           const datas = axiosInstance
             .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
             .then((res) => {
-              console.log(res.data);
+              // console.log('예약된 정보 확인', res.data);
+              setReserveInfo(res.data);
             });
         });
       },
     }
   );
-
-  // const { data: reserves } = useQuery<EXSpaceItem[]>(
-  //   ['GetReserve', GetReserve],
-  //   () => GetReserve(deptId).then((response) => response.data),
-  //   {
-  //     onSuccess: (data) => {
-  //       // Log space IDs within the onSuccess callback
-  //       data.forEach((space) => {
-  //         console.log('GetSpace', space);
-  //         console.log('GetSpace', space.spaceId);
-  //       });
-  //     },
-  //   }
-  // );
 
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({

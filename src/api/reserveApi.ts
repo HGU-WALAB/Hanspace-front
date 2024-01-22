@@ -27,7 +27,7 @@ export const GetReserveListByDept = async (deptId: number) => {
 
 // dashboard calander (ReserveFindeByMember)
 export const GetReserveListByMember = async (deptId: number) => {
-  const response = axiosInstance.get(`${endpoints.reserve.member}/${deptId}`); // Member 예약 전체 리스트 (admin)
+  const response = axiosInstance.get(`${endpoints.reserve.deptmember}/${deptId}`); // Member 예약 전체 리스트 (user)
 
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.reserveId,
@@ -63,4 +63,3 @@ export const regularCreateReserve = async (data: RegularReserveAdd) => {
   const response = await axiosInstance.post(endpoints.reserve.regularcreate, data);
   return response;
 };
-
