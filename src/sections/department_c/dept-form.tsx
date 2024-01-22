@@ -1,13 +1,15 @@
 // react
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { createDept } from 'src/api/deptApi';
+import { yupResolver } from '@hookform/resolvers/yup';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 // @mui
 import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { Button } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 // component
 import FormProvider, { RHFTextField, RHFSwitch, RHFUpload } from 'src/components/hook-form';
@@ -15,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import DynamicTextField from '../reserve/dynamic-textfield';
 import DeptPopover from './dept-popover';
 import DepartmentCreateSuccessDialog from './dept-dialog';
+import { FormSchema } from './schema';
 
 const Div = styled.div`
   display: flex;
@@ -35,34 +38,61 @@ export const defaultValues = {
 
 export default function DepartmentForm() {
   const methods = useForm({
+    resolver: yupResolver(FormSchema),
     defaultValues,
   });
-  const { reset, setValue, handleSubmit } = methods;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [deptImage, setDeptImage] = useState('');
-  const [maxRserveCount, setMaxRserveCount] = useState<number | undefined>();
   const [extraInfo, setExtraInfo] = useState('');
   const [open, setOpen] = useState<boolean>(false);
-
   const updateExtraInfo = (newExtraInfo: string) => {
     setExtraInfo(newExtraInfo);
   };
 
+  const { watch, reset, setValue, handleSubmit } = methods;
+
+  const imageFile = watch('deptImage');
+
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      data.maxRserveCount = maxRserveCount ?? 0;
-      data.extraInfo = extraInfo;
-      data.logoImage = '';
-      await createDept(data);
-      reset();
-      setMaxRserveCount(undefined);
-      setExtraInfo('');
-      // modal
-      setOpen(true);
-    } catch (error) {
-      console.error(error);
-    }
+    console.log('submit!');
+    console.log(data);
+
+    const formData = new FormData();
+    formData.append('siteName', data.siteName);
+    formData.append('deptName', data.deptName);
+    formData.append('userAccept', data.userAccept.toString());
+    formData.append('maxRserveCount', data.maxRserveCount.toString());
+    formData.append('link', data.link);
+    formData.append('extraInfo', extraInfo);
+    formData.append('deptImage', imageFile);
+    console.log(formData.forEach((value, key) => console.log(key, value)));
+
+    reset();
+    await axiosInstance
+      .post(endpoints.dept.create, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .catch((e) => {
+        console.log('error');
+        console.log(e);
+      });
+    setOpen(true);
+
+    // ToDo: 기관 생성 api 연결
+    // try {
+    //   data.maxRserveCount = maxRserveCount ?? 0;
+    //   data.extraInfo = extraInfo;
+    //   data.logoImage = '';
+    //   await createDept(data);
+    //   reset();
+    //   setMaxRserveCount(undefined);
+    //   setExtraInfo('');
+    //   // modal
+    //   setOpen(true);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   });
 
   const handleDropSingleFile = useCallback(
@@ -74,9 +104,7 @@ export default function DepartmentForm() {
       });
 
       if (newFile) {
-        setValue('deptImage', file.name, { shouldValidate: true });
-        console.log('파일 이름 정확히 들어갔나', newFile);
-        setDeptImage(file.name);
+        setValue('deptImage', newFile, { shouldValidate: true });
       }
     },
     [setValue]
@@ -84,7 +112,6 @@ export default function DepartmentForm() {
 
   return (
     <>
-      <DepartmentCreateSuccessDialog open={open} onClose={() => setOpen(false)} />
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Box
           gap={5}
@@ -121,13 +148,7 @@ export default function DepartmentForm() {
                 name="maxRserveCount"
                 label="사용자 최대 예약 가능 날짜를 입력해주세요."
                 type="number"
-                value={maxRserveCount}
-                onChange={(newValue) => {
-                  const numericValue = parseFloat(newValue.target.value);
-                  setMaxRserveCount(numericValue);
-                }}
               />
-              {/* <DeptPopover filed="maxRserveCount"/> */}
             </Block>
             <Block label="URL 이름">
               <RHFTextField name="link" label="URL 이름을 입력해주세요." />
@@ -142,15 +163,25 @@ export default function DepartmentForm() {
             <RHFUpload
               name="deptImage"
               onDrop={handleDropSingleFile}
-              onDelete={() => setValue('deptImage', '', { shouldValidate: true })}
+              onDelete={() => setValue('deptImage', null, { shouldValidate: true })}
               helperText="기관 대표 이미지를 선택해주세요"
             />
-            <LoadingButton fullWidth color="primary" size="large" type="submit" variant="soft">
+            <Button
+              fullWidth
+              color="primary"
+              size="large"
+              variant="soft"
+              onClick={() => {
+                onSubmit();
+              }}
+            >
               추가하기
-            </LoadingButton>
+            </Button>
           </Stack>
         </Box>
       </FormProvider>
+
+      <DepartmentCreateSuccessDialog open={open} onClose={() => setOpen(false)} />
     </>
   );
 }
