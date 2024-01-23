@@ -5,14 +5,13 @@ import * as Yup from 'yup';
 export const FormSchema = Yup.object().shape({
   siteName: Yup.string().required('siteName name is required'),
   deptName: Yup.string().required('deptName is required'),
-  maxRserveCount: Yup.number().required('Head count is required'),
-  logoImage: Yup.string().required('Available logoImage is required'),
   userAccept: Yup.boolean()
     .nullable()
     .oneOf([true, false], '사용 가능 여부를 선택하세요.')
     .required('사용 가능 여부를 선택하세요.'),
+  maxRserveCount: Yup.number().required('Head count is required'),
   link: Yup.string().required('기관 링크를 정확히 입력해주세요'),
-  extraInfo: Yup.string().required('추가 정보를 정확히 입력해주세요.'),
+  // extraInfo: Yup.string().required('추가 정보를 정확히 입력해주세요.'),
   deptImage: Yup.mixed<any>().nullable().required('Single upload is required'),
 
   // fullName: Yup.string()

@@ -1,7 +1,7 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 // react
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { yupResolver } from '@hookform/resolvers/yup';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 // @mui
 import Box from '@mui/material/Box';
@@ -9,7 +9,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Stack, { StackProps } from '@mui/material/Stack';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 // component
 import FormProvider, { RHFTextField, RHFSwitch, RHFUpload } from 'src/components/hook-form';
@@ -25,28 +24,26 @@ const Div = styled.div`
   margin: 28px 0;
 `;
 // ———————————————————————————————————
-export const defaultValues = {
-  siteName: '',
-  deptName: '',
-  logoImage: '',
-  deptImage: '',
-  userAccept: false,
-  maxRserveCount: 0,
-  link: '',
-  extraInfo: '',
-};
-
 export default function DepartmentForm() {
+  const defaultValues = {
+    siteName: '',
+    deptName: '',
+    deptImage: '',
+    userAccept: false,
+    maxRserveCount: 0,
+    link: '',
+    extraInfo: '',
+  };
+  const [extraInfomation, setExtraInfomation] = useState('');
+  const [open, setOpen] = useState<boolean>(false);
+  const updateExtraInfo = (newExtraInfo: string) => {
+    setExtraInfomation(newExtraInfo);
+  };
+
   const methods = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues,
   });
-
-  const [extraInfo, setExtraInfo] = useState('');
-  const [open, setOpen] = useState<boolean>(false);
-  const updateExtraInfo = (newExtraInfo: string) => {
-    setExtraInfo(newExtraInfo);
-  };
 
   const { watch, reset, setValue, handleSubmit } = methods;
 
@@ -62,7 +59,7 @@ export default function DepartmentForm() {
     formData.append('userAccept', data.userAccept.toString());
     formData.append('maxRserveCount', data.maxRserveCount.toString());
     formData.append('link', data.link);
-    formData.append('extraInfo', extraInfo);
+    formData.append('extraInfo', extraInfomation);
     formData.append('deptImage', imageFile);
     console.log(formData.forEach((value, key) => console.log(key, value)));
 
@@ -166,17 +163,9 @@ export default function DepartmentForm() {
               onDelete={() => setValue('deptImage', null, { shouldValidate: true })}
               helperText="기관 대표 이미지를 선택해주세요"
             />
-            <Button
-              fullWidth
-              color="primary"
-              size="large"
-              variant="soft"
-              onClick={() => {
-                onSubmit();
-              }}
-            >
+            <LoadingButton fullWidth color="primary" size="large" type="submit" variant="soft">
               추가하기
-            </Button>
+            </LoadingButton>
           </Stack>
         </Box>
       </FormProvider>
