@@ -19,6 +19,7 @@ import { FormSchema } from './schema';
 
 // ———————————————————————————————————
 // ToDo: 파일 업로드 부분 수정 필요
+// ToDo:  maxReserveCount, userAccept 둘 다 저장은 잘 되는데 userDeptState로 받아올 때 정보가 없다고 뜸
 export default function DepartmentInfoForm() {
   const [userDeptInfo, setUserDeptInfo] = useRecoilState(userDeptState);
   let deptId = '';
@@ -28,13 +29,14 @@ export default function DepartmentInfoForm() {
 
   const defaultValues = useMemo(() => {
     if (typeof userDeptInfo === 'object') {
+      console.log('기관의 정보 확인하기', userDeptInfo);
       return {
         deptId: userDeptInfo.deptId || 0,
         siteName: userDeptInfo.siteName || '',
         deptName: userDeptInfo.deptName || '',
         deptImage: userDeptInfo.deptImage || '',
         userAccept: userDeptInfo.userAccept || false,
-        maxRserveCount: Number(userDeptInfo.maxRserveCount) || 0,
+        maxRserveCount: userDeptInfo.maxRserveCount || 0,
         link: userDeptInfo.link || '',
         extraInfo: userDeptInfo.extraInfo || '',
       };
@@ -69,8 +71,8 @@ export default function DepartmentInfoForm() {
       siteName: data?.siteName,
       deptName: data?.deptName,
       deptImage: data?.deptImage,
-      userAccept: data?.userAccepts,
-      maxRserveCount: data?.maxReserveCount,
+      userAccept: Boolean(data?.userAccepts),
+      maxRserveCount: Number(data?.maxReserveCount),
       link: defaultValues.link,
       extraInfo: defaultValues.extraInfo,
       spaceCount: typeof userDeptInfo === 'object' ? userDeptInfo.spaceCount : null,
@@ -82,19 +84,19 @@ export default function DepartmentInfoForm() {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    formData.append('siteName', data.siteName);
-    formData.append('deptName', data.deptName);
-    formData.append('maxRserveCount', data.maxRserveCount.toString());
-    formData.append('link', defaultValues.link);
-    formData.append('extraInfo', defaultValues.extraInfo);
-    formData.append('userAccept', data.userAccept?.toString() || 'true');
-    formData.append('deptImage', imageFile);
-
-    onSet(data);
+    console.log('날짜 확인하기, 수용 가능성', data);
+    const requestData = {
+      siteName: data.siteName,
+      deptName: data.deptName,
+      maxRserveCount: data.maxRserveCount,
+      link: defaultValues.link,
+      extraInfo: defaultValues.extraInfo,
+      userAccept: data?.userAccept,
+      deptImage: imageFile,
+    };
 
     const response = await axiosInstance
-      .patch(`${endpoints.dept.update}/${deptId}`, formData, {
+      .patch(`${endpoints.dept.update}/${deptId}`, requestData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -103,12 +105,13 @@ export default function DepartmentInfoForm() {
         console.log('error');
         console.log(e);
       });
+    console.log('수정되는 기관 정보 확인', requestData);
+    onSet(data);
 
     reset();
 
     // modal
     setOpen(true);
-    window.location.reload();
   });
 
   const handleDropSingleFile = useCallback(

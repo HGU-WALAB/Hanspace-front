@@ -27,6 +27,7 @@ export default function DepartmentUpdateSuccessDialog({
           <Button
             onClick={() => {
               onClose();
+              window.location.reload();
             }}
             variant="outlined"
             color="primary"
