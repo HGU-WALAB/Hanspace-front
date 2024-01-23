@@ -211,9 +211,9 @@ export default function UserListView() {
                     {tab.value === '미승인' &&
                       tableData.filter((user) => user.approve === '승인 대기').length}
                     {tab.value === '관리자' &&
-                      tableData.filter((user) => user.deptRole === 'ADMIN').length}
+                      tableData.filter((user) => user.deptRole === '관리자').length}
                     {tab.value === '사용자' &&
-                      tableData.filter((user) => user.deptRole === 'USER').length}
+                      tableData.filter((user) => user.deptRole === '사용자').length}
                     {tab.value === '블랙리스트' &&
                       tableData.filter((user) => user.deptRole === '블랙리스트').length}
                   </Label>

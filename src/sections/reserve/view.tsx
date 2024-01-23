@@ -49,8 +49,8 @@ export default function ReserveView() {
           const datas = axiosInstance
             .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
             .then((res) => {
-              // console.log('예약된 정보 확인', res.data);
-              setReserveInfo(res.data);
+              console.log('예약된 정보 확인', space.spaceId, res.data);
+              setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
             });
         });
       },
@@ -92,27 +92,29 @@ export default function ReserveView() {
   const [selectedValue, setSelectedValue] = useState('daily');
 
   const handleRadioChange = (data: string) => {
-    setSelectedValue(data); // 선택한 값을 업데이트
+    setSelectedValue(data); // 일일 대여, 정기 대여
   };
 
   const handleDailyReserveInfo = (data: DailyReserveForm1) => {
-    setSelectedDailyData1(data);
+    setSelectedDailyData1(data); // 단기 예약 날짜, 시작시간, 종료시간 데이터 정보
   };
   const handleRegularlyReserveInfo = (data: RegularyReserveForm1) => {
-    setSelectedRegularyData1(data);
+    setSelectedRegularyData1(data); // 정기 예약 날짜, 시작시간, 종료시간 데이터 정보
   };
 
   // modal code
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDailyModalControl = (data: DailyReserveForm2) => {
+    // 단기 예약 다이아로그 오픈
     setIsDialogOpen(true);
-    setSelectedDailyData2(data);
+    setSelectedDailyData2(data); // 예약을 위한 모든 정보 선택
   };
 
   const handleReguluarlyModalControl = (data: RegularyReserveForm2) => {
+    // 정기 예약 다이아로그 오픈
     setIsDialogOpen(true);
-    setSelectedRegularyData2(data);
+    setSelectedRegularyData2(data); // 예약을 위한 모든 정보 선택
   };
 
   let DailySpaceCradList = null;
@@ -120,10 +122,11 @@ export default function ReserveView() {
   if (spaces) {
     DailySpaceCradList = spaces.reduce((result, space) => {
       const dailySpaceCardList = (
+        // 대여 가능한 장소 보여주는 컴포넌트
         <DailySpaceCardList
-          space={space}
-          selectedData={selectedDailyData1}
-          handleModalControl={handleDailyModalControl}
+          space={space} // 장소 하나 정보
+          selectedData={selectedDailyData1} // 날짜, 시작 시간, 종료 시간 선택된 정보 전달
+          handleModalControl={handleDailyModalControl} // 장소 카드 하단 예약 진행 버튼 -> 다이아로그
         />
       );
       if (dailySpaceCardList !== null) {
@@ -138,8 +141,8 @@ export default function ReserveView() {
       {selectedValue === 'daily' && (
         <>
           <ReserveDailyForm1
-            handleDailyReserveInfo={handleDailyReserveInfo}
-            selectedValue={selectedValue}
+            handleDailyReserveInfo={handleDailyReserveInfo} // 단기 예약 날짜, 시작시간, 종료시간 정보 선택
+            selectedValue={selectedValue} // daily
             handleRadioChange={handleRadioChange}
           />
           <Box
@@ -161,6 +164,8 @@ export default function ReserveView() {
           </Box>
         </>
       )}
+
+      {/* 정기 예약일 때 */}
       {selectedValue === 'regularly' && (
         <>
           <ReserveRegularyForm1
