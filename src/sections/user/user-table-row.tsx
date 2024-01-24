@@ -26,6 +26,7 @@ type Props = {
   row: IUserItem;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
+  refetch: VoidFunction;
 };
 
 const Rows = styled.div`
@@ -41,6 +42,7 @@ export default function UserTableRow({
   onEditRow,
   onSelectRow,
   onDeleteRow,
+  refetch,
 }: Props) {
   const { member, deptRole, approve } = row;
 
@@ -109,7 +111,12 @@ export default function UserTableRow({
         )}
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      <UserQuickEditForm
+        currentUser={row}
+        open={quickEdit.value}
+        onClose={quickEdit.onFalse}
+        refetch={refetch}
+      />
 
       <CustomPopover
         open={popover.open}
