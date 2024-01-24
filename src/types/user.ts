@@ -5,18 +5,22 @@ export type IUserTableFilterValue = string | string[];
 export type IUserTableFilters = {
   name: string;
   role: string;
-  // status: string;
 };
 
 export type IUserItem = {
-  id: string;
-  sid: string;
+  approve: string;
+  deptId: number;
+  deptMemberId: string;
+  deptRole: string;
+  memberId: number;
+  member: IMemberItem;
+};
+
+export type IMemberItem = {
+  hanRole: string;
+  memberId: number;
   name: string;
   email: string;
+  sid: string;
   deptName: string;
-  deptMemberId: number;
-  deptId: number;
-  memberId: number;
-  approve: string;
-  deptRole: string;
 };

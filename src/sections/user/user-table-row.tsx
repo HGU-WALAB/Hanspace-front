@@ -26,6 +26,7 @@ type Props = {
   row: IUserItem;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
+  refetch: VoidFunction;
 };
 
 const Rows = styled.div`
@@ -41,8 +42,9 @@ export default function UserTableRow({
   onEditRow,
   onSelectRow,
   onDeleteRow,
+  refetch,
 }: Props) {
-  const { name, sid, deptName, email, deptRole, approve } = row;
+  const { member, deptRole, approve } = row;
 
   const quickEdit = useBoolean();
 
@@ -57,8 +59,8 @@ export default function UserTableRow({
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
           <ListItemText
-            primary={name}
-            secondary={sid}
+            primary={member.name}
+            secondary={member.sid}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',
@@ -67,15 +69,15 @@ export default function UserTableRow({
           />
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{deptName}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{member.deptName}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{email}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{member.email}</TableCell>
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (approve === '승인 대기' && 'error') ||
+              (approve === '미승인' && 'error') ||
               (deptRole === '관리자' && 'success') ||
               (deptRole === '사용자' && 'secondary') ||
               'default'
@@ -85,7 +87,7 @@ export default function UserTableRow({
           </Label>
         </TableCell>
 
-        {approve === '승인 대기' && (
+        {approve === '미승인' && (
           <TableCell>
             <Rows>
               <Button variant="outlined" color="primary">
@@ -97,17 +99,24 @@ export default function UserTableRow({
             </Rows>
           </TableCell>
         )}
+        {approve !== '미승인' && <div />}
 
-        {approve !== '승인 대기' && <div />}
-
-        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell>
+        {approve !== '미승인' && (
+          <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+              <Iconify icon="eva:more-vertical-fill" />
+            </IconButton>
+          </TableCell>
+        )}
+        {approve === '미승인' && <div />}
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      <UserQuickEditForm
+        currentUser={row}
+        open={quickEdit.value}
+        onClose={quickEdit.onFalse}
+        refetch={refetch}
+      />
 
       <CustomPopover
         open={popover.open}

@@ -9,13 +9,18 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 // routes
-import { useRouter } from 'src/routes/hooks';
+import { useSearchParams, useRouter } from 'src/routes/hooks';
 // config
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
 // components
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { IconButton, InputAdornment } from '@mui/material';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
+import Iconify from 'src/components/iconify';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 // ----------------------------------------------------------------------
 
@@ -24,16 +29,22 @@ export default function JwtLoginView() {
 
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
+  const returnTo = searchParams.get('returnTo');
+
+  const password = useBoolean();
+
   const [errorMsg, setErrorMsg] = useState('');
 
   const LoginSchema = Yup.object().shape({
-    name: Yup.string().required('name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    name: '최혜림',
     email: 'HyelimChoi@handong.ac.kr',
+    password: '1234',
   };
 
   const methods = useForm({
@@ -49,9 +60,9 @@ export default function JwtLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.name, data.email);
+      await login?.(data.email, data.password);
 
-      router.push(PATH_AFTER_LOGIN);
+      router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       reset();
@@ -61,7 +72,15 @@ export default function JwtLoginView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
-      <Typography variant="h4">Sign in to Hanspace</Typography>
+      <Typography variant="h4">Hanspace 입장하기</Typography>
+
+      <Stack direction="row" spacing={0.5}>
+        <Typography variant="body2">회원이 아니세요?</Typography>
+
+        <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
+          회원가입
+        </Link>
+      </Stack>
     </Stack>
   );
 
@@ -69,10 +88,10 @@ export default function JwtLoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <RHFTextField name="name" label="name" />
+      {/* <RHFTextField name="name" label="name" /> */}
       <RHFTextField name="email" label="Email address" />
 
-      {/* <RHFTextField
+      <RHFTextField
         name="password"
         label="Password"
         type={password.value ? 'text' : 'password'}
@@ -85,11 +104,7 @@ export default function JwtLoginView() {
             </InputAdornment>
           ),
         }}
-      /> */}
-
-      <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
-      </Link>
+      />
 
       <LoadingButton
         fullWidth

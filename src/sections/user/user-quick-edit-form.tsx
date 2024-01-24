@@ -18,6 +18,7 @@ import { IUserItem } from 'src/types/user';
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFSelect } from 'src/components/hook-form';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -25,9 +26,10 @@ type Props = {
   open: boolean;
   onClose: VoidFunction;
   currentUser?: IUserItem;
+  refetch: VoidFunction;
 };
 
-export default function UserQuickEditForm({ currentUser, open, onClose }: Props) {
+export default function UserQuickEditForm({ currentUser, open, onClose, refetch }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
@@ -56,10 +58,14 @@ export default function UserQuickEditForm({ currentUser, open, onClose }: Props)
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      onClose();
+      // onClose();
       enqueueSnackbar('Update success!');
 
-      // await axios.patch(endpoints.user.update, { data });
+      // await axiosInstance.patch(endpoints.user.update, { data }).then((res) => {
+      //   refetch();
+      // });
+
+      // TODO: 백엔드 물어보기
 
       console.info('DATA', data);
     } catch (error) {
