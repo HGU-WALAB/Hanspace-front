@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 export const FormSchema = Yup.object().shape({
   siteName: Yup.string().required('siteName name is required'),
   deptName: Yup.string().required('deptName is required'),
-  maxRserveCount: Yup.number().required('Head count is required'),
+  maxReserveCount: Yup.number().required('Head count is required'),
   userAccept: Yup.boolean()
     .nullable()
     .oneOf([true, false], '사용 가능 여부를 선택하세요.')

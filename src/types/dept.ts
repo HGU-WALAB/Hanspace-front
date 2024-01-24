@@ -11,7 +11,7 @@ export type IDeptInfo = {
   // logo: string | null;
   deptImage: string;
   userAccept: boolean;
-  maxRserveCount: number;
+  maxReserveCount: number;
   link: string;
   extraInfo: string;
   spaceCount: number | null;
@@ -24,7 +24,7 @@ export type IDeptAdd = {
   deptName: string;
   deptImage: string;
   userAccept: boolean;
-  maxRserveCount: number;
+  maxReserveCount: number;
   link: string;
   extraInfo: string;
 };
@@ -34,7 +34,7 @@ export type IDeptRead = {
   deptName: string;
   deptImage: string;
   userAccept: boolean;
-  maxRserveCount: number;
+  maxReserveCount: number;
   link: string;
   extraInfo: string;
 };
@@ -45,6 +45,6 @@ export type IDeptUpdate = {
   deptName: string;
   deptImage: string;
   userAccept: boolean;
-  maxRserveCount: number;
+  maxReserveCount: number;
   extraInfo: string;
 };

@@ -18,7 +18,6 @@ import { fTimestamp } from 'src/utils/format-time';
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import { useSettingsContext } from 'src/components/settings';
 import {
@@ -96,6 +95,7 @@ export default function ReserveListView() {
   const { refetch } = useQuery(['reserveList', deptId], async () => {
     await axiosInstance.get(`${endpoints.reserve.list}/${deptId}`).then((res) => {
       setTableData(res.data);
+      console.log(res.data);
     });
   });
 
@@ -247,14 +247,14 @@ export default function ReserveListView() {
                 <Tooltip title="Add">
                   <IconButton color="primary" onClick={confirm.onTrue}>
                     <Button variant="outlined" color="primary">
-                      전체 승인
+                      선택 승인
                     </Button>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete">
                   <IconButton color="primary" onClick={confirm.onTrue}>
                     <Button variant="outlined" color="error">
-                      전체 삭제
+                      선택 삭제
                     </Button>
                   </IconButton>
                 </Tooltip>
