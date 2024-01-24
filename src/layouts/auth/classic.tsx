@@ -86,18 +86,6 @@ export default function AuthClassicLayout({ children, image, title }: Props) {
         {title || 'Hi, Welcome To Hanspace'}
       </Typography>
 
-      {/* <Box
-        component="img"
-        alt="auth"
-        src={image || '/assets/illustrations/illustration_dashboard.png'}
-        sx={{
-          maxWidth: {
-            xs: 480,
-            lg: 560,
-            xl: 720,
-          },
-        }}
-      /> */}
       <Box
         component="img"
         alt="auth"
