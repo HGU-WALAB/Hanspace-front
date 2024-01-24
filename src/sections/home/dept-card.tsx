@@ -30,9 +30,9 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
     if (deptInfo.deptMemberResponse.length !== 0) {
       if (firstElement.approve === '승인 대기') {
         setDeptStatus('승인 대기 중');
-      } else if (firstElement.deptRole === 'ADMIN') {
+      } else if (firstElement.deptRole === '관리자') {
         setDeptStatus('관리하기');
-      } else if (firstElement.deptRole === 'USER') {
+      } else if (firstElement.deptRole === '사용자') {
         setDeptStatus('입장하기');
       }
     } else {

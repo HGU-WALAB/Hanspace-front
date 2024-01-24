@@ -76,8 +76,8 @@ export default function UserTableRow({
             variant="soft"
             color={
               (approve === '승인 대기' && 'error') ||
-              (deptRole === 'ADMIN' && 'success') ||
-              (deptRole === 'USER' && 'secondary') ||
+              (deptRole === '관리자' && 'success') ||
+              (deptRole === '사용자' && 'secondary') ||
               'default'
             }
           >

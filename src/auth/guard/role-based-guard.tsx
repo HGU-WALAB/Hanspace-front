@@ -24,7 +24,7 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }: Role
   const { user } = useMockedUser();
 
   // const currentRole = 'user';
-  const currentRole = user?.role; // admin;
+  const currentRole = user?.role; // 관리자;
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (

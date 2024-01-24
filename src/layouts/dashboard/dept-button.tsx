@@ -188,7 +188,7 @@ export default function DeptHeaderButton() {
                   {option.deptName}
                 </Container>
 
-                {option.deptMemberResponse[0]?.deptRole === 'ADMIN' ? <IoMdKey /> : <div />}
+                {option.deptMemberResponse[0]?.deptRole === '관리자' ? <IoMdKey /> : <div />}
               </Rows>
             </DeptButton>
           </MenuItem>
