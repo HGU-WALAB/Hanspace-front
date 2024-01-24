@@ -99,7 +99,6 @@ export default function UserTableRow({
             </Rows>
           </TableCell>
         )}
-
         {approve !== '미승인' && <div />}
 
         {approve !== '미승인' && (
@@ -109,6 +108,7 @@ export default function UserTableRow({
             </IconButton>
           </TableCell>
         )}
+        {approve === '미승인' && <div />}
       </TableRow>
 
       <UserQuickEditForm

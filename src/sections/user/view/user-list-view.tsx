@@ -129,27 +129,13 @@ export default function UserListView() {
 
   const handleDeleteRow = useCallback(
     (id: string) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
+      const deleteRow = tableData.filter((row) => row.deptMemberId !== id);
       setTableData(deleteRow);
 
       table.onUpdatePageDeleteRow(dataInPage.length);
     },
     [dataInPage.length, table, tableData]
   );
-
-  // const handleEditRow = useCallback(
-  //   (id: string) => {
-  //     router.push(paths.dashboard.management?.edit(id));
-  //   },
-  //   [router]
-  // );
-
-  // const handleFilterStatus = useCallback(
-  //   (event: React.SyntheticEvent, newValue: string) => {
-  //     handleFilters('status', newValue);
-  //   },
-  //   [handleFilters]
-  // );
 
   const handleFilterRole = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
@@ -164,179 +150,154 @@ export default function UserListView() {
   }, []);
 
   return (
-    <>
-      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Typography variant="h5"> 사용자 관리하기 </Typography>
-        <div style={{ height: '30px' }} />
-        <Card>
-          <Tabs
-            value={filters.role}
-            onChange={handleFilterRole}
-            sx={{
-              px: 2.5,
-              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
-            }}
-          >
-            {ROLE_OPTIONS.map((tab) => (
-              <Tab
-                key={tab.value}
-                iconPosition="end"
-                value={tab.value}
-                label={tab.label}
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === '전체' || tab.value === filters.role) && 'filled') || 'soft'
-                    }
-                    color={
-                      (tab.value === '미승인' && 'error') ||
-                      (tab.value === '관리자' && 'success') ||
-                      (tab.value === '사용자' && 'secondary') ||
-                      'default'
-                    }
-                  >
-                    {tab.value === '전체' && tableData.length}
-                    {tab.value === '미승인' &&
-                      tableData.filter((user) => user.approve === '미승인').length}
-                    {tab.value === '관리자' &&
-                      tableData.filter((user) => user.deptRole === '관리자').length}
-                    {tab.value === '사용자' &&
-                      tableData.filter((user) => user.deptRole === '사용자').length}
-                    {tab.value === '블랙리스트' &&
-                      tableData.filter((user) => user.deptRole === '블랙리스트').length}
-                  </Label>
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+      <Typography variant="h5"> 사용자 관리하기 </Typography>
+      <div style={{ height: '30px' }} />
+      <Card>
+        <Tabs
+          value={filters.role}
+          onChange={handleFilterRole}
+          sx={{
+            px: 2.5,
+            boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+          }}
+        >
+          {ROLE_OPTIONS.map((tab) => (
+            <Tab
+              key={tab.value}
+              iconPosition="end"
+              value={tab.value}
+              label={tab.label}
+              icon={
+                <Label
+                  variant={
+                    ((tab.value === '전체' || tab.value === filters.role) && 'filled') || 'soft'
+                  }
+                  color={
+                    (tab.value === '미승인' && 'error') ||
+                    (tab.value === '관리자' && 'success') ||
+                    (tab.value === '사용자' && 'secondary') ||
+                    'default'
+                  }
+                >
+                  {tab.value === '전체' && tableData.length}
+                  {tab.value === '미승인' &&
+                    tableData.filter((user) => user.approve === '미승인').length}
+                  {tab.value === '관리자' &&
+                    tableData.filter((user) => user.deptRole === '관리자').length}
+                  {tab.value === '사용자' &&
+                    tableData.filter((user) => user.deptRole === '사용자').length}
+                  {tab.value === '블랙리스트' &&
+                    tableData.filter((user) => user.deptRole === '블랙리스트').length}
+                </Label>
+              }
+            />
+          ))}
+        </Tabs>
+
+        <UserTableToolbar filters={filters} onFilters={handleFilters} roleOptions={tableData} />
+
+        {canReset && (
+          <UserTableFiltersResult
+            filters={filters}
+            onFilters={handleFilters}
+            //
+            onResetFilters={handleResetFilters}
+            //
+            results={dataFiltered.length}
+            sx={{ p: 2.5, pt: 0 }}
+          />
+        )}
+
+        <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+          <TableSelectedAction
+            dense={table.dense}
+            numSelected={table.selected.length}
+            rowCount={tableData.length}
+            onSelectAllRows={(checked) =>
+              table.onSelectAllRows(
+                checked,
+                tableData.map((row) => row.deptMemberId)
+              )
+            }
+            action={
+              <>
+                <Tooltip title="Add">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Button variant="outlined" color="primary">
+                      선택 승인
+                    </Button>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Button variant="outlined" color="error">
+                      선택 삭제
+                    </Button>
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
+          />
+
+          <Scrollbar>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={tableData.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+                onSelectAllRows={(checked) =>
+                  table.onSelectAllRows(
+                    checked,
+                    tableData.map((row) => row.deptMemberId)
+                  )
                 }
               />
-            ))}
-          </Tabs>
 
-          <UserTableToolbar filters={filters} onFilters={handleFilters} roleOptions={tableData} />
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <UserTableRow
+                      key={row.deptMemberId}
+                      row={row}
+                      selected={table.selected.includes(row.deptMemberId)}
+                      onSelectRow={() => table.onSelectRow(row.deptMemberId)}
+                      onDeleteRow={() => handleDeleteRow(row.deptMemberId)}
+                      onEditRow={() => handleDeleteRow(row.deptMemberId)}
+                      refetch={refetch}
+                    />
+                  ))}
 
-          {canReset && (
-            <UserTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
-
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={tableData.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  tableData.map((row) => row.id)
-                )
-              }
-              action={
-                <>
-                  <Tooltip title="Add">
-                    <IconButton color="primary" onClick={confirm.onTrue}>
-                      <Button variant="outlined" color="primary">
-                        선택 승인
-                      </Button>
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <IconButton color="primary" onClick={confirm.onTrue}>
-                      <Button variant="outlined" color="error">
-                        전체 삭제
-                      </Button>
-                    </IconButton>
-                  </Tooltip>
-                </>
-              }
-            />
-
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id)
-                    )
-                  }
+                <TableEmptyRows
+                  height={denseHeight}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
                 />
 
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <UserTableRow
-                        key={row.deptMemberId}
-                        row={row}
-                        selected={table.selected.includes(row.deptMemberId)}
-                        onSelectRow={() => table.onSelectRow(row.deptMemberId)}
-                        onDeleteRow={() => handleDeleteRow(row.deptMemberId)}
-                        onEditRow={() => handleDeleteRow(row.deptMemberId)}
-                        refetch={refetch}
-                      />
-                    ))}
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </TableContainer>
 
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
-
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            //
-            dense={table.dense}
-            onChangeDense={table.onChangeDense}
-          />
-        </Card>
-      </Container>
-
-      {/* <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
-        action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
-          >
-            Delete
-          </Button>
-        }
-      /> */}
-    </>
+        <TablePaginationCustom
+          count={dataFiltered.length}
+          page={table.page}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+          //
+          dense={table.dense}
+          onChangeDense={table.onChangeDense}
+        />
+      </Card>
+    </Container>
   );
 }
 
@@ -372,10 +333,6 @@ function applyFilter({
   if (role !== '전체') {
     inputData = inputData.filter((user) => user.deptRole === role);
   }
-
-  // if (role.length) {
-  //   inputData = inputData.filter((user) => role.includes(user.role));
-  // }
 
   return inputData;
 }
