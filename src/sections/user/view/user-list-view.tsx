@@ -84,11 +84,12 @@ export default function UserListView() {
   const { refetch } = useQuery<IUserItem[]>(['userlist', deptId], async () => {
     try {
       const response = await axiosInstance.get<IUserItem[]>(`${endpoints.user.list}/${deptId}`);
+      console.log('member list', response.data);
       setTableData(response.data);
-      return response.data; // Return the data from the promise
+      return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error; // Rethrow the error to let React Query handle it
+      throw error;
     }
   });
 
@@ -365,7 +366,7 @@ function applyFilter({
 
   if (name) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (user) => user.member.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
