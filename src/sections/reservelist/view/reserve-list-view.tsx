@@ -38,7 +38,7 @@ import {
   IReserveTableFilterValue,
 } from 'src/types/reserveList';
 //
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue } from 'recoil';
 import { userDeptState } from 'src/utils/atom';
@@ -125,7 +125,10 @@ export default function ReserveListView() {
   const denseHeight = table.dense ? 52 : 72;
 
   const canReset =
-    !!filters.name || filters.status !== '전체' || (!!filters.startDate && !!filters.endDate);
+    !!filters.space ||
+    !!filters.name ||
+    filters.status !== '전체' ||
+    (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -240,11 +243,22 @@ export default function ReserveListView() {
               )
             }
             action={
-              <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
-              </Tooltip>
+              <>
+                <Tooltip title="Add">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Button variant="outlined" color="primary">
+                      전체 승인
+                    </Button>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Button variant="outlined" color="error">
+                      전체 삭제
+                    </Button>
+                  </IconButton>
+                </Tooltip>
+              </>
             }
           />
 
@@ -335,11 +349,23 @@ function applyFilter({
   inputData = stabilizedThis.map((el) => el[0]);
 
   if (name) {
-    inputData = inputData.filter(
-      (order) =>
-        order.id.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.createMemberName.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    );
+    inputData = inputData.filter((order) => {
+      const orderId = order.id && typeof order.id === 'string' ? order.id.toLowerCase() : '';
+      const memberName =
+        order.createMemberName && typeof order.createMemberName === 'string'
+          ? order.createMemberName.toLowerCase()
+          : '';
+      const spaceName =
+        order.space.name && typeof order.space.name === 'string'
+          ? order.space.name.toLowerCase()
+          : '';
+
+      return (
+        orderId.indexOf(name.toLowerCase()) !== -1 ||
+        memberName.indexOf(name.toLowerCase()) !== -1 ||
+        spaceName.indexOf(name.toLowerCase()) !== -1
+      );
+    });
   }
 
   if (status !== '전체') {
@@ -350,8 +376,8 @@ function applyFilter({
     if (startDate && endDate) {
       inputData = inputData.filter(
         (order) =>
-          fTimestamp(order.modDate) >= fTimestamp(startDate) &&
-          fTimestamp(order.modDate) <= fTimestamp(endDate)
+          fTimestamp(order.reserveDate) >= fTimestamp(startDate) &&
+          fTimestamp(order.reserveDate) <= fTimestamp(endDate)
       );
     }
   }
