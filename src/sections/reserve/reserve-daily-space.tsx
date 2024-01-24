@@ -1,19 +1,11 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // types
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
+import { ISpaceItem, EXSpaceItem, IReservedItem } from 'src/types/space';
 // components
-import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 // api
 import SpacingGrid from './reserve-time';
@@ -24,8 +16,8 @@ interface Props {
     reserveDate: Date;
     startTime: string;
     endTime: string;
-    // headCount: number;
   };
+  reserveList: IReservedItem[]; // 선택된 날짜에 예약된 정보들
   space: EXSpaceItem;
   handleModalControl: (data: any) => void;
 }
@@ -35,35 +27,54 @@ function timeToMinutes(time: string) {
   const totaltime = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
   return totaltime;
 }
+
 function isStartTimeRangeValid(selectST: number, availST: number, availET: number) {
   let pass = false;
-  if (Number.isNaN(selectST) || Number.isNaN(availST)) pass = true;
+
+  if (Number.isNaN(selectST)) pass = true;
   else if (selectST >= availST && selectST <= availET) pass = true;
   else pass = false;
   return pass;
 }
-function isEndTimeRangeValid(selectST: number, availST: number, selectET: number, availET: number) {
-  let pass = false;
-  if (Number.isNaN(selectET) || Number.isNaN(availET)) pass = true;
-  else if (selectST >= availST && selectET >= selectST && selectET <= availET) pass = true;
+function isEndTimeRangeValid(
+  selectST: number,
+  availST: number,
+  selectET: number,
+  availET: number,
+  reserveList: IReservedItem[]
+) {
+  let pass = true;
+  if (Number.isNaN(selectET)) pass = true; // 둘다 숫자가 아닐 때
+  else if (selectST >= availST && selectET <= availET) pass = true;
   else pass = false;
+
+  if (reserveList.length !== 0) {
+    for (let i = 0; i < reserveList.length; i += 1) {
+      if (pass === false) break;
+      const reservedST = timeToMinutes(reserveList[i].startTime);
+      const reservedET = timeToMinutes(reserveList[i].endTime);
+
+      if (
+        (reservedST <= selectST && reservedET <= selectET) ||
+        (reservedST <= selectST && selectET <= reservedET) ||
+        (selectST <= reservedST && reservedET <= selectET) ||
+        (selectST <= reservedST && selectET <= reservedET)
+      ) {
+        pass = false;
+        break;
+      } else pass = true;
+    }
+  }
   return pass;
 }
 
-export default function DailySpaceCardList({ space, selectedData, handleModalControl }: Props) {
-  const {
-    id,
-    name,
-    headCount,
-    availableStart,
-    availableEnd,
-    detail,
-    // lableColor,
-    availability,
-    image,
-    // regDate,
-    // modDate,
-  } = space;
+export default function DailySpaceCardList({
+  space,
+  selectedData,
+  reserveList,
+  handleModalControl,
+}: Props) {
+  const { headCount, detail, image } = space;
 
   const availableStartTime = space.availableStart.toLocaleString();
   const availableEndTime = space.availableEnd.toLocaleString();
@@ -78,7 +89,8 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
   const [availableEndMinutes, setAvailableEndMinutes] = useState(timeToMinutes(availableEndTime));
   const [isStartTimeWithinRange, setIsStartTimeWithinRange] = useState(true);
   const [isEndimeWithinRange, setIsEndimeWithinRange] = useState(true);
-  // const [isHeadCountWithRange, setIsHeadCountWithRange] = useState(true);
+
+  const reservedList = reserveList;
 
   useEffect(() => {
     setSelectedStartMinutes(timeToMinutes(selectedData.startTime));
@@ -93,10 +105,10 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
         selectedStartMinutes,
         availableStartMinutes,
         selectedEndMinutes,
-        availableEndMinutes
+        availableEndMinutes,
+        reservedList
       )
     );
-    // setIsHeadCountWithRange(isHeadCountVaild(selectedData.headCount, headCount));
   }, [
     selectedData.startTime,
     selectedData.endTime,
@@ -105,9 +117,9 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
     availableEndMinutes,
     availableStartMinutes,
     headCount,
-    // selectedData.headCount,
     selectedEndMinutes,
     selectedStartMinutes,
+    reservedList,
   ]);
 
   const renderImages = (
@@ -159,12 +171,10 @@ export default function DailySpaceCardList({ space, selectedData, handleModalCon
       reserveDate: selectedData.reserveDate,
       startTime: selectedData.startTime,
       endTime: selectedData.endTime,
-      // headCount: selectedData.headCount,
       spaceId: space.spaceId,
       spaceName: space.name,
       spaceImage: space.image,
     };
-    // console.log('sendSelectedData', sendSelectedData);
     handleModalControl(sendSelectedData);
   };
 
