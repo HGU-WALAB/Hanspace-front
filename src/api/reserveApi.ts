@@ -8,7 +8,7 @@ const palette = themePalette('light');
 
 // dashboard calander (ReserveFindeByDeptId)
 export const GetReserveListByDept = async (deptId: number) => {
-  const response = axiosInstance.get(`${endpoints.reserve.list}/${deptId}`); // DeptId 전체 리스트 (admin)
+  const response = axiosInstance.get(`${endpoints.reserve.list}/${deptId}`); // DeptId 전체 리스트 (관리자)
 
   const selectData: ICalendarEvent[] = (await response).data.map((item: any) => ({
     id: item.id,
