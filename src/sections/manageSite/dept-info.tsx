@@ -1,9 +1,8 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 // react
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { userDeptState } from 'src/utils/atom';
-import { updateDept } from 'src/api/deptApi';
-import { IDeptInfo } from 'src/types/dept';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 // @mui
 import Box from '@mui/material/Box';
@@ -16,9 +15,11 @@ import { alpha } from '@mui/material/styles';
 import FormProvider, { RHFTextField, RHFSwitch, RHFUpload } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import DepartmentUpdateSuccessDialog from './dept-dialog';
+import { FormSchema } from './schema';
 
 // ———————————————————————————————————
 // ToDo: 파일 업로드 부분 수정 필요
+// ToDo:  maxReserveCount, userAccept 둘 다 저장은 잘 되는데 userDeptState로 받아올 때 정보가 없다고 뜸
 export default function DepartmentInfoForm() {
   const [userDeptInfo, setUserDeptInfo] = useRecoilState(userDeptState);
   let deptId = '';
@@ -26,22 +27,21 @@ export default function DepartmentInfoForm() {
     deptId = `${userDeptInfo.deptId}`;
   }
 
-  const defaultValues: IDeptInfo = useMemo(() => {
+  const defaultValues = useMemo(() => {
     if (typeof userDeptInfo === 'object') {
+      console.log('기관의 정보 확인하기', userDeptInfo);
       return {
         deptId: userDeptInfo.deptId || 0,
         siteName: userDeptInfo.siteName || '',
         deptName: userDeptInfo.deptName || '',
         deptImage: userDeptInfo.deptImage || '',
-        userAccept: Boolean(userDeptInfo.userAccept),
-        maxRserveCount: Number(userDeptInfo.maxRserveCount),
+        userAccept: userDeptInfo.userAccept || false,
+        maxRserveCount: userDeptInfo.maxRserveCount || 0,
         link: userDeptInfo.link || '',
         extraInfo: userDeptInfo.extraInfo || '',
-        spaceCount: userDeptInfo.spaceCount || 0,
-        memberCount: userDeptInfo.memberCount || 0,
-        deptMemberResponse: userDeptInfo.deptMemberResponse || [],
       };
     }
+    // 기본값을 설정해야 합니다. 예를 들어, userDeptInfo가 객체가 아닐 때 기본값을 설정할 수 있습니다.
     return {
       deptId: 0,
       siteName: '',
@@ -51,72 +51,67 @@ export default function DepartmentInfoForm() {
       maxRserveCount: 0,
       link: '',
       extraInfo: '',
-      spaceCount: 0,
-      memberCount: 0,
-      deptMemberResponse: [],
     };
   }, [userDeptInfo]);
 
   const methods = useForm({
+    resolver: yupResolver(FormSchema),
     defaultValues,
   });
 
-  const { reset, setValue, handleSubmit } = methods;
+  const { watch, reset, setValue, handleSubmit } = methods;
+
+  const imageFile = watch('deptImage');
 
   const [open, setOpen] = useState<boolean>(false);
-  const [siteName, setSiteName] = useState(defaultValues.siteName);
-  const [deptName, setDeptName] = useState(defaultValues.deptName);
-  const [maxRserveCount, setMaxRserveCount] = useState(defaultValues.maxRserveCount);
-  const [deptImage, setDeptImage] = useState(defaultValues.deptImage);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const onSet = (data: any) => {
+    const deptValue = {
+      deptId: Number(deptId),
+      siteName: data?.siteName,
+      deptName: data?.deptName,
+      deptImage: data?.deptImage,
+      userAccept: Boolean(data?.userAccepts),
+      maxRserveCount: Number(data?.maxReserveCount),
+      link: defaultValues.link,
+      extraInfo: defaultValues.extraInfo,
+      spaceCount: typeof userDeptInfo === 'object' ? userDeptInfo.spaceCount : null,
+      memberCount: typeof userDeptInfo === 'object' ? userDeptInfo.memberCount : null,
+      deptMemberResponse: typeof userDeptInfo === 'object' ? userDeptInfo.deptMemberResponse : [],
+    };
+
+    setUserDeptInfo(deptValue);
+  };
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      if (selectedFile) {
-        // 파일을 서버로 업로드
-        const formData = new FormData();
-        formData.append('file', selectedFile);
+    console.log('날짜 확인하기, 수용 가능성', data);
+    const requestData = {
+      siteName: data.siteName,
+      deptName: data.deptName,
+      maxRserveCount: data.maxRserveCount,
+      link: defaultValues.link,
+      extraInfo: defaultValues.extraInfo,
+      userAccept: data?.userAccept,
+      deptImage: imageFile,
+    };
 
-        // const response = await axios.post('/upload-endpoint', formData);
-        const response = await axiosInstance.patch(`${endpoints.dept.update}/${deptId}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        if (response.status === 200) {
-          const { filePath } = response.data;
+    const response = await axiosInstance
+      .patch(`${endpoints.dept.update}/${deptId}`, requestData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .catch((e) => {
+        console.log('error');
+        console.log(e);
+      });
+    console.log('수정되는 기관 정보 확인', requestData);
+    onSet(data);
 
-          // 이미지 경로를 데이터에 추가
-          data.deptImage = filePath;
-        } else {
-          // 업로드 실패 처리
-          console.error('File upload failed');
-        }
-      }
+    reset();
 
-      // 나머지 데이터 업데이트
-      data.siteName = siteName;
-      data.deptName = deptName;
-      data.deptImage = deptImage;
-      data.maxRserveCount = maxRserveCount;
-      data.extraInfo = defaultValues.extraInfo;
-      data.spaceCount = defaultValues.spaceCount;
-      data.memberCount = defaultValues.memberCount;
-      data.deptMemberResponse = defaultValues.deptMemberResponse;
-
-      reset();
-
-      // 서버로 데이터 전송
-      await updateDept(data, Number(deptId));
-
-      // ToDo: userAccept 부분 업데이트 시 업데이트 전 초기 값으로 되돌아감 (수정 필요)
-      setUserDeptInfo(data);
-
-      // modal
-      setOpen(true);
-    } catch (error) {
-      console.error(error);
-    }
+    // modal
+    setOpen(true);
   });
 
   const handleDropSingleFile = useCallback(
@@ -127,16 +122,14 @@ export default function DepartmentInfoForm() {
         preview: URL.createObjectURL(file),
       });
 
-      setSelectedFile(file); // 파일 저장
-
       if (newFile) {
-        setValue('deptImage', file.name, { shouldValidate: true });
-        console.log('파일 이름 정확히 들어갔나', newFile);
-        setDeptImage(file.name);
+        setValue('deptImage', newFile, { shouldValidate: true });
       }
     },
     [setValue]
   );
+
+  useEffect(() => {}, [userDeptInfo, onSubmit]);
 
   return (
     <>
@@ -157,18 +150,10 @@ export default function DepartmentInfoForm() {
         >
           <Stack spacing={2}>
             <Block label="사이트 이름">
-              <RHFTextField
-                name="siteName"
-                value={siteName}
-                onChange={(e) => setSiteName(e.target.value)}
-              />
+              <RHFTextField name="siteName" />
             </Block>
             <Block label="기관 이름">
-              <RHFTextField
-                name="deptName"
-                value={deptName}
-                onChange={(e) => setDeptName(e.target.value)}
-              />
+              <RHFTextField name="deptName" />
             </Block>
             <Block label="자동으로 기관 입장 허가 여부">
               <FormControlLabel
@@ -178,25 +163,17 @@ export default function DepartmentInfoForm() {
               />
             </Block>
             <Block label="사용자 최대 예약 가능 날짜">
-              <RHFTextField
-                name="maxRserveCount"
-                type="number"
-                value={maxRserveCount}
-                onChange={(newValue) => {
-                  const numericValue = parseFloat(newValue.target.value);
-                  setMaxRserveCount(numericValue);
-                }}
-              />
+              <RHFTextField name="maxRserveCount" type="number" />
             </Block>
             <Block label="URL 이름">
-              <RHFTextField name="link" value={defaultValues?.link} disabled />
+              <RHFTextField name="link" disabled />
             </Block>
           </Stack>
           <Stack spacing={4}>
             <RHFUpload
               name="deptImage"
               onDrop={handleDropSingleFile}
-              onDelete={() => setValue('deptImage', '', { shouldValidate: true })}
+              onDelete={() => setValue('deptImage', null, { shouldValidate: true })}
               helperText="기관 대표 이미지를 선택해주세요"
             />
             <LoadingButton fullWidth color="primary" size="large" type="submit" variant="soft">

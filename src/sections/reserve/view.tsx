@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 // types
-import { EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem, IReservedItem } from 'src/types/space';
 import {
   DailyReserveForm1,
   DailyReserveForm2,
@@ -13,124 +13,68 @@ import {
 } from 'src/types/reserve';
 // components
 import { useSettingsContext } from 'src/components/settings';
+import { userDeptState } from 'src/utils/atom';
+import { useRecoilValue } from 'recoil';
 // api
+import axiosInstance, { endpoints } from 'src/utils/axios';
+import { useQuery } from 'react-query';
+import { reservedListByDate } from 'src/api/reserveApi';
+import { GetSpace } from 'src/api/spaceApi';
 import ReserveDailyForm1 from './reserve-daily-form1';
+
 // import ReserveDailyForm2 from './reserve-daily-form2';
 import DailySpaceCardList from './reserve-daily-space';
 import RegularlySpaceCardList from './reserve-regularly-space';
 import ReserveRegularyForm1 from './reserve-regularly-form1';
-import ReserveCSVForm from './reserve-csv';
+// import ReserveCSVForm from './reserve-csv';
 import DailyReserveFormDialog from './reserve-daily-dialog';
 import RegularlyReserveDialog from './reserve-regularly-dialog';
 
-const spaces: EXSpaceItem[] = [
-  {
-    spaceId: 1,
-    id: '1',
-    name: '뉴턴홀 110호',
-    headCount: 30,
-    availableStart: '7:00',
-    availableEnd: '19:00',
-    detail: '빔 프로젝트 있음',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDEyMTdfMTgz%2FMDAxNjA4MTY1OTk0MzAw.iRKIRAcxu0k4h3u8eRDWBEzFO2Yy6sVhbA4Pf-qeiQ4g.A9xDkmp8Jixr4PmAdVDaMIuwcTSJmahxIR86zntj0FMg.JPEG.urbanspace6928%2FKakaoTalk_20201111_132717296_04.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 2,
-    id: '2',
-    name: '뉴턴홀 112호',
-    headCount: 20,
-    availableStart: '10:00',
-    availableEnd: '20:00',
-    detail: 'TV있음',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MDJfMjU3%2FMDAxNjU5NDUwOTU5Njc4.fsoSknyQtvWJwmpFym06v8ddvTpjcGAl_OVYwGRtgJQg.Nan5mN5J7KwC6FC1LgExBbNADE25mLilQ5TtOI0yXDcg.JPEG.rudwls100434%2F%25A8%25E7_%25B5%25EE%25BF%25F8_%25C8%25C4_%25B0%25AD%25C0%25C7%25BD%25C7_%25B5%25B5%25C2%25F8.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 3,
-    id: '3',
-    name: '뉴턴홀 113호',
-    headCount: 50,
-    availableStart: '04:00',
-    availableEnd: '18:00',
-    detail: '의자 없음',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTExMTBfMjgg%2FMDAxNjM2NTA4MjkxMTE4.e-FRv0F57q19I2lU2ahfyN44WKHA8FdiqXx1ZlF4TsUg.o98rJTq86Oomvwr53OtZnEUoWn5FOJ1iEhigwUurnH4g.JPEG.schoolsharing0725%2F0c32e324-7c81-4aa8-8e6b-9c6425926b0a.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 4,
-    id: '4',
-    name: '뉴턴홀 114호',
-    headCount: 10,
-    availableStart: '4:00',
-    availableEnd: '22:00',
-    detail: '책상 없음',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5385%2F2023%2F09%2F12%2F0000617859_002_20230912085203612.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 5,
-    id: '5',
-    name: '뉴턴홀 119호',
-    headCount: 80,
-    availableStart: '10:00',
-    availableEnd: '19:00',
-    detail: '모니터 있음',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODExMDhfMTc0%2FMDAxNTQxNjQzNDY3OTM3.VzMoEi3965SGapi8eJbhJf4Q6h_NCNe0mlKsebIethQg.yO_f9kYZVjRsjJVJ_zb6K9wUYdIWjo-8F1SUYDq0lqIg.JPEG.fursysconsulting%2F1607_%25C7%25D1%25C8%25AD%25C3%25B7%25B4%25DC%25BC%25D2%25C0%25E7_%25B0%25AD%25C0%25C7%25BD%25C7.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 6,
-    id: '6',
-    name: '뉴턴홀 220호',
-    headCount: 100,
-    availableStart: '2:00',
-    availableEnd: '17:00',
-    detail: '학생 사용 불가능',
-    availability: true,
-    image:
-      'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDAzMDNfMTk5%2FMDAxNTgzMjA1MTc0MzIw.Ta90P9jtqoXmAiDpWjOB3T9yFIPm2d1SQd_FSu7R_4sg.xA00bH2Q2jeXJcnMKrfuqpWRlzlKt_OPF3V5v0ZLQysg.JPEG%2FIN1zUfequqRyiE2g8stdQr7q6kLY.jpg&type=sc960_832',
-  },
-  {
-    spaceId: 7,
-    id: '7',
-    name: '뉴턴홀 221호',
-    headCount: 30,
-    availableStart: '11:00',
-    availableEnd: '21:00',
-    detail: '회의실 전용',
-    availability: true,
-    image: 'https://source.unsplash.com/random',
-  },
-  {
-    spaceId: 8,
-    id: '8',
-    name: '뉴턴홀 222호',
-    headCount: 30,
-    availableStart: '15:00',
-    availableEnd: '23:00',
-    detail: '와이파이 안됨',
-    availability: true,
-    image: 'https://source.unsplash.com/random',
-  },
-];
-
 export default function ReserveView() {
-  // space 정보들 API
-  // const { data: spaces } = useQuery(
-  //   ['GetSpace', GetSpace],
-  //   () => GetSpace().then((response) => response.data),
-  //   {
-  //     onSuccess: (data) => {
-  //       console.log('GetSpace', data);
-  //     },
-  //   }
-  // );
+  const userDeptValue = useRecoilValue(userDeptState);
+
+  const [reserveInfo, setReserveInfo] = useState(null);
+
+  let deptId = 0;
+  if (typeof userDeptValue === 'object') {
+    ({ deptId } = userDeptValue);
+  }
+  // space에 따른 예약 정보들 확인
+  const { data: spaces } = useQuery<EXSpaceItem[]>(
+    ['GetSpace', GetSpace],
+    async () => GetSpace(deptId).then((response) => response.data),
+    {
+      onSuccess: (data) => {
+        // Log space IDs within the onSuccess callback
+        data.forEach((space) => {
+          console.log('GetSpace', space);
+          const datas = axiosInstance
+            .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
+            .then((res) => {
+              console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
+              setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
+            });
+        });
+      },
+    }
+  );
+  // 기관 id와 날짜에 해당하는 예약 정보들 확인
+  // ToDo: API 수정 시 정보 받고 예약 수정
+  const { data: reserveds } = useQuery<IReservedItem[]>(
+    ['reservedListByDate', reservedListByDate],
+    async () =>
+      reservedListByDate(deptId, selectedDailyData1.reserveDate.toISOString().split('T')[0]).then(
+        (response) => response.data
+      ),
+    {
+      onSuccess: (data) => {
+        data.forEach((reserved) => {
+          console.log('reservedListByDate', reserved);
+        });
+      },
+    }
+  );
+
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({
     reserveDate: new Date(),
@@ -166,27 +110,29 @@ export default function ReserveView() {
   const [selectedValue, setSelectedValue] = useState('daily');
 
   const handleRadioChange = (data: string) => {
-    setSelectedValue(data); // 선택한 값을 업데이트
+    setSelectedValue(data); // 일일 대여, 정기 대여
   };
 
   const handleDailyReserveInfo = (data: DailyReserveForm1) => {
-    setSelectedDailyData1(data);
+    setSelectedDailyData1(data); // 단기 예약 날짜, 시작시간, 종료시간 데이터 정보
   };
   const handleRegularlyReserveInfo = (data: RegularyReserveForm1) => {
-    setSelectedRegularyData1(data);
+    setSelectedRegularyData1(data); // 정기 예약 날짜, 시작시간, 종료시간 데이터 정보
   };
 
   // modal code
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDailyModalControl = (data: DailyReserveForm2) => {
+    // 단기 예약 다이아로그 오픈
     setIsDialogOpen(true);
-    setSelectedDailyData2(data);
+    setSelectedDailyData2(data); // 예약을 위한 모든 정보 선택
   };
 
   const handleReguluarlyModalControl = (data: RegularyReserveForm2) => {
+    // 정기 예약 다이아로그 오픈
     setIsDialogOpen(true);
-    setSelectedRegularyData2(data);
+    setSelectedRegularyData2(data); // 예약을 위한 모든 정보 선택
   };
 
   let DailySpaceCradList = null;
@@ -194,10 +140,11 @@ export default function ReserveView() {
   if (spaces) {
     DailySpaceCradList = spaces.reduce((result, space) => {
       const dailySpaceCardList = (
+        // 대여 가능한 장소 보여주는 컴포넌트
         <DailySpaceCardList
-          space={space}
-          selectedData={selectedDailyData1}
-          handleModalControl={handleDailyModalControl}
+          space={space} // 장소 하나 정보
+          selectedData={selectedDailyData1} // 날짜, 시작 시간, 종료 시간 선택된 정보 전달
+          handleModalControl={handleDailyModalControl} // 장소 카드 하단 예약 진행 버튼 -> 다이아로그
         />
       );
       if (dailySpaceCardList !== null) {
@@ -212,8 +159,8 @@ export default function ReserveView() {
       {selectedValue === 'daily' && (
         <>
           <ReserveDailyForm1
-            handleDailyReserveInfo={handleDailyReserveInfo}
-            selectedValue={selectedValue}
+            handleDailyReserveInfo={handleDailyReserveInfo} // 단기 예약 날짜, 시작시간, 종료시간 정보 선택
+            selectedValue={selectedValue} // daily
             handleRadioChange={handleRadioChange}
           />
           <Box
@@ -235,6 +182,8 @@ export default function ReserveView() {
           </Box>
         </>
       )}
+
+      {/* 정기 예약일 때 */}
       {selectedValue === 'regularly' && (
         <>
           <ReserveRegularyForm1
@@ -270,9 +219,10 @@ export default function ReserveView() {
           </Box>
         </>
       )}
-      {selectedValue === 'csv' && (
+      {/* ToDo: 추후 csv 작업 예정 */}
+      {/* {selectedValue === 'csv' && (
         <ReserveCSVForm selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
-      )}
+      )} */}
     </Container>
   );
 }

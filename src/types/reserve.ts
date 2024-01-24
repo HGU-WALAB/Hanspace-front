@@ -3,7 +3,6 @@ export type DailyReserveForm1 = {
   reserveDate: Date;
   startTime: string;
   endTime: string;
-  headCount: number;
 };
 export type DailyReserveForm2 = {
   spaceId: number;
@@ -11,9 +10,19 @@ export type DailyReserveForm2 = {
   reserveDate: Date;
   startTime: string;
   endTime: string;
-  headCount: number;
   spaceName: string;
   spaceImage: string;
+};
+
+export type DailyReserveAdd = {
+  spaceId: number;
+  reserveDate: string;
+  startTime: string;
+  endTime: string;
+  purpose: string;
+  status: string;
+  extraInfoAns: string;
+  regularReserveId: null;
 };
 
 export type RegularyReserveForm1 = {
@@ -21,37 +30,51 @@ export type RegularyReserveForm1 = {
   startDate: Date;
   endDate: Date;
   week: string;
-  startTime: string,
-  endTime: string,
+  startTime: string;
+  endTime: string;
   headCount: number;
 };
 export type RegularyReserveForm2 = {
-    regularReserveId: number | null;
-    startDate: Date;
-    endDate: Date;
-    week: string;
-    startTime: string,
-    endTime: string,
-    headCount: number;
-    spaceId: number;
-    spaceName: string;
-    spaceImage: string;
-  };
+  regularReserveId: number | null;
+  startDate: Date;
+  endDate: Date;
+  week: string;
+  startTime: string;
+  endTime: string;
+  headCount: number;
+  spaceId: number;
+  spaceName: string;
+  spaceImage: string;
+};
 
 export type RegularlyReserveItem = {
-    memberId: any;
-    startDate: Date;
-    endDate: Date;
-    week: string;
-    startTime: Date;
-    endTime: Date;
-    headCount: number;
-    spaceId: number;
-    purpose: string;
-    // phoneNumber: string;
-    status: string;
-    extraInfoAns: string[];
-    reserveCount: number | null;
-    reserveDate: string[];
-  };
-  
+  memberId: any;
+  startDate: Date;
+  endDate: Date;
+  week: string;
+  startTime: Date;
+  endTime: Date;
+  headCount: number;
+  spaceId: number;
+  purpose: string;
+  // phoneNumber: string;
+  status: string;
+  extraInfoAns: string[];
+  reserveCount: number | null;
+  reserveDate: string[];
+};
+
+export type RegularReserveAdd = {
+  spaceId: number;
+  reserveDate: string[];
+  startDate: string;
+  endDate: string;
+  week: string;
+  startTime: string;
+  endTime: string;
+  purpose: string;
+  status: string;
+  extraInfoAns: string;
+  regularReserveId: null;
+  reserveCount: number;
+};

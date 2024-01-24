@@ -3,17 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import MinusIcon from '@mui/icons-material/Remove';
@@ -24,6 +19,7 @@ import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import FormProvider from 'src/components/hook-form';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 // api
 import { GetSpace } from 'src/api/spaceApi';
 import { useQuery } from 'react-query';
@@ -42,22 +38,15 @@ export const defaultValues = {
 interface ReserveForm1Props {
   handleDailyReserveInfo: (data: any) => void;
   selectedValue: string;
+
   handleRadioChange: (data: string) => void;
 }
 
-export default function ReserveDailyForm1({ handleDailyReserveInfo, selectedValue, handleRadioChange }: ReserveForm1Props) {
-  // const settings = useSettingsContext();
-
-  // const { data: spaces } = useQuery(
-  //   ['GetSpace', GetSpace],
-  //   () => GetSpace().then((response) => response.data),
-  //   {
-  //     onSuccess: (data) => {
-  //       console.log('GetSpace', data);
-  //     },
-  //   }
-  // );
-
+export default function ReserveDailyForm1({
+  handleDailyReserveInfo,
+  selectedValue,
+  handleRadioChange,
+}: ReserveForm1Props) {
   const methods = useForm({
     defaultValues,
   });
@@ -121,8 +110,6 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo, selectedValu
       reserveDate,
       startTime,
       endTime,
-      // headCount,
-      // spaceId: spaceIdNumber,
     };
     handleDailyReserveInfo(selectedData);
   }, [reserveDate, startTime, endTime, handleDailyReserveInfo]);
@@ -142,8 +129,16 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo, selectedValu
       </Typography>
       <FormProvider methods={methods}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
           <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <div
               style={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -199,7 +194,7 @@ export default function ReserveDailyForm1({ handleDailyReserveInfo, selectedValu
                 <AddIcon />
               </Fab>
             </div>
-            <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange}/>
+            <RowRadioButtonsGroup selectedValue={selectedValue} onValueChange={handleRadioChange} />
           </div>
         </LocalizationProvider>
       </FormProvider>

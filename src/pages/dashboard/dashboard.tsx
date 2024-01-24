@@ -15,7 +15,7 @@ export default function Page() {
       </Helmet>
 
       {typeof userDeptInfo === 'object' &&
-      userDeptInfo.deptMemberResponse[0]?.deptRole === 'ADMIN' ? (
+      userDeptInfo.deptMemberResponse[0]?.deptRole === '관리자' ? (
         <AdminDashboardView />
       ) : (
         <UserDashboardView />

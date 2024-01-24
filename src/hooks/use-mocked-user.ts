@@ -27,7 +27,7 @@ export function useMockedUser() {
     city: 'San Francisco',
     zipCode: '94116',
     about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
-    role: 'admin',
+    role: '관리자',
     isPublic: true,
   };
 

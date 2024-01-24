@@ -22,7 +22,6 @@ export type IDeptInfo = {
 export type IDeptAdd = {
   siteName: string;
   deptName: string;
-  logoImage: string;
   deptImage: string;
   userAccept: boolean;
   maxRserveCount: number;
