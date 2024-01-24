@@ -19,7 +19,6 @@ import { FormSchema } from './schema';
 
 // ———————————————————————————————————
 // ToDo: 파일 업로드 부분 수정 필요
-// ToDo:  maxReserveCount, userAccept 둘 다 저장은 잘 되는데 userDeptState로 받아올 때 정보가 없다고 뜸
 export default function DepartmentInfoForm() {
   const [userDeptInfo, setUserDeptInfo] = useRecoilState(userDeptState);
   let deptId = '';
@@ -35,20 +34,19 @@ export default function DepartmentInfoForm() {
         siteName: userDeptInfo.siteName || '',
         deptName: userDeptInfo.deptName || '',
         deptImage: userDeptInfo.deptImage || '',
-        userAccept: userDeptInfo.userAccept || false,
-        maxRserveCount: userDeptInfo.maxRserveCount || 0,
+        userAccept: userDeptInfo.userAccept ?? true,
+        maxReserveCount: userDeptInfo.maxReserveCount || 0,
         link: userDeptInfo.link || '',
         extraInfo: userDeptInfo.extraInfo || '',
       };
     }
-    // 기본값을 설정해야 합니다. 예를 들어, userDeptInfo가 객체가 아닐 때 기본값을 설정할 수 있습니다.
     return {
       deptId: 0,
       siteName: '',
       deptName: '',
       deptImage: '',
-      userAccept: false,
-      maxRserveCount: 0,
+      userAccept: true,
+      maxReserveCount: 0,
       link: '',
       extraInfo: '',
     };
@@ -72,7 +70,7 @@ export default function DepartmentInfoForm() {
       deptName: data?.deptName,
       deptImage: data?.deptImage,
       userAccept: Boolean(data?.userAccepts),
-      maxRserveCount: Number(data?.maxReserveCount),
+      maxReserveCount: data?.maxReserveCount,
       link: defaultValues.link,
       extraInfo: defaultValues.extraInfo,
       spaceCount: typeof userDeptInfo === 'object' ? userDeptInfo.spaceCount : null,
@@ -88,14 +86,14 @@ export default function DepartmentInfoForm() {
     const requestData = {
       siteName: data.siteName,
       deptName: data.deptName,
-      maxRserveCount: data.maxRserveCount,
+      maxReserveCount: data.maxReserveCount,
       link: defaultValues.link,
       extraInfo: defaultValues.extraInfo,
       userAccept: data?.userAccept,
       deptImage: imageFile,
     };
 
-    const response = await axiosInstance
+    await axiosInstance
       .patch(`${endpoints.dept.update}/${deptId}`, requestData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -163,7 +161,7 @@ export default function DepartmentInfoForm() {
               />
             </Block>
             <Block label="사용자 최대 예약 가능 날짜">
-              <RHFTextField name="maxRserveCount" type="number" />
+              <RHFTextField name="maxReserveCount" type="number" />
             </Block>
             <Block label="URL 이름">
               <RHFTextField name="link" disabled />
