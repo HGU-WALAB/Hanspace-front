@@ -58,7 +58,7 @@ export default function UserQuickEditForm({ currentUser, open, onClose, refetch 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      onClose();
+      // onClose();
       enqueueSnackbar('Update success!');
 
       // await axiosInstance.patch(endpoints.user.update, { data }).then((res) => {

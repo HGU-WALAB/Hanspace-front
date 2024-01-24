@@ -39,8 +39,8 @@ export default function HomeView() {
 
   useEffect(() => {
     try {
-      GetFirstInfo().then((res) => {
-        login?.(res.data.name, res.data.email);
+      GetFirstInfo().then((res: any) => {
+        login?.(res.data.email, res.data.password);
         setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
         setDeptInfo(res.data.departmentResponses);
       });
