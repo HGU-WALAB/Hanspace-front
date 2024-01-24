@@ -75,7 +75,7 @@ export default function UserTableRow({
           <Label
             variant="soft"
             color={
-              (approve === '승인 대기' && 'error') ||
+              (approve === '미승인' && 'error') ||
               (deptRole === '관리자' && 'success') ||
               (deptRole === '사용자' && 'secondary') ||
               'default'
@@ -85,7 +85,7 @@ export default function UserTableRow({
           </Label>
         </TableCell>
 
-        {approve === '승인 대기' && (
+        {approve === '미승인' && (
           <TableCell>
             <Rows>
               <Button variant="outlined" color="primary">
@@ -98,13 +98,15 @@ export default function UserTableRow({
           </TableCell>
         )}
 
-        {approve !== '승인 대기' && <div />}
+        {approve !== '미승인' && <div />}
 
-        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell>
+        {approve !== '미승인' && (
+          <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
+              <Iconify icon="eva:more-vertical-fill" />
+            </IconButton>
+          </TableCell>
+        )}
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
