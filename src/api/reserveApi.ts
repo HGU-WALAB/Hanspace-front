@@ -63,3 +63,15 @@ export const regularCreateReserve = async (data: RegularReserveAdd) => {
   const response = await axiosInstance.post(endpoints.reserve.regularcreate, data);
   return response;
 };
+
+// reservedlist by date
+// ToDo: api 수정 시 date 넘겨주기
+export const reservedListByDate = async (deptId: number, selectedDate: string) => {
+  const response = await axiosInstance.get(`${endpoints.reserve.datelist}/${deptId}`, {
+    params: {
+      reserveDate: selectedDate,
+    },
+  });
+  console.log('날짜에 따른 예약된 정보 확인', response);
+  return response;
+};

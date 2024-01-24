@@ -49,3 +49,9 @@ export type EXSpaceItem = {
   availability: boolean;
   image: string;
 };
+
+export type IReservedItem = {
+  spaceId: number;
+  startTime: string;
+  endTime: string;
+};

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 // types
-import { EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem, IReservedItem } from 'src/types/space';
 import {
   DailyReserveForm1,
   DailyReserveForm2,
@@ -18,8 +18,10 @@ import { useRecoilValue } from 'recoil';
 // api
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useQuery } from 'react-query';
+import { reservedListByDate } from 'src/api/reserveApi';
 import { GetSpace } from 'src/api/spaceApi';
 import ReserveDailyForm1 from './reserve-daily-form1';
+
 // import ReserveDailyForm2 from './reserve-daily-form2';
 import DailySpaceCardList from './reserve-daily-space';
 import RegularlySpaceCardList from './reserve-regularly-space';
@@ -37,7 +39,7 @@ export default function ReserveView() {
   if (typeof userDeptValue === 'object') {
     ({ deptId } = userDeptValue);
   }
-
+  // space에 따른 예약 정보들 확인
   const { data: spaces } = useQuery<EXSpaceItem[]>(
     ['GetSpace', GetSpace],
     async () => GetSpace(deptId).then((response) => response.data),
@@ -49,9 +51,25 @@ export default function ReserveView() {
           const datas = axiosInstance
             .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
             .then((res) => {
-              console.log('예약된 정보 확인', space.spaceId, res.data);
+              console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
               setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
             });
+        });
+      },
+    }
+  );
+  // 기관 id와 날짜에 해당하는 예약 정보들 확인
+  // ToDo: API 수정 시 정보 받고 예약 수정
+  const { data: reserveds } = useQuery<IReservedItem[]>(
+    ['reservedListByDate', reservedListByDate],
+    async () =>
+      reservedListByDate(deptId, selectedDailyData1.reserveDate.toISOString().split('T')[0]).then(
+        (response) => response.data
+      ),
+    {
+      onSuccess: (data) => {
+        data.forEach((reserved) => {
+          console.log('reservedListByDate', reserved);
         });
       },
     }
