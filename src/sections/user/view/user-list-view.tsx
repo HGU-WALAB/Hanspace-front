@@ -37,7 +37,7 @@ import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/u
 //
 // import { useQuery } from 'react-query';
 // import { GetUser } from 'src/api/userApi';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { userDeptState } from 'src/utils/atom';
@@ -67,7 +67,7 @@ const defaultFilters: IUserTableFilters = {
 // ----------------------------------------------------------------------
 
 export default function UserListView() {
-  const table = useTable();
+  const table = useTable({ defaultOrderBy: 'name' });
 
   const settings = useSettingsContext();
 
@@ -137,17 +137,6 @@ export default function UserListView() {
     [dataInPage.length, table, tableData]
   );
 
-  // const handleDeleteRows = useCallback(() => {
-  //   const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-  //   setTableData(deleteRows);
-
-  //   table.onUpdatePageDeleteRows({
-  //     totalRows: tableData.length,
-  //     totalRowsInPage: dataInPage.length,
-  //     totalRowsFiltered: dataFiltered.length,
-  //   });
-  // }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
   // const handleEditRow = useCallback(
   //   (id: string) => {
   //     router.push(paths.dashboard.management?.edit(id));
@@ -178,9 +167,7 @@ export default function UserListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
         <Typography variant="h5"> 사용자 관리하기 </Typography>
-
-        <div style={{ margin: '20px', display: 'flex', justifyContent: 'flex-end' }} />
-
+        <div style={{ height: '30px' }} />
         <Card>
           <Tabs
             value={filters.role}
@@ -210,7 +197,7 @@ export default function UserListView() {
                   >
                     {tab.value === '전체' && tableData.length}
                     {tab.value === '미승인' &&
-                      tableData.filter((user) => user.approve === '승인 대기').length}
+                      tableData.filter((user) => user.approve === '미승인').length}
                     {tab.value === '관리자' &&
                       tableData.filter((user) => user.deptRole === '관리자').length}
                     {tab.value === '사용자' &&
@@ -249,11 +236,22 @@ export default function UserListView() {
                 )
               }
               action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
+                <>
+                  <Tooltip title="Add">
+                    <IconButton color="primary" onClick={confirm.onTrue}>
+                      <Button variant="outlined" color="primary">
+                        선택 승인
+                      </Button>
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton color="primary" onClick={confirm.onTrue}>
+                      <Button variant="outlined" color="error">
+                        전체 삭제
+                      </Button>
+                    </IconButton>
+                  </Tooltip>
+                </>
               }
             />
 
@@ -282,12 +280,13 @@ export default function UserListView() {
                     )
                     .map((row) => (
                       <UserTableRow
-                        key={row.id}
+                        key={row.deptMemberId}
                         row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleDeleteRow(row.id)}
+                        selected={table.selected.includes(row.deptMemberId)}
+                        onSelectRow={() => table.onSelectRow(row.deptMemberId)}
+                        onDeleteRow={() => handleDeleteRow(row.deptMemberId)}
+                        onEditRow={() => handleDeleteRow(row.deptMemberId)}
+                        refetch={refetch}
                       />
                     ))}
 

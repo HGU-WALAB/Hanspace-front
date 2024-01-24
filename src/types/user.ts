@@ -12,7 +12,7 @@ export type IUserItem = {
   id: string;
   approve: string;
   deptId: number;
-  deptMemberId: number;
+  deptMemberId: string;
   deptRole: string;
   memberId: number;
   member: IMemberItem;
