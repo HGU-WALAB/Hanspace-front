@@ -33,6 +33,7 @@ import RegularlyReserveDialog from './reserve-regularly-dialog';
 export default function ReserveView() {
   const userDeptValue = useRecoilValue(userDeptState);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [reserveInfo, setReserveInfo] = useState(null);
 
   let deptId = 0;
@@ -73,7 +74,6 @@ export default function ReserveView() {
   // }, []);
 
   // 더미데이터로 확인 중
-
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({
     reserveDate: new Date(),

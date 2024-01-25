@@ -26,10 +26,11 @@ export type AuthStateType = {
 type CanRemove = {
   login?: (email: string, password: string) => Promise<void>;
   register?: (
+    name: string,
+    s_id: string,
+    deptName: string,
     email: string,
-    password: string,
-    firstName: string,
-    lastName: string
+    password: string
   ) => Promise<void>;
   //
   loginWithGoogle?: () => Promise<void>;
@@ -52,7 +53,13 @@ export type JWTContextType = CanRemove & {
   authenticated: boolean;
   unauthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
+  register: (
+    name: string,
+    s_id: string,
+    deptName: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -68,7 +75,13 @@ export type FirebaseContextType = CanRemove & {
   loginWithTwitter: () => Promise<void>;
   forgotPassword?: (email: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
+  register: (
+    name: string,
+    s_id: string,
+    deptName: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
 };
 
 export type AmplifyContextType = CanRemove & {
@@ -79,10 +92,11 @@ export type AmplifyContextType = CanRemove & {
   unauthenticated: boolean;
   login: (email: string, password: string) => Promise<unknown>;
   register: (
+    name: string,
+    s_id: string,
+    deptName: string,
     email: string,
-    password: string,
-    firstName: string,
-    lastName: string
+    password: string
   ) => Promise<unknown>;
   logout: () => Promise<unknown>;
   confirmRegister: (email: string, code: string) => Promise<void>;

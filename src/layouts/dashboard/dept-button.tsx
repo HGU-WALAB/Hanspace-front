@@ -199,7 +199,7 @@ export default function DeptHeaderButton() {
           onClick={(event) => handleGOAddDept(event)}
         >
           <DeptButton>
-            <Rows>
+            <Container>
               <Avatar
                 alt="+"
                 color="primary.pale"
@@ -208,7 +208,7 @@ export default function DeptHeaderButton() {
                 + {/* TODO : 아바타 이후에 수정하기  */}
               </Avatar>
               새 기관 추가하기
-            </Rows>
+            </Container>
           </DeptButton>
         </MenuItem>
       </Menu>

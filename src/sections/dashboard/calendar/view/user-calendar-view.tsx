@@ -21,7 +21,6 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
 import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
-import { palette as themePalette } from 'src/theme/palette';
 // api
 import { updateEvent } from 'src/api/calendar';
 import { GetReserveListByMember } from 'src/api/reserveApi';

@@ -1,6 +1,5 @@
 // react
 import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
@@ -12,18 +11,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import MinusIcon from '@mui/icons-material/Remove';
-// hooks
-// import { useBoolean } from 'src/hooks/use-boolean';
 // components
-import { useSettingsContext } from 'src/components/settings';
-import { useForm } from 'react-hook-form';
 import dayjs, { Dayjs } from 'dayjs';
 import FormProvider from 'src/components/hook-form';
-import axiosInstance, { endpoints } from 'src/utils/axios';
-// api
-import { GetSpace } from 'src/api/spaceApi';
-import { useQuery } from 'react-query';
-import { TextField, TextFieldProps } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import RowRadioButtonsGroup from './reserve-radio';
 
 // ———————————————————————————————————
@@ -55,8 +46,9 @@ export default function ReserveDailyForm1({
     // watch,
     // reset,
     // control,
-    setValue,
+    // setValue,
     // handleSubmit,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formState: { isSubmitting },
   } = methods;
 

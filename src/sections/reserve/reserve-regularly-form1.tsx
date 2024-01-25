@@ -3,40 +3,21 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { DesktopTimePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import MinusIcon from '@mui/icons-material/Remove';
 // hooks
 // import { useBoolean } from 'src/hooks/use-boolean';
 // components
-import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
-import FormProvider, {
-  RHFEditor,
-  RHFSelect,
-  RHFUpload,
-  RHFSwitch,
-  RHFSlider,
-  RHFCheckbox,
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
-} from 'src/components/hook-form';
+import FormProvider from 'src/components/hook-form';
 import dayjs, { Dayjs } from 'dayjs';
-// api
-import { GetSpace } from 'src/api/spaceApi';
-import { useQuery } from 'react-query';
 import RowRadioButtonsGroup from './reserve-radio';
 
 const DayButton = styled.button`
@@ -74,14 +55,14 @@ export default function ReserveRegularyForm1({
     defaultValues,
   });
 
-  const {
-    // watch,
-    // reset,
-    // control,
-    setValue,
-    // handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  // const {
+  //   // watch,
+  //   // reset,
+  //   // control,
+  //   // setValue,
+  //   // handleSubmit,
+  //   formState: { isSubmitting },
+  // } = methods;
 
   const [startDate, setstartDate] = useState<Dayjs | null>(dayjs());
   const [endDate, setendDate] = useState<Dayjs | null>(dayjs());

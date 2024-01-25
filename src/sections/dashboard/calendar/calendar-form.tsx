@@ -1,29 +1,20 @@
-import { useCallback, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import DialogActions from '@mui/material/DialogActions';
 // utils
-import uuidv4 from 'src/utils/uuidv4';
 import { fTimestamp } from 'src/utils/format-time';
 // api
-import { createEvent, updateEvent, deleteEvent } from 'src/api/calendar';
 // components
-import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
-import { ColorPicker } from 'src/components/color-utils';
-import FormProvider, { RHFTextField, RHFSwitch } from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
 // types
 import { ICalendarEvent, ICalendarDate } from 'src/types/calendar';
-import { defaultValues } from 'src/sections/reserve/reserve-daily-form1';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +25,7 @@ type Props = {
 };
 
 export default function CalendarForm({ currentEvent, onClose }: Props) {
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
   const EventSchema = Yup.object().shape({
     title: Yup.string().max(255).required('제목을 입력해주세요'),
@@ -51,13 +42,12 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     defaultValues: currentEvent,
   });
 
-
   const {
-    reset,
+    // reset,
     watch,
     control,
-    handleSubmit,
-    formState: { isSubmitting },
+    // handleSubmit,
+    // formState: { isSubmitting },
   } = methods;
 
   const values = watch();
@@ -106,8 +96,8 @@ export default function CalendarForm({ currentEvent, onClose }: Props) {
     // <FormProvider methods={methods} onSubmit={onSubmit}>
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ px: 3 }}>
-        <RHFTextField name="title" label="제목"/>
-        <RHFTextField name="spaceName" label="장소"/>
+        <RHFTextField name="title" label="제목" />
+        <RHFTextField name="spaceName" label="장소" />
         {/* <RHFTextField name="description" label="설명" multiline rows={3} disabled/> */}
 
         {/* <RHFSwitch name="allDay" label="요일 전체" /> */}

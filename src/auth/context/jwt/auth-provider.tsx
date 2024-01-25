@@ -30,9 +30,8 @@ type Payload = {
   [Types.LOGIN]: {
     user: AuthUserType;
   };
-  [Types.REGISTER]: {
-    user: AuthUserType;
-  };
+  [Types.REGISTER]: undefined;
+
   [Types.LOGOUT]: undefined;
 };
 
@@ -61,7 +60,7 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
   if (action.type === Types.REGISTER) {
     return {
       ...state,
-      user: action.payload.user,
+      user: null,
     };
   }
   if (action.type === Types.LOGOUT) {
@@ -154,28 +153,23 @@ export function AuthProvider({ children }: Props) {
 
   // REGISTER
   const register = useCallback(
-    async (email: string, password: string, firstName: string, lastName: string) => {
+    async (name: string, s_id: string, deptName: string, email: string, password: string) => {
       const data = {
+        name,
+        s_id,
+        deptName,
         email,
         password,
-        firstName,
-        lastName,
       };
 
-      const res = await axiosInstance.post(endpoints.auth.register, data);
+      await axiosInstance.post(endpoints.auth.register, data);
 
-      const { accessToken, user } = res.data;
+      // const { accessToken, user } = res.data;
 
-      sessionStorage.setItem(STORAGE_KEY, accessToken);
+      // sessionStorage.setItem(STORAGE_KEY, accessToken);
 
       dispatch({
         type: Types.REGISTER,
-        payload: {
-          user: {
-            ...user,
-            accessToken,
-          },
-        },
       });
     },
     []

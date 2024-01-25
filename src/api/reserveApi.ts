@@ -1,7 +1,6 @@
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { ICalendarEvent } from 'src/types/calendar';
 import { palette as themePalette } from 'src/theme/palette';
-import { isEmpty } from 'lodash';
 import { DailyReserveAdd, RegularReserveAdd } from 'src/types/reserve';
 
 const palette = themePalette('light');

@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // types
-import { ISpaceItem, EXSpaceItem, IReservedItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
 // components
 import Image from 'src/components/image';
 import { useEffect, useState } from 'react';
