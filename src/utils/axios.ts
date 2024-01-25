@@ -36,13 +36,11 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 // ----------------------------------------------------------------------
 export const endpoints = {
-  chat: '/api/chat',
-  kanban: '/api/kanban',
   calendar: '/api/calendar',
   auth: {
     me: '/api/auth/me',
     login: '/hanSpace/login',
-    register: '/api/auth/register',
+    register: '/hanSpace/member/signup',
     info: '/hanSpace/info',
   },
   reserve: {

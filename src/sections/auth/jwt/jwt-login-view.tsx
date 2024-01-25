@@ -78,7 +78,7 @@ export default function JwtLoginView() {
         <Typography variant="body2">회원이 아니세요?</Typography>
 
         <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
-          회원가입
+          회원가입하기
         </Link>
       </Stack>
     </Stack>

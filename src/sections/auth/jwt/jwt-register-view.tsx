@@ -16,15 +16,30 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { useSearchParams, useRouter } from 'src/routes/hooks';
-// config
-import { PATH_AFTER_LOGIN } from 'src/config-global';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFSelect, RHFTextField } from 'src/components/hook-form';
+import { MenuItem } from '@mui/material';
 
 // ----------------------------------------------------------------------
+
+const OPTIONS = [
+  { value: '글로벌리더십학부', label: '글로벌리더십학부' },
+  { value: '전산전자공학부', label: '전산전자공학부' },
+  { value: '국제어문학부', label: '국제어문학부' },
+  { value: '경영경제학부 ', label: '경영경제학부' },
+  { value: '법학부', label: '법학부' },
+  { value: '커뮤니케이션학부', label: '커뮤니케이션학부' },
+  { value: '공간환경시스템공학부', label: '공간환경시스템공학부' },
+  { value: '기계제어공학부', label: '기계제어공학부' },
+  { value: '콘텐츠융합디자인학부', label: '콘텐츠융합디자인학부' },
+  { value: '생명과학부', label: '생명과학부' },
+  { value: '전산전자공학부', label: '전산전자공학부' },
+  { value: '상담심리사회복지학부', label: '상담심리사회복지학부' },
+  { value: 'ICT창업학부', label: 'ICT창업학부' },
+];
 
 export default function JwtRegisterView() {
   const { register } = useAuthContext();
@@ -33,22 +48,20 @@ export default function JwtRegisterView() {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const searchParams = useSearchParams();
-
-  const returnTo = searchParams.get('returnTo');
-
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    name: Yup.string().required('이름을 입력해주세요'),
+    s_id: Yup.string().required('학번을 입력해주세요'),
+    deptName: Yup.string().required('학부를 입력해주세요'),
+    email: Yup.string().required('메일을 입력해주세요').email('메일 형식이 올바르지 않습니다'),
+    password: Yup.string().required('비밀번호를 입력해주세요'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    name: '',
+    s_id: '',
+    deptName: '',
     email: '',
     password: '',
   };
@@ -66,9 +79,9 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.email, data.password, data.firstName, data.lastName);
+      await register?.(data.name, data.s_id, data.deptName, data.email, data.password);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      router.push(paths.auth.jwt.login);
     } catch (error) {
       console.error(error);
       reset();
@@ -78,38 +91,16 @@ export default function JwtRegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">Get started absolutely free</Typography>
+      <Typography variant="h4">HANSPACE 시작하기</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> Already have an account? </Typography>
+        <Typography variant="body2"> 계정이 있으신가요? </Typography>
 
         <Link href={paths.auth.jwt.login} component={RouterLink} variant="subtitle2">
-          Sign in
+          로그인하기
         </Link>
       </Stack>
     </Stack>
-  );
-
-  const renderTerms = (
-    <Typography
-      component="div"
-      sx={{
-        color: 'text.secondary',
-        mt: 2.5,
-        typography: 'caption',
-        textAlign: 'center',
-      }}
-    >
-      {'By signing up, I agree to '}
-      <Link underline="always" color="text.primary">
-        Terms of Service
-      </Link>
-      {' and '}
-      <Link underline="always" color="text.primary">
-        Privacy Policy
-      </Link>
-      .
-    </Typography>
   );
 
   const renderForm = (
@@ -117,16 +108,23 @@ export default function JwtRegisterView() {
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
-        </Stack>
+        <RHFTextField name="name" label="이름" />
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="s_id" label="학번" />
+
+        <RHFSelect name="deptName" label="학부">
+          {OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.label}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </RHFSelect>
+
+        <RHFTextField name="email" label="메일 주소" />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label="비밀번호"
           type={password.value ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -147,7 +145,7 @@ export default function JwtRegisterView() {
           variant="contained"
           loading={isSubmitting}
         >
-          Create account
+          회원가입
         </LoadingButton>
       </Stack>
     </FormProvider>
@@ -158,8 +156,6 @@ export default function JwtRegisterView() {
       {renderHead}
 
       {renderForm}
-
-      {renderTerms}
     </>
   );
 }

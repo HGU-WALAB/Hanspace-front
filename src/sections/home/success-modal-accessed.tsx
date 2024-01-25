@@ -51,7 +51,7 @@ export default function AccessedDialog({ open, onClose, currentDept }: IAccessMo
             {`이제 ${currentDept?.deptName}에서 제공하는 장소들을 자유롭게 예약할 수 있습니다!`}
           </DialogContent>
           <DialogContent sx={{ color: 'text.secondary' }}>
-            장소대여를 더욱 편리하게, HanSpace
+            장소대여를 더욱 편리하게, Hanspace
           </DialogContent>
         </Content>
 
@@ -65,7 +65,7 @@ export default function AccessedDialog({ open, onClose, currentDept }: IAccessMo
             onClick={() => moveToDept(currentDept?.link)}
             color="primary"
             autoFocus
-            style={{ padding: '15px 50px' }}
+            style={{ padding: '15px 50px', marginRight: '10px' }}
           >
             기관 둘러보기
           </Button>

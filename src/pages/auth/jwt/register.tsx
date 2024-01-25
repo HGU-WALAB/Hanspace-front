@@ -8,7 +8,7 @@ export default function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title> Jwt: Register</title>
+        <title> HANSPACE: 회원가입</title>
       </Helmet>
 
       <JwtRegisterView />
