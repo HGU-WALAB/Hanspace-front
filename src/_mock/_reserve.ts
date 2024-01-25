@@ -9,33 +9,21 @@ export const RESERVE_STATUS_OPTIONS = [
   { value: '자동취소', label: '자동취소' },
 ];
 
-const ITEMS = [...Array(3)].map((_, index) => ({
+export const _reserve = [...Array(0)].map((_, index) => ({
   id: _mock.id(index),
-  sku: `16H9UR${index}`,
-  quantity: index + 1,
-  name: _mock.productName(index),
-  coverUrl: _mock.image.product(index),
-  price: _mock.number.price(index),
+  spaceName: _mock.spaceName(index),
+  useDate: _mock.useDate(index),
+  startTime: _mock.startTime(index),
+  endTime: _mock.endTime(index),
+  user: _mock.fullName(index),
+  purpose: _mock.purpose(index),
+  // shippingAddress: {
+  //   fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
+  //   phoneNumber: '365-374-4961',
+  // },
+  // payment: {
+  //   cardType: 'mastercard',
+  //   cardNumber: '**** **** **** 5678',
+  // },
+  status: (index % 2 && '승인') || (index % 3 && '미승인') || (index % 4 && '거절') || '자동취소',
 }));
-
-export const _reserve = [...Array(0)].map((_, index) => {
-  const createAt = new Date();
-  return {
-    id: _mock.id(index),
-    spaceName: _mock.spaceName(index),
-    useDate: _mock.useDate(index),
-    startTime: _mock.startTime(index),
-    endTime: _mock.endTime(index),
-    user: _mock.fullName(index),
-    purpose: _mock.purpose(index),
-    // shippingAddress: {
-    //   fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
-    //   phoneNumber: '365-374-4961',
-    // },
-    // payment: {
-    //   cardType: 'mastercard',
-    //   cardNumber: '**** **** **** 5678',
-    // },
-    status: (index % 2 && '승인') || (index % 3 && '미승인') || (index % 4 && '거절') || '자동취소',
-  };
-});
