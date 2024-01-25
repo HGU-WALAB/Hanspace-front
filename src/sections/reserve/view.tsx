@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 // types
-import { EXSpaceItem, IReservedItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
 import {
   DailyReserveForm1,
   DailyReserveForm2,
@@ -49,12 +49,10 @@ export default function ReserveView() {
         // Log space IDs within the onSuccess callback
         data.forEach((space) => {
           // console.log('GetSpace', space);
-          const datas = axiosInstance
-            .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
-            .then((res) => {
-              // console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
-              setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
-            });
+          axiosInstance.get(`${endpoints.reserve.schedule}/${space.spaceId}`).then((res) => {
+            // console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
+            setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
+          });
         });
       },
     }
@@ -137,9 +135,11 @@ export default function ReserveView() {
   // 기관 id와 날짜에 해당하는 예약 정보들 확인
   // ToDo: API 수정 시 정보 받고 예약 수정
   const [reserveDatesList, setReserveDatesList] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchData = async () => {
       try {
         const response = await reservedListByDate(
