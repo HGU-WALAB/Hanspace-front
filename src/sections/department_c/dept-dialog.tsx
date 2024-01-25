@@ -18,8 +18,7 @@ export default function DepartmentCreateSuccessDialog({
         <DialogTitle sx={{ textAlign: 'center', mt: 1 }}> 기관 신청이 완료되었습니다. </DialogTitle>
         <DialogContent>
           <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-            {' '}
-            기관에 장소를 추가하여 장소 대여를 시작해보세요!{' '}
+            기관에 장소를 추가하여 장소 대여를 시작해보세요!
           </Typography>
         </DialogContent>
         <DialogActions>

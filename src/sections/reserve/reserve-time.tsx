@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { palette as themePalette } from 'src/theme/palette';
 

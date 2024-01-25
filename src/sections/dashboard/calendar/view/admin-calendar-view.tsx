@@ -7,15 +7,12 @@ import timelinePlugin from '@fullcalendar/timeline';
 //
 import { useState, useEffect, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
-import { DeptUrlState, userDeptState } from 'src/utils/atom';
+import { userDeptState } from 'src/utils/atom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
@@ -24,19 +21,16 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 // _mock
 import { CALENDAR_COLOR_OPTIONS } from 'src/_mock/_calendar';
-import { palette as themePalette } from 'src/theme/palette';
 // api
-import { useGetEvents, updateEvent } from 'src/api/calendar';
+import { updateEvent } from 'src/api/calendar';
 import { GetReserveListByDept } from 'src/api/reserveApi';
 // components
-import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 // types
 import { ICalendarFilters, ICalendarFilterValue, ICalendarEvent } from 'src/types/calendar';
 //
-import { useAdminCalendar, useEvent } from '../hooks';
+import { useAdminCalendar } from '../hooks';
 import { StyledCalendar } from '../styles';
-import CalendarForm from '../calendar-form';
 import CalendarUForm from '../calendar-uform';
 import UCalendarToolbar from '../calendar-utoolbar';
 import CalendarFilters from '../calendar-filters';
@@ -60,7 +54,6 @@ const defaultFilters: ICalendarFilters = {
   startDate: null,
   endDate: null,
 };
-const palette = themePalette('light');
 // const eventsData: ICalendarEvent[] = [ // ex
 //   {
 //     id: "1",
@@ -115,11 +108,11 @@ export default function UserCalendarView() {
     onInitialView,
     //
     openForm,
-    onOpenForm,
+    // onOpenForm,
     onCloseForm,
     //
     selectEventId,
-    selectedRange,
+    // selectedRange,
     //
     onClickEventInFilters,
   } = useAdminCalendar();

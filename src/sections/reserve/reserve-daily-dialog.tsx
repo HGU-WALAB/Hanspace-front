@@ -3,35 +3,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import Stack, { StackProps } from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import { userDeptState } from 'src/utils/atom';
 import { useRecoilValue } from 'recoil';
-import { DatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
+import { DesktopTimePicker } from '@mui/x-date-pickers';
 import { createReserve } from 'src/api/reserveApi';
 
 // components
 import { useForm } from 'react-hook-form';
-import FormProvider, {
-  RHFEditor,
-  RHFSelect,
-  RHFUpload,
-  RHFSwitch,
-  RHFSlider,
-  RHFCheckbox,
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiSelect,
-  RHFAutocomplete,
-  RHFMultiCheckbox,
-} from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import dayjs from 'dayjs';
-import Image from 'src/components/image';
 import ReserveSuccessDialog from './reserve-dialog';
 
 interface ReserveDailyForm2Props {
@@ -73,9 +58,9 @@ export default function DailyReserveFormDialog({
     // watch,
     reset,
     // control,
-    setValue,
+    // setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    // formState: { isSubmitting },
   } = methods;
   // 기관이 등록한 extra 요구 정보들을 불러오기
 
@@ -85,6 +70,7 @@ export default function DailyReserveFormDialog({
     let deptId = 0;
 
     if (typeof userDeptValue === 'object') {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ deptId } = userDeptValue);
       setExtraData(userDeptValue.extraInfo);
       console.log(userDeptState);

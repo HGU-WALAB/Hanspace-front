@@ -1,19 +1,11 @@
 // @mui
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // types
-import { ISpaceItem, EXSpaceItem } from 'src/types/space';
+import { EXSpaceItem } from 'src/types/space';
 // components
-import { usePopover } from 'src/components/custom-popover';
 import Image from 'src/components/image';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 // api
 import SpacingGrid from './reserve-time';
@@ -52,14 +44,14 @@ function isEndTimeRangeValid(selectST: number, availST: number, selectET: number
 
 export default function DailySpaceCardList({ space, selectedData, handleModalControl }: Props) {
   const {
-    id,
-    name,
+    // id,
+    // name,
     headCount,
-    availableStart,
-    availableEnd,
+    // availableStart,
+    // availableEnd,
     detail,
     // lableColor,
-    availability,
+    // availability,
     image,
     // regDate,
     // modDate,

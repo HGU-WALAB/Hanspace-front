@@ -18,7 +18,6 @@ import { IUserItem } from 'src/types/user';
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { RHFSelect } from 'src/components/hook-form';
-import axiosInstance, { endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 

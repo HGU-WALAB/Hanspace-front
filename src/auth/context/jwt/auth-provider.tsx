@@ -162,7 +162,7 @@ export function AuthProvider({ children }: Props) {
         password,
       };
 
-      const res = await axiosInstance.post(endpoints.auth.register, data);
+      await axiosInstance.post(endpoints.auth.register, data);
 
       // const { accessToken, user } = res.data;
 

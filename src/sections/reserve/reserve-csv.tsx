@@ -1,11 +1,8 @@
-// react
-import styled from 'styled-components';
 // @mui
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 // components
-import { useSettingsContext } from 'src/components/settings';
 import { useForm } from 'react-hook-form';
 import FormProvider, { RHFUpload } from 'src/components/hook-form';
 import { useCallback } from 'react';
@@ -40,11 +37,11 @@ export default function ReserveCSVForm({ selectedValue, handleRadioChange }: Res
 
   const {
     // watch,
-    reset,
+    // reset,
     // control,
     setValue,
-    handleSubmit,
-    formState: { isSubmitting },
+    // handleSubmit,
+    // formState: { isSubmitting },
   } = methods;
 
   const handleDropSingleFile = useCallback(

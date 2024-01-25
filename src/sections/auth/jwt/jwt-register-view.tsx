@@ -15,7 +15,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 // routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-import { useSearchParams, useRouter } from 'src/routes/hooks';
+import { useRouter } from 'src/routes/hooks';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
 // components

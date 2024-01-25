@@ -19,7 +19,6 @@ import { USER_ROLE_OPTIONS } from 'src/_mock';
 import { useBoolean } from 'src/hooks/use-boolean';
 // components
 import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import { useSettingsContext } from 'src/components/settings';
 import {
@@ -35,8 +34,6 @@ import {
 // types
 import { IUserItem, IUserTableFilters, IUserTableFilterValue } from 'src/types/user';
 //
-// import { useQuery } from 'react-query';
-// import { GetUser } from 'src/api/userApi';
 import { Button, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
