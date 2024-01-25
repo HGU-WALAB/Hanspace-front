@@ -1,5 +1,5 @@
 // react
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -26,7 +26,7 @@ import ReserveDailyForm1 from './reserve-daily-form1';
 import DailySpaceCardList from './reserve-daily-space';
 import RegularlySpaceCardList from './reserve-regularly-space';
 import ReserveRegularyForm1 from './reserve-regularly-form1';
-// import ReserveCSVForm from './reserve-csv';
+import ReserveCSVForm from './reserve-csv';
 import DailyReserveFormDialog from './reserve-daily-dialog';
 import RegularlyReserveDialog from './reserve-regularly-dialog';
 
@@ -48,33 +48,32 @@ export default function ReserveView() {
       onSuccess: (data) => {
         // Log space IDs within the onSuccess callback
         data.forEach((space) => {
-          console.log('GetSpace', space);
-          axiosInstance.get(`${endpoints.reserve.schedule}/${space.spaceId}`).then((res) => {
-            console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
-            setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
-          });
-        });
-      },
-    }
-  );
-  // 기관 id와 날짜에 해당하는 예약 정보들 확인
-  // ToDo: API 수정 시 정보 받고 예약 수정
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: reserveds } = useQuery<IReservedItem[]>(
-    ['reservedListByDate', reservedListByDate],
-    async () =>
-      reservedListByDate(deptId, selectedDailyData1.reserveDate.toISOString().split('T')[0]).then(
-        (response) => response.data
-      ),
-    {
-      onSuccess: (data) => {
-        data.forEach((reserved) => {
-          console.log('reservedListByDate', reserved);
+          // console.log('GetSpace', space);
+          const datas = axiosInstance
+            .get(`${endpoints.reserve.schedule}/${space.spaceId}`)
+            .then((res) => {
+              // console.log('예약된 정보 확인 by spaceId', space.spaceId, res.data);
+              setReserveInfo(res.data); // 해당 장소에 예약된 정보 리스트들 -> 날짜 선택시 해당 날자에
+            });
         });
       },
     }
   );
 
+  // ToDo: 더미데이터로 확인중
+  // const [reserveDatesList, setReserveDatesList] = useState<IReservedItem[]>([]);
+  // useEffect(() => {
+  //   // datereservelist가 변경될 때마다 실행
+  //   const updatedReserveDates = datereservelist.map((reserve) => ({
+  //     spaceId: reserve.space.spaceId,
+  //     startTime: reserve.startTime,
+  //     endTime: reserve.endTime,
+  //   }));
+  //   setReserveDatesList(updatedReserveDates);
+  //   console.log('reservedListByDate', updatedReserveDates);
+  // }, []);
+
+  // 더미데이터로 확인 중
   const settings = useSettingsContext();
   const [selectedDailyData1, setSelectedDailyData1] = useState({
     reserveDate: new Date(),
@@ -135,15 +134,61 @@ export default function ReserveView() {
     setSelectedRegularyData2(data); // 예약을 위한 모든 정보 선택
   };
 
+  // 기관 id와 날짜에 해당하는 예약 정보들 확인
+  // ToDo: API 수정 시 정보 받고 예약 수정
+  const [reserveDatesList, setReserveDatesList] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await reservedListByDate(
+          deptId,
+          selectedDailyData1.reserveDate.toISOString().split('T')[0]
+        );
+
+        setReserveDatesList(response.data);
+
+        const updatedReserveDates = reserveDatesList.map((reserve) => {
+          if (reserve && typeof reserve === 'object') {
+            console.log(' 예약된 정보들 확인', reserve);
+            return {
+              spaceId: reserve.space.spaceId,
+              startTime: reserve.startTime,
+              endTime: reserve.endTime,
+            };
+          }
+          return reserve; // return the original value if it's not an object
+        });
+
+        setReserveDatesList(updatedReserveDates);
+        // console.log('reservedListByDate', updatedReserveDates);
+      } catch (error) {
+        // Handle error appropriately (e.g., show an error message)
+        console.error('Error fetching reserved items:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    // ToDo: fetch 무한...
+    // fetchData();
+  }, [deptId, selectedDailyData1.reserveDate, reserveDatesList]);
+
   let DailySpaceCradList = null;
 
   if (spaces) {
     DailySpaceCradList = spaces.reduce((result, space) => {
+      // reserveDates 배열 내에서 현재 space의 spaceId와 일치하는 정보만 필터링
+      const filteredReserveDates = reserveDatesList.filter(
+        (reserve) => reserve.spaceId === space.spaceId
+      );
+
       const dailySpaceCardList = (
         // 대여 가능한 장소 보여주는 컴포넌트
         <DailySpaceCardList
           space={space} // 장소 하나 정보
           selectedData={selectedDailyData1} // 날짜, 시작 시간, 종료 시간 선택된 정보 전달
+          reserveList={filteredReserveDates} // 해당 날짜에 예약된 정보들 중 spaceId가 일치하는 것만 전달
           handleModalControl={handleDailyModalControl} // 장소 카드 하단 예약 진행 버튼 -> 다이아로그
         />
       );
@@ -153,7 +198,6 @@ export default function ReserveView() {
       return result;
     }, [] as JSX.Element[]);
   }
-
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       {selectedValue === 'daily' && (
@@ -220,9 +264,9 @@ export default function ReserveView() {
         </>
       )}
       {/* ToDo: 추후 csv 작업 예정 */}
-      {/* {selectedValue === 'csv' && (
+      {selectedValue === 'csv' && (
         <ReserveCSVForm selectedValue={selectedValue} handleRadioChange={handleRadioChange} />
-      )} */}
+      )}
     </Container>
   );
 }
