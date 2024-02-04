@@ -20,9 +20,7 @@ import { DeptUrlState, selectedIndexState, userDeptListState, userDeptState } fr
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { paths } from 'src/routes/paths';
-import { set } from 'nprogress';
 import Logo from 'src/components/logo';
-import { strlen } from 'stylis';
 import { IDeptInfo } from 'src/types/dept';
 import { IoMdKey } from 'react-icons/io';
 import { PALETTE_OPTION } from 'src/theme/palette';

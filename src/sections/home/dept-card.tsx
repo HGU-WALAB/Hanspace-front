@@ -4,7 +4,7 @@ import { IDeptInfo } from 'src/types/dept';
 import { useEffect, useState } from 'react';
 import axiosInstance, { endpoints } from 'src/utils/axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { DeptUrlState, userDeptState, userState } from 'src/utils/atom';
+import { DeptUrlState, allDeptState, userState } from 'src/utils/atom';
 import { paths } from 'src/routes/paths';
 
 // 0 입장 가능
@@ -22,7 +22,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
   const [deptStatus, setDeptStatus] = useState<string>('');
   const userInfo = useRecoilValue(userState);
   const setDeptUrl = useSetRecoilState(DeptUrlState);
-  const setDeptState = useSetRecoilState(userDeptState);
+  const setAllDeptState = useSetRecoilState(allDeptState);
 
   useEffect(() => {
     const firstElement = deptInfo.deptMemberResponse[0];
@@ -42,7 +42,7 @@ export default function DeptCard({ deptInfo, onAccess, onPending }: Props) {
 
   const handleMove = (deptinfo: IDeptInfo | null) => {
     setDeptUrl(deptinfo?.link);
-    setDeptState(deptinfo ?? 'HANSPACE');
+    setAllDeptState(deptinfo ?? 'HANSPACE');
     window.location.href = paths.dept.dashboard(deptinfo?.link ?? 'HANSPACE');
   };
 

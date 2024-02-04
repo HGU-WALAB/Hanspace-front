@@ -8,7 +8,6 @@ export type IDeptInfo = {
   deptId: number;
   siteName: string;
   deptName: string;
-  // logo: string | null;
   deptImage: string;
   userAccept: boolean;
   maxReserveCount: number;
@@ -17,6 +16,20 @@ export type IDeptInfo = {
   spaceCount: number | null;
   memberCount: number | null;
   deptMemberResponse: IDeptRole[];
+};
+
+export type IMyDeptInfo = {
+  deptId: number;
+  deptRole: string;
+  deptName: string;
+  siteName: string;
+  deptImage: string;
+  userAccept: boolean;
+  maxReserveCount: number;
+  link: string;
+  extraInfo: string;
+  spaceCount: number | null;
+  memberCount: number | null;
 };
 
 export type IDeptAdd = {

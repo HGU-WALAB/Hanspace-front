@@ -21,6 +21,7 @@ import { FormSchema } from './schema';
 // ToDo: 파일 업로드 부분 수정 필요
 export default function DepartmentInfoForm() {
   const [userDeptInfo, setUserDeptInfo] = useRecoilState(userDeptState);
+
   let deptId = '';
   if (typeof userDeptInfo === 'object') {
     deptId = `${userDeptInfo.deptId}`;
@@ -31,6 +32,7 @@ export default function DepartmentInfoForm() {
       console.log('기관의 정보 확인하기', userDeptInfo);
       return {
         deptId: userDeptInfo.deptId || 0,
+        deptRole: userDeptInfo.deptRole || '',
         siteName: userDeptInfo.siteName || '',
         deptName: userDeptInfo.deptName || '',
         deptImage: userDeptInfo.deptImage || '',
@@ -42,6 +44,7 @@ export default function DepartmentInfoForm() {
     }
     return {
       deptId: 0,
+      deptRole: '',
       siteName: '',
       deptName: '',
       deptImage: '',
@@ -66,6 +69,7 @@ export default function DepartmentInfoForm() {
   const onSet = (data: any) => {
     const deptValue = {
       deptId: Number(deptId),
+      deptRole: typeof userDeptInfo === 'object' ? userDeptInfo?.deptRole : null,
       siteName: data?.siteName,
       deptName: data?.deptName,
       deptImage: data?.deptImage,
@@ -75,7 +79,6 @@ export default function DepartmentInfoForm() {
       extraInfo: defaultValues.extraInfo,
       spaceCount: typeof userDeptInfo === 'object' ? userDeptInfo.spaceCount : null,
       memberCount: typeof userDeptInfo === 'object' ? userDeptInfo.memberCount : null,
-      deptMemberResponse: typeof userDeptInfo === 'object' ? userDeptInfo.deptMemberResponse : [],
     };
 
     setUserDeptInfo(deptValue);

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { IDeptInfo } from 'src/types/dept';
+import { IDeptInfo, IMyDeptInfo } from 'src/types/dept';
 
 const { persistAtom } = recoilPersist({
   key: 'localStorage', // 원하는 key 값 입력
@@ -41,7 +41,12 @@ export const userState = atom({
   },
 });
 
-export const userDeptState = atom<IDeptInfo | string>({
+export const allDeptState = atom<IDeptInfo | string>({
+  key: 'allDeptState',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const userDeptState = atom<IMyDeptInfo | string>({
   key: 'userDeptState',
   default: 'HANSPACE',
   effects_UNSTABLE: [persistAtom],

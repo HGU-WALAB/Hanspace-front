@@ -76,6 +76,7 @@ export const endpoints = {
     update: `/deptMember`,
   },
   dept: {
+    mylist: `/hanSpace/deptMember/list/member/add/approve`,
     signup: '/hanSpace/member/signup',
     add: '/hanSpace/member/add',
     // ToDo: backend api 완료 되면 다시 연결해서 확인하기

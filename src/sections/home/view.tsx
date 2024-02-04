@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useSettingsContext } from 'src/components/settings';
 import { Button, Grid } from '@mui/material';
 import { useEffect } from 'react';
-import { GetFirstInfo } from 'src/api/userApi';
+import { GetFirstInfo, GetMyDept } from 'src/api/userApi';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   DeptUrlState,
@@ -42,7 +42,10 @@ export default function HomeView() {
       GetFirstInfo().then((res: any) => {
         login?.(res.data.email, res.data.password);
         setUserInfo({ email: res.data.email, name: res.data.name, hanRole: res.data.hanRole });
-        setDeptInfo(res.data.departmentResponses);
+      });
+      GetMyDept().then((res: any) => {
+        console.log('log', res.data);
+        setDeptInfo(res.data);
       });
     } catch (error) {
       console.error(error);
