@@ -1,3 +1,6 @@
+![6분반_최혜림,장유진,이한나_캡스톤1Hanspace(김광,장소연)](https://github.com/HGU-WALAB/Hanspace-front/assets/74346290/d09e3ba3-79c8-47ce-becd-fd690af6a200)
+
+
 ## 1. 이슈 작성하기
 
 ✹ **Git Issue 사용법**
